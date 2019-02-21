@@ -1,0 +1,1165 @@
+\chapter{Using RDFS-Plus in the wild}
+\label{ch10}
+
+We have seen a number of examples of the use of RDFS-Plus modeling for
+merging information from multiple sources in a dynamic and flexible way.
+In this chapter, we describe two example uses of the RDFS-Plus
+constructs. Both of these applications of RDFS-Plus have attracted
+considerable user communities in their respective fields. Both of them
+also make essential use of the constructs in RDFS- Plus, though often in
+quite different ways. These are real modeling applications built by
+groups who originally had no technology commitment to RDFS or OWL
+(though both were conceived as RDF applications).
+
+In both cases, the projects are about setting up an infrastructure for a
+particular web community. The use of RDFS-Plus appears in the models
+that describe data in these communities, rather than in the everyday use
+in these communities. In this book, we are describing how modeling works
+in RDFS and OWL, so we focus on the community infrastructure of these
+projects.
+
+The first application is part of a major US government effort called
+Data.gov (\url{http://data.gov}). Data.gov is an effort made by the US
+government to publish public information. There are hundreds of
+thousands of datasets in Data.gov, of which hundreds are made available
+in RDF, with many more being converted all the time. Data.gov is a great
+example of the data wilderness; the published data sets
+
+come from a wide variety of source formats and collection methodologies,
+resulting in idiosyncratic data representations. Data.gov shows how
+technologies like RDFS and SPARQL can be useful in dealing with this
+sort of data wilderness.
+
+The second application is called FOAF, for ``Friend of a Friend.'' FOAF
+is a project dedicated to creating and using machine-readable homepages
+that describe people, the links between them, and the things they create
+and do. It is based on RDF, but it originally made no commitment to RDFS
+or OWL.
+
+FOAF was originally based on RDF because of the inherently distributed
+and weblike nature of the 
+project requirements. As the project evolved, there was a need to
+describe the relationships between various resources in a formal way;
+this led it to RDFS and then on to RDFS-Plus.
+
+In this chapter, we describe each of these efforts and show the use they
+make of the RDFS-Plus constructs we introduced in previous chapters.
+
+\section{Open Government Data}
+
+In 2009, the US Government formalized a commitment to making public
+government data open and accessible, Prior to this time, it was typical
+for information to be published in the form of reports with
+``infographics,'' visualizations like pie charts and times lines, which
+could be printed and read by human beings, but were very difficult to
+process by computer. Data.gov makes hundreds of thousands of data sets
+available in a variety of machine-readable formats. The metadata for all
+of these data sets, and the content for more than 500 of them, were
+released as RDF in May 2010, and more are being converted now that RDF
+has become one of the approved government data formats.
+
+In the United Kingdom, a similar site called Data.gov.uk
+(http://data.gov.uk) also releases many government data sets directly as
+RDF. The United Kingdom has done significant work in linking these data
+sets to by creating standard URIs for things such as schools and
+roadways, as well as for many government agencies and functions. Many
+other government organizations are also releasing data including not
+just that from nations, but also from cities, states, provinces,
+counties, tribal entities, etc. A number of NGOs, particularly the World
+Bank and several UN units, are also releasing such data. As of the end
+of 2010, the United States and the United Kingdom were the only ones
+directly releasing data as RDF, although third parties in countries
+around the world are now converting data from their governments to RDF
+and making it available on the Web.
+
+These open government data resources are good examples of what Tim
+Berners-Lee calls ``raw'' data---machine-readable files from the
+wilderness released without any specific effort to make them applicable
+to a particular application. The advantage of ``raw'' data of this sort
+is that it can be reused in multiple applications created by multiple
+communities; but this requires some means of processing it. We will show
+an example of utilizing raw open government data by examining a
+particular US data set from Data.gov. This data set contains a listing
+of cases filed with the FHEO (Office of Fair Housing/ Equal Opportunity)
+about alleged violations of Title VIII of the Fair Housing Act. The act
+protects various minorities against certain kinds of discrimination in
+housing.
+
+The FHEO data (Data.gov data set \#1329) are available in many formats,
+including RDF. The information in this data set looks a lot like it came
+from a spreadsheet (which is not surprising, as it was originally
+released in Excel and only later converted to RDF); there are about
+40,000 entries that look like this:
+
+\begin{lstlisting}
+:entry1
+     a dgtwc:DataEntry ;
+     :case_number "02-06-0270-8" ;
+     :color "0" ;
+     :disability "1" ;
+     :familial_status "0" ;
+     :filed_cases "1" ;
+     :filing_date "2/13/2006" ;
+     :national_origin "0" ;
+     :national_origin_hispanic "0" ;
+     :race "0" ;
+     :race_asian "0" ;
+     :race_asian_and_white "0" ;
+     :race_black_and_white "0" ;
+     :race_black_or_african_american "0" ;
+     :race_hawaiian_or_pacific_islander "0" ;
+     :race_native_american "0" ;
+     :race_native_american_and_black "0" ;
+     :race_native_american_and_white "0" ;
+     :race_other_multi_racial "0" ;
+     :race_white "0" ;
+     :religion "0" ;
+     :retaliation "0" ;
+     :sex "0" ;
+     :violation_county "Kings County" ;
+     :violation_state "New York" .
+\end{lstlisting}
+
+(We note that there is an ongoing discussion on the design of US
+government URIs and the representations for RDF conversions, the details
+above were based on the conversion status as of late 2010.) Note that
+there are several triples all with the same subject (in this case,
+\texttt{:entry1}), and with the same predicates about the basis, filing date, and
+location of the discrimination complaint. The filing basis (e.g., race,
+religion, color, etc.) is expressed with the values ``0'' (to indicate a
+factor that is not a basis for the complaint) and ``1'' (to indicate a
+factor that is a basis for the complaint). This somewhat idiosyncratic
+way to express the basis for the complaint is not uncommon in the data
+wilderness; for example, it may have resulted from a data entry process
+in which a user could put a checkmark next to the basis for a report.
+
+\begin{challenge}{How can rdfs help us organize and process FHEO data?}
+
+\solution
+
+A more flexible way to represent information of this sort is to define a
+class of complaints based on each factor, along with a class for
+complaints in general, like this:
+
+\begin{lstlisting}
+FHEO:Asian rdfs:subClassOf FHEO:Complaint .
+FHEO:AsianAndWhite rdfs:subClassOf FHEO:Complaint .
+FHEO:Black rdfs:subClassOf FHEO:Complaint .
+FHEO:BlackAndWhite rdfs:subClassOf FHEO:Complaint .
+FHEO:Color rdfs:subClassOf FHEO:Complaint .
+FHEO:Disability rdfs:subClassOf FHEO:Complaint .
+FHEO:FamilialStatus rdfs:subClassOf FHEO:Complaint .
+FHEO:NationalOrigin rdfs:subClassOf FHEO:Complaint .
+FHEO:Hispanic rdfs:subClassOf FHEO:Complaint .
+FHEO:HPI rdfs:subClassOf FHEO:Complaint .
+FHEO:NA rdfs:subClassOf FHEO:Complaint .
+FHEO:NABlack rdfs:subClassOf FHEO:Complaint .
+FHEO:NAWhite rdfs:subClassOf FHEO:Complaint .
+FHEO:Other rdfs:subClassOf FHEO:Complaint .
+FHEO:Race rdfs:subClassOf FHEO:Complaint .
+FHEO:Religion rdfs:subClassOf FHEO:Complaint .
+FHEO:Retaliation rdfs:subClassOf FHEO:Complaint .
+FHEO:Sex rdfs:subClassOf FHEO:Complaint .
+FHEO:White rdfs:subClassOf FHEO:Complaint .
+\end{lstlisting}
+
+We can now express the status of :entry1 as a case of disability
+discrimination with the single triple.
+
+\begin{lstlisting}
+:entry1 a FHEO:Disability .
+\end{lstlisting}
+
+Since FHEO\texttt{:Disability} is a subclass of FHEO\texttt{:Complaint}, we can infer from
+the type propagation rule that :entry1 is also a FHEO\texttt{:Complaint}.
+
+Building a model of this sort lets us describe our complaints in a
+concise form, but it doesn't change our data---the data are still in the
+form of ``1'' and ``0.'' How can we transform our data, so that all the
+entries with a ``1'' for the \texttt{property:disability} become members of the
+class :Disability, and those with a ``1'' entry for the property :race
+become members of the class :Race, etc.? Each of these is easy to
+accomplish with a SPARQL CONSTRUCT of the form.
+
+\begin{lstlisting}
+CONSTRUCT {?e a :Disability}
+WHERE {?e a dgtwc:DataEntry ;
+          :disability "1" . }
+\end{lstlisting}
+
+We can define nineteen of these queries, one per legally identified
+discrimination factor. This will construct the triple
+
+\begin{lstlisting}
+:entry1 a FHEO:Disability .
+\end{lstlisting}
+
+as desired.
+\end{challenge}
+
+SPARQL used in this way constitutes an inference method, just as RDFS
+and RDFS-Plus are inference methods. In contrast to RDFS and RDFS-Plus,
+SPARQL CONSTRUCT can be used to express highly customized rules about
+data. In this case, we used a SPARQL CONSTRUCT to define a rule relating
+the form in which we found the data, to the form we'd like it to be in.
+
+\subsection{Describing relationships in data}
+
+Now that we have a description of our data in classes, we can start to
+describe relationships in the data in RDFS. Let's take a look at some
+relationships in this data that we could express this way.
+
+Consider the properties from the original data---things like \texttt{:race},
+\texttt{:national\_origin},
+\texttt{:religion}, etc. But we also have properties like \texttt{:race\_asian},
+\texttt{:race\_white},
+\texttt{:national\_origin\_hispanic}. One might wonder if there is some
+relationship between these
+values---for instance, is it true that all cases listed under
+\texttt{:race\_asian} are (or should be) listed under
+\texttt{:race} as well? If so, how should we represent this?
+
+First, we can check the data to see if this is the case. Let's find out
+if there is any case that lists Asian as a basis that does not also list
+Race as a basis. In terms of classes, we want to find members of the
+class \texttt{FHEO:Asian} that are not also members of the class \texttt{FHEO:Race}. We
+can do this with an ASK query in SPARQL:
+
+\begin{lstlisting}
+ASK
+{?a a FHEO:Asian .
+    FILTER NOT EXISTS {?a a FHEO:Race}}
+\end{lstlisting}
+
+When we evaluate this query over the RDF version of data set 1329, we
+get the answer \textit{false}; that is, every case of Asian bias is also a case
+of racial bias. We can express a relationship like this in RDFS (thereby
+expressing our opinion that this holds not just for the data we have
+observed, but for all data yet to come) with a single triple in RDFS:
+
+\begin{lstlisting}
+FHEO:Asian rdfs:subClassOf FHEO:Race .
+\end{lstlisting}
+
+Similar comments apply to many of the relationships in this data. We can
+express them all in, as summarized in Figure 9.1.
+
+\begin{figure}
+\centering
+\includegraphics[width=5in]{media/ch10/f10-01.png}
+\caption{Relationships between types of FHEO complaint, sorted by discrimination basis.}
+\label{fig:ch7.1}
+\end{figure}
+
+
+
+We can verify this model against the current data, by using a SPARQL
+query that tests every- subclass of \texttt{FHEO:Complaint}, to see whether it
+has any members that are not also members of its own parent. This query
+uses many of the different SPARQL constructs discussed in Chapter~\ref{ch6}:
+
+\begin{lstlisting}
+SELECT (COUNT (?suball) AS ?total) 
+       (COUNT (?subonly) AS ?mismatch) ?class ?parent
+WHERE {
+     ?class rdfs:subClassOf+ FHEO:Complaint .
+     ?class rdfs:subClassOf ?parent .
+     FILTER (?parent != FHEO:Complaint)
+     {
+      {?suball a ?class}
+     UNION
+      {?subonly a ?class .
+       FILTER NOT EXISTS {?subonly a ?parent}
+      }
+    }
+}
+GROUP BY ?class ?parent
+\end{lstlisting}
+
+This query finds the subclasses of \texttt{FHEO:Complaint} (leaving out the
+direct subclasses), and compares each one to its own parent. The
+comparison is done by finding all the complaints that are members of the
+subclass, regardless of what else they might be members of (\texttt{?suball}),
+and also all complaints that are members of the subclass but not members
+of the parent class (\texttt{?subonly}). Finally, it counts up the number of
+matches, sorted by \texttt{?class} and \texttt{?parent}. The result is given in Table 9.1.
+The results show that all the subclass relationships indeed hold in the
+current data.
+
+\subsection{Merging data with RDF and SPARQL}
+
+Data set \#1329 includes more data about each complaint than just its
+type; it also includes information about the location of the complaint.
+The data aren't very precise---they only show it down to the level
+
+
+\begin{table}
+\caption{Results of SPARQL query, checking subClassOf relationships in
+the FHEO model against current data}
+\begin{tabular}{|llll|}
+\hline
+Total&Mismatch&Class&Parent\\
+\hline
+3283&0&FHEO:Hispanic&FHEO:NationalOrigin\\
+290&0&FHEO:Asian&FHEO:Race\\
+33&0&FHEO:AsianAndWhite&FHEO:Race\\
+11516&0&FHEO:Black&FHEO:Race\\
+617&0&FHEO:BlackAndWhite&FHEO:Race\\
+24&0&FHEO:HPI&FHEO:Race\\
+216&0&FHEO:NA&FHEO:Race\\
+62&0&FHEO:NABlack&FHEO:Race\\
+37&0&FHEO:NAWhite&FHEO:Race\\
+205&0&FHEO:Other&FHEO:Race\\
+1148&0&FHEO:White&FHEO:Race\\
+\hline
+\end{tabular}
+\label{tab:ch10.1}
+\end{table}
+
+of one of the many hundreds of counties found in US states. But we can
+take advantage of linking this information to other data to find out
+where the events took place. The data is in the form
+
+\begin{lstlisting}
+FHEOFiling:entry13459 a FHEO:FamilialStatus ; 
+                      FHEO:violation_county "Los Angeles County" ; 
+                      FHEO:violation_state "California" .
+\end{lstlisting}
+
+Suppose we have another data source that cross-references county names
+with their location (given by latitude and longitude, by street address,
+etc.). This sort of data is available from various address services
+(several of which will provide it in forms that can be displayed on
+Google map). To demonstrate how this works, we will use a data set at
+\url{http://www.workingontologist.org/Examples/chapter9/counties}.
+These data include information in the form
+
+\begin{lstlisting}
+US:Los_Angeles_CountyCalifornia a US:County ;
+                                rdfs:label "Los Angeles County, California" ;
+                                geo:lat "34.3871821"^{}^{}xsd:float ;
+                                geo:long "-228.1122679"^{}^{}xsd:float .
+\end{lstlisting}
+
+We would like to be able to cross-reference our FHEO data with these
+data, to find out where the alleged incidents occurred. Once again, we
+can do this with SPARQL CONSTRUCT.
+
+These two data sets (almost) align at the name of the county. The county
+geographical data are indexed by the full name of the county, including
+the name of the state (separated by a comma). The FHEO data include
+names of counties and names of states. We just need to adjust these two
+so that we can compare them.
+
+We already saw in Chapter 5 how we can concatenate strings together in a
+SPARQL query. We can get the combined name of the county and state from
+a complaint with the query
+
+\begin{lstlisting}
+SELECT (fn:concat (?county, ", ", ?state) AS ?countyname)
+WHERE {
+        ?complaint FHEOFiling:violation_county ?county .
+        ?complaint FHEOFiling:violation_state ?state .
+}
+\end{lstlisting}
+
+If we use this query as a subquery, we can use its results to guide the
+search for a county by
+\texttt{?countyname}.
+
+\begin{lstlisting}
+SELECT ?county ?complaint ?lat ?long
+WHERE {
+       {SELECT (fn:concat (?county, ", ", ?state) AS ?countyname)
+        WHERE {
+               ?d FHEO:violation_county ?county .
+               ?d FHEO:violation_state ?state .
+              }
+       }
+       ?county rdfs:label ?countyname ;
+               a US:County ;
+               geo:lat ?lat ;
+               geo:long ?long .
+      }
+\end{lstlisting}
+
+This query gives us a cross-reference between complaints and the
+counties they occurred in. But the reason we did this cross-reference
+was so that we could get some geographical data from the second
+datasource, that wasn't in the first one; we get that information from
+the last two triples in the graph pattern.
+
+We can take this example further, by sorting the results according to
+various criteria. For example, we might want to know how many complaints
+associated with a particular basis occurred in each county. The basis
+for a complaint is now just a class that it belongs to---so we can get
+that by finding the type of the complaint. We restrict the type to types
+of complaint.
+
+\begin{lstlisting}
+SELECT ?type (COUNT (?complaint) AS ?severity) ?countyname ?lat ?long
+WHERE {
+       {SELECT ?type ?complaint (fn:concat (?county, ", ", ?state)
+                                 AS ?countyname)
+        WHERE {
+               ?type rdfs:subClassOf+ FHEO:Complaint .
+               ?complaint a ?type ;
+                          FHEO:violation_county ?county ;
+                          FHEO:violation_state ?state .
+              }
+      }
+      ?c rdfs:label ?countyname ;
+         a US:County ;
+         geo:lat ?lat ;
+         geo:long ?long .
+}
+GROUP BY ?type ?countyname ?lat ?long
+HAVING (?severity > 300)
+\end{lstlisting}
+
+This query combines many of the features of SPARQL from Chapter~\ref{ch6}.
+Starting with the match of a complaint to a county, we also find the
+type of the complaint (limited only to types that are subclasses of
+\texttt{FHEO:Complaint}). Then, for each type/county name pair, we count the
+number of distinct complaints (as \texttt{?severity}). Finally, we sort by
+severity, keeping those results having more than 300 complaints. The
+results are shown in Table~\ref{tab:ch10.2}.
+
+These results include enough information to drive an API for displaying
+things on the map. If we choose an icon with a different size and
+intensity for each basis and severity, then we can put these data on a
+map as shown in Figure~\ref{fig:10.2}.
+
+\begin{table}
+\caption{Results of query counting number of complaints per type and county}
+\label{tab:ch10.2}
+\begin{tabular}{|lllll|}
+\hline
+Type&Severity&Countyname&Lat&Long\\
+\hline
+Disability&322&New York County, New York&40.7834345&-73.9662495\\
+Disability&579&Los Angeles County, California&34.3871821&-118.1122679\\
+Disability&317&Maricopa County, Arizona&33.2917968&-112.4291464\\
+Familial Status&378&Los Angeles County, California&34.3871821&-118.1122679\\
+Race&431&Los Angeles County, California&34.3871821&-118.1122679\\
+Race&322&Cook County, Illinois&41.7376587&-87.6975540\\
+Race&339&Tarrant County, Texas&32.7732044&-97.3516558\\
+\hline
+\end{tabular}
+\end{table}
+
+
+This same method can be generalized to mash up more data sets. For
+example, any data set that uses county names is amenable to this same
+query. Mashing up multiple data sets is as easy as loading the new
+classes for the new data sets, and letting SPARQL do the rest. This
+approach is being used on US government data sets every day, providing
+insight into the otherwise unmanageable data.
+
+\section{data.gov Summary}
+
+The example mashup using data.gov shown here really represents only the
+tip of the iceberg of what has been done, and continues to be done, with
+open government data sets. A development community has generated a large
+number of applications using the RDF data from the United Kingdom, and
+in the United States researchers at Rensselaer Polytechnic Institute
+(RPI), have used this approach to produce a wide variety of applications
+using government data, several of which are highlighted on the official
+US data.gov page (See \url{http://data.gov/semantic}). The provisioning
+of government data as RDF makes it easy to mix and match data sets,
+producing visualizations, applications and reports that mashup
+information from multiple data sets or combine government data with
+other web data (Wikipedia, news articles, Google results, etc.), which
+would have been significantly harder and more expensive to do with
+pre-Semantic Web technologies.
+
+\begin{figure}
+\centering
+\includegraphics[width=5in]{media/ch10/f10-02.png}
+\caption{Map display of the data in Table 9.2.}
+\label{fig:ch10.2}
+\end{figure}
+
+
+SPARQL plays a key technological role in all of these mashups. SPARQL
+provides the analyst with a pattern matching tool for extracting just
+the necessary information to drive a report or a display. Many of the
+more advanced features of SPARQL (aggregates, filters, subqueries,
+UNIONS, etc.) are put to good use in these mashup applications. (The web
+site \url{http://logd.tw.rpi.edu} contains a number of demo mashups,
+each linked to a page which shows the specific SPARQL queries used in
+producing them.)
+
+\section{FOAF}
+
+FOAF (Friend of a Friend) is a format for supporting distributed
+descriptions of people and their relationships. The name Friend of a
+Friend is intended to evoke the fundamental relationship that holds in
+social networks; you have direct knowledge of your own friends, but only
+through your network can you access the friends of your friends. Though
+the FOAF project dates back to early in the year 2000, and thus predated
+many of the most popular social networking web sites like Instagram,
+LinkedIn, and Facebook, many of the issues that FOAF was designed to
+deal with were at the center of the discussion of the social network
+industry ten years later and still are: privacy, ownership, and
+distribution of data. FOAF began with a simple observation: If we are to
+support social networks on the Web, individuals must be able to take
+control of their own data, host it as they please, manage it using
+whatever tools they please, but still interact with other users,
+regardless of the choices these other users make. The most successful
+social networking sites did not take these things into account at first;
+now issues of privacy and data ownership are hot topics for any social
+network. FOAF is also the basis of a number of growing ``open social''
+efforts that aim to allow users to integrate their own information
+across the many social- networking sites and applications available on
+the Web.
+
+FOAF works in the spirit of the AAA principle: Anyone can say Anything
+about Any topic. In the case of FOAF, the topics that anyone is usually
+saying things about are people. Other things that are commonly related
+to what we might want to say about people, such as Organizations (that
+people belong to), Projects (that people work on), Documents (that
+people have created or that describe them), and Images (that depict
+people), are also included in the core FOAF description. Information
+about a single person is likely to be distributed across the Web and
+represented in different forms. On their own web page, a person is
+likely to list basic information about interests, current projects, and
+some images. Further information will be available only on other pages;
+a photoset taken at a party or conference could include a picture that
+depicts a person who has not listed that photoset in her own web page. A
+conference organizer could include information about a paper that lists
+its authors, even if the authors themselves might not have listed the
+paper on their own web site. A laboratory or office might have a page
+that lists all of its members. FOAF leverages the distributed nature of
+RDF to provide a distributed representation of this information. Social
+networking sites have begun to make information available in FOAF for
+web-scale distribution.
+
+Given that there are a number of social networking web sites available
+and that each one of them has a way to represent its members,
+information about them, and ways in which they are connected to one
+another, one could well ask why there is a need for yet another way to
+describe people and their social networks. The idea of FOAF is not to
+replace any of these systems but to provide a framework whereby this
+information can be distributed. Furthermore, using RDF, FOAF provides a
+framework that is extensible. Because Anyone can say Anything about Any
+topic, FOAF allows anyone to make novel statements about people,
+projects, and so on and to relate these statements to other statements
+already made.
+
+FOAF leverages the AAA principle as well as the distributed and
+extensible nature of RDF in an essential way. At any point in time, FOAF
+is a work in progress. There are vocabulary terms in FOAF whose
+semantics are defined only by natural language descriptions in the FOAF
+``standard.'' Other terms have definitions defined in RDFS-Plus that
+relate them in a formal way to the rest of the description. FOAF is
+designed to grow in an organic fashion, starting with a few intuitive
+terms and focusing their semantics as they are used. There is no need to
+commit early on to a set vocabulary, since we can use RDFS-Plus to
+connect new vocabulary and old vocabulary, once we determine the desired
+relationship between them.
+
+FOAF provides a small number of classes and properties as its starting
+point; these uses some of the basic constructs of RDFS-Plus to maintain
+consistency and to implement FOAF policies for information merging. FOAF
+is a fairly simple system for describing people, the things they create,
+and the projects they participate in. It is primarily organized around
+three classes: \texttt{foaf:Person}, \texttt{foaf:Group}, and \texttt{foaf:Document}.
+
+\subsection{People and agents}
+
+Although FOAF is primarily about people, some of the things we want to
+say about people are true of other things as well: groups, companies,
+and so forth. So a \texttt{foaf:Person} is defined as part of a compact hierarchy
+under the general grouping of \texttt{foaf:Agent}:
+
+\begin{lstlisting}
+foaf:Person rdfs:subClassOf foaf:Agent.
+foaf:Group rdfs:subClassOf foaf:Agent.
+foaf:Organization rdfs:subClassOf foaf:Agent.
+\end{lstlisting}
+
+Many things we might say about a \texttt{foaf:Person} can hold for any
+\texttt{foaf:Agent}. In fact, FOAF is quite liberal in this regard; most of the
+properties we describe here for people hold for agents in general.
+Details of exactly which properties are used for which classes are
+available in the FOAF Vocabulary Specification at
+\url{http://xmlns.com/foaf/0.1/}.
+
+\subsection{Names in FOAF}
+
+Probably the most essential thing we know about a person is that
+person's name. FOAF provides a number of vocabulary terms to describe
+the name of a person. Even something as simple as a person's name can be
+quite complex. FOAF begins with a simple notion of name, which it
+sensibly calls \texttt{foaf:name}.
+
+\begin{lstlisting}
+foaf:name rdfs:domain owl:Thing.
+foaf:name rdfs:subPropertyOf rdfs:label.
+\end{lstlisting}
+
+That is, anything in the world can have a name (including a
+\texttt{foaf:Person}), and that name is also used as the printable label for that
+thing. For a \texttt{foaf:Person}, the name is typically the full name of the
+person, like ``William Shakespeare'' or ``Anne Hathaway.''
+
+Although the full name of a person is quite useful, parts of a person's
+name are needed in some circumstances. \texttt{foaf:firstName}, \texttt{foaf:givenname},
+\texttt{foaf:family\_name}, and \texttt{foaf:surname} are four properties relating to
+names of people that are defined in FOAF. Each of
+them has an intuitive meaning, but there are no formal semantics; the
+meaning is given only in prose descriptions and by evolving conventions
+of use. As FOAF evolves, it will need to encompass different cultures
+and their use of names. Does the given name always come first? Is a
+family name always the surname? How do culture-specific names (for
+example, the ``Christian name'' that is still used in some cultures)
+relate to other names?
+
+One of the advantages to basing FOAF on RDF is that it is not necessary
+to resolve all of these issues to begin the project of marking up data
+using the FOAF vocabulary. The strategy taken by FOAF is to begin by
+annotating a person's name while providing other naming vocabulary such
+as surname, firstname, givenname, and so on. Usage patterns will dictate
+which of these will turn out to be useful. If it turns out that, say,
+two properties are used in exactly the same way, then this observation
+can be cast by describing the relationship in OWL. For example:
+
+\begin{lstlisting}
+foaf:surname owl:equivalentProperty foaf:family_name.
+\end{lstlisting}
+
+\subsection{Nicknames and online names}
+
+Since FOAF is primarily used on the Web, it is expected that many of the
+people FOAF will be used to describe will be active in various Internet
+communities. For instance, it is likely that a FOAF Person will have a
+screen name on some online chat service. FOAF identifies \texttt{foaf:aimChatID},
+\texttt{foaf:icqChatID}, \texttt{foaf:msnChatID}, and \texttt{foaf:yahooChatID} currently. In the
+spirit of extensibility of FOAF, new ID properties can be added on an
+as-needed basis. Although some part of the semantics of these properties
+is given by their natural language descriptions (which connect
+\texttt{foaf:yahooChatID} to the chat service Yahoo!), FOAF also makes a formal
+connection between these properties. In particular, all of them are
+subproperties of a single property, \texttt{foaf:nick}:
+
+\begin{lstlisting}
+foaf:aimChatID rdfs:subPropertyOf foaf:nick.
+foaf:icqChatID rdfs:subPropertyOf foaf:nick.
+foaf:msnChatID rdfs:subPropertyOf foaf:nick.
+foaf:yahooChatID rdfs:subPropertyOf foaf:nick.
+foaf:jabberID rdfs:subPropertyOf foaf:nick.
+\end{lstlisting}
+
+Following the rules of \texttt{rdfs:subPropertyOf} from Chapter 6, this means
+that any \texttt{foaf:Person} who is active in chat spaces is likely to have
+multiple values for the property \texttt{foaf:nick}---that is, to have multiple
+nicknames. They can, of course, have further nicknames as well. For
+instance, when William Shakespeare became active in Internet chat rooms,
+from a FOAF point of view, all those screen names are also nicknames:
+
+\begin{lstlisting}
+lit:Shakespeare foaf:aimChatID "Willie1564".
+lit:Shakespeare foaf:msnChatID "TempestMan".
+lit:Shakespeare foaf:nick "Willie1564".
+lit:Shakespeare foaf:nick "TempestMan".
+\end{lstlisting}
+
+Of course, we can still assert a nickname for the poet and playwright,
+even if he doesn't use it as a screen name anywhere:
+
+\begin{lstlisting}
+lit:Shakespeare foaf:nick "The Bard of Avon".
+\end{lstlisting}
+
+\subsection{Online persona}
+
+The Internet provides a number of ways for a person to express himself,
+and FOAF is under constant revision to provide properties to describe
+these things. A person is likely to have an electronic mailbox, and FOAF
+provides a property \texttt{foaf:mbox} for this purpose. Many people maintain a
+number of web pages describing parts of their lives. Some have personal
+homepages, some have homepages at their workplace or school, and some
+may even have both. Even their workplaces can have homepages. FOAF uses
+the same strategy for these properties as it does for names: It provides
+a wide array of properties, defined informally (by natural language
+descriptions).
+
+\begin{itemize}
+\item \texttt{foaf:homepage}---relates a person to their primary homepage. This
+property applies to anything in
+FOAF, not just to people.
+
+\item \texttt{foaf:workplaceHomepage}---the homepage of the workplace of a person.
+Anything can have a homepage (even an employer), but only a \texttt{foaf:Person}
+can have a workplaceHomepage.
+
+\item \texttt{foaf:workInfoHomepage}---the homepage of a person at their workplace.
+Such a page is usually
+hosted by a person's employer, but it is about the person's own work
+there.
+
+\item \texttt{foaf:schoolHomepage}---the homepage of the school that a \texttt{foaf:Person}
+attended. As the Internet provides new means of expression, FOAF keeps
+up:
+
+\item \texttt{foaf:weblog}---the address of the weblog of a person.
+\end{itemize}
+
+All of these properties specify instances of the class
+\texttt{foaf:Document}---that is, a web page is a \texttt{foaf:Document}, a weblog is a
+\texttt{foaf:Document}, and so on.
+
+\subsection{Groups of people}
+
+One of the interesting things about people is the groups they belong to.
+FOAF provides a class called \texttt{foaf:Group} to define these groups. A group
+is connected to its members via a property called, appropriately enough,
+\texttt{foaf:member}. A \texttt{foaf:Group} is defined quite loosely; any grouping of
+people can be described this way. For instance, we could define a group
+called English Monarchy as follows:
+
+\begin{lstlisting}
+:English_Monarchy
+     a foaf:Group ;
+     foaf:name "English Monarchy" ;
+     foaf:homepage "http://www.monarchy.com/" ;
+     foaf:member :William_I, :Henry_I, :Henry_II,
+             :Elizabeth_I, :Elizabeth_II.
+\end{lstlisting}
+
+A group in FOAF is an individual of type \texttt{foaf:Group}. As such, there are
+a number of properties that can describe it, like \texttt{foaf:name} (as we see
+here). In fact, a \texttt{foaf:Group} has a lot in common with a \texttt{foaf:Person}; it
+can have a chat ID, a nickname, an email box, a homepage, or even a
+blog.
+
+It is also useful to consider the members of a group as instances of a
+class---that is, to relate the instance of \texttt{foaf:Group} to an \texttt{rdfs:Class}.
+For this purpose, FOAF provides a link from a group to a class, called
+\texttt{foaf:membershipClass}. Suppose that the membership class for
+English\_Monarchy is called Monarch; this connection is expressed in
+FOAF with the triple.
+
+\begin{lstlisting}
+:English_Monarchy foaf:membershipClass :Monarch.
+\end{lstlisting}
+
+The members of the group English\_Monarchy all have type \texttt{:Monarch}:
+
+\begin{lstlisting}
+:William_I a :Monarch.
+:Henry_I a :Monarch.
+:Henry_II a :Monarch.
+:Elizabeth_I a :Monarch.
+:Elizabeth_II a :Monarch.
+\end{lstlisting}
+
+Ideally, all of these triples should be maintained automatically; that
+is, any individual of type \texttt{Monarch} should appear as a member of the
+group \texttt{English\_Monarchy} and every member of the group \texttt{English\_Monarchy}
+should have \texttt{Monarch} as a type. This stipulation is stated explicitly as
+part of the FOAF description. We will see in Chapter~\ref{ch12} how to use the
+capabilities of OWL to build a model from which we can infer these
+triples. The distinction between the instance \texttt{English\_Monarchy} and the
+class \texttt{Monarch} is a subtle one: The class \texttt{Monarch} is a type in RDFS, and
+as such, it refers to schematic things about monarchs---property
+domains, subclasses, and so on. \texttt{English\_Monarchy}, on the other hand,
+refers to the institution of the monarchy itself, which refers to things
+like this history of the monarchy, web pages and books about the
+monarchy, and so on.
+
+In our examples so far, we have kept the world of classes separate from
+the world of instances. The only relationship between an instance and a
+class has been the \texttt{rdf:type} property. The intuition behind
+\texttt{foaf:membershipClass} is that it indicates a class, whose instances are
+exactly the same as the members of the group. The expression of this
+kind of relationship, in which we sometimes wish to view something as an
+instance (e.g., \texttt{English\_Monarchy}, an instance of the class \texttt{foaf:Group})
+and sometimes as a class (e.g., the class \texttt{Monarch}, representing all the
+instances that are \texttt{foaf:member} of that group), is an example of a
+practice called metamodeling. We will see more about metamodeling when
+we learn about the rest of the OWL language, and we will see how we can
+use metamodeling constructs in OWL to formalize the relationship between
+a \texttt{foaf:Group} and its \texttt{foaf:membershipClass}.
+
+\subsection{Things people make and do}
+
+Interesting people create things. They write books, publish web pages,
+create works of art, found companies, and start organizations. FOAF
+provides two properties to relate people to their creations: \texttt{foaf:made}
+and \texttt{foaf:maker}. They are inverses of one another, and they relate a
+\texttt{foaf:Agent} to an \texttt{owl:Thing} as follows:
+
+\begin{lstlisting}
+foaf:made rdfs:domain foaf:Agent.
+foaf:made rdfs:range owl:Thing.
+foaf:maker rdfs:domain owl:Thing.
+foaf:maker rdfs:range foaf:Agent.
+foaf:made owl:inverseOf foaf:maker.
+\end{lstlisting}
+
+That is, anything in the describable universe is fair game for being
+made by some agent. Even another agent could have a \texttt{foaf:maker}!
+
+If a person is an author, then he is likely to have publications to his
+credit. The property \texttt{foaf:publications} relates a \texttt{foaf:Person} to any
+\texttt{foaf:Document} published. Interestingly, FOAF does not specify that a
+person has \texttt{foaf:made} any of their \texttt{foaf:publications}. In the spirit of
+the AAA principle, if we were to decide to make such a statement, we
+could do so simply by saying
+
+\begin{lstlisting}
+foaf:publications rdfs:subPropertyOf foaf:made.
+\end{lstlisting}
+
+\subsection{Identity in FOAF}
+
+The main goal of FOAF is to apply the AAA principle to describing
+networks of people; anyone can contribute descriptions about anyone. But
+this leads to a problem: It is easy enough for me to describe myself; I
+can publish a document that says whatever I wish to make known. If
+someone else wants to contribute information about me (say, for example,
+that the publisher of this book wants to add the information that I am
+an author), how will that person refer to me? Or if I have several
+profiles on different sites that I would like to merge together, how can
+I link them to describe the one thing that is ``me''? This is a key
+issue in social networking today---systems like OpenID provide naming
+services so that individuals can have a single identity that cuts across
+various social networks.
+
+The RDF approach to this question is quite simple; RDF uses URIs to
+denote the things it describes; that means that I should have a URI that
+denotes me, and anyone who wants to make a comment about me can make it
+using that URI. This is a simple, elegant, and standard solution to this
+problem. This is the solution that OpenID uses, and, to some extent,
+every social network system uses; a user's screen name becomes a URI; no
+two users on the same system are allowed to have the same name, so the
+referent of a URI like
+\textless{}http://www.facebook.com/\%23!/markzuckerberg\textgreater{}
+is unambiguous.
+
+But FOAF is a distributed social networking system---can we expect
+people to just make up a URI to refer to themselves? As social
+networking matures, this solution is becoming more and more viable; in
+fact, for many applications, a Facebook identity counts as a shared
+identity for many other social networks as well, making it into a sort
+of naming authority for the Web (as is OpenID). But widespread as these
+things are, they are still not ubiquitous---one can be a very active
+Internet citizen without having a Facebook account. Certainly in the
+days when FOAF was young, these naming authorities were not in
+widespread use. FOAF needed a way for people to refer to one another
+that would use some part of the Internet infrastructure that was already
+ubiquitous and familiar. Is there any identifying marker that everyone
+on the Internet already has and is already familiar with?
+
+The clearest answer to this puzzle is email. Just about anyone who is
+described on the Web in any way at all has an email address. (Even in
+2010, efforts like Webfinger take the same approach---they aim to take
+advantage of the ubiquity and familiarity of an email address to deal
+with identity on the social web). Email works quite well as an
+identification mechanism; it is quite rare that two people share the
+same email address. It is so rare that for the purposes of FOAF, email
+can serve as a unique identifier for people on the Web. Notice that it
+isn't a problem if someone has two or more email addresses or if some
+email address is valid only for a limited period of time. All FOAF
+requires of the email address is that another person doesn't share it
+(either simultaneously or later on).
+
+We can express this constraint in plain language by saying simply that
+two people who share the same email address are in fact not two distinct
+people at all but instead are the same person. As we have already seen,
+RDFS-Plus has a way to formalize this relationship. When a property
+uniquely identifies an individual, we say that the property is an
+\texttt{owl:InverseFunctionalProperty}. So in FOAF, we can express the central
+role that \texttt{foaf:mbox} plays in identifying individuals with the single
+triple.
+
+\begin{lstlisting}
+foaf:mbox rdf:type owl:InverseFunctionalProperty.
+\end{lstlisting}
+
+Once we identify \texttt{foaf:mbox} as an \texttt{owl:InverseFunctionalProperty}, we
+realize that a similar statement can be made about a number of the
+properties we use to describe people; it is unusual for two people to
+share a yahooChatID or an aimChatID. In fact, all of the following
+properties in FOAF are \texttt{owl:InverseFunctionalProperties}:
+
+foaf:aimChatID rdf:type owl:InverseFunctionalProperty. foaf:homepage
+rdf:type owl:InverseFunctionalProperty. foaf:icqChatID rdf:type
+owl:InverseFunctionalProperty. foaf:jabberID rdf:type
+owl:InverseFunctionalProperty. foaf:mbox rdf:type
+owl:InverseFunctionalProperty. foaf:msnChatID rdf:type
+owl:InverseFunctionalProperty.foaf:yahooChatID rdf:type
+owl:InverseFunctionalProperty.
+
+Using the \texttt{foaf:mbox} (and similar properties) as identifiers of
+individuals solves the technical problem of identifying individuals by
+some preexisting identification, but it raises another problem:
+Publishing someone's email address is considered a violation of privacy,
+since email addresses (and chat IDs) can be used to pester or even
+attack someone by sending unwanted, offensive, or just bulky mail. So if
+we want to apply the AAA principle to William Shakespeare, and we know
+that he uses the email address
+Shakespeare@gmail.com, we can refer
+to him as ``the person with email `Shakespeare@gmail.com''' (using a
+blank node, as we did for Shakespeare's inspiration):
+
+\begin{lstlisting}
+[ foaf:mbox "Shakespeare@gmail.com " ]
+\end{lstlisting}
+
+When we do this, we publish his email address in plain text for
+information vandals to steal and use. This isn't a very polite thing to
+do to someone we know and respect. For this reason, FOAF also offers an
+obfuscated version of \texttt{foaf:mbox}, called \texttt{foaf:mbox}\_sha1sum. It indicates
+the result of applying a hashing function called SHA-1 to the email
+address. The SHA-1 function is publicly available but very difficult to
+reverse. To get the obfuscated string---f964f2dfd4784fe9d68ada960099e0b592e16a95---we apply the algorithm to Shakespeare's email
+address. Now we can refer to him using this value:
+
+\begin{lstlisting}
+[ foaf:mbox_sha1sum
+  "f964f2dfd4784fe9d68ada960099e0b592e16a95" ]
+\end{lstlisting}
+
+without compromising his privacy. Unfortunately, FOAF does not provide a
+standard way to obfuscate the other identifying properties such as
+\texttt{foaf:aimChatID}, \texttt{foaf:yahooChatID}, and so forth, although several
+proposals to update FOAF include these.
+
+\subsection{It's not what you know, it's who you know}
+
+The key to FOAF as a social networking system is the ability to link one
+person to another. FOAF provides a single, high-level property for this
+relationship, called \texttt{foaf:knows}. The idea behind \texttt{foaf:knows} is simple:
+One person knows another one, who knows more people, and so on, forming
+a network of people who know people. There isn't a lot of inferencing
+going on with \texttt{foaf:knows}; the only triples defined for it are
+
+\begin{lstlisting}
+foaf:knows rdfs:domain foaf:Person . 
+foaf:knows rdfs:range foaf:Person .
+\end{lstlisting}
+
+that is, \texttt{foaf:knows} just links one \texttt{foaf:Person} to another.
+
+The lack of inferencing over \texttt{foaf:knows} is by design; the \texttt{foaf:knows}
+design is intentionally vague, to indicate some relationship between
+people. Such a relationship could be concluded informally from other
+information---for instance, co-authors can usually be assumed to know
+one another. And while it is usual to think that if one person knows
+another that the relationship is mutual, the FOAF designers
+intentionally left out the assertion of \texttt{foaf:knows} as an
+\texttt{owl:SymmetricProperty}, since there might even be some disagreement about
+whether one person knows another. Despite its vague definition,
+\texttt{foaf:knows} provides the infrastructure for using FOAF for social
+networking, as it links one person to the next and then to the next and
+so on.
+
+\section{FACEBOOK'S OPEN GRAPH PROTOCOL}
+
+FOAF may have been around the longest, but the largest social network to
+date is Facebook. Facebook began life, as other social network sites
+did, as a world unto itself---things were in Facebook, or they weren't.
+Facebook didn't include Web pages that were outside its own network. One
+of the ways Facebook has addressed this was the 2010 adoption of the
+Open Graph Protocol (OGP), which allows it to integrate with other web
+sites in new ways.
+
+The first and most obvious manifestation of the OGP is an extension of a
+Facebook facility called ``like.'' Every Facebook resource has a
+distinctive button on it called ``like''; when a user clicks that
+button, that page goes into their profile as something they like. Their
+contacts can see that they like this, and they can opt to receive any
+updates about the thing they ``like.'' Facebook ``like'' is a very
+simple way for a user to customize their profile to reflect their own
+personality.
+
+The problem with ``like'' was that you could only ``like'' a page on
+Facebook. If you read a news story at a major newspaper or saw a concert
+listing that you wanted to ``like,'' there was no way to do it. The
+Facebook OGP expanded the coverage of Facebook to include pages that
+weren't already part of Facebook. The OGP in effect moved Facebook one
+step toward being a global linked data network. The linkages aren't
+profound---just people saying that they ``like'' something---but the OGP
+is an innovative move toward a linked web of data.
+
+To make this work, Facebook had to make it easy for someone to put
+information on a web page--- any web page---that would allow Facebook to
+treat this page as something someone could point to (``like'') in the
+Facebook network. To make this happen, they had to overcome two
+obstacles: First, they needed a language in which web page authors could
+describe their pages to Facebook, and they needed a way for this
+information to be embedded in the web page itself. (Facebook has
+produced a number of different ways of putting ``like'' buttons on
+pages, not just OGP.)
+
+\subsection{The OGP model}
+
+The Facebook Open Graph Protocol includes a very simple model that
+allows web page authors to describe the multiple things their web pages
+describe, in such a way that someone could ``like'' them in Facebook.
+The sorts of things that someone might want to describe include Sports,
+Businesses (bars, restaurants, etc.), People (actors, musicians,
+authors, etc.), Places, Products, and Web sites. A non- normative
+version of the OGP model in RDFS simply lists about two dozen of these
+types of things one might want to describe in OGP.
+
+OGP also defines a number of properties that one can use to describe the
+things one might like. There are properties that describe location
+(either with place names, like ``Palo Alto, California,'' or with
+coordinates like latitude and longitude), properties for display
+purposes (like an image that depicts the thing), contact information
+(e.g., phone number, email, fax number), and identifiers (e.g., UPC,
+ISBN or URL). The OGP model doesn't map these properties to the classes,
+e.g., to say that it is a person or a business that has a phone number,
+or a book that has an ISBN number, etc. It simply provides the types
+(Classes) and properties.
+
+OGP has been criticized for being insular and uncooperative because it
+did not adopt existing
+standards for all these things. FOAF already has properties for
+contacting and identifying people; the W3C already has a standard for
+geospatial models that includes properties for latitude and longitude.
+Other existing or emerging standards refer to just about any of the
+types or properties used by OGP. But OGP defined brand new ones. Doesn't
+this contribute to the confusion of the Web, having just one more
+standard?
+
+It should be obvious to you by now that this criticism is based on a
+misunderstanding of the Semantic Web. The Non-Unique Naming Assumption
+admits that in a distributed system, this sort of thing will
+happen---different people will come up with new names for the same old
+things. We can't try to get everyone to agree to use the same
+names---there are legitimate reasons why they want their own names. In
+the case of Facebook, their user tests showed that content managers were
+not happy with having to remember names from multiple sources---to
+remember, for instance, that it was \texttt{foaf:mbox}, but \texttt{geo:lat} and \texttt{sioc:Site}
+etc.; they wanted their vocabulary all in a single namespace, so that
+they just had to remember a few dozen words, and they could describe
+their content.
+
+The Semantic Web solution to this is to allow all of these models to
+coexist on the Web. We can have \texttt{og:email} (where ``og:'' is the namespace
+prefix for the OGP) alongside \texttt{foaf:mbox}, and \texttt{og:latitude} as well as
+\texttt{geo:lat}. The Semantic Web does not require that either of these systems
+prevail over the other; the two can coexist. OGP can keep its single
+namespace for content managers who don't want to be bothered with
+multiple names, while FOAF, the W3C, and any other organization can
+maintain their own models. Since everything is an RDF resource, we can
+specify how they relate using RDFS-Plus.
+
+The OGP RDFS model expresses these relationships as follows:
+
+\begin{lstlisting}
+og:latitude rdfs:seeAlso geo:lat . og:email rdfs:seeAlso foaf:mbox .
+\end{lstlisting}
+
+We could find fault in this model's lack of specificity, using
+\texttt{rdfs:seeAlso} instead of something more expressive, like
+\texttt{owl:equivalentProperty} from RDFS-Plus. Using \texttt{owl:equivalentProperty}
+would make it clear that anything that FOAF calls an mbox is
+
+something that OGP would call an email, and vice versa. Using
+\texttt{rdfs:seeAlso} makes no such commitment---it simply indicates a resource
+in FOAF that we should look at, if we are interested in knowing more
+about \texttt{og:email}. But for the purposes of linking OGP with other
+ontologies, \texttt{rdfs:seeAlso} does what is needed.
+
+\subsection{Embedding OGP in a web page}
+
+A web page author can describe what their page is about using the simple
+OGP model, but they still have to publish that information somehow. The
+easiest way to do this is to embed the description right in the web page
+itself. This solution lets the web page author maintain a single page on
+a particular subject, putting all the necessary information into that
+page.
+
+Facebook uses a simplified version of RDFa to encode OGP data in a web
+page. As with the vocabulary itself, user tests showed that embedding
+information in the web page had to be very simple. In particular, the
+web page author shouldn't have to face a lot of decisions about how to
+do it.
+
+The solution was to put all the OGP data into HTML tags in the page
+header. For example, workingontologist.org, the web page for this book,
+has the following information in its header:
+
+\begin{lstlisting}
+<meta property="og:type" content="book"/>
+<meta property="og:url" content="http://www.workingontologist.com/"/>
+<meta property="og:image" content="http://covers.elsevier.com/165_FW/9780123735560.jpg"/>
+<meta property="og:site_name" content="Working Ontologist"/>
+\end{lstlisting}
+
+
+This tells Facebook that this site is about a book that it is called
+Working Ontologist, that it is available at the URL
+\href{http://workingontologist.org/}{http://workingontologist.org/,} and
+provides a link to a picture of the cover. All the words that begin with
+og: in this snippet are from the OGP model, as is the type ``book''.
+This provides Facebook all it needs to put a ``like'' button on the
+page, so that Facebook users can follow any updates that happen. We
+suggest you go to the web page right now, click on this button, and see
+what happens.
+
+\section{SUMMARY}
+
+OGP and FOAF demonstrate how fairly simple sets of modeling constructs
+can be used to create extensible, distributed information networks. They
+both take advantage of the distributed nature of RDF to allow extension
+to a network of information to be distributed across the Web.
+
+FOAF takes something of an evolutionary approach to information
+extension. Many concepts have a broad number of terms (like the several
+variants of ``name'' that we examined). FOAF can be extended as new
+features are needed. For instance, \texttt{foaf:weblog} was not as important
+before blogging became fashionable, but has now surpassed the more
+classical \texttt{foaf:homepage} in importance.
+
+OGP is arguably the most successful Semantic Web model ever; less than a
+year after its introduction, its use on the Web is becoming
+pervasive---as of late 2010 about 10--15\% of the like buttons on the
+Web used the RDFa approach. With every Yahoo! shopping page, New York
+Times article, CNN news story, etc., having a ``like'' button, with at
+least four triples per button, it is difficult to estimate just how many
+RDF triples are generated from OGP use. Its success is certainly due in
+some degree to the enormous success of Facebook itself, but it is also
+due to the commitment to simplicity that the
+
+Facebook OGP made in its design. OGP includes only a couple dozen simple
+types along with about the same number of properties.
+
+OGP is also a clear example of the principles of the Semantic Web at
+work. There are already any number of models about social networking
+out there---FOAF being just one example. On the Web, we can't expect
+everyone to agree on any one of these. Different applications have
+differing needs. Facebook identified a strong need for simplicity, so it
+re-invented several notions already available in other places. But that
+doesn't mean that OGP creates just another impenetrable silo of
+information; even at its inception, its connection to these other
+systems was built-in to its model, in a machine- readable, queryable
+way. OGP, from the outset, is part of a network of descriptive metadata
+for entities in social networks.
+
+\subsection{Fundamental concepts}
+
+The following fundamental concepts were introduced in this chapter.
+
+Data.gov---Project to make US government spending data available in RDF.
+
+FOAF---Namespace for a system of representation of social network
+information; short for ``friend of a friend.''
+
+Metamodeling---Generally speaking, the craft of building a model that
+describes another model. A specific example is the practice of
+representing a class in a model as an individual member of another
+class. FOAF does this explicitly with the \texttt{foaf:membershipClass} property
+that links an individual of type \texttt{foaf:Group} to the class of all members
+of the group.
+
+RDFa---a system for embedding RDF data in a web page.
+
+OGP---the Open Graph Protocol that lets Facebook users link to pages
+outside of Facebook.

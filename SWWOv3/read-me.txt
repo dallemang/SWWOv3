@@ -1,0 +1,104 @@
+
+                        Read-Me File for acm-book.cls
+                        -----------------------------
+
+                         A LaTeX class file for the
+                              ACM book series
+
+
+
+The acm-book.cls file provides a simple LaTeX class file for books in the
+Association for Computing Machinery book series. As an author of a book in
+this series, you can use this class file to produce a manuscript that looks
+roughly like finished books will look. This ensures that you don't create
+math displays that are too wide. It also ensures that your algorithms and
+computer code fit in the text measure.
+
+Please note that your manuscript will not look exactly like the final book.
+There are various reasons for this, not the least of which is that this
+class file does not use the same font families as the final book.
+
+The acm-book class is based on the LaTeX book class. To use it, specify the
+following \documentclass command at the top of your book's root file:
+
+  \documentclass{acm-book}
+
+This will produce a manuscript using the Computer Modern fonts that come
+with all TeX installations. If you want to use Times Roman instead, specify
+this command:
+
+  \documentclass[times]{acm-book}
+
+Other than this command, you can use all the commands available with LaTeX
+book style.
+
+
+SAMPLE FILES
+------------
+
+The following sample files accompany the acm-book.cls file. Please note that
+the text in the files does not represent an actual book in the ACM book series.
+
+acm-book.tex
+~~~~~~~~~~~~
+
+This is a template root file that acts as the main file for your book. This
+is the file that you process with LaTeX. It contains the \documentclass
+command along with an \include command for each division of your book:
+front matter, chapters, appendixes, bibliography, biographies, and index.
+
+It is important to use a root file with \include commands so that your book
+is processed as a coherent whole, rather than simply treating each chapter
+as a separate book.
+
+front.tex
+~~~~~~~~~
+
+This is a template for the front matter of your book. It shows how to code
+the book title, your name and affiliation, the abstract and keywords, the
+table of contents, list of figures, list of tables, and the preface.
+
+chap01.tex
+~~~~~~~~~~
+
+This is a sample chapter file. It contains examples of the chapter title,
+section heads, subsection heads, figures, a simple table, and an exercise
+list. 
+
+appa.tex
+~~~~~~~~
+
+This is a sample appendix file.
+
+biblio.tex
+~~~~~~~~~~
+
+This is a sample bibliography file.
+
+bio.tex
+~~~~~~~
+
+This is a sample author biography file.
+
+
+PUNCTUATION AND GRAMMAR
+-----------------------
+
+To come.
+
+
+LaTeX CONVENTIONS
+-----------------
+
+To come.
+
+
+QUESTIONS AND PROBLEMS
+----------------------
+
+Please contact Paul C. Anagnostopoulos at Windfall Software if you have any
+questions or problems.
+
+Paul C. Anagnostopoulos
+Windfall Software
+paul@windfall.com

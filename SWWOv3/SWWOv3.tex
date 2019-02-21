@@ -1,0 +1,63 @@
+% This is a template root file for ACM series books.
+% Please see read-me.txt for details.
+
+\documentclass[times]{acm-book}%%%
+
+\usepackage{amsmath}    % Package for AMS math extensions.
+\usepackage{graphicx}   % Package for importing EPS files.
+\usepackage{listings}
+
+
+\lstset{
+morecomment = [l]{*}
+}
+
+
+\usepackage{hyperref}
+
+\makeindex              % if you use \index{...} in your book.
+
+\title{Semantic Web for the Working Ontologist}
+
+\begin{document}
+\newcounter{challenge}
+\newenvironment{challenge}[1][]{\refstepcounter{challenge}\par\medskip
+   \textbf{CHALLENGE \thechallenge} \rmfamily}{\medskip}
+
+\newenvironment{solution}[1][]{\textbf{SOLUTION}}
+
+\renewcommand{\star}{{\usefont{OML}{cmm}{m}{it}\symbol{63}}}
+
+\newcounter{example}
+\newenvironment{example}[1][]{\refstepcounter{example}\par\medskip
+   \textbf{Example~\theexample. #1} \rmfamily}{\medskip}
+
+\frontmatter
+\include{front}         % Front matter.
+
+\mainmatter
+\include{chap01}        % Chapter 1.
+\include{chap02}
+\include{chap03}
+\include{chap04}
+\include{chap05}
+\include{chap06}
+\include{chap07}
+\include{chap08}
+\include{chap09}
+\include{chap10}
+\include{chap11}
+\include{chap12}
+\include{chap13}
+\include{chap14}
+\include{chap15}
+\include{chap16}
+\include{chap17}
+\include{appa}          % Appendix A.
+
+\backmatter
+\bibliography{acm-publications,acm-book}
+\include{bio}           % Author(s) biographies.
+\include{book.ind}      % If the book has an index.
+
+\end{document}

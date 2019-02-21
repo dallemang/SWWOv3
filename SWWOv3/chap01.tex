@@ -1,0 +1,733 @@
+\chapter{What is the Semantic Web?}
+
+% \chapterauthor{Sally Smith, Joe Jones}        % For contributed chapters.
+
+This book is about something we call the Semantic Web. From the name, you can probably guess that it is related somehow to the World Wide Web (WWW) and that it has something to do with semantics. Semantics, in turn, has to do with understanding the nature of meaning, but even the word semantics has a number of meanings. In what sense are we using the word semantics? And how can it be applied to the Web?\\
+This book is for a working ontologist. That is, the aim of this book is not to motivate or pitch the Semantic Web but to provide the tools necessary for working with it. Or, perhaps more accurately, the World Wide Web Consortium (W3C) has provided these tools in the forms of standard Semantic Web languages, complete with abstract syntax, model-based semantics, reference implementations, test cases, and so forth. But these are like any tools - there are some basic tools that are all you need to build many useful things, and there are specialized craftsman’s tools that can produce far more specialized outputs. Whichever tools are needed for a particular task, however,  one  still  needs  to  understand  how  to  use  them.  In the hands of someone with no knowledge, they can produce clumsy, ugly, barely functional output, but in the hands of a skilled craftsman, they can produce works of utility, beauty, and durability. It is our aim in this book to describe the craft of building Semantic Web systems. We go beyond only providing a coverage of  the  fundamental  tools  to  also  show  how  they  can  be  used  together  to  create  semantic models, sometimes called \textit{ontologies} or \textit{vocabularies}, that are understandable, useful, durable, and perhaps even beautiful.1
+
+
+\section{What is a web?}
+\label{ch01.sec11.1}
+
+The Web architecture was built by standing on the shoulders of giants. Back in 1945, Vannevar Bush wrote an article entitled \textit{As We May Think} where he identified the problems in managing large collections of documents, and in managing the links we make between these documents. Bush’s proposal was to consider this as a scientific problem, and among the ideas he proposed was the one of externalizing and automating the storage and management of association links we make in our readings. He also illustrates his ideas with an imaginary device he called the \textit{Memex} (‘memory extension”) that would assist us in studying, linking and remembering the documents we work with and the association links we weave between them. Twenty years later, Ted Nelson quotes \textit{As We May Think} and proposes using a computer to implement the idea, using hypertext and hypermedia structure to link parts of documents together. In the late sixties, Douglas Engelbart and the Augment project provided the mouse and new means of interaction and applied them in particular to hypertext edition and browsing. The beginning of the seventies brought us the work of Vinton Cerf and the emergence of the Internet, which connected computers all around the world. By the end of the eighties, Tim Berners-Lee was able to stand on the shoulders of these giants when he proposed a new breakthrough: an architecture for distributing hypermedia on the internet, which we now know as the World Wide Web. The Web provides a hyptertext infrastructure that links documents across the internet, i.e., connecting documents that are not on the same machine. And so the Web was born. The Web architecture includes two important parts: Web clients, the most well-known being the Web browser, and the Web server, that serves documents and data to the clients whenever they require it. For this architecture to work, there has to be three initial essential components. First, addresses that allow us to identify and locate the document on the Web; second, communication protocols that allow a client to connect to a server, send a request and get an answer; and third, representation languages to describe the content of the pages, the documents that are to be transferred. These three components comprise a basic Web architecture, which the Semantic Web standards, which we will describe later in this book, extend in order to publish semantic data on the Web.
+
+The idea of a web of information was once a technical idea accessible only to highly trained, elite information professionals: IT administrators, librarians, information architects, and the like. Since the widespread adoption of the World Wide Web, it is now common to expect just about anyone to be familiar with the idea of a web of information that is shared around the world. Contributions to this web come from every source, and every topic you can think of is covered.
+
+Essential to the notion of the Web is the idea of an open community: anyone can contribute their ideas to the whole, for anyone to see. It is this openness that has resulted in the astonishing comprehensiveness of topics covered by the Web. An information ``web'' is an organic entity that grows from the interests and energy of the communities that support it. As such, it is a hodgepodge of different analyses, presentations, and summaries of any topic that suits the fancy of anyone with the energy to publish a web page. Even as a hodgepodge, the Web is pretty useful. Anyone with the patience and savvy to dig through it can find support for just about any inquiry that interests them. But the Web often feels like it is a mile wide but an inch deep. How can we build a more integrated, consistent, deep Web experience?
+
+
+\section{Smart Web, Dumb Web}
+
+Suppose you consult a web page, looking for a major national park, and
+you find a list of hotels that have branches in the vicinity of the
+park. In that list you see that Mongotel, one of the well-known hotel
+chains, has a branch there. Since you have a Mongotel rewards card, you
+decide to book your room there. So you click on the Mongotel web site
+and search for the hotel's location. To your surprise, you can't find a
+Mongotel branch at the national park. What is going on here? ``That's so
+dumb,'' you tell your browsing friends. ``If they list Mongotel on the
+national park web site, shouldn't they list the national park on
+Mongotel's web site?''
+
+Suppose you are planning to attend a conference in a far-off city. The
+conference web site lists the venue where the sessions will take place.
+You go to the web site of your preferred hotel chain and find a few
+hotels in the same vicinity. ``Which hotel in my chain is nearest to the
+conference?'' you wonder. ``And just how far off is it?'' There is no
+shortage of web sites that can compute these distances once you give
+them the addresses of the venue and your own hotel. So you spend some
+time copying and pasting the addresses from one page to the next and
+noting the distances. You think to yourself, ``Why should I be the one
+to copy this information from one page to another? Why do I have to be
+the one to copy and paste all this information into a single map?
+
+Suppose you are investigating our solar system, and you find a
+comprehensive web site about objects in the solar system: Stars (well,
+there's just one of those), planets, moons, asteroids, and comets are
+all described there. Each object has its own web page, with photos and
+essential information (mass, albedo, distance from the sun, shape, size,
+what object it revolves around, period of rotation, period of
+revolution, etc.). At the head of the page is the object category:
+planet, moon, asteroid, comet. Another page includes interesting lists
+of objects: the moons of Jupiter, the named objects in the asteroid
+belt, the planets that revolve around the sun. This last page has the
+nine familiar planets, each linked to its own data page.
+
+One day, you read in the newspaper that the International Astronomical
+Union (IAU) has decided that Pluto, which up until 2006 was considered a
+planet, should be considered a member of a new category called a ``dwarf
+planet''! You rush to the Pluto page and see that indeed, the update has
+been made: Pluto is listed as a dwarf planet! But when you go back to
+the ``Solar Planets'' page, you still see nine planets listed under the
+heading ``Planet.'' Pluto is still there! ``That's dumb.'' Then you say
+to yourself, ``Why didn't someone update the web pages consistently?''
+
+What do these examples have in common? Each of them has an apparent
+representation of data, whose presentation to the end user (the person
+operating the Web browser) seems ``dumb.'' What do we mean by ``dumb''?
+In this case, ``dumb'' means inconsistent, out of synchronized, and
+disconnected. What would it take to make the Web experience seem
+smarter? Do we need smarter applications or a smarter Web
+infrastructure?
+
+
+\subsection{Smart web applications}
+
+The Web is full of intelligent applications, with new innovations coming
+every day. Ideas that once seemed futuristic are now commonplace; search
+engines make matches that seem deep and intuitive; commerce sites make
+smart recommendations personalized in uncanny ways to your own
+purchasing patterns; mapping sites include detailed information about
+world geography, and they can plan routes and measure distances. The sky
+is the limit for the technologies a web site can draw on. Every
+information technology under the sun can be used in a web site, and many
+of them are. New sites with new capabilities come on the scene on a
+regular basis.
+
+But what is the role of the Web infrastructure in making these
+applications ``smart''? It is tempting to make the architecture of the
+Web smart enough to encompass all of these technologies and more. The
+smarter the architecture, the smarter the Web's performance, right? But
+it isn't practical, or even possible, for the Web architecture to
+provide specific support for all, or even any, of the technologies that
+we might want to use on the Web. Smart behavior in the Web comes from
+smart applications on the Web, not from the architecture .
+
+So what role does the architecture play in making the Web smart? Is
+there a role at all? We have smart applications on the Web, so why are
+we even talking about enhancing the Web architecture to make a smarter
+Web if the smarts aren't in the architecture
+
+The reason we are improving the Web architecture is to allow smart
+applications to perform to their potential. Even the most insightful and
+intelligent application is only as smart as the data that is available
+to it. Inconsistent or contradictory input will still result in
+confusing, disconnected, ``dumb'' results, even from very smart
+applications. The challenge for the design of the Semantic Web is not to
+make a web architecture that is as smart as possible; it is to make an
+architecture that is most appropriate to the job of integrating
+information on the Web.
+
+The Semantic Web doesn't make data smart because smart data isn't what
+the Semantic Web needs. The Semantic Web just needs to get the right
+data to the right place so the smart applications can do their work. So
+the question to ask is not ``How can we make the Web architecture
+smarter?'' but ``What can the Web architecture provide to improve the
+consistency and availability of Web data?''
+
+\subsection{Connected data is smarter data}
+
+Even in the face of intelligent applications, disconnected data result
+in dumb behavior. But the Web data don't have to be smart; that's the
+job of the applications. So what can we realistically and productively
+expect from the data in our Web applications? In a nutshell, we want
+data that don't
+
+surprise us with inconsistencies that make us want to say, ``This
+doesn't make sense!'' We don't need a smart Web infrastructure, but we
+need a Web infrastructure that lets us connect data to smart Web
+applications so that the whole Web experience is enhanced. The Web seems
+smarter because smart applications can get the data they need.
+
+In the example of the hotels in the national park, we'd like there to be
+coordination between the two web pages so that an update to the location
+of hotels would be reflected in the list of hotels at any particular
+location. We'd like the two sources to stay synchronized; then we won't
+be surprised at confusing and inconsistent conclusions drawn from
+information taken from different pages of the same site.
+
+In the mapping example, we'd like the data from the conference web site
+and the data from the hotels web site to be automatically understandable
+to the mapping web site. It shouldn't take interpretation by a human
+user to move information from one site to the other. The mapping web
+site already has the smarts it needs to find shortest routes (taking
+into account details like toll roads and one-way streets) and to
+estimate the time required to make the trip, but it can only do that if
+it knows the correct starting and endpoints.
+
+We'd like the astronomy web site to update consistently. If we state
+that Pluto is no longer a planet,
+
+the list of planets should reflect that fact as well. This is the sort
+of behavior that gives a reader confidence that what they are reading
+reflects the state of knowledge reported in the web site, regardless of
+how they read it.
+
+None of these things is beyond the reach of current information
+technology. In fact, it is not uncommon for programmers and system
+architects, when they first learn of the Semantic Web, to exclaim
+proudly, ``I implemented something very like that for a project I did a
+few years back. We used.'' Then they go on to explain how they used some
+conventional, established technology such as relational databases, XML
+stores, or object stores to make their data more connected and
+consistent. But what is it that these developers are building?
+
+What is it about managing data this way that made it worth their while
+to create a whole subsystem on top of their base technology to deal with
+it? And where are these projects two or more years later? When those
+same developers are asked whether they would rather have built a
+flexible, distributed, connected data model support system themselves
+than have used a standard one that someone else optimized and supported,
+they unanimously chose the latter. Infrastructure is something that one
+would rather buy than build.
+
+\section{Semantic Data}
+
+In the Mongotel example, there is a list of hotels at the national park
+and another list of locations for hotels. The fact that these lists are
+intended to represent the presence of a hotel at a certain location is
+not explicit anywhere; this makes it difficult to maintain consistency
+between the two representations. In the example of the conference venue,
+the address appears only as text typeset on a page so that human beings
+can interpret it as an address. There is no explicit representation of
+the notion of an address or the parts that make up an address. In the
+case of the astronomy web page, there is no explicit representation of
+the status of an object as a planet. In all of these cases, the data
+describe the presentation of information rather than describe the
+entities in the world.
+
+Could it be some other way? Can an application organize its data so that
+they provide an integrated description of objects in the world and their
+relationships rather than their presentation? The answer is ``yes,'' and
+indeed it is common good practice in web site design to work this way.
+There are a number of well-known approaches.
+
+One common way to make Web applications more integrated is to back them
+up with a relational database and generate the web pages from queries
+run against that database. Updates to the site are made by updating the
+contents of the database. All web pages that require information about a
+particular data record will change when that record changes, without any
+further action required by the Web maintainer. The database holds
+information about the entities themselves, while the relationship
+between one page and another (presentation) is encoded in the different
+queries.
+
+Consider the case of the national parks and hotel. If these pages were
+backed by the same database, the national park page could be built on
+the query ``Find all hotels with location = national park,'' and the
+hotel page could be built on the query ``Find all hotels from chain =
+Mongotel.'' If Mongotel has a location at the national park, it will
+appear on both pages; otherwise, it won't appear at all. Both pages will
+be consistent. The difficulty in the example given is that it is
+organizationally very unlikely that there could be a single database
+driving both of these pages, since one of them is published and
+maintained by the National Park Service and the other is managed by the
+Mongotel chain.
+
+The astronomy case is very similar to the hotel case, in that the same
+information (about the classification of various astronomical bodies) is
+accessed from two different places, ensuring consistency of information
+even in the face of diverse presentation. It differs in that it is more
+likely that an astronomy club or university department might maintain a
+database with all the currently known information about the solar
+system.
+
+In these cases, the Web applications can behave more robustly by adding
+an organizing query into the Web application to mediate between a single
+view of the data and the presentation. The data aren't any less dumb
+than before, but at least what's there is centralized, and the
+application or the web pages can be made to organize the data in a way
+that is more consistent for the user to view. It is the web page or
+application that behaves smarter, not the data. While this approach is
+useful for supporting data consistency, it doesn't help much with the
+conference mapping example.
+
+Another approach to making Web applications a bit smarter is to write
+program code in a general- purpose language (e.g., C, Perl, Java, Lisp,
+Python, or XSLT) that keeps data from different places up to date. In
+the hotel example, such a program would update the National Park web
+page whenever a change is made to a corresponding hotel page. A similar
+solution would allow the planet example to be more consistent. Code for
+this purpose is often organized in a relational database application in
+the form of stored procedures; in XML applications, it can be affected
+using a transformational language like XSLT.
+
+These solutions are more cumbersome to implement since they require
+special-purpose code to be written for each linkage of data, but they
+have the advantage over a centralized database that they do not require
+all the publishers of the data to agree on and share a single data
+source. Furthermore, such approaches could provide a solution to the
+conference mapping problem by transforming data from one source to
+another. Just as in the query/presentation solution, this solution does
+not make the data any smarter; it just puts an informed infrastructure
+around the data, whose job it is to keep the various data sources
+consistent.
+
+The common trend in these solutions is to move away from having the
+presentation of the data (for human eyes) be the primary representation
+of the data; that is, they move from having a web site be a collection
+of pages to having a web site be a collection of data, from which the
+web page presentations are generated. The application focuses not on the
+presentation but on the subjects of the presentation. It is in this
+sense that these applications are semantic applications; they explicitly
+represent the relationships that underlie the application and generate
+presentations as needed.
+
+\subsection{A distributed web of data}
+
+The Semantic Web takes this idea one step further, applying it to the
+Web as a whole. The current Web architecture supports a distributed
+network of web pages that can refer to one another with global links
+called Uniform Resource Locators (URLs). As we have seen, sophisticated
+web sites replace this structure locally with a database or XML backend
+that ensures consistency within that page.
+
+The main idea of the Semantic Web is to support a distributed Web at the
+level of the data rather than at the level of the presentation. Instead
+of having one web page point to another, one data item can point to
+another, using the same global references that web pages use -- Uniform
+Resource Identifiers (URIs). The Web infrastructure provides a data
+model whereby information about a single entity can be distributed over
+the Web. This distribution allows the Mongotel example and the
+conference hotel example to work like the astronomy example, even though
+the information is distributed over web sites controlled by more than
+one organization. The single, coherent data model for the application is
+not held inside one application but rather is part of the Web
+infrastructure. When Mongotel publishes information about its hotels and
+their locations, it doesn't just publish a human-readable presentation
+of this information but instead a distributable, machine-readable
+description of the data. The data model that this distributed Web of
+Data infrastructure uses to represent this distributed web of data is
+called the Resource Description Framework (RDF) and is the topic of
+Chapter 3.
+
+This single, distributed data model is the first and core contribution
+that the Semantic Web infrastructure brings to a smarter Web. Just as is
+the case with data-backed Web applications, the Semantic Web
+infrastructure allows the data to drive the presentation so that various
+web pages (presentations) can provide views into a consistent body of
+information. In this way, the Semantic Web helps data not be so dumb.
+
+\subsection{Features of a Semantic Web}
+
+The World Wide Web was the result of a radical new way of thinking about
+sharing information. These ideas seem familiar now, as the Web itself
+has become pervasive. But this radical new way of thinking has even more
+profound ramifications when it is applied to a web of data like the
+Semantic Web. These ramifications have driven many of the design
+decisions for the Semantic Web Standards and have a strong influence on
+the craft of producing quality Semantic Web applications.
+
+\subsection{Give me a voice .}
+
+On the World Wide Web, publication is by and large in the hands of the
+content producer. People can build their own web page and say whatever
+they want on it. A wide range of opinions on any topic can be found; it
+is up to the reader to come to a conclusion about what to believe. The
+Web is the ultimate example of the warning \emph{caveat emptor} (``Let
+the buyer beware''). This feature of the Web is so instrumental in its
+character that we give it a name: the AAA Slogan: ``\textbf{A}nyone can
+say \textbf{A}nything about \textbf{A}ny topic.''
+
+In a web of documents, the AAA slogan means that anyone can write a page
+saying whatever they please and publish it to the Web infrastructure. In
+the case of the Semantic Web, it means that our
+
+architecture has to allow any individual to express a piece of data
+about some entity in a way that can be combined with data from other
+sources. This requirement sets some of the foundation for the design of
+RDF.
+
+It also means that the Web is like a data wilderness---full of valuable
+treasure, but overgrown and tangled. Even the valuable data that you can
+find can take any of a number of forms, adapted to its own part of the
+wilderness. In contrast to the situation in a large, corporate data
+center, where one database administrator rules with an iron hand over
+any addition or modification to the database, the Web has no gatekeeper.
+Anything and everything can grow there. A distributed web of data is an
+organic system, with contributions coming from all sources. While this
+can be maddening for someone trying to make sense of information on the
+Web, this freedom of expression on the Web is what allowed it to take
+off as a bottom-up, grassroots phenomenon.
+
+\subsection{... So l may speak!}
+
+In the early days of the document Web, it was common for skeptics,
+hearing for the first time about the possibilities of a worldwide
+distributed web full of hyperlinked pages on every topic, to ask, ``But
+who is going to create all that content? Someone has to write those web
+pages!''
+
+To the surprise of those skeptics, and even of many proponents of the
+Web, the answer to this question was that everyone would provide the
+content. Once the Web infrastructure was in place (so that Anyone could
+say Anything about Any topic), people came out of the woodwork to do
+just that. Soon every topic under the sun had a web page, either
+official or unofficial. It turns out that a lot of people had something
+to say, and they were willing to put some work into saying it. As this
+trend continued, it resulted in collaborative ``crowdsourced'' resources
+like Wikipedia and the Internet Movie DataBase (IMDB)---collaboratively
+edited information sources with broad utility. This effect continued as
+the web grew to create social networks where a billion people contribute
+every day, and their contributions come together to become a massive
+data source with considerable value in its own right.
+
+The document Web grew because of a virtuous cycle that is called the
+\emph{network effect}. In a network of contributors like the Web, the
+infrastructure made it possible for anyone to publish, but what made it
+desirable for them to do so? At one point in the Web, when Web browsers
+were a novelty, there was not much incentive to put a page on this new
+thing called ``the Web''; after all, who was going to read it? Why do I
+want to communicate to them? Just as it isn't very useful to be the
+first kid on the block to have a fax machine (whom do you exchange faxes
+with?), it wasn't very interesting to be the first kid with a Web
+server.
+
+But because a few people did have Web servers, and a few more got Web
+browsers, it became more attractive to have both web pages and Web
+browsers. Content providers found a larger audience for their work;
+content consumers found more content to browse. As this trend continued,
+it became more and more attractive, and more people joined in, on both
+sides. This is the basis of the network effect: The more people who are
+playing now, the more attractive it is for new people to start playing.
+Another feature of the Web that made it and its evolutions possible is
+fact it is ``auto documented'' i.e. the documentation for building,
+using and contributing to the Web is on the Web itself and when an
+evolution like the semantic Web comes around, it too can be documented
+on the Web to support the network effect.
+
+A good deal of the information that populates the Semantic Web started
+out on the document Web, sometimes in the form of tables, spreadsheets,
+or databases, and sometimes as organized group efforts like Wikipedia.
+Who is doing the work of converting this data to RDF for distributed
+access? In the earliest days of the Semantic Web there was little
+incentive to do so, and it was done primarily by vanguards who had an
+interest in Semantic Web technology itself. As more and more data are
+available in RDF form, it becomes more useful to write applications that
+utilize this distributed data. Already there are several large, public
+data sources available in RDF, including an RDF image of Wikipedia
+
+called dbpedia, and a surprisingly large number of government datasets.
+Small retailers publish information about their offerings using a
+Semantic Web format called RDFa. Facebook allows content managers to
+provide structured data using RDFa and a format called the Open Graph
+Protocol. The presence of these sorts of data sources makes it more
+useful to produce data in linked form for the Semantic Web. The Semantic
+Web design allows it to benefit from the same network effect that drove
+the document Web.
+
+The Linked Open Data Cloud (http://lod-cloud.net/) is an example of an
+effort that has followed this path. Starting in 2007, a group of
+researchers at the National University of Ireland began a project to
+assemble linked data sets on a variety of topics. Figure~\ref{fig:ch1.1} shows the
+growth of the Linked Open Data cloud from 2007 until 2017, following the
+network effect. At first, there was very little incentive to include a
+dataset into the cloud, but as more datasets were linked together
+(including Wikipedia), it became easier and more valuable to include new
+data sets. The Linked Open Data cloud include datasets that share some
+common reference; the web of data itself is of course much larger. The
+Linked Open Data Cloud includes datasets in a wide variety of fields,
+including Geography, Government, Life Sciences, Linguistics, Media and
+Publication.
+
+\begin{figure}
+    \centering
+    \includegraphics[width=5.0in]{media/image1.png}
+    \caption{number of linked open datasets on the Web in the linked open
+data cloud}
+    \label{fig:ch1.1}
+\end{figure}
+
+
+\subsection{What about the round-worlders?}
+
+The network effect has already proven to be an effective and empowering
+way to muster the effort needed to create a massive information network
+like the World Wide Web; in fact, it is the only method that has
+actually succeeded in creating such a structure. The AAA slogan enables
+the network effect that made the rapid growth of the Web possible. But
+what are some of the ramifications of such an open system? What does the
+AAA slogan imply for the content of an organically grown web?
+
+For the network effect to take hold, we have to be prepared to cope with
+a wide range of variance in the information on the Web. Sometimes the
+differences will be minor details in an otherwise agreed-on area; at
+other times, differences may be essential disagreements that drive
+political and cultural discourse in our society. This phenomenon is
+apparent in the document web today; for just about any topic, it is
+possible to find web pages that express widely differing opinions about
+that topic. The ability to disagree, and at various levels, is an
+essential part of human discourse and a key aspect of the Web that makes
+it successful. Some people might want to put forth a very odd opinion on
+any topic; someone might even want to postulate that the world is round,
+while others insist that it is flat. The infrastructure of the Web must
+allow both of these (contradictory) opinions to have equal availability
+and access.
+
+There are a number of ways in which two speakers on the Web may
+disagree. We will illustrate each of them with the example of the status
+of Pluto as a planet:
+
+
+\begin{itemize}
+\item
+  \emph{They may fundamentally disagree on some topic}. While the IAU
+  has changed its definition of planet in such a way that Pluto is no
+  longer included, it is not necessarily the case that every astronomy
+  club or even national body agrees with this categorization. Many
+  astrologers, in particular, who have a vested interest in considering
+  Pluto to be a planet, have decided to continue to consider Pluto as a
+  planet. In such cases, different sources will simply disagree.
+\item
+  \emph{Someone might want to intentionally deceive}. Someone who
+  markets posters, models, or other works that depict nine planets has a
+  good reason to delay reporting the result from the IAU and even to
+  spreading uncertainty about the state of affairs.
+\item
+  \emph{Someone might simply be mistaken}. Web sites are built and
+  maintained by human beings, and thus they are subject to human error.
+  Some web site might erroneously list Pluto as a planet or, indeed,
+  might even erroneously fail to list one of the eight ``nondwarf''
+  planets as a planet.
+\item
+  \emph{Some information may be out of date}. There are a number of
+  displays around the world of scale models of the solar system, in
+  which the status of the planets is literally carved in stone; these
+  will continue to list Pluto as a planet until such time as there is
+  funding to carve a new description for the ninth object. Web sites are
+  not carved in stone, but it does take effort to update them; not
+  everyone will rush to accomplish this.
+\end{itemize}
+
+
+While some of the reasons for disagreement might be, well, disagreeable
+(wouldn't it be nice if we could stop people from lying?), in practice
+there isn't any way to tell them apart. The infrastructure of the Web
+has to be able to cope with the fact that information on the Web will
+disagree from time to time and that this is not a temporary condition.
+It is in the very nature of the Web that there be variations and
+disagreement.
+
+The Semantic Web is often mistaken for an effort to make everyone agree
+on a single ontology--- but that just isn't the way the Web works. The
+Semantic Web isn't about getting everyone to agree, but rather about
+coping in a world where not everyone will agree and achieving some
+degree of interoperability anyway. In the data themselves too we may
+find disagreement for instance the numbers of casualties in a conflict
+may be reported on the Web of data with very different values from the
+involved parties. There will always be multiple ontologies and diverging
+statements, just as there will always be multiple web pages on any given
+topic. The Web is innovative because it allows all these multiple
+viewpoints to coexist.
+
+\subsection{To each their own}
+
+How can the Web architecture support this sort of variation of opinion?
+That is, how can two people say different things, about the same topic?
+There are two approaches to this issue. First, we have to talk a bit
+about how one can make any statement at all in a web context.
+
+The IAU can make a statement in plain English about Pluto, such as
+``Pluto is a dwarf planet,'' but such a statement is fraught with all
+the ambiguities and contextual dependencies inherent in natural
+language. We think we know what ``Pluto'' refers to, but how about
+``dwarf planet''? Is there any possibility that someone might disagree
+on what a ``dwarf planet'' is? How can we even discuss such things?
+
+The first requirement for making statements on a global web is to have a
+global way of identifying the entities we are talking about. We need to
+be able to refer to ``the notion of Pluto as used by the IAU'' and ``the
+notion of Pluto as used by the American Federation of Astrologers'' if
+we even want to be able to discuss whether the two organizations are
+referring to the same thing by these names.
+
+In addition to Pluto, another object was also classified as a ``dwarf
+planet.'' This object is sometimes known as UB313 and sometimes known by
+the name Xena. How can we say that the object known to the IAU as UB313
+is the same object that its discoverer Michael Brown calls ``Xena''?
+
+One way to do this would be to have a global arbiter of names decide how
+to refer to the object. Then Brown and the IAU can both refer to that
+``official'' name and say that they use a private ``nickname'' for it.
+Of course, the IAU itself is a good candidate for such a body, but the
+process to name the object took over two years. Coming up with good,
+agreed-on global names is not always easy business.
+
+On the Web we name things with URIs (Uniform Resource Identifier). The
+URI standard provides rules to mint identifiers for anything around us.
+The most common form of URIs are the URLs (Uniform Resource Locator)
+commonly called Web addresses (e.g. http://www.inria.fr/) that locate a
+specific resource on the Web. In the absence of an agreement, different
+Web authors will select different URIs for the same real-world resource.
+Brown's \emph{Xena} is IAU's \emph{UB313}. When information from these
+different sources is brought together in the distributed network of
+data, the Web infrastructure has no way of knowing that these need to be
+treated as the same entity. The flip side of this is that we cannot
+assume that just because two URIs are distinct, they refer to distinct
+resources. This feature of the Semantic Web is called the Non-unique
+Naming Assumption; that is, we have to assume (until told otherwise)
+that some Web resource might be referred to using different names by
+different people. It's also crucial to note that there are times when
+unique names might be nice, but it may be impossible. Some other
+organization than the IAU, for example, might decide they are unwilling
+to accept the new nomenclature.
+
+\subsection{There's always one more}
+
+In a distributed network of information, as a rule we cannot assume at
+any time that we have seen all the information in the network, or even
+that we know everything that has been asserted about one single topic.
+This is evident in the history of Pluto and UB313. For many years, it
+was sufficient to say that a planet was defined as ``any object of a
+particular size orbiting the sun.'' Given the information available
+during that time, it was easy to say that there were nine planets around
+the sun. But the new information about UB313 changed that; if a planet
+is defined to be any body that orbits the sun of a particular size, then
+UB313 had to be considered a planet, too. Careful speakers in the late
+twentieth century, of course, spoke of the ``known'' planets, since they
+were aware that another planet was not only possible but even suspected
+(the so-called ``Planet X,'' which stood in for the unknown but
+suspected planet for many years).
+
+The same situation holds for the Semantic Web. Not only might new
+information be discovered at any time (as is the case in solar system
+astronomy), but, because of the networked nature of the Web, at any one
+time a particular server that holds some unique information might be
+unavailable. For this reason, on the Semantic Web we can rarely conclude
+things like ``there are nine planets,'' since we don't know what new
+information might come to light.
+
+In general, this aspect of a Web has a subtle but profound impact on how
+we draw conclusions from the information we have. It forces us to
+consider the Web as an Open World and to treat it using the Open World
+Assumption. An Open World in this sense is one in which we must assume
+at any time that new information could come to light, and we may draw no
+conclusions that rely on assuming that the information available at any
+one point is all the information available.
+
+For many applications, the Open World Assumption makes no difference; if
+we draw a map of all the Mongotel hotels in Boston, we get a map of all
+the ones we know of at the time. The fact that Mongotel might have more
+hotels in Boston (or might open a new one) does not invalidate the fact
+that it has the ones it already lists. In fact, for a great deal of
+Semantic Web applications, we can ignore the Open World Assumption and
+simply understand that a semantic application, like any other web page,
+is simply reporting on the information it was able to access at one
+time.
+
+The openness of the Web only becomes an issue when we want to draw
+conclusions based on distributed data. If we want to place Boston in the
+list of cities that are not served by Mongotel (e.g., as part of a
+market study of new places to target Mongotels), then we cannot assume
+that just because we haven't found a Mongotel listing in Boston, no such
+hotel exists.
+
+As we shall see in the following chapters, the Semantic Web includes
+features that correspond to all the ways of working with Open Worlds
+that we have seen in the real world. We can draw conclusions about
+missing Mongotels if we say that some list is a comprehensive list of
+all Mongotels. We can have an anonymous ``Planet X'' stand in for an
+unknown but anticipated entity. These techniques allow us to cope with
+the Open World Assumption in the Semantic Web, just as they do in the
+Open World of human knowledge.
+
+\subsection{The nonunique name of the semantic Web}
+
+One problem the first time you discover linked data on the Web and
+semantic Web is that this evolution of the Web is perceived and
+presented under different names, each name insisting on a different
+facet of the overall architecture of this evolution. In the title of
+this book, we refer to the Semantic Web, emphasizing the importance of
+meaning to data sharing. The Semantic Web is known by many other names.
+The name ``Web of data'' refers to the opportunity now available on the
+Web to open silos of data of all sizes, from the small dataset of a
+personal hotel list up to immense astronomic databases, and to exchange,
+connect and combine them on the Web according to our needs. The name
+``linked data'' refers to the fact we can use the Web addressing and
+linking capabilities to link data pieces inside and between datasets
+across the Web much in the same way we reference and link Web pages on
+the document Web. Only this time, because we are dealing with structured
+data, applications can process these data and follow the links to
+discover new data in many more automated ways. The name ``linked open
+data'' focuses on the opportunity to exploit open data from the Web in
+our applications and the high benefit there is in using and reusing URIs
+to join assertions from different sources. This name also reminds us
+that linked data are not necessarily open and that all the techniques we
+are introducing here can also be used in private spaces (intranets,
+intrawebs, extranets, etc.). In an enterprise, we often refer to a
+``Knowledge Graph'', which is specific to that enterprise, but can
+include any information that the enterprise needs to track (including
+information about other enterprises that it does business with). The
+name ``giant global graph'' puts into perspective the billions of links
+between data distributed on the Web and which, joined through URIs,
+produce a giant graph. The name ``semantic web'' emphasizes the ability
+we now have for exchanging our data models, schemas, vocabularies, in
+addition to datasets, and the associated semantics in order to enrich
+the range of automatic processing that can be performed on them as we
+will see in Chapter 7.
+
+\section{SUMMARY}
+
+The aspects of the Web we have outlined here---the AAA slogan, the
+network effect, nonunique naming, and the Open World
+Assumption---already hold for the document Web. As a result, the Web
+today is something of an unruly place, with a wide variety of different
+sources, organizations, and styles of information. Effective and
+creative use of search engines is something of a craft; efforts to make
+order from this include community efforts like social bookmarking and
+community encyclopedias to automated methods like statistical
+correlations and fuzzy similarity matches.
+
+For the Semantic Web, which operates at the finer level of individual
+statements about data, the situation is even wilder. With a human in the
+loop, contradictions and inconsistencies in the document Web can be
+dealt with by the process of human observation and application of common
+sense. With a machine combining information, how do we bring any order
+to the chaos? How can one have any confidence in the information we
+merge from multiple sources? If the document Web is unruly, then surely
+the Semantic Web is a jungle---a rich mass of interconnected
+information, without any road map, index, or guidance.
+
+How can such a mess become something useful? That is the challenge that
+faces the working ontologist. Their medium is the distributed web of
+data; their tools are the Semantic Web languages RDF, RDFS, SPARQL,
+SKOS, SHACL and OWL. Their craft is to make sensible, usable, and
+durable information resources from this medium. We call that craft
+modeling, and it is the centerpiece of this book.
+
+The cover of this book shows a system of channels with water coursing
+through them. If we think of the water as the data on the Web, the
+channels are the model. If not for the model, the water would not flow
+in any systematic way; there would simply be a vast, undistinguished
+expanse of water. Without the water, the channels would have no
+dynamism; they have no moving parts in and of themselves. Put the two
+together, and we have a dynamic system. The water flows in an orderly
+fashion, defined by the structure of the channels. This is the role that
+a model plays in the Semantic Web.
+
+Without the model, there is an undifferentiated mass of data; there is
+no way to tell which data can or should interact with other data. The
+model itself has no significance without data to describe it. Put the
+two together, however, and you have a dynamic web of information, where
+data flow from one point to another in a principled, systematic fashion.
+This is the vision of the Semantic Web---an organized worldwide system
+where information flows from one place to another in a smooth but
+orderly way.
+
+\subsection{Fundamental concepts}
+
+The following fundamental concepts were introduced in this chapter.
+
+\textbf{The AAA slogan}---Anyone can say Anything about Any topic. One
+of the basic tenets of the Web in general and the Semantic Web in
+particular.
+
+\textbf{Open world/Closed world}---A consequence of the AAA slogan is
+that there could always be something new that someone will say; this
+means that we must assume that there is always more information that
+could be known.
+
+\textbf{Nonunique naming}---Since the speakers on the Web won't
+necessarily coordinate their naming efforts, the same entity could be
+known by more than one name.
+
+\textbf{The network effect}---The property of a web that makes it grow
+organically. The value of joining in increases with the number of people
+who have joined, resulting in a virtuous cycle of participation.
+
+\textbf{The data wilderness}---The condition of most data on the web. It
+contains valuable information, but there is no guarantee that it will be
+orderly or readily understandable.
+
+
+

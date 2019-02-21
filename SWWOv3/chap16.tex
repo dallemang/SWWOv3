@@ -1,0 +1,528 @@
+\chapter{Expert modeling in OWL}
+\label{ch16}
+
+The examples in Chapters\ref{ch10} and \ref{ch14} have shown applications of Semantic
+Web, and the role that models play in those applications. In some cases
+(e.g., OGP), a very simple model was used to mediate large amounts of
+data. In other cases (e.g., QUDT and CHEBI), the models were very
+involved, and a lot of the value came from the complexity of the model
+itself. A large portion of applications on the Semantic Web can be
+achieved using the modeling facilities that have been presented in the
+book so far. But there are occasions where these modeling constructs are
+insufficient, and more advanced capabilities are required. Many of these
+have been included in version 2 of the OWL recommendation. We have already
+seen (in Chapter\ref{ch13}) some of the advanced counting facilities from OWL
+2, and we will outline some of the more fundamental new capabilities
+here, but the OWL 2 recommendation is rich in modeling constructs that go
+beyond the scope of this book\footnote{Details of the OWL 2 recommendation can be found at
+\href{http://www.w3.org/2004/OWL}{http://www.w3.org/2004/OWL.}}
+. First and foremost, we will provide some
+of the background you will need to search through the OWL recommendation
+documents yourself to explore its rich landscape.
+
+OWL 2 was designed to be fully backward compatible with version 1.0.
+That means that any valid OWL 1.0 model is also a valid model in OWL 2.
+But more importantly, it means that all the styles of modeling that we
+learned for OWL 1.0 are still valid for OWL 2. The new constructs in OWL
+2 can be used in conjunction with all the models you've seen in the book
+so far.
+
+In Chapter\ref{ch9}, we introduced a subset of OWL that we called RDFS-Plus.
+There are a number of reasons why someone might define a subset of a
+language like OWL. In the case of RDFS-Plus, we were interested in a
+subset of the language that has considerable utility for semantic
+modeling but does not place a large burden on either a modeler or
+someone trying to understand a model. OWL 2 also includes a precise
+description of four subsets of the OWL language (each of them richer
+than RDFS-Plus) identified for various practical technological reasons,
+often having to do with how OWL relates to other technology. The four
+subsets are called OWL 2 EL, OWL 2 QL, OWL 2 RL, and OWL 2 DL.
+
+
+We will describe each subset and the rationale for why it has been
+identified and named; the details of each subset are given in the OWL
+specification.1
+
+\section{OWL Subsets and Modeling Philosophy}
+
+Normally, when we refer to different subsets of a language, we can list
+the language structures in one subset that are not found in the other.
+For instance, RDFS has \texttt{rdfs:domain}, \texttt{rdfs:range}, \texttt{rdfs:subPropertyOf}, and
+so on, whereas RDFS-Plus has all of those, plus some new language
+features like \texttt{owl:inverseOf} and \texttt{owl:TransitiveProperty}. We can define
+how these two languages are similar or different, based on which
+language terms are available in each one.
+
+In the case of the OWL 2 subsets, the situation is more subtle. Each
+subset uses the same set of modeling constructs. That is, if we were to
+list all the properties and classes that make up (say) OWL EL and then
+compile the full list for all of OWL, the lists would be exactly the
+same. In fact, it would be the list of OWL features that you have been
+reading about in this book. Everything you have learned so far applies
+equally well to each OWL subset.
+
+So what is the difference? Why is it important to identify subsets of a
+language, if they have the same constructs and the same meanings? The
+distinction between these the subsets of OWL are motivated in part by a
+difference in the basic philosophy of why one builds models for the
+Semantic Web. We will outline these two basic philosophies---one in
+which the emphasis is placed on having provable models and one in which
+the emphasis is placed on making executable models. We examine each in
+turn, along with the intuitions that motivate them.
+
+\subsection{Provable models}
+
+An important motivation for formal modeling (as opposed to informal
+modeling) is to be precise about what our models mean. In the context of
+the Semantic Web, this tells us precisely and without doubt when
+concepts from two different sources refer to the same thing. Does my
+notion of a James Dean movie correspond to yours? A formal description
+can help us determine whether or not this is the case. My definition of
+a ``James Dean movie'' is one that stars James Dean, but your definition
+of a ``James Dean movie'' might be movies about James Dean or movies
+with the words James Dean in the title. How can we tell if we have the
+name ``James Dean movie'' as the only indication of these definitions? A
+formal model makes these distinctions clearer. Then it becomes a simple
+matter of automation to decide whether two classes are the same, if one
+subsumes the other, or if they are unrelated.
+
+It is this aspect of modeling that motivates a logical definition of
+OWL. Each construct in OWL is a statement in a formal logic. The
+particular logical system of OWL DL is called Description Logic. As the
+name suggests, Description Logic is a logical system with which formal
+descriptions of classes, individuals, and the relationships between them
+can be made. The inferences in OWL that have formed the basis of the
+bulk of this book are formally defined by a model theory based on
+Description Logic.
+
+Using logic as the foundation of a modeling language makes perfect
+sense; we can draw upon decades, or even centuries, of development work
+in logical formalism. The properties of various
+logical structures are well understood. Logic provides a framework for
+defining all of the inferences that our modeling language will need. But
+there is one fly in the ointment: In a computational setting, we would
+like our logic to be processed automatically by a computer.
+Specifically, we want a computer to be able to determine all of the
+inferences that any given model entails. So, if we want to be able to
+automatically determine whether my notion of a James Dean movie is
+exactly the same as yours, we must show the set of all facts that are
+true in one are true in the others, and all facts untrue are untrue.
+
+It is at this point that the details of the logic become important. What
+does it mean for our modeling
+formalism if we base it on a logic for which this kind of automation
+cannot, in principle, exist? That is, what happens if we can't exactly
+determine whether my notion of a James Dean movie is the same as yours?
+If we view this sort of provable connection as essential to the nature
+of modeling, then we have failed. We simply cannot tolerate a logic in
+which this kind of question cannot be answered by automated means in
+some finite amount of time.
+
+In the study of formal logic, this question is called \emph{decidability}.
+Formally, a system is decidable if there exists an effective method such
+that for every formula in the system the method is capable of deciding
+whether the formula is valid (is a theorem) in the system or not. If
+not, then the system is undecidable. It is not our intention in this
+book to go into any detail about the mathematical notion of
+decidability, but a few comments on its relevance for modeling are in
+order.
+
+The first thing to understand about decidability is also the most
+surprising: how easy it is for a formal system to be undecidable. Given
+the formal nature of logic, it might seem that, with enough patience and
+engineering, a program could be developed to correctly and completely
+process any formal logic. One of the most influential theorems that
+established the importance of the notion of decidability shows that even
+very simple logical systems (basically, any system that can do ordinary
+integer arithmetic) are undecidable. In fact, it is actually quite
+challenging to come up with a logical system that can represent anything
+useful that is also decidable.
+
+This bit of tightrope walking is the impetus behind the OWL DL subset.
+OWL DL is based on a particular decidable \emph{Description Logic}. This means
+that it is possible to design an algorithm that can take as input any
+model expressed in OWL DL and determine which classes are equivalent to
+other classes, which classes are subclasses of other classes, and which
+individuals are members of which classes.
+
+The most commonly used algorithm for this problem is called the \emph{Tableau
+Algorithm}. It works basically by keeping track of all the possible
+relations between classes, ruling out those that are inconsistent with
+the logical statements made in the model. The Tableau Algorithm is
+guaranteed to find all entailments of a model in OWL DL in a finite (but
+possibly quite long!) time. Furthermore, it is possible to determine
+automatically whether a model is in fact in OWL DL so that a program can
+even signal when the guarantees cannot be met.
+
+Modeling in OWL DL supports the intuition that a model must be clear,
+unambiguous, and machine-processable. The Tableau Algorithm provides the
+machinery by which a computer system can make determinations about
+equivalence of classes.
+
+\subsection{Executable models}
+
+A different motivation for modeling in the Semantic Web is to form an
+integrated picture of some sort of domain by federating information from
+multiple sources. If one source provides information about the places
+where hotel chains have hotels and another describes what hotels appear
+at a particular
+place, a formal model can tell us that we can merge these two sources
+together by treating them as inverses of one another. The model provides
+a recipe for adding new information to incomplete information so it can
+be federated with other sources.
+
+Seen from this point of view, a model is similar to a program. It
+provides a concise description of how data can be transformed for use in
+other situations. What is the impact of decidability in such a
+situation? Standard programming languages like FORTRAN and Java are
+undecidable in this sense. The undecidability of these languages is
+often demonstrated with reference to the \emph{Halting Problem}. It is
+impossible in principle to write a computer program that can take
+another arbitrary computer program as input, along with input for that
+program, and determine whether that program will halt on that input.
+Even though these languages are undecidable, they have proven
+nevertheless to be useful engineering languages. How can we write
+programs in these languages if we can't automatically determine their
+correctness or, in some sense, even their meaning? The answer to this
+question in these cases is what programming is all about. Even though it
+is not possible in general to determine whether any program will
+terminate, it is usually possible to determine that some particular
+program will terminate and, indeed, with what answer. The skill of
+engineering good computer programs is to write programs that not only
+will terminate on all input but will actually perform well on
+particularly interesting input.
+
+Seen from this point of view, decidability is not a primary concern.
+Models are engineered in much the same way as programs. If a model
+behaves poorly in some situation, then an engineer debugs the model
+until it performs correctly. Since we are not concerned with
+decidability, we don't need the guarantee that any algorithm will find
+all possible inferences. This opens up the choice of processor for OWL
+to a much wider range of technologies, including rule systems, datalog
+engines, databases, and even SPARQL.
+
+It's also the case that, in many Web applications, the size of data sets
+we would like to analyze are quite huge, dynamic, or not well organized.
+The question could be asked as to whether one needs a 100 percent
+correct model to analyze data that are themselves scraped from the Web
+by some heuristic program that is not perfect. On the Web, people use
+Google because it can find good answers a lot of the time, even if it
+can't find perfect answers all the time. Some Semantic Web systems are
+targeted at this rough-and-tumble Web application space, and thus
+provable correctness, as opposed to efficient computation, may not be a
+key goal.
+
+This \emph{executable} style of modeling is the primary motivation behind some
+of the OWL subsets.
+
+The meaning of a modeling construct in one of these subsets is given in
+much the same way as the meaning of a construct in a programming
+language. Just as the meaning of a statement in a procedural programming
+language is given by the operation(s) that a machine will carry out when
+executing that statement, the meaning of an executable model is given by
+the operation(s) that a program (i.e., an inference engine) carries out
+when processing the model. Information federation is accomplished
+because the model describes how information can be transformed into a
+uniform structure.
+
+\section{OWL 2 Modeling Capabilities}
+
+A comprehensive list of the advanced modeling capabilities supported by
+OWL 2 is beyond the scope of this book, but we describe some of the most
+important ones here.
+
+\subsection{Metamodeling}
+
+Metamodeling is the name commonly given to the practice of using a model
+to describe another model as an instance. One feature of metamodeling is
+that it must be possible to assign properties to classes in the model.
+This practice causes a problem in OWL 1.0, since OWL 1.0 disallowed
+treating classes as if they were individuals in this way.
+
+One motivation for metamodeling is that a model often needs to play more
+than one role in an application: A particular concept should be viewed
+as a class in one role but as an instance in another role. If we are
+modeling animals, we might say that \texttt{BaldEagle} is an endangered species,
+thereby referencing \texttt{BafldEagle} as an individual. In another application,
+we could view \texttt{BaldEagle} as a class, whose members are the particular
+eagles in the zoo. Similarly, wine connoisseurs speak of individual
+wines in terms of vintage. For them, the vintage is an individual, but
+for a wine merchant who is calculating how many bottles he has sold, the
+bottles themselves are individual members of the class that are
+indicated by the vintage.
+
+We have already seen some example of this kind of metamodeling in this
+book. In Chapter~\ref{ch10}, we saw how a \texttt{foaf:Group} is an individual that
+corresponds to a class of all the members of the group. In Chapter~\ref{ch12},
+we saw this in the \emph{Class-Individual Mirror} pattern.
+
+Another purpose of metamodeling is to imitate capabilities of other
+modeling systems (like object-oriented modeling) in which the value for
+some property can be specified for all members of a class at once. The
+overloading of a resource to refer both to an individual (the species
+\texttt{BaldEagle}) and a class (the set \texttt{BaldEagle}) is allowed in OWL 2 through a
+process known as \emph{punning}.
+
+While punning is allowed in the OWL 2 recommendation, we recommend against its
+use for metamodeling.
+
+There really is a difference between a species and the set of animals of
+that species; there is a difference between the desktop and the
+applications that run on it. The relationship between a bottle of wine
+and its vintage is different from the relationship between an eagle and
+its species, and these distinctions could be important to someone who
+wants to reuse a model. Keeping them distinct in the first place will
+often enhance the model's utility.
+
+In particular, we recommend the use of the \emph{Class-Individual Mirror}
+pattern from Chapter~\ref{ch12} for metamodeling. In that example, the
+relationship between the desktop and the application was clear (\texttt{runsOn}),
+as was the relationship between the ADA90 and the applications
+(\texttt{conformsTo}). When modeling a class like \texttt{BaldEagle}, we recommend
+determining just what the relationship is between a particular eagle and
+the class (\texttt{hasSpecies}), or the particular bottle and the vintage
+(\texttt{hasVintage}). Just as in our example of the desktop applications
+conforming to the ADA90, this allows the model to relate these
+properties to others---for example, modeling \texttt{hasSpecies} explicitly
+allows the model to relate it to other properties like \texttt{hasGenus} or
+\texttt{hasPhylum}. Modeling \texttt{hasVintage} explicitly allows the model to express
+relationships to other properties like \texttt{madeInYear}.
+
+\subsection{Multipart properties}
+
+In RDFS, we have seen how properties can relate to one another using
+\texttt{rdfs:subPropertyOf}. This establishes a hierarchy of properties: Any
+relations that hold lower in the hierarchy also hold higher in the
+hierarchy. There are other ways in which properties can relate to one
+another. A common example is the notion of uncle: A is the uncle of B
+only if A is the brother of someone who is the parent
+of B. This is called a multipart property---that is, the property uncle
+is made up of two parts (in order): parent and brother. We have already
+seen how to define relationships of this sort using SPARQL in Chapter~\ref{ch5}.
+
+When multipart properties are used with other RDFS and OWL constructs,
+they provide some powerful modeling facilities. For instance, we can
+model the constraint ``A child should have the same species as its
+parent'' by stating that the multipart predicate made up of \texttt{hasParent}
+followed by \texttt{hasSfpecies} (denoted as \texttt{:hasParent} $+$ \texttt{:hasSpecies}) is
+\texttt{rdfs:subPropertyOf} \texttt{hasSpecies}. Let's see how this works. Suppose we have
+the following triples:
+
+\begin{lstlisting}
+:Elsie :hasParent :Lulu . 
+:Lulu :hasSpecies :Cow .
+\end{lstlisting}
+
+Now we can infer
+
+\begin{lstlisting}
+:Elsie :hasParent + :hasSpecies :Cow .
+\end{lstlisting}
+
+But since the multipart predicate \texttt{:hasParent} + \texttt{:hasSpecies} is an
+\texttt{rdfs:subPropertyOf}
+\texttt{:hasSpecies}, we can infer that
+
+\begin{lstlisting}
+:Elsie :hasSpecies :Cow.
+\end{lstlisting}
+
+One reason that multipart predicates were not included in OWL 1.0 was
+that they were thought to cause undecidability. Recently, however, it
+has been shown that under certain conditions it is possible to represent
+multipart properties in OWL in such a way that they do not endanger
+decidability. The multipart predicate feature in OWL 2.0 has been
+designed to guarantee decidability.
+
+\subsection{Multiple inverse functional properties}
+\label{mIFP}
+Inverse functional properties can be used to determine the identity of
+individuals based on the values of the properties that describe them. If
+two people share the same social security number, then we can infer that
+they are actually the same person. This kind of unique identifier is
+indispensable when merging information from multiple sources.
+
+Unfortunately, anyone who has done a lot of such integration knows that
+this kind of merging only scrapes the surface of what needs to be done.
+Far more common is the situation in which some combination of properties
+implies the identity of two or more individuals. For instance, two
+people residing at the same residence with the same first and last names
+should be considered to be the same person. Two people born in the same
+hospital on the same day and at the same time of day should be
+considered to be the same person. Examples of this kind of multiple
+identifiers are much easier to come by than single identifiers, as
+required for an InverseFunctionalProperty.
+
+OWL 2 introduces the notion of \texttt{owl:hasKey} for this situation. By analogy
+to how a relational
+database can declare multiple primary keys for a table, a set of
+properties can be associated with a class through \texttt{owl:hasKey}. Two
+members of the class are considered to be the same (\texttt{owl:sameAs}) if they
+have the same values for all the identified keys. If we were to define
+keys \texttt{:firstName},
+\texttt{:lastName}, and \texttt{:address} for the class \texttt{:Person}, then two people would be
+considered the same
+whenever all of these properties match.
+
+To further complicate matters, in many information federation
+situations, it is often the case that even these combinations of
+properties cannot guarantee the identity of the individuals. Two people
+at the same address with the same name are very likely to be the same
+person (but not for certain--- a father could live with his son of the
+same name). OWL has no facility to deal with uncertainty, so there is no
+way to express this sort of information.
+
+\subsection{OWL 2 profiles}
+
+OWL 2 includes one major infrastructural change from OWL 1.0 in the
+introduction of several profiles of the language. The profiles were
+motivated by the observation that certain technologies can process
+certain subsets of OWL conveniently. If one has already made a
+commitment to such a technology, it is natural to ask just what subset
+is supported by that technology.
+
+There are four subsets of OWL that have been named and identified.
+
+\begin{itemize}
+\item \textbf{OWL 2 DL}. Decidability can be a key driver for model development. In
+such circumstances, it is desirable to have as expressive a language as
+possible, while still being decidable. OWL 2 DL is the largest subset of
+OWL that retains this feature. It includes all forms of restrictions,
+combined with all of the RDFS forms. It is a superset of the next three
+profiles. It can be processed faithfully by the tableau algorithm.
+
+\item \textbf{OWL 2 QL}. Many semantic applications leverage information in relational
+databases, and need to be built on top of these systems. Such
+applications fit the profile of typical database applications, in which
+a fairly simple schema describes the structure of massive amounts of
+data, and fast responses to queries over that data set are required. OWL
+2 QL is the subset of OWL for which this is possible. Queries against an
+OWL 2 QL ontology and corresponding data can be rewritten faithfully
+into SQL, the query language of relational databases.
+
+\item \textbf{OWL 2 EL}. Many ontologies in the life sciences follow the pattern of the
+OBO Foundry ontologies described in Chapter 14; they include a large
+number of classes that are defined primarily using someValuesFrom
+restrictions. It is difficult to process ontologies of this size using
+an unconstrained tableau algorithm. The OWL 2 EL profile was designed
+for just this case. It walks the line between expressive power and known
+optimizations for querying such structures. OWL 2 EL allows
+someValuesFrom restrictions to be used, so the OBO Foundry ontologies
+fit within its limitations. But it is restricted enough that fast
+algorithms are known for processing large ontologies, up to and
+surpassing the size of the OBO Foundry ontologies.
+
+\item \textbf{OWL 2 RL}. Many OWL processors work by using rules-based technology to
+define OWL processing. In this book, we have often used SPARQL to
+illustrate the inference rules that define certain constructs in OWL and
+RDFS. Used in this way, SPARQL is an example of such a rule processor.
+Rules processors have been around about as long as relational databases,
+in the form of systems like Prolog and Business Rules engines. OWL 2 RL
+defines the subset of OWL that can be faithfully processed by such rule
+systems. Having identified this subset, it is possible to encode the
+rules for OWL 2 RL in each rule system. This exercise has already been
+done for the W3C Rules Interchange Format (RIF\footnote{\url{http://www.w3.org/TR/rif-overview/}, see below}), as well as
+many proprietary rules processors. Many variants of encodings of OWL 2
+RL into SPARQL have been done as well.
+\end{itemize}
+
+
+
+It is important to keep in mind that all of the OWL subsets use the very
+same resources in their models---there is no separate namespace for any
+profile. That means that any model in any profile can be interpreted as
+a model in any other---subject to the restrictions of that profile. In
+this way, all the profiles are interoperable at the RDF level.
+
+\subsection{Rules}
+
+Even with the capabilities added in OWL 2, there are still some limits
+to the expressivity of OWL. Some of these limitations are best
+addressed, for the purposes of data management, using rules, and thus
+the development of a rules language for the Web has been developed in
+the form of the Rules Interchange Format (RIF).
+
+Rule-based systems have a venerable tradition starting in the days of
+Expert Systems and are in common use in business logic applications to
+this day. A number of useful algorithms for processing data with rules
+have been known for many years, and many of them have been made very
+efficient.
+
+Many of the issues with OWL presented in this chapter can be addressed
+with rules. Multipart
+properties (like the definition of uncle) are easily expressed in rules.
+Multiple inverse functional properties can be expressed in rules as
+well. There are even a number of approaches to reasoning with
+uncertainty in rules. Many of these have considerable research and
+practical examples behind them, making uncertainty in rules a relatively
+well-understood issue.
+
+Given all these virtues of rules and rule-based systems, why don't they
+play a bigger role in modeling on the Semantic Web than they do? In
+fact, one could even ask why there is a need for a modeling language
+like OWL when there is a mature, well-understood rules technology that
+already exists. One could even ask this question in greater generality.
+Why aren't more software systems in general written in rules?
+
+We cannot treat this issue in full detail in this book, but we can
+outline the answer as it relates to OWL and the Semantic Web. One of the
+lessons learned from the history of rule-based systems is that software
+engineering in such systems is more difficult than it is in modular,
+procedural languages. Although it is unclear whether or not this is an
+essential feature of rule-based systems, it is undeniable that
+rule-based programmers have not achieved the levels of productivity of
+their more conventional counterparts. This has particular ramifications
+in the Semantic Web. One defense for using an OWL subset other than OWL
+2 DL was that the software engineering discipline makes the notion of
+decidability basically irrelevant for model design. In the case of
+rule-based systems, software engineering cannot provide this same
+support. Unconstrained rule-based systems are just as undecidable as
+general-purpose languages like FORTRAN and Java.
+
+Is there a way to get the best of both worlds? Could a Web-oriented
+rules language integrate well with OWL? Indeed they can, and this is
+exactly what we are seeing in the development of things like OWL 2 RL
+and RIF. Together, they provide a framework that is consistent with OWL,
+as well as with broader rule-based technology.
+
+\section{SUMMARY}
+
+OWL should be considered a living language, growing in the context of
+the ways it is being used on the
+
+Web and in commerce. As shortcomings in the language are identified, the
+system grows to
+
+accommodate them. Sometimes that growth takes the form of additional
+constructs in the language (e.g., multipart properties), sometimes as
+connections to other systems (rules), and sometimes progress in a
+language comes in the form of specifying subsets of the language.
+
+\subsection{Fundamental concepts}
+
+The following fundamental concepts were introduced in this chapter.
+
+OWL---Web Ontology Language, including all constructs in this book and
+more.
+
+OWL 2 DL---Subset of OWL restricted to ensure decidability; all
+constructs allowed but with certain restrictions on their use.
+
+OWL 2 EL---Subset of OWL restricted to improve computational complexity.
+
+OWL 2 RL---Subset of OWL restricted to be compatible with Rules
+processors.
+
+OWL 2 QL---Subset of OWL restricted to be compatible with database
+queries.
+
+RIF---The Rule Interchange Format, standard format in the Semantic Web
+for interoperability of rule-based systems.
+
+Metamodeling---Models that describe models, usually requires that
+classes be treated as individuals.
+
+Multipart properties---Daisy-chain composition of properties.
+
+Multiple Inverse Functional Properties---Uniquely identify an individual
+based on matching values for several properties.
