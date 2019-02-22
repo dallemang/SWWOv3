@@ -61,7 +61,7 @@ for data publication that will allow us to weave a web of data:
   name the things it describes. But by using HTTP URIs we can also
   provide a default mechanism to obtain descriptions: HTTP URIs are
   names (URIs) supporting lookup (HTTP access). This allow us to
-  \textit{dereference} the name of the things they identify.
+  look up the name of the things they identify.
 \item
 \label{ruleFYN}
   When an agent accesses an HTTP URI, the server must provide descriptive
@@ -147,8 +147,10 @@ sources and produced by different means.
 
 URIs  allow us to make  vocabulary and  resource
 identification unambiguous by providing a global identification
-mechanism for the terms and subjects of descriptions and a dereferencing
-mechanism to learn more about them. Applications use this universal
+mechanism for the terms and subjects of our descriptions. URIs also have a 
+\emph{deferencing} mechanism, that is, a method that uses the URI to find a location 
+on the web from which further information can be loaded. 
+Applications use this universal
 identification mechanism to ensure they are processing the right data,
 in the right way and they use the dereferencing mechanism to obtain more
 data on demand.
@@ -159,12 +161,14 @@ of their provenance, potentially forming a  giant global graph. This
 extensible nature of RDF graphs provides a way to weave a World-Wide Web
 of data.
 
+\subsection{Things, Representations and References}
+
 When we use URLs for Web resources alongside URIs for things, we can
 leave our datasets open to some confusion. For example, if we use the
 same URI for a cat and for a document about that cat, as soon as we
 start attaching descriptions to that URI we need to know precisely what
 we are talking about. For instance, if we attach a property to that URI
-to provide a ``size'' it is important to know if it is the size of the
+to provide a ``size'' it is important to know if it refers to the size of the
 cat or the size of the document about the cat. For this reason, the best
 practice is to use different URIs to identify different resources, and
 to realize that a cat and a document about that cat (or a picture of
@@ -172,30 +176,37 @@ that cat) are not the same thing. Then, relying on the standard
 mechanisms of the Web architecture we can learn more about these
 different URIs and their link and for instance, as we will see in the
 next section, how to obtain the URL of a document about a cat from the
-URI identifying that cat.
+URI identifying that cat (see Figure~\ref{fig:ch5.cats})
+
+\begin{figure}
+    \centering
+    \includegraphics[width=5in]{media/ch5/WebAndCats.jpg}
+    \caption{Caption}
+    \label{fig:ch5.cats}
+\end{figure}
 
 \hypertarget{dereferencing-http-uri}{%
 \subsection{Dereferencing HTTP URI }\label{dereferencing-http-uri}}
 
 An HTTP URI is a URI created to name anything we want to talk about but
-that uses the HTTP in order to be dereferenceable so that a person or a
-software finding that URI (e.g. a Web crawler) may easily learn more
-about the resource represented by that URI by just making and HTTP call
-to the HTTP address it provides.
+that uses  HTTP   as its dereferencing mechanism,  so that when a person or a
+software agent (e.g. a Web crawler) comes across that URI, they can easily learn more
+about the resource it represents,  by simply making an HTTP call
+to the address it provides.
 
-We don't use the term URL (locator) because the thing that is being
-represented may not be itself on the Web at this address. For example, I
+We don't use the term URL (Uniform Resource \textbf{Locator}) for these identifiers, because the thing that is being
+represented may not itself be on the Web at this address, or even at all. For example, I
 may want to specify an HTTP URI for my cat Mytsie. No matter how hard I
-try, Mytsie itself will never be ``located'' on the Web so I cannot give
-it a URL \emph{per se}. But this adorable cat can be identified on the
+try, Mytsie herself will never be ``located'' on the Web so I cannot give
+her a URL \emph{per se}. But this adorable cat can be identified on the
 Web by an HTTP URI and if you ever go to that address you will be
 provided with a description on the Web about the resource represented by
 that URI, i.e. my cat Mytsie.
 
-To dereference an HTTP URI means to access that URI using the HTTP
-protocol in order to retrieve a description of the resource that is
-identified by the URI. Dereferencing of URIs starting with HTTP is made
-easy by the existence of the Web architecture. HTTP URIs come with an
+To dereference an HTTP URI means what it does for any URI - to access its contents on the web. 
+In the case of an HTTP URI, that access is accomplished  using the HTTP
+protocol.  Dereferencing of HTTP URIs is a cornerstone of the hypertex web, and has
+functioned well since the beginning of the Web. HTTP URIs come with an
 obvious way to get a description about the resource they identify: the
 HTTP protocol that can be used to looked them up. Other URI schemes
 (e.g. URN, DOI, etc.) require additional services or practices to be
@@ -206,7 +217,7 @@ effectively be dereferenceable. In other words, a service must be
 deployed and configured so that when an HTTP client looks up that HTTP
 URI, it is be provided with a description of the identified resource.
 Moreover, the expectation is that when a URI for something is
-dereferenced the result returned by the HTTP call should contain
+dereferenced, the result returned by the HTTP call should contain
 descriptive data about the thing identified by the URI.
 
 A design pattern for publishing data on the web is called ``Follow Your
