@@ -3,23 +3,26 @@
 
 \section{Weaving a Web of Data}
 
+
+
 The architects  of the World Wide Web made some very specific choices in its design 
-to allow it to grow to global size.   The  Web relies on open standards to specify the components of its
-architecture, allowing them to t span different software and hardware, making it implementation-independent and domain-independent. To
-support a Web of data, we want to 
-the first important constraint was to remain
-inside the Web architecture and make as few changes as possible. By
-reusing as much of the Web architecture as possible, the Web of data
-becomes a backward compatible extension and evolution of the document
+to allow it to grow to global scale.   The  Web relies on open standards to specify the components of its
+architecture, allowing them to span different software and hardware, making it both implementation-independent and domain-independent. To
+support a Web of data, we want to take advantage of this infrastructure as much as possible. 
+By
+reusing  the World Wide Web architecture, the Web of data
+becomes a backward-compatible extension and evolution of the document
 Web and remains compatible and combinable with all the other facets of
-the Web. The Web of data applies the Web architecture to structured data
-sharing on a World Wide scale. Meanwhile it maintains its architectural
+it. The Web of data applies the Web architecture to structured data
+sharing on a World Wide scale. Meanwhile, it retains its architectural
 support for decentralization, extensibility and openness.
 
-In the architecture of the Web of data, what are the changes we
-performed to be able to describe resources and publish this data? As
-shown in Figure 1 this requires two steps: URLs are generalized to URIs
-or IRIs, and HTML is replaced by RDF and its syntaxes.
+
+What changes do we have to make to the document Web to allow the Web of data
+to be able to describe  resources and publish data? As
+shown in Figure~\ref{fig:ch5.1}, this requires two steps:  expanding the set of exchange formats from     HTML (and other document formats) to include  RDF and its serializations (Section~\ref{serialization}) for exchanging data, and generalizing 
+URLs (Uniform Resource Locators) to URIs (Unifrm Resource Identifiers) 
+or IRIs (Internationalized resource identifiers), to identify and then describe virtually anything. ,
 
 \begin{figure}
     \centering
@@ -28,46 +31,40 @@ or IRIs, and HTML is replaced by RDF and its syntaxes.
     \label{fig:ch5.1}
 \end{figure}
 
-The first step is to support the exchange of data instead of documents.
-This is done by adding another representation means to the Web, by using
-RDF to represent and exchange data where HTML was used to represent and
-exchange documents. The second step is to generalize the notion of
-universal locator or addresses (URLs) used to locate Web resources
-(pages, images, etc.) to the notion of universal identifiers (URIs) used
-to identify and then describe virtually anything.
 
 Publishing data on the Web is not only about dumping data somewhere on
 the Web, it also means linking data so that it can be found, browsed,
 crawled, integrated, etc. So in a Web of data, the core idea is the one
-of linked data, i.e. datasets and data pieces in them linked across the
-world wide web in the same way Web pages, Web sites and anchored texts
-in their content are linked across the World on the Web. Instead of
-using HTML to write Web pages including links to other pages, the Web of
-data uses RDF to write data descriptions including links to other
+of \emph{linked data}, i.e. datasets (and data elements in them)  linked across the
+World Wide Web in the same way Web pages, Web sites and anchored texts
+are linked across the World on the Web. Instead of just
+using HTML to write Web pages that inlcude links to other pages, the Web of
+data uses RDF to write data descriptions that include links to other data
 descriptions.
 
-Tim Berners-Lee introduced the best practices for linked data in his
+Tim Berners-Lee introduced best practices for linked data in his
 personal notes on Linked Data Design Issues in 2006\footnote{Linked
   Data, Tim Berners-Lee, 2006-07-27,
   https://www.w3.org/DesignIssues/LinkedData.html}, stating the
-architectural principles and explaining the thinking behind the
-specifications. Among the things we will explain in detail in this
-chapter are the three rules that must be followed to weave this Web of
-data:
+architectural principles and explaining the thinking behind the linked data
+specifications.   In this chapter, we will explain in detail his three rules 
+for data publication that will allow us to weave a web of data:
+
+
 
 \begin{enumerate}
 \def\labelenumi{\arabic{enumi}.}
 \item
-  Use HTTP URIs to name everything: Just like URLs were introduced to
+  Use HTTP URIs to name everything: Just as URLs were introduced to
   address and locate resources on the Web, the Web of data uses URIs to
   name the things it describes. But by using HTTP URIs we can also
   provide a default mechanism to obtain descriptions: HTTP URIs are
   names (URIs) supporting lookup (HTTP access). This allow us to
-  dereference the name of the things they identify.
+  \textit{dereference} the name of the things they identify.
 \item
   When an HTTP URI is accessed, the server must provide descriptive
   information about the resource identified by that URI using the Web
-  standard languages and in particular RDF and its syntaxes.
+  standard languages, in particular RDF and its syntaxes.
 \item
   In the descriptive data it provides, a server must include links to
   HTTP URIs of other things so that Web clients can discover more things
