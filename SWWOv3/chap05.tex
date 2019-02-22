@@ -21,7 +21,7 @@ support for decentralization, extensibility and openness.
 What changes do we have to make to the hypertext Web to allow the Web of data
 to be able to describe  resources and publish data? As
 shown in Figure~\ref{fig:ch5.1}, this requires two steps:  expanding the set of exchange formats from     HTML (and other document formats) to include  RDF and its serializations (Section~\ref{serialization}) for exchanging data, and generalizing 
-URLs (Uniform Resource Locators) to URIs (Unifrm Resource Identifiers) 
+URLs (Uniform Resource Locators) to URIs (Uniform Resource Identifiers) 
 or IRIs (Internationalized resource identifiers), to identify and then describe virtually anything. ,
 
 \begin{figure}
@@ -101,13 +101,9 @@ identify what exists on the web (\url{http://my-site.fr}), we also start using
 URIs to identify, on the web, what exists in general
 (e.g., \url{http://animals.org/cat\#mytsie}, for Fabien's cat, Mytsie).  As we include IRIs in the Web of data, we identify,
 on the web, what exists, in any language
-(e.g., http://الحيوانات.tn/\textbf{猫}\#mytsie).
+(e.g., http://\RLالحيوانات.tn/\textb\TRLf{猫}\#mytsie).
 
-As we saw in Chapter~\ref{ch3}, URIs can be abbreviated using namespaces and QNames (Qualified names). 
-A possible QName representation for the identifier of
-Mytsie could then be, \texttt{cat:mytsie} with
-the prefix \texttt{cat} bound to the namespace
-\textt{http://animals.org/cat\#}
+
 
 The distinction between identifying what is on the Web vs. identifying
 on the Web anything that exists, is much more than a play on words.
@@ -161,8 +157,8 @@ of their provenance, potentially forming a  giant global graph. This
 extensible nature of RDF graphs provides a way to weave a World-Wide Web
 of data.
 
-\subsection{Things, Representations and References}
-
+\subsection{Things, Representations and Identifiers}
+\label{usehttp}
 When we use URLs for Web resources alongside URIs for things, we can
 leave our datasets open to some confusion. For example, if we use the
 same URI for a cat and for a document about that cat, as soon as we
@@ -181,62 +177,52 @@ URI identifying that cat (see Figure~\ref{fig:ch5.cats})
 \begin{figure}
     \centering
     \includegraphics[width=5in]{media/ch5/WebAndCats.jpg}
-    \caption{Caption}
+    \caption{The difference between a cat, a picture of a cat, and an identifier for that cat.  Good linked data practice suggests using an identifer that can be used to look up the picture. }
+    % free for commercial use, see https://pixabay.com/en/cat-pet-striped-kitten-young-1192026/
     \label{fig:ch5.cats}
 \end{figure}
 
 \hypertarget{dereferencing-http-uri}{%
 \subsection{Dereferencing HTTP URI }\label{dereferencing-http-uri}}
 
-An HTTP URI is a URI created to name anything we want to talk about but
-that uses  HTTP   as its dereferencing mechanism,  so that when a person or a
+An HTTP URI is a URI created to name anything we want to talk about 
+that  uses  HTTP   as its dereferencing mechanism. When a person or a
 software agent (e.g. a Web crawler) comes across that URI, they can easily learn more
 about the resource it represents,  by simply making an HTTP call
-to the address it provides.
-
-We don't use the term URL (Uniform Resource \textbf{Locator}) for these identifiers, because the thing that is being
-represented may not itself be on the Web at this address, or even at all. For example, I
-may want to specify an HTTP URI for my cat Mytsie. No matter how hard I
-try, Mytsie herself will never be ``located'' on the Web so I cannot give
-her a URL \emph{per se}. But this adorable cat can be identified on the
-Web by an HTTP URI and if you ever go to that address you will be
-provided with a description on the Web about the resource represented by
-that URI, i.e. my cat Mytsie.
-
-To dereference an HTTP URI means what it does for any URI - to access its contents on the web. 
-In the case of an HTTP URI, that access is accomplished  using the HTTP
-protocol.  Dereferencing of HTTP URIs is a cornerstone of the hypertex web, and has
+to the address it provides.   Dereferencing of HTTP URIs is a cornerstone of the hypertext web, and has
 functioned well since the beginning of the Web. HTTP URIs come with an
 obvious way to get a description about the resource they identify: the
 HTTP protocol that can be used to looked them up. Other URI schemes
 (e.g. URN, DOI, etc.) require additional services or practices to be
-dereferenced.
+dereferenced.  
 
-Using HTTP as a protocol in the URI is not enough: the HTTP URI must
-effectively be dereferenceable. In other words, a service must be
-deployed and configured so that when an HTTP client looks up that HTTP
-URI, it is be provided with a description of the identified resource.
-Moreover, the expectation is that when a URI for something is
-dereferenced, the result returned by the HTTP call should contain
-descriptive data about the thing identified by the URI.
+We don't use the term URL (Uniform Resource \textbf{Locator}) for these identifiers, to emphasize the 
+point that the thing  being
+represented may not itself be on the Web at this address, or even at on the Web at all. For example, I
+may want to specify an HTTP URI for my cat Mytsie. No matter how hard I
+try, Mytsie herself will never be ``located'' on the Web so I cannot give
+her a URL \emph{per se}. But this adorable cat can be identified on the
+Web by an HTTP URI and if you ever go to that address you will be
+provided with a description (maybe even a photo or two) on the Web about the resource represented by
+that URI, i.e. my cat Mytsie.
 
-A design pattern for publishing data on the web is called ``Follow Your
-Nose''\footnote{Linked Data Patterns, by Leigh Dodds and Ian Davis,
-  http://patterns.dataincubator.org/book/follow-your-nose.html}, in
-which a publisher of data allows a consumer to follow the links to get
-more information. Just as Ariadne provided Theseus a thread to let him
-find his way back out of the labyrinth, a web publisher provides URIs
-that allow the consumer to find their way back to the data source, to
-learn more about a resource. It is the responsibility of the publisher
-to make sure that the URIs indeed resolve to web resources that provide
-appropriate information. For the data consumer, the criteria for
-deciding when to follow the links depends on the details of the consumer
-application (including issues around performance, trust, scalability,
-quality, etc.). .
+This approach to linked data, in which we use an HTTP URI as an identifier, and 
+rely on HTTP-based dereferencing of that URI to provide more information about the resource, 
+is summarized in a web design pattern called \emph{Follow Your Nose} \footnote{Linked Data Patterns, by Leigh Dodds and Ian Davis,
+http://patterns.dataincubator.org/book/follow-your-nose.html}.
+According to the  Follow Your Nose pattern,  it is the responsibility of the data publisher
+to make sure that the HTTP URIs indeed resolve to web resources that provide
+appropriate information. Just as Ariadne provided Theseus a thread to let him
+find his way back out of the labyrinth, the web publisher provides HTTP URIs
+that allow data consumers to find their way back to the data source, to
+learn more about it.  It is up to the data consumer and the details of their application (including issues around performance, trust, scalability,
+quality, etc.)
+whether they want to follow these links at any particular time. 
 
-As HTTP URIs rely on the domain names to create the first part of the
+
+Since HTTP URIs rely on the domain names to create the first part of the
 URI scheme, they support the decentralized creation of globally unique
-identifiers. Any owner of a domain can create and control the access to
+identifiers. Any owner of a web domain can create and control the access to
 any HTTP URIs in that domain. In choosing and using HTTP URIs, there are
 three important standard mechanisms of the Web and Internet to be aware
 of: the Domain Name Service (DNS) and its implication on the choice of
@@ -244,7 +230,7 @@ domain part of the URIs; content negotiation in HTTP, which allows a
 server to serve different contents for the same HTTP URI to different
 clients; and HTTP redirection, which allows a server to redirect a call
 to another address. These three mechanisms and their impacts are
-illustrated in figure 2 and detailed in the next sections.
+illustrated in figure~\ref{fig:ch5.2} and detailed in the next sections.
 
 
 
@@ -275,7 +261,7 @@ square brackets are optional parts one can use in minting a URI (eg.
 Indicating a port on a server).
 
 \begin{lstlisting}
-scheme:{[}//{[}user:password@{]}host{[}:port{]}{]}{[}/{]}path{[}?query{]}{[}#fragment{]}
+scheme:[//[user:password@]host[:port]][/]path[?query][#fragment]
 \end{lstlisting}
 
 For instance, a valid URI according to this pattern is for instance:
@@ -284,95 +270,164 @@ For instance, a valid URI according to this pattern is for instance:
 urn:animals.org\#mycat
 \end{lstlisting}
 
+As we saw in Section~\ref{usehttp}, using HTTP URIs is preferring for the web 
+of data, in contrast to other protocols.  An HTTP URI has the form: 
 
-We already explained why it is interesting to choose HTTP URIs instead
-of just any protocol scheme and a classical HTTP URI has a schema of
-the form:
+
 
 \begin{lstlisting}
-http://host{[}:port{]}{]}{[}/{]}path{[}?query{]}{[}#fragment{]}
+http://host[:port]][/]path[?query][#fragment]
 \end{lstlisting}
 
 
-For instance valid HTTP URIs could be:
+For instance, the following are valid HTTP URIs:
 
 \begin{lstlisting}
-http://animals.org\#mycat
+http://animals.org#mycat
 http://animals.org/cats/mine
 http://animals.org/cats/?owner=fabien
 ...
 \end{lstlisting}
 
 
-Therefore, even with the constraint of using HTTP URIs there is an
-arbitrary large number of possible URI patterns to name the things we
-want to describe on the Web. There is no perfect answer to the question
-of choosing naming schema; the answer is neither simple nor closed. Pros
-and cons have been discussed in several occasions\footnote{Cool URIS:
+Within a single domain (which corresponds to the \emph{host} in the HTTP protocol, 
+the \emph{path} part of the HTTP URI can be arbitrarily long, therefore. 
+no practical limit on the number of possible URI patterns we have at our disposal to name the things we
+want to describe on the Web. 
+
+\subsetcion{How to build a URI}
+
+Since we are using HTTP URIs for all our data elements, we need to have some 
+method for how we will generate enough distinct URIs for everything we want to describe in our data. 
+The problem of coming up with appropriate identifiers in a large data set is not 
+specific to the Semantic Web, and there is no perfect answer. In the context of HTTP URIs for the Semantic Web,
+Pros
+and Cons have been discussed in several places\footnote{Cool URIS:
   \url{http://www.w3.org/TR/cooluris/} and Issue 57:
-  \url{http://www.w3.org/2001/tag/awwsw/issue57/latest/}} and we will
+  \url{http://www.w3.org/2001/tag/awwsw/issue57/latest/}}.  We will
 summarize here some of the things to consider when minting your HTTP
-URIs. A proposal for useful guidelines for minting URIs for the semantic
-web is called \emph{Cool URIs} (based on the title of an article by Tim
-Berners-Lee\footnote{Cool URIs don't change, Tim Berners-Lee, 1998. This
-  document is available at http://www.w3.org/Provider/Style/URI.})
-
-A key aspect of cool URIs is that they don't change: you want to ensure
-that your URIs will be as stable as possible by choosing a perennial URI
-minting pattern. This means URIs should be designed to use as few
-irrelevant details as possible with regard to what they identify. In
-particular, it is a good practice to avoid implementation details in the
-URI such as: the language dependent file extensions (e.g. .PHP), the
-real machine name of the server (e.g. desktop8.inria.fr), a specific
-software (e.g. /wordpress/\ldots{}), a script file, a server port, etc.
-
-You should try to abstract the URI pattern as much as possible and use
-rewriting capabilities of the server to map them to a concrete
-implementation allowing you to change that implementation in the future
-without having to change your names and without breaking the links and
-references other made to your resources Just like the error ``404 page
-not found'' is annoying when browsing the Web, a broken link in the Web
-of data also means a loss of connectivity between datasets.
-
-In many cases, the things we want to describe already have some kind of
-identifier for instance in our local databases, or catalogs. In theory,
-you can transform any identifier into an HTTP URI, for instance, just by
-choosing a transformation (URI scheme) of the form
-
-\begin{lstlisting}
-http://<MY DOMAIN>/<MY IDENTIFIER>
-\end{lstlisting}
+URIs. 
 
 
-For example, if we have a table of animals (e.g. CSV file) with a column
-providing the category of the animal (e.g. cat) and a second one
-providing an identifier (e.g. 1223) , we could choose the following
-minting scheme where the domain (\url{http://animals.org/}) is appended
-the category (column 1) and the identifier (column 2) using only
-characters allowed in URIs and separated by ``/'':
+Inspired by the title of an article by Tim Berners-Lee, \emph{Cool URIs don't change}, \footnote{Cool URIs don't change, Tim Berners-Lee, 1998.  http://www.w3.org/Provider/Style/URI.}, a popular proposal for 
+minting URIs for the semantic Web is called \emph{Cool URIs}
 
-\textbf{cat},\textbf{1223} →~
-http://animals.org/\textbf{cat}/\textbf{1223}
+As suggested by the eponymous article, a key aspect of cool URIs is that they don't change: you want to ensure
+that your URIs will be as stable as possible by choosing a stable URI pattern. 
+Why is it important to have stable URIs?  
+While the ``404 page not found'' error is disappointing on the hypertext web, it can be catastrophic in the Web of Data, wherethe URIs are the
+linkage points between data sets.  A broken link can mean loss of access to an entire data set.
 
-Depending on the type of identifier you initially had, you may need to
-use the URI encoding mechanism to transform your identifiers. As we
-mentioned, cool URIs do not change therefore when minting URIs it is a
-important to rely on the most stable and unique identifiers. For
-instance, if I have a third column providing the name of the animal I
-could be tempted to use it:
+The Cool URI proposal has some advice for how to make URIs stable:
 
-\textbf{cat},\textbf{1223,mytsie} →~
-\href{http://animals.org/cat/mytsie}{http://animals.org/\textbf{cat}/\textbf{mytsie}}
+\begin{itemize}
+    \item Desing URIs with reference to as few implementation details as possible. In particular, avoid language dependent extensions (.PHP, .json, .rdf), specific server names "desktop8.inria.fr", specific software (\ldots{}/wordpress/\ldots{}), server port number, etc.  
+    \item Web servers are able to negotiate content based on information from web clients. Use this feature to avoid implementation details in URIs.
+    \item Leave out version information from stable URIs.  The semantic web standards provide ways to specify the version of a data or metadata set, other than changing URIs. 
+    \item in many cases, the original data source has some kind of identifier already (a primary key, or an account number, etc.).  You can make use of these to ensure that your URIs correspond to the right data elements. 
+\end{itemize}
 
-In that case I could face at least two problems~: the name ``mystie''
-may be used for other animals in my base leading to the same URI and
-merging them as one resource or the cat ``mytsie'' may be adopted and
-renamed leading to two different URIs identifying the same cat and a
-change of URI to be managed. So, choosing the URIs will strongly depend
-on the category to which the objects you want to describe belong and on
-the stability of the data available to you about these objects.
 
-Another detail affecting the choice of the URIs is the constraint
+
+For example, imagine  we have a table of animals (e.g. a CSV file) with columns
+providing information about the vaccination records for our pets, as shown in Table~\ref{tab:ch5.pets}
+
+\begin{table}
+    \centering
+    \begin{tabular}{|l l l l|}
+    \hline
+    ID&Species&Name&Expiration Date \\
+    \hline\hline
+V366863&dog&Fido&2020 \\
+V851903&dog&Bastian&2021 \\
+V775304&cat&Mytsie&2019 \\
+V898202&cat&Corvus&2021 \\
+V847823&cat&Fenris&2019 \\
+V399378&dog&Maddie&2022 \\
+V911236&cat&Twinkie&2016 \\
+V897991&dog&Champ&2019 \\
+V032579&dog&Zeke&2020 \\
+V31450&cat&Nix&2019 \\
+V87580&dog&Fido&2021 \\
+\hline
+    \end{tabular}
+    \caption{Sample data about the vaccine records for our pets. }
+    \label{tab:ch5.pets}
+\end{table}
+
+
+The data about the Pet's name and the expiration date of the vaccine cannot be counted on to be  unique
+(in this short sample, we have two dogs named Fido).  One option for minting URIs for this would be to include all the data in each URI, as in Table~\ref{tab:ch5.all}.
+
+This method is guaranteed to ensure uniqueness in the data, but makes for very long URIs, and can be misleading if any of the data changes.  Should we coin new URIs?  Or re-use the old ones, which will then reflect out-of-date data?
+
+\begin{table}
+    \centering
+    \begin{tabular}
+    \hline
+    URI \\
+    \hline\hline
+http://www.example.com/vac/V366863/dog/Fido/2020 \\
+http://www.example.com/vac/V851903/dog/Bastian/2021 \\
+http://www.example.com/vac/V775304/cat/Mytsie/2019 \\
+http://www.example.com/vac/V898202/cat/Corvus/2021 \\
+http://www.example.com/vac/V847823/cat/Fenris/2019 \\
+http://www.example.com/vac/V399378/dog/Maddie/2022 \\
+http://www.example.com/vac/V911236/cat/Twinkie/2016 \\
+http://www.example.com/vac/V897991/dog/Champ/2019 \\
+http://www.example.com/vac/V032579/dog/Zeke/2020 \\
+http://www.example.com/vac/V31450/cat/Nix/2019 \\
+http://www.example.com/vac/V87580/dog/Fido/2021 \\
+\hline
+    \end{tabular}
+    \caption{Coining URIs by repeating all the data }
+    \label{tab:ch5.all}
+\end{table}
+
+Since the original data includes an \textbf{ID} field, we can rest assured that this 
+will uniquely identify a vaccination, so we can use it for the URI, as in Table~\ref{ch5.id}
+
+\begin{table}
+    \centering
+    \begin{tabular}{|l |}
+    \hline
+    URI \\
+    \hline\hline
+http://www.example.com/vac/V366863 \\
+http://www.example.com/vac/V851903 \\
+http://www.example.com/vac/V775304 \\
+http://www.example.com/vac/V898202 \\
+http://www.example.com/vac/V847823 \\
+http://www.example.com/vac/V399378 \\
+http://www.example.com/vac/V911236 \\
+http://www.example.com/vac/V897991 \\
+http://www.example.com/vac/V032579 \\
+http://www.example.com/vac/V31450 \\
+http://www.example.com/vac/V87580 \\
+\hline
+    \end{tabular}
+    \caption{Coining URIs using the ID field }
+    \label{tab:ch5.id}
+\end{table}
+
+
+In order for this method to work, we have to make sure that the column we use really is an identifier. 
+We might be tempted to use the column \texttt{name} to coin our URIs.  This will cause two problems: 
+
+\begin{itemize}
+    \item we will end up coining 
+\texttt{http://www.example.com/vac/Fido} twice, which will not correctly reflect the data. 
+\item Even if there is no  name duplication in our data, one of the animals (say, Mytsie) might be adopted and given a new name (``Missy'').  If this happens, do we have to create a new URI?   Or do we say that the URI at \texttt{<http://example.com/vac/Mytsie>} now has name ``Missy''?
+\end{itemize}
+
+As we saw in Chapter~\ref{ch3}, URIs can be abbreviated using namespaces and QNames (Qualified names). 
+A possible QName representation for the identifier of
+Mytsie could then be, \texttt{cat:mytsie} with
+the prefix \texttt{cat} bound to the namespace
+\textt{http://animals.org/cat\#}
+
+Another detail affecting the choice of the URIs id 
+is the constraint
 imposed by some other standards built on top of them. For instance, we
 mentioned the use of QNames (Qualified names) to simplifying the writing
 of URIs. One of the constraints\footnote{Extensible Markup Language
