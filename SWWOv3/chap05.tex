@@ -55,6 +55,7 @@ for data publication that will allow us to weave a web of data:
 \begin{enumerate}
 \def\labelenumi{\arabic{enumi}.}
 \item
+\label{ruleURI}
   Use HTTP URIs to name everything: Just as URLs were introduced to
   address and locate resources on the Web, the Web of data uses URIs to
   name the things it describes. But by using HTTP URIs we can also
@@ -62,36 +63,48 @@ for data publication that will allow us to weave a web of data:
   names (URIs) supporting lookup (HTTP access). This allow us to
   \textit{dereference} the name of the things they identify.
 \item
-  When an HTTP URI is accessed, the server must provide descriptive
+\label{ruleFYN}
+  When an agent accesses an HTTP URI, the server must provide descriptive
   information about the resource identified by that URI using the Web
   standard languages, in particular RDF and its syntaxes.
 \item
+\label{ruleLink}
   In the descriptive data it provides, a server must include links to
   HTTP URIs of other things so that Web clients can discover more things
   by looking up these new HTTP URIs recursively at will.
 \end{enumerate}
 
-By applying these simple rules, we make data interconnectable by
-providing URIs for the things we describe that can be reused and
-referenced across datasets on the Web. We make data interconnected as
-soon as we effectively reuse in one data source URIs pointing into
-another. We also make data discoverable by relying on HTTP URIs that
-support a Web lookup call to obtain descriptive data about a resource
-from its identifier.
+These simple rules are a natural extension of how thy hypertext Web works. When we put a hypertext page 
+on the web, use an HTTP URI (URL) to reference it.  When an agent accesses that HTTP URI, the server provides 
+the page itself.  A hypertext page refers to other pages by including links to their HTTP URIs. 
+For the hypertext web, this makes the pages interconnected; from any page an 
+information consumer can access others.
+
+By applying these  rules to the Web of data, we make it interconnected in the same way.  
+when we use an HTTP URI   for our data elements (rule \ref{ruleURI}), 
+we make it possible for anyone on the web to reference them. Once someone
+(re-)uses one of our HTTP URIs , their dataset and ours
+are interconnected.  When we include links in our data to 
+other data sets (rule \ref{ruleLink}) and  describe our own 
+datasets (rule \ref{ruleFYN}), we make 
+the interconnected data \emph{discoverable}, that is, 
+someone coming to one data set can discover another
+without having to search for it. 
+
 
 \hypertarget{calling-a-cat-an-httpcat}{%
 \subsection{Calling a cat an
 http://cat}\label{calling-a-cat-an-httpcat}}
 
-With the Web of data, we definitively moved from the notion of URLs as
-means to identify what exists on the web (\url{http://my-site.fr}) to
-the notion of URIs to identify, on the web, what exists in general
-(\url{http://animals.org/cat\#mytsie}) and finally to IRIs to identify,
-on the web, in any language, what exists.
-(http://الحيوانات.tn/\textbf{猫}\#mytsie). In addition, in chapter 3 we
-introduced namespaces and QNames (Qualified names) to simplifying the
+When we expand the hypertext web into a full Web of data, instead of just using URLs to 
+identify what exists on the web (\url{http://my-site.fr}), we also start using
+URIs to identify, on the web, what exists in general
+(\url{http://animals.org/cat\#mytsie}).  As we include IRIs in the Web of data, we identify,
+on the web, what exists, in any language
+(e.g., http://الحيوانات.tn/\textbf{猫}\#mytsie)As  In chapt~er\ref{ch3} we
+introduced namespaces and QNames (Qualified names) to simplify the
 writing of URIs. A possible QName representation for the identifier of
-``mytsie'' could then be, for instance, the QName ``cat:mytsie'' whith
+``mytsie'' could then be, for instance, the QName ``cat:mytsie'' with
 the prefix ``cat'' bound to the namespace
 ``\url{http://animals.org/cat\#}''.
 
