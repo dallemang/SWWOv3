@@ -222,28 +222,24 @@ learn more about it.  It is up to the data consumer and the details of their app
 quality, etc.)
 whether they want to follow these links at any particular time. 
 
+%%%%
+
+The 
 
 Since HTTP URIs rely on the domain names to create the first part of the
 URI scheme, they support the decentralized creation of globally unique
 identifiers. Any owner of a web domain can create and control the access to
-any HTTP URIs in that domain. In choosing and using HTTP URIs, there are
+any HTTP URIs in that domain. 
+
+In choosing and using HTTP URIs, there are
 three important standard mechanisms of the Web and Internet to be aware
 of: the Domain Name Service (DNS) and its implication on the choice of
 domain part of the URIs; content negotiation in HTTP, which allows a
 server to serve different contents for the same HTTP URI to different
-clients; and HTTP redirection, which allows a server to redirect a call
-to another address. These three mechanisms and their impacts are
+clients; and HTTP redirection, . These three mechanisms and their impacts are
 illustrated in figure~\ref{fig:ch5.2} and detailed in the next sections.
 
-
-
-\begin{figure}
-    \centering
-        \includegraphics[width=5.0in]{media/ch5/figure-05-02.jpg}
-    \caption{Three standard mechanisms used in Web Data publishing and
-accessing}
-    \label{fig:ch5.2}
-\end{figure}
+%%%%%
 
 
 \hypertarget{minting-http-uris}{%
@@ -272,9 +268,8 @@ For instance, a valid URI according to this pattern is for instance:
 urn:animals.org\#mycat
 \end{lstlisting}
 
-As we saw in Section~\ref{usehttp}, using HTTP URIs is preferring for the web 
+As we saw in Section~\ref{usehttp}, using HTTP URIs is the preferred option for the web 
 of data, in contrast to other protocols.  An HTTP URI has the form: 
-
 
 
 \begin{lstlisting}
@@ -291,16 +286,43 @@ http://animals.org/cats/?owner=fabien
 ...
 \end{lstlisting}
 
+The major advantage of using HTTP URIs as identifiers on the  Web  of data is that
+they participate in the full infrastructure that drives the hypertext web.  Figure~\ref{fig:ch5.2} shows the three basic mechanism of that infrastructure. 
+\begin{itemize}
+    \item The \emph{Domain Name Service} (DNS), which associates domain names on the web with internet addresses of web servers,
+    \item \emph{Content Negotiation} in HTTP, which allows a web 
+     server to serve different content for the same HTTP URI to different
+     clients, and
+     \item \emph{HTTP Redirection}, which allows a server to redirect a reference
+     to another address.
+\end{itemize}
+The \texttt{host} part of an HTTP URI (\emph{animals.org} in the examples) is managed by 
+the DNS (left column of Figure~\ref{fig:ch5.2}).   Someone who wants to publish 
+anything on the Web, whether hypertext pages or data, registers a \emph{domain 
+name} (e.g., \emph{animals.org}) with the DNS.  Once they have completed this registration, they 
+can create and control the access to
+any HTTP URIs  that use that domain in the \texttt{host} field. 
 
-Within a single domain (which corresponds to the \emph{host} in the HTTP protocol, 
-the \emph{path} part of the HTTP URI can be arbitrarily long, therefore. 
-no practical limit on the number of possible URI patterns we have at our disposal to name the things we
+The \emph{path} part of the HTTP URI can be arbitrarily long, and is fully at the discretion of
+whoever is minting the URL.  This means that there is 
+no practical limit on the number of possible URI patterns a data publisher has  at their disposal to name the things they
 want to describe on the Web. 
+
+\begin{figure}
+    \centering
+        \includegraphics[width=5.0in]{media/ch5/figure-05-02.jpg}
+        \begin{tabular}{lll}
+        A. Domain Name Service\ \ \ \ \ \ &B. Content Negotiation\ \ \ \ \ &C. HTTP Redirection\ \ \ \  \\
+        \end{tabular}
+    \caption{Three standard mechanisms used in Web Data publishing and
+access}
+    \label{fig:ch5.2}
+\end{figure}
 
 \subsetcion{How to build a URI}
 
 Since we are using HTTP URIs for all our data elements, we need to have some 
-method for how we will generate enough distinct URIs for everything we want to describe in our data. 
+method for generating enough distinct URIs for everything we want to describe in our data, now and in the future.
 The problem of coming up with appropriate identifiers in a large data set is not 
 specific to the Semantic Web, and there is no perfect answer. In the context of HTTP URIs for the Semantic Web,
 Pros
@@ -317,7 +339,7 @@ minting URIs for the semantic Web is called \emph{Cool URIs}
 As suggested by the eponymous article, a key aspect of cool URIs is that they don't change: you want to ensure
 that your URIs will be as stable as possible by choosing a stable URI pattern. 
 Why is it important to have stable URIs?  
-While the ``404 page not found'' error is disappointing on the hypertext web, it can be catastrophic in the Web of Data, wherethe URIs are the
+While the ``404 page not found'' error is disappointing on the hypertext web, it can be catastrophic in the Web of Data, where the URIs are the
 linkage points between data sets.  A broken link can mean loss of access to an entire data set.
 
 The Cool URI proposal has some advice for how to make URIs stable:
@@ -427,7 +449,8 @@ In Chapter~\ref{ch3}, we saw how URIs can be abbreviated using namespaces and QN
 If we define the prefix \texttt{vac} to be the namespace
 \textt{http://www.example.org/vac/}, then the QName for Mytsie's vaccination would evidenty be
 \texttt{vac:775304}.   However, there is a constraint on QNames \footnote{Extensible Markup Language
-  (XML) 1.0 (Fifth Edition) https://www.w3.org/TR/xml/} that says that the name after the prefix cannot start with a digit (1, 2,
+ (XML) 1.0 (Fifth Edition) https://www.w3.org/TR/xml/} that says that the name after the 
+ prefix cannot start with a digit (1, 2,
 3\ldots{}) or with basic combining characters (e.g. a comma).  So the proposed QName \texttt{vac:775304} is not valid.  Since QNames are useful in many contexts, it is good practice to append an alphabetic character at the beginning of the identifier.  So instead of using the URIs in Table~\ref{tab:ch5.id}, we use URIs like those in Table~\ref{tab:ch5.vid}
 
 \begin{table}
@@ -454,24 +477,27 @@ http://www.example.com/vac/V87580&vac:V87580 \\
 \end{table}
 
 \subsection{Minting URIs in the Wild}
-Let us examine two real examples of minting URIs. The first one comes
-from the Internet Engineering Task Force (IETF), which is an open
+Let us examine two real examples of minting URIs, IETF RFC's and DOIs. 
+
+\subsubsection{URIs for the IETF}
+The Internet Engineering Task Force (IETF) is an open
 standards organization in charge of developing and promoting the
-Internet standards. We already know one of these standards: the URI itself.
+Internet standards. We are already familiar with  one of these standards: the URI itself.  It is the IETF who manages registrations for the DNS and the format for URIs.
 An official publication of the IETF is   called a \emph{Request
-for Comments} (RFC). For instance, the latest RFC standardizing URIs is
-RFC 3986 entitled \emph{Uniform Resource Identifier (URI): Generic Syntax}.
+for Comments} (RFC). For instance, the latest RFC that gives the standard specification for
+URIs is
+\emph{RFC 3986}, which has the title  \emph{Uniform Resource Identifier (URI): Generic Syntax}.
 In order to publish the RFCs and support stable references to these
 standards, IETF has adopted several URI minting schemes. For instance,
-the default URL for an HTML version of RFC 3986 is obtained by concatenating the
-domain address \texttt{https://tools.ietf.org/html/rfc} and the RFC number:
+the default URL for an HTML version of an RFC is obtained by concatenating the
+domain address \texttt{https://tools.ietf.org/html/rfc} and the RFC number. So, for RFC 3986, we have:
 
 \begin{lstlisting}
 https://tools.ietf.org/html/rfc3986
 \end{lstlisting}
 
 
-You can access other versions in plain text and PDF by applying
+You can access other versions of the same RFC in plain text and PDF by applying
 similar  minting schemes.
 
 For the text version of RFC 3986:
@@ -484,25 +510,32 @@ For the PDF version of RFC 3986:
 https://tools.ietf.org/pdf/rfc3986
 \end{lstlisting}
 
+These schemes have the advantage that they are stable; we can use the same URI
+for the HTML presentation of the latest RFC version, even as new versions are published.  It has the disadvantage that I cannot refer to RDF 3968 itself, only to particular documents about it.  This violates one of our guidelines for URI formation, that a URI should not include implementation-specific information about a document. We'll see later in this chapter how to use Content Negotiation to address this issue. 
+
+These schemes follow the QName suggestion that the final part of the URI begin with an alphabetic character (in this case, it is always 'r'), but they suffer from the drawback that each of them will have a different prefix, since they don't share a common prefix.  If we were to make these into QNames, we woud need a separate prefix for \texttt{https://tools.ietf.org/rfc/}, \texttt{https://tools.ietf.org/pdf/} and  \texttt{https://tools.ietf.org/txt/}. 
+
+\subsubsection{URIs for ISO DOIs}
+
+
 As a second example, we can consider a family of identifiers
-standardized by the International Organization for Standardization (ISO
-26324) to uniquely identify objects including books, articles, datasets,
+standardized by 
+The International Organization for Standardization (ISO) maintains a standard family 
+of identifiers (ISO~26324) to uniquely identify objects including books, articles, datasets,
 videos, etc. This family of identifiers is called \emph{digital object
-identifier} (DOI) and is used a lot to identify and reference digital
-resources in a sustainable manner. For instance, the article entitled
+identifier} (DOI) and is used to identify and reference digital
+resources in a sustainable manner. For instance, ISO assigned to the article entitled
 ``Distributed Artificial Intelligence for Distributed Corporate
-Knowledge Management'' published by Springer was given by them the DOI
+Knowledge Management'' published by Springer the DOI
 
 \begin{lstlisting}
 doi:10.1007/3-540-45741-0_18
 \end{lstlisting}
 
 
-The nice thing about DOI is that there is a way to lookup any DOI
-on the Web through a service implementing a mapping from DOIs to HTTP
-URIs. If you take for instance the previous DOI, you can transform it
-into the following HTTP URI following the URI minting scheme implemented
-by the site \href{https://www.doi.org/}{doi.org}:
+The ISO  provides an online service that looks up any DOI and provides a corresponding HTTP
+URI.   For example, the service (available at https://www.doi.org/) translates this DOI into the HTTP URI:
+
 
 \begin{lstlisting}
 http://doi.org/10.1007/3-540-45741-0_18
@@ -510,35 +543,39 @@ http://doi.org/10.1007/3-540-45741-0_18
 
 
 This HTTP URI will then redirect you to a description of the object
-identified by the DOI. In other words, this known URI minting scheme
-allows you to transform any DOI found in any database into a
-dereferenceable HTTP URI, which in turn indicates where to get more data bout the identified
-object.
+identified by the DOI.  
 
-Once the pattern for your URIs is established, we will see in the next
-sections that HTTP content negotiation (also called \textit{conneg}) and,
-possibly, \textit{redirections} have to be configured on the server to provide
-content in XML, RDF, HTML, JSON, etc. to whomever looks up these URIs.
-But before we move to these next steps, let us look at the implications
-of the choice of a domain name for your URIs.
+The advantage of these URIs is that they are stable; ISO makes sure that for a particular 
+resource, the DOI will not change.  They have the drawback that they cannot be formed into 
+QNames, since the final component begins with a number. 
+
+
+
+
+%Once you have established a pattern for  URIs, we will see in the next
+%sections that HTTP content negotiation (also called \textit{conneg}) and,
+%ossibly, \textit{redirections} have to be configured on the server to provide
+%content in XML, RDF, HTML, JSON, etc. to whomever looks up these URIs.
+%But before we move to these next steps, let us look at the implications
+%of the choice of a domain name for your URIs.
 
 \hypertarget{king-of-my-domain}{%
 \subsection{King of My Domain}\label{king-of-my-domain}}
 
 Let us now come back to figure~\ref{fig:ch5.2} and zoom on the first standard
-mechanisms used in Web Data publishing and accessing: the Domain Name
+mechanisms used in Web Data publishing and access: the Domain Name
 Resolution.
 
 HTTP URIs heavily use the Domain Name System (DNS) to identify the host
 machine to query to get data about the resource identified by the URI.
-The DNS is a decentralized hierarchical naming system to identify
+The DNS is a decentralized hierarchical naming system for identifying
 devices and services connected to networks and in particular to the
-Internet. We use the DNS every days because it provides the service that
-transforms a domain name (e.g. \href{http://www.inria.fr}{ns.inria.fr})
+Internet. Anyone who browses the Web use the DNS every day, because it provides the service that
+transforms a domain name (e.g. ns.inria.fr)
 into the internet address (IP address e.g. 128.93.162.87) of the machine
 or service in charge of answering for that domain. Although the host
 machine could be identified in the HTTP URIs by its IP address directly
-(e.g. http:// 128.93.162.87/ is a valid HTTP URI), we human prefer
+(e.g. http:// 128.93.162.87/ is a valid HTTP URI), we humans prefer
 domain names that are easier to read and memorize (e.g.
 http://ns.inria.fr). Using domain names is also important in our case to
 provide stable URIs and, for instance, be able to change the servers'
@@ -570,11 +607,10 @@ standards, W3C minted URIs for them using its own domain name:
 
 \begin{itemize}
 \item
-  The namespace for RDF is
-  \href{http://www.w3.org/1999/02/22-rdf-syntax-ns\#}{http://\textbf{www.w3.org}/1999/02/22-rdf-syntax-ns\#}
+  The namespace for RDF is http://www.w3.org/1999/02/22-rdf-syntax-ns\#
 \item
   The namespace for RDFS is
-  \href{http://www.w3.org/2000/01/rdf-schema\#}{http://\textbf{www.w3.org}/2000/01/rdf-schema\#}
+  http://www.w3.org/2000/01/rdf-schema\#
 \item
   The namespace for OWL is
   \href{http://www.w3.org/2002/07/owl\#}{http://\textbf{www.w3.org}/2002/07/owl\#}
