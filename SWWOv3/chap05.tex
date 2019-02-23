@@ -1,6 +1,8 @@
 \chapter{Linked Data}
 \label{ch5}
-
+\usepackage{arabtex}
+\usepackage{utf8}
+\usepackage{CJKutf8}
 \section{Weaving a Web of Data}
 
 
@@ -101,7 +103,8 @@ identify what exists on the web (\url{http://my-site.fr}), we also start using
 URIs to identify, on the web, what exists in general
 (e.g., \url{http://animals.org/cat\#mytsie}, for Fabien's cat, Mytsie).  As we include IRIs in the Web of data, we identify,
 on the web, what exists, in any language
-(e.g., http://\RLالحيوانات.tn/\textb\TRLf{猫}\#mytsie).
+(e.g., http://\<الحيوانات.tn/ >.tn/\begin{CJK*}{UTF8}{gbsn}猫
+\end{CJK*}\#mytsie).
 
 
 
@@ -200,7 +203,7 @@ We don't use the term URL (Uniform Resource \textbf{Locator}) for these identifi
 point that the thing  being
 represented may not itself be on the Web at this address, or even at on the Web at all. For example, I
 may want to specify an HTTP URI for my cat Mytsie. No matter how hard I
-try, Mytsie herself will never be ``located'' on the Web so I cannot give
+try, Mytsie herself will never be located on the Web, so I cannot give
 her a URL \emph{per se}. But this adorable cat can be identified on the
 Web by an HTTP URI and if you ever go to that address you will be
 provided with a description (maybe even a photo or two) on the Web about the resource represented by
@@ -242,7 +245,6 @@ accessing}
     \label{fig:ch5.2}
 \end{figure}
 
-FIG 2. 
 
 \hypertarget{minting-http-uris}{%
 \subsection{Minting HTTP URIs}\label{minting-http-uris}}
@@ -338,17 +340,17 @@ providing information about the vaccination records for our pets, as shown in Ta
     \hline
     ID&Species&Name&Expiration Date \\
     \hline\hline
-V366863&dog&Fido&2020 \\
-V851903&dog&Bastian&2021 \\
-V775304&cat&Mytsie&2019 \\
-V898202&cat&Corvus&2021 \\
-V847823&cat&Fenris&2019 \\
-V399378&dog&Maddie&2022 \\
-V911236&cat&Twinkie&2016 \\
-V897991&dog&Champ&2019 \\
-V032579&dog&Zeke&2020 \\
-V31450&cat&Nix&2019 \\
-V87580&dog&Fido&2021 \\
+366863&dog&Fido&2020 \\
+851903&dog&Bastian&2021 \\
+775304&cat&Mytsie&2019 \\
+898202&cat&Corvus&2021 \\
+847823&cat&Fenris&2019 \\
+399378&dog&Maddie&2022 \\
+911236&cat&Twinkie&2016 \\
+897991&dog&Champ&2019 \\
+032579&dog&Zeke&2020 \\
+31450&cat&Nix&2019 \\
+87580&dog&Fido&2021 \\
 \hline
     \end{tabular}
     \caption{Sample data about the vaccine records for our pets. }
@@ -363,21 +365,21 @@ This method is guaranteed to ensure uniqueness in the data, but makes for very l
 
 \begin{table}
     \centering
-    \begin{tabular}
+    \begin{tabular}{|l|}
     \hline
     URI \\
     \hline\hline
-http://www.example.com/vac/V366863/dog/Fido/2020 \\
-http://www.example.com/vac/V851903/dog/Bastian/2021 \\
-http://www.example.com/vac/V775304/cat/Mytsie/2019 \\
-http://www.example.com/vac/V898202/cat/Corvus/2021 \\
-http://www.example.com/vac/V847823/cat/Fenris/2019 \\
-http://www.example.com/vac/V399378/dog/Maddie/2022 \\
-http://www.example.com/vac/V911236/cat/Twinkie/2016 \\
-http://www.example.com/vac/V897991/dog/Champ/2019 \\
-http://www.example.com/vac/V032579/dog/Zeke/2020 \\
-http://www.example.com/vac/V31450/cat/Nix/2019 \\
-http://www.example.com/vac/V87580/dog/Fido/2021 \\
+http://www.example.com/vac/366863/dog/Fido/2020 \\
+http://www.example.com/vac/851903/dog/Bastian/2021 \\
+http://www.example.com/vac/775304/cat/Mytsie/2019 \\
+http://www.example.com/vac/898202/cat/Corvus/2021 \\
+http://www.example.com/vac/847823/cat/Fenris/2019 \\
+http://www.example.com/vac/399378/dog/Maddie/2022 \\
+http://www.example.com/vac/911236/cat/Twinkie/2016 \\
+http://www.example.com/vac/897991/dog/Champ/2019 \\
+http://www.example.com/vac/032579/dog/Zeke/2020 \\
+http://www.example.com/vac/31450/cat/Nix/2019 \\
+http://www.example.com/vac/87580/dog/Fido/2021 \\
 \hline
     \end{tabular}
     \caption{Coining URIs by repeating all the data }
@@ -393,17 +395,17 @@ will uniquely identify a vaccination, so we can use it for the URI, as in Table~
     \hline
     URI \\
     \hline\hline
-http://www.example.com/vac/V366863 \\
-http://www.example.com/vac/V851903 \\
-http://www.example.com/vac/V775304 \\
-http://www.example.com/vac/V898202 \\
-http://www.example.com/vac/V847823 \\
-http://www.example.com/vac/V399378 \\
-http://www.example.com/vac/V911236 \\
-http://www.example.com/vac/V897991 \\
-http://www.example.com/vac/V032579 \\
-http://www.example.com/vac/V31450 \\
-http://www.example.com/vac/V87580 \\
+http://www.example.com/vac/366863 \\
+http://www.example.com/vac/851903 \\
+http://www.example.com/vac/775304 \\
+http://www.example.com/vac/898202 \\
+http://www.example.com/vac/847823 \\
+http://www.example.com/vac/399378 \\
+http://www.example.com/vac/911236 \\
+http://www.example.com/vac/897991 \\
+http://www.example.com/vac/032579 \\
+http://www.example.com/vac/31450 \\
+http://www.example.com/vac/87580 \\
 \hline
     \end{tabular}
     \caption{Coining URIs using the ID field }
@@ -411,8 +413,9 @@ http://www.example.com/vac/V87580 \\
 \end{table}
 
 
-In order for this method to work, we have to make sure that the column we use really is an identifier. 
-We might be tempted to use the column \texttt{name} to coin our URIs.  This will cause two problems: 
+In order for this method to work, we have to make sure that the column we use really is a unique  identifier. 
+For example, we might be tempted to use the column \texttt{name} to coin our URIs.  
+This will cause two problems: 
 
 \begin{itemize}
     \item we will end up coining 
@@ -420,59 +423,73 @@ We might be tempted to use the column \texttt{name} to coin our URIs.  This will
 \item Even if there is no  name duplication in our data, one of the animals (say, Mytsie) might be adopted and given a new name (``Missy'').  If this happens, do we have to create a new URI?   Or do we say that the URI at \texttt{<http://example.com/vac/Mytsie>} now has name ``Missy''?
 \end{itemize}
 
-As we saw in Chapter~\ref{ch3}, URIs can be abbreviated using namespaces and QNames (Qualified names). 
-A possible QName representation for the identifier of
-Mytsie could then be, \texttt{cat:mytsie} with
-the prefix \texttt{cat} bound to the namespace
-\textt{http://animals.org/cat\#}
+In Chapter~\ref{ch3}, we saw how URIs can be abbreviated using namespaces and QNames (Qualified names). 
+If we define the prefix \texttt{vac} to be the namespace
+\textt{http://www.example.org/vac/}, then the QName for Mytsie's vaccination would evidenty be
+\texttt{vac:775304}.   However, there is a constraint on QNames \footnote{Extensible Markup Language
+  (XML) 1.0 (Fifth Edition) https://www.w3.org/TR/xml/} that says that the name after the prefix cannot start with a digit (1, 2,
+3\ldots{}) or with basic combining characters (e.g. a comma).  So the proposed QName \texttt{vac:775304} is not valid.  Since QNames are useful in many contexts, it is good practice to append an alphabetic character at the beginning of the identifier.  So instead of using the URIs in Table~\ref{tab:ch5.id}, we use URIs like those in Table~\ref{tab:ch5.vid}
 
-Another detail affecting the choice of the URIs id 
-is the constraint
-imposed by some other standards built on top of them. For instance, we
-mentioned the use of QNames (Qualified names) to simplifying the writing
-of URIs. One of the constraints\footnote{Extensible Markup Language
-  (XML) 1.0 (Fifth Edition) https://www.w3.org/TR/xml/} of QNames is
-that the name after the prefix cannot start with digits (1, 2,
-3\ldots{}) or with basic combining characters (e.g. a comma). Therefore
-in our example where animals have numerical identifiers a better pattern
-to mint URIs could be to prefix the original identifier with a letter:
+\begin{table}
+    \centering
+    \begin{tabular}{|l l|}
+    \hline
+    URI&QName \\
+    \hline\hline
+http://www.example.com/vac/V366863&vac:V366863 \\
+http://www.example.com/vac/V851903&vac:V851903 \\
+http://www.example.com/vac/V775304&vac:V775304 \\
+http://www.example.com/vac/V898202&vac:V898202 \\
+http://www.example.com/vac/V847823&vac:V847823 \\
+http://www.example.com/vac/V399378&vac:V399378 \\
+http://www.example.com/vac/V911236&vac:V911236 \\
+http://www.example.com/vac/V897991&vac:V897991 \\
+http://www.example.com/vac/V032579&vac:V032579 \\
+http://www.example.com/vac/V31450&vac:V31450 \\
+http://www.example.com/vac/V87580&vac:V87580 \\
+\hline
+    \end{tabular}
+    \caption{Coining URIs using the ID field, with an alphabetic character ("V") pre-pended to satisfy  }
+    \label{tab:ch5.id}
+\end{table}
 
-cat,1223 →~
-\href{http://animals.org/cat/A1223}{http://animals.org/cat/\textbf{A}1223}
-
-Allowing us to latter use the QName ``cat:A1223'' with the prefix
-``cat'' bound to the namespace ``\url{http://animals.org/cat/}''.
-
-Let us know take two real examples of minting URIs. The first one comes
+\subsection{Minting URIs in the Wild}
+Let us examine two real examples of minting URIs. The first one comes
 from the Internet Engineering Task Force (IETF), which is an open
 standards organization in charge of developing and promoting the
-Internet standards. We already know one of these standards: the URIs.
-The official publication channel of IETF are publications called Request
-for Comments (RFC). For instance the latest RFC standardizing URIs is
-RFC 3986 entitled ``Uniform Resource Identifier (URI): Generic Syntax''.
+Internet standards. We already know one of these standards: the URI itself.
+An official publication of the IETF is   called a \emph{Request
+for Comments} (RFC). For instance, the latest RFC standardizing URIs is
+RFC 3986 entitled \emph{Uniform Resource Identifier (URI): Generic Syntax}.
 In order to publish the RFCs and support stable references to these
 standards, IETF has adopted several URI minting schemes. For instance,
-the default URL for an HTML version RFC is obtained by concatenating the
-domain address ``https://tools.ietf.org/html/rfc'' and the RFC number:
+the default URL for an HTML version of RFC 3986 is obtained by concatenating the
+domain address \texttt{https://tools.ietf.org/html/rfc} and the RFC number:
 
-\textbf{html},\textbf{3986} →~
-\href{https://tools.ietf.org/html/rfc3986}{https://tools.ietf.org/\textbf{html}/rfc\textbf{3986}}
+\begin{lstlisting}
+https://tools.ietf.org/html/rfc3986
+\end{lstlisting}
 
-and you can access other versions in plain text and PDF applying
-different minting schemes:
 
-\textbf{txt},\textbf{3986} →~
-\href{https://tools.ietf.org/rfc/rfc3986.txt}{https://tools.ietf.org/rfc/rfc\textbf{3986}.\textbf{txt}}
+You can access other versions in plain text and PDF by applying
+similar  minting schemes.
 
-\textbf{pdf},\textbf{3986} →~
-https://tools.ietf.org/\textbf{pdf}/rfc\textbf{3986}.\textbf{pdf}
+For the text version of RFC 3986:
+\begin{lstlisting}
+https://tools.ietf.org/rfc/rfc3986
+\end{lstlisting}
+
+For the PDF version of RFC 3986:
+\begin{lstlisting}
+https://tools.ietf.org/pdf/rfc3986
+\end{lstlisting}
 
 As a second example, we can consider a family of identifiers
 standardized by the International Organization for Standardization (ISO
 26324) to uniquely identify objects including books, articles, datasets,
-videos, etc. This family of identifiers is called digital object
-identifier (DOI) and is used a lot to identify and reference digital
-resources in a perennial manner. For instance, the article entitled
+videos, etc. This family of identifiers is called \emph{digital object
+identifier} (DOI) and is used a lot to identify and reference digital
+resources in a sustainable manner. For instance, the article entitled
 ``Distributed Artificial Intelligence for Distributed Corporate
 Knowledge Management'' published by Springer was given by them the DOI
 
@@ -481,34 +498,34 @@ doi:10.1007/3-540-45741-0_18
 \end{lstlisting}
 
 
-The very nice thing about DOI is that there is a way to lookup any DOI
+The nice thing about DOI is that there is a way to lookup any DOI
 on the Web through a service implementing a mapping from DOIs to HTTP
 URIs. If you take for instance the previous DOI, you can transform it
 into the following HTTP URI following the URI minting scheme implemented
 by the site \href{https://www.doi.org/}{doi.org}:
 
 \begin{lstlisting}
-http://doi.org/10.1007/3-540-45741-0\_18
+http://doi.org/10.1007/3-540-45741-0_18
 \end{lstlisting}
 
 
 This HTTP URI will then redirect you to a description of the object
 identified by the DOI. In other words, this known URI minting scheme
-allow you to transform any DOI found in any database into a
-dereferenceable HTTP URI where to get more data bout the identified
+allows you to transform any DOI found in any database into a
+dereferenceable HTTP URI, which in turn indicates where to get more data bout the identified
 object.
 
-Once the pattern for your URIs is established,~we will see in the next
-sections that HTTP content negotiation (also called conneg) and,
-possibly, redirections have to be configured on the server to provide
-content in XML, RDF, HTML, JSON, etc. to whoever looks up these URIs.
+Once the pattern for your URIs is established, we will see in the next
+sections that HTTP content negotiation (also called \textit{conneg}) and,
+possibly, \textit{redirections} have to be configured on the server to provide
+content in XML, RDF, HTML, JSON, etc. to whomever looks up these URIs.
 But before we move to these next steps, let us look at the implications
 of the choice of a domain name for your URIs.
 
 \hypertarget{king-of-my-domain}{%
 \subsection{King of My Domain}\label{king-of-my-domain}}
 
-Let us now come back to figure 2 and zoom on the first standard
+Let us now come back to figure~\ref{fig:ch5.2} and zoom on the first standard
 mechanisms used in Web Data publishing and accessing: the Domain Name
 Resolution.
 
