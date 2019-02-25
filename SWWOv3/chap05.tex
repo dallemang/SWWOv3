@@ -1,8 +1,6 @@
 \chapter{Linked Data}
 \label{ch5}
-\usepackage{arabtex}
-\usepackage{utf8}
-\usepackage{CJKutf8}
+
 \section{Weaving a Web of Data}
 
 
@@ -34,13 +32,14 @@ or IRIs (Internationalized resource identifiers), to identify and then describe 
 \end{figure}
 
 
-Publishing data on the Web is not only about dumping data somewhere on
-the Web, it also means linking data so that it can be found, browsed,
-crawled, integrated, etc. So in a Web of data, the core idea is the one
-of \emph{linked data}, i.e. datasets (and data elements in them)  linked across the
+\subsection{A Web of Data vs Data on the Web}
+
+We can put data on the web simply by making a spreadsheet or even a PDF available on
+a web page somewhere.    A Web of data, in contrast, consists of data from around the world that is linked together so that it can be found, browsed,
+crawled, integrated, etc. In a Web of data, the core idea is \emph{linked data}, i.e. datasets (and data elements in them)  linked across the
 World Wide Web in the same way Web pages, Web sites and anchored texts
 are linked across the World on the Web. Instead of just
-using HTML to write Web pages that inlcude links to other pages, the Web of
+using HTML to write Web pages that include links to other pages, the Web of
 data uses RDF to write data descriptions that include links to other data
 descriptions.
 
@@ -224,20 +223,18 @@ whether they want to follow these links at any particular time.
 
 %%%%
 
-The 
+%Since HTTP URIs rely on the domain names to create the first part of the
+%URI scheme, they support the decentralized creation of globally unique
+%identifiers. Any owner of a web domain can create and control the access to
+%any HTTP URIs in that domain. 
 
-Since HTTP URIs rely on the domain names to create the first part of the
-URI scheme, they support the decentralized creation of globally unique
-identifiers. Any owner of a web domain can create and control the access to
-any HTTP URIs in that domain. 
-
-In choosing and using HTTP URIs, there are
-three important standard mechanisms of the Web and Internet to be aware
-of: the Domain Name Service (DNS) and its implication on the choice of
-domain part of the URIs; content negotiation in HTTP, which allows a
-server to serve different contents for the same HTTP URI to different
-clients; and HTTP redirection, . These three mechanisms and their impacts are
-illustrated in figure~\ref{fig:ch5.2} and detailed in the next sections.
+%In choosing and using HTTP URIs, there are
+%three important standard mechanisms of the Web and Internet to be aware
+%of: the Domain Name Service (DNS) and its implication on the choice of
+%domain part of the URIs; content negotiation in HTTP, which allows a
+%server to serve different contents for the same HTTP URI to different
+%clients; and HTTP redirection, . These three mechanisms and their impacts are
+%illustrated in figure~\ref{fig:ch5.2} and detailed in the next sections.
 
 %%%%%
 
@@ -482,7 +479,7 @@ Let us examine two real examples of minting URIs, IETF RFC's and DOIs.
 \subsubsection{URIs for the IETF}
 The Internet Engineering Task Force (IETF) is an open
 standards organization in charge of developing and promoting the
-Internet standards. We are already familiar with  one of these standards: the URI itself.  It is the IETF who manages registrations for the DNS and the format for URIs.
+Internet standards. We have already seen   one of these standards: the URI itself.  It is the IETF who manages registrations for the DNS and the format for URIs.
 An official publication of the IETF is   called a \emph{Request
 for Comments} (RFC). For instance, the latest RFC that gives the standard specification for
 URIs is
@@ -559,101 +556,109 @@ QNames, since the final component begins with a number.
 %But before we move to these next steps, let us look at the implications
 %of the choice of a domain name for your URIs.
 
+
+\section{HTTP and the Architecture of the web}
+
+Figure~\ref{fig:ch5.2} shows the basics of the architecture of the web as three pillars; the domain name service, content negotiation, and redirection.  We now take a deep dive into how this architecture influences the way we as  publishers and consumers of data interact with the Web of data. 
+
 \hypertarget{king-of-my-domain}{%
 \subsection{King of My Domain}\label{king-of-my-domain}}
 
-Let us now come back to figure~\ref{fig:ch5.2} and zoom on the first standard
-mechanisms used in Web Data publishing and access: the Domain Name
-Resolution.
+We'll start with Domain Name Resolution, or DNS for short  figure~\ref{fig:ch5.2}(A). 
 
-HTTP URIs heavily use the Domain Name System (DNS) to identify the host
-machine to query to get data about the resource identified by the URI.
+The first step in resolving an HTTP URI is to identify what host (machine) on the internet 
+to query get data about the resource identified by the URI. HTTP URIs rely on the Domain Name System (DNS) for this function.
 The DNS is a decentralized hierarchical naming system for identifying
-devices and services connected to networks and in particular to the
+devices and services connected to the
 Internet. Anyone who browses the Web use the DNS every day, because it provides the service that
 transforms a domain name (e.g. ns.inria.fr)
 into the internet address (IP address e.g. 128.93.162.87) of the machine
-or service in charge of answering for that domain. Although the host
+or service in charge of answering for that domain.  Although the host
 machine could be identified in the HTTP URIs by its IP address directly
-(e.g. http:// 128.93.162.87/ is a valid HTTP URI), we humans prefer
+(e.g. http:// 128.93.162.87/ is a valid HTTP URI), there are two advantages to 
+using a name service to provide domain names instead of IP addresses.  First, We humans prefer
 domain names that are easier to read and memorize (e.g.
-http://ns.inria.fr). Using domain names is also important in our case to
-provide stable URIs and, for instance, be able to change the servers'
-addresses without changing the URIs. This mechanism allows us to agree
-on the way we name things but it does not prevent peoples to mint
-different names for the same purpose or to disagree on the descriptions
-of the things they identify. We will not all agree on what the thing
-means, but we can agree on which thing we are disagreeing about.
+http://ns.inria.fr).   More importantly for a stable web of data, the use of domain names 
+provide stable URIs, allowing a data provider to change a server's
+addresses without changing the URIs of the data that is hosted there.
 
-More importantly, in the context of dereferenceable HTTP URIs, the DNS
-makes sure that if anyone in the world uses a name for a domain, they
-will get to the same place. This ensures that whoever tries to look-up
-an HTTP URI minted with a specific domain name will end up the same and
-unique service. In other words, because any look up on a URI will start
-by the domain name resolution, he who controls the DNS results for a
+%This mechanism allows us to agree
+%on the way we name things but it does not prevent peoples to mint
+%different names for the same purpose or to disagree on the descriptions
+%of the things they identify. We will not all agree on what the thing
+%means, but 
+
+In the context of dereferenceable HTTP URIs, the DNS
+makes sure that if anyone in the world resolves a particular HTTP URI, they
+will all get to the same place.   This provides us a world-wide reference mechanism.  We 
+might not want to say the same things about Mytsie the cat 
+(e.g., I might want to say that she 
+is calico, an another source might want to record her weight from week to week).  
+Different sources might even disagree; someone else might claim that she is tortoiseshell, 
+not calico.  In a world-wide distributed web of data, we can't expect everyone to agree on 
+their statements
+about Mytsie, but the DNS provides a mechanism so we can agree on which thing we are 
+disagreeing about.
+
+Now that we understand how DNS works and its importance in HTTP URs, what does this mean
+for choosing URIs for our data? Since any look up on a URI starts with  domain name 
+resolution, whoever controls the DNS registraion for a
 domain name controls the access to the HTTP URIs minted with that domain
-name. So if you lose control over a domain name you lose control of the
-linked data using that domain in there URIs in the sense that you no
+name, in the sense that they can specify what server the DNS will map the URIs to. 
+So if you lose control over a domain name you lose control of the
+linked data using that domain in there URIs, in the sense that you no
 longer control the answer provided when the HTTP URIs are dereferenced
 and accessed.
 
-Therefore, one must be careful in choosing the domain name for the host
+Therefore, one must be careful in choosing the domain name for the \texttt{host}
 part of a URI pattern one uses as identifiers in publishing linked data
 because it is key to ensure persistence and control of dereferenceable
-URIs. In the next chapters of this book, we will introduce W3C standards
-to represent linked data (RDF) and linked vocabularies (RDFS, OWL,
-SKOS). In order to maintain control over the definition of these
-standards, W3C minted URIs for them using its own domain name:
+URIs.  In Chapter~\ref{ch3}, we saw some namespaces that have been defined 
+by the World Wide Web consortium (the W3C) themselves, to define namespaces for 
+\texttt{rdf:}, \texttt{rdfs:} and \texttt{owl:}. Now we understand more deeply what this
+means. If you want to look up what any resource in one of these namespaces means, 
+for example, \texttt{rdf:type} 
+(short for \texttt{http://www.w3.org/1999/02/22-rdf-syntax-ns\#type}, you can 
+find it by resolving that URI (try it in a web browser!).  The result is controlled by the 
+W3C, becasue the W3C owns the domain at w3.org. 
 
-\begin{itemize}
-\item
-  The namespace for RDF is http://www.w3.org/1999/02/22-rdf-syntax-ns\#
-\item
-  The namespace for RDFS is
-  http://www.w3.org/2000/01/rdf-schema\#
-\item
-  The namespace for OWL is
-  \href{http://www.w3.org/2002/07/owl\#}{http://\textbf{www.w3.org}/2002/07/owl\#}
-\item
-  The namespace for SKOS is
-  \href{http://www.w3.org/2004/02/skos/core\#}{http://\textbf{www.w3.org}/2004/02/skos/core\#}
-\end{itemize}
 
-All of these namespaces have HTTP URIs using the W3C domain name and
-this ensures that when anyone looks them up they get to the same service
-at W3C and get the answer W3C chose to provide. What we will now see is
+We have already seen several standard namespaces from the W3C, and in the following 
+chapters, we will see some more.  In each case, the W3C publishes a namespace along 
+with information about the resources in that namespace.  All of these namespaces have HTTP 
+URIs using the domain  \texttt{w3.org} as the host, ensuring that when anyone looks 
+them up they get the answer that the W3C chose to provide.  What we will now see is
 that each of the access to this service can negotiate a customized
 answer.
 
 \hypertarget{negotiating-your-web}{%
 \subsection{Negotiating your Web}\label{negotiating-your-web}}
 
-Considering Figure~\ref{fig:ch5.2}, we now move to the second standard mechanisms used
-in Web Data publishing and accessing: the Content Negotiation.
+The second pillar of the Web architecture shown in Figure~\ref{fig:ch5.2} is  Content Negotiation.
 
-Although we are talking about weaving a Web of data there is only one
-Web with all its different facets interlinked (data, hypertext, schemas,
-services, etc.). The Web is intended to be used at the same time by
+So far, we have been talking primarily about a Web of Data.  But in fact, there  is only one
+Web with all its different facets interlinked, including data, hypertext, schemas,
+services, etc.  The Web is intended to be used at the same time by
 machines and by humans as a shared common space for hybrid communities
 of natural intelligence and computational intelligence. Therefore, a
 human user or a software agent must both be capable of obtaining
-descriptions of the resources described on the Web in the most suitable
-format for them e.g. a Web page in HTML for a human and an RDF/XML
-description for a Web robot. Even more, each human has preferences (e.g.
-in terms of languages one may prefer a description in French) and
-software may have too (e.g. in terms of format an application may prefer
-data in JSON-LD).
+descriptions of any particular resource described on the Web  in the most suitable
+format for them, for example,  a Web page in HTML for a human reader  and an RDF/XML
+description for a Web robot.   Furthermore, each human will have some preferences (e.g.
+in terms of which human language they prefer, e.g.,  English, Chinese or French) and
+software may have specific preferences as well  in terms of the format an application may prefer (e.g., 
+data in JSON-LD vs. CSV).
 
 Using the HTTP protocol\footnote{Hypertext Transfer Protocol -\/-
-  HTTP/1.1, RFC 2616, https://tools.ietf.org/html/rfc2616} a Web client
+HTTP/1.1, RFC 2616, https://tools.ietf.org/html/rfc2616} a Web client
 can negotiate the content of a response to an HTTP URI look up: whether
 you are interested in a Web of hypertext because your application is
-displaying the results directly to humans or you are interested in a Web
-of data because your application is building a database or consuming
-data for some calculation, the content negotiation mechanism of HTTP
-allows you state the type of content most suitable to you.
+displaying the results directly to humans or you are interested in a data packet 
+because your application is linking together the Web of data, 
+the content negotiation mechanism of HTTP
+allows you to state the form of content that is most suitable to you.
 
-This mechanism, sometime called \emph{conneg} in short, is part of the
+The Content Negotiation mechanism, sometime called \emph{conneg} for short, is part of the
 HTTP standard. The HTTP protocol allows Web clients to set headers in
 the requests they send in order to specify their preferences in
 particular in terms of format. These headers rely on several standards
@@ -663,29 +668,29 @@ to allow you to specify formats (media types or MIME types\footnote{Media
 language codes\footnote{Language codes - ISO 639,
   \url{https://www.iso.org/iso-639-language-codes.html}}), etc.
 
-Using these preferences the server may decide to adapt its response or
+Using these preferences, the server may decide to adapt its response or
 re-route the request to best serve the client. It is the responsibility
 of the server to match between the preferences of the client and the
 options it has available, and to select the best response for the
-client. As a result, as shown in Figure 2.B the same URI may be accessed
+client. As a result, as shown in Figure~\ref{fig:ch5.2}B,  the same URI may be accessed
 by two different clients: the client used by humans (e.g. a Web browser)
-could retrieve an HTML description while another application could
+could retrieve an HTML description while a software  application could
 negotiate an RDF description at the very same HTTP URI.
 
 Going even further, the HTTP content negotiation can be used by linked
 data applications to negotiate the RDF syntax they prefer (e.g. XML,
-Turtle, JSON-LD) or alternate representations for their interfaces (e.g.
+Turtle, JSON-LD, see Chapter~\ref{ch3}) or alternate representations for their interfaces (e.g.
 HTML, text, image, etc.).
 
 Let us give an example, this time from the DBpedia site providing RDF
-data extracted from Wikipedia. There, the thing ``Paris'' is identified
+data extracted from Wikipedia. There, the thing \emph{Paris} is identified
 by
 
 \begin{lstlisting}
 http://dbpedia.org/resource/Paris
 \end{lstlisting}
 
-If you lookup that URI as a human in a Web browser (try it) the content
+If you lookup that URI as a human in a Web browser (try it), content
 negotiation will redirect you to a Web page for humans:
 
 \begin{lstlisting}
@@ -699,13 +704,21 @@ address:
 http://dbpedia.org/data/Paris
 \end{lstlisting}
 
+the result is a data set expressed in RDF (by default, in RDF/XML).  
+
+In this way, \emphh{conneg} allows us some flexibilty in the use of HTTP URIs;  we can use 
+the same URI for the hypertext Web and the data Web (which, after all, are the same Web), but
+provide different responses depending on who is doing the asking.  It is, of course, the server's responsibility to make sure that the content of the response is the same, regardless of its form. 
+
+%% finish this sentence!!
+
 \hypertarget{rerouting-calls}{%
 \subsection{Rerouting calls}\label{rerouting-calls}}
 
-The last standard mechanisms shown in Figure 2 and used in Web Data
-publishing and accessing is HTTP redirection.
+The final pillar of Figure~\ref{fig:ch5.2} is called \emph{HTTP redirection}.
 
-We all know the error ``404 Not Found'' we sometime get in our browser
+Anyone who has ever browsed the web is familiar with the ``404 Not Found'' error we sometime 
+get in our browser
 when accessing a link that is broken because the URL no longer exists
 (e.g. the page was deleted) or never existed (e.g. we misspelled the
 URL). The code 404 is one of the most well-known error code of HTTP
@@ -715,7 +728,7 @@ don't see because it means the HTTP request was successful and the
 response provides the content or result we were asking. The mundane use
 of the HTTP redirection mechanism is to avoid broken links: when a page
 is moved, when a Web application is redesigned or when a Web site is
-relocated, and HTTP redirection may be setup on the Web server to
+relocated, and HTTP redirection may be set up on the Web server to
 redirect Web clients to the new address where a content or service has
 moved. When you browse the Web this happens all the time and you won't
 even notice it unless you pay attention at the changes in the address
@@ -743,12 +756,10 @@ Location: http://animals.org/page/cat/1278
 \end{lstlisting}
 
 
-In our case responding 303 to an HTTP URI means that the URI is known
-and while the requested resource is not on the Web itself, a description
-can be found at another address on the Web. In other words by using 303
-the server indicates that no representation of the target resource can
-be transferred over HTTP and refers the requester to another resource
-that is a description of the target resource and that description can be
+In our case responding 303 to an HTTP URI means that the service that the DNS 
+referred the URI to is unable to provide a representation of the target resource, but
+it can refer the requester to another resource instead, which 
+is also description of the target resource, and which can be
 transferred over HTTP. The 303 code provides us a Web-compatible way of
 responding to a request for a URI that identifies a things that are not
 on the Web.
@@ -760,16 +771,17 @@ resources. If the negotiated content is RDF, at least some triples of
 the answer must use the URI of the target resource.
 
 \hypertarget{hash-or-slash}{%
-\subsection{Hash or Slash}\label{hash-or-slash}}
+\section{Hash or Slash}\label{hash-or-slash}}
 
-Finally, even inside the last parts of the URIs (path, query and
+Even inside the last parts of the URIs (path, query and
 fragment) there are minting choices that impact the performance in
 dereferencing a URI. In particular, if you intend to support
-dereferenceable HTTP URIs, there are two main design patterns that can
-be considered every time you want to choose a naming scheme to identify
+dereferenceable HTTP URIs, there are two main design patterns you can 
+considered when you want to choose a naming scheme to identify
 things that are not on the Web. These two families are referred to as
-the ``hash URIs'' and the ``slash URIs''. These two options were the
-subject of many discussions we will not detail here.
+the ``hash URIs'' and the ``slash URIs''. 
+
+%These two options were the subject of many discussions we will not detail here.
 
 If the reader is familiar with the book ``Gulliver's Travels'' and its
 influence on computer science, at first this distinction can sound like
