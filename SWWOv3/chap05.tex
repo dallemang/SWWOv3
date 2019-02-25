@@ -710,12 +710,14 @@ In this way, \emphh{conneg} allows us some flexibilty in the use of HTTP URIs;  
 the same URI for the hypertext Web and the data Web (which, after all, are the same Web), but
 provide different responses depending on who is doing the asking.  It is, of course, the server's responsibility to make sure that the content of the response is the same, regardless of its form. 
 
-%% finish this sentence!!
+%% finish this sentence!! - FG, please review the previous paragraph.  
+%% In the original, the text simply ended, so I finished what I thought 
+%% you had in  mind here. 
 
 \hypertarget{rerouting-calls}{%
 \subsection{Rerouting calls}\label{rerouting-calls}}
 
-The final pillar of Figure~\ref{fig:ch5.2} is called \emph{HTTP redirection}.
+The final pillar of Figure~\ref{fig:ch5.2} is  \emph{HTTP redirection}.
 
 Anyone who has ever browsed the web is familiar with the ``404 Not Found'' error we sometime 
 get in our browser
@@ -779,7 +781,7 @@ dereferencing a URI. In particular, if you intend to support
 dereferenceable HTTP URIs, there are two main design patterns you can 
 considered when you want to choose a naming scheme to identify
 things that are not on the Web. These two families are referred to as
-the ``hash URIs'' and the ``slash URIs''. 
+the ``hash URIs'' and the ``slash URIs''.  
 
 %These two options were the subject of many discussions we will not detail here.
 
@@ -799,7 +801,7 @@ In a URL it is traditionally used to denote a fragment of a Web page
 e.g.
 
 \begin{lstlisting}
-http://fabien.info/publications.html\#navothers
+http://fabien.info/publications.html#navothers
 \end{lstlisting}
 
 This could indicate a section ``navothers'' in the page
@@ -822,7 +824,7 @@ Generalizing this example, whenever a URI contains a hash (\#), this
 indicates a fragment in the URI:
 
 \begin{lstlisting}
-http://my.domain.name/my/path\#the-fragment
+http://my.domain.name/my/path#the-fragment
 \end{lstlisting}
 
 
@@ -844,11 +846,11 @@ The use of a fragment has two advantages:
 \begin{enumerate}
 \def\labelenumi{\arabic{enumi}.}
 \item
-  To immediately differentiate the name of the descriptions and the
-  names of the resources described without performing a redirection;
+  it differentiates between the name of the descriptions and the
+  names of the resources described without performing a redirection, and
 \item
-  The grouping of several descriptions in one resource that can be
-  cached to avoid several calls to discover different linked resources.
+  it allows grouping of several descriptions in a single resource that can be
+  cached by a client to avoid several calls to discover different linked resources.
 \end{enumerate}
 
 For example, in one source at the address:
@@ -862,22 +864,20 @@ I can describe several things:
 
 
 \begin{lstlisting}
-http://fabien.gandon.me/my/objects/cars\#bmw1
-http://fabien.gandon.me/my/objects/cars\#smart1
-http://fabien.gandon.me/my/objects/cars\#tesla1
+http://fabien.gandon.me/my/objects/cars#bmw1
+http://fabien.gandon.me/my/objects/cars#smart1
+http://fabien.gandon.me/my/objects/cars#tesla1
 \end{lstlisting}
 \ldots{} 
 
-
-
-This first option also has "the disadvantages of its advantages": one
-cannot obtain the description of only one resource since the whole
-description source is retrieved every time the address is accessed and
-this could be costly in terms of network traffic, memory and processing
+These advantages of hash URIs can also be a drawback; since the whole
+description source is retrieved every time the address is accessed, one
+cannot obtain the description of just a  single resource.  This could 
+be costly in terms of network traffic, memory and processing
 when the set of described resources is large.
 
-The alternative is to use only the path with slashes (i.e. the symbol /
-) to generate identifiers. For instance:
+The alternative is to use only slash URIs (i.e. the symbol /) 
+to generate identifiers. For instance:
 
 \begin{lstlisting}
 http://fabien.gandon.me/my/objects/cars/bmw1
@@ -889,18 +889,27 @@ redirect'' that relies on the use of the "303 See Other" HTTP answer to
 redirect accesses to the HTTP URI of a thing to some URL where to find a
 description about that thing.
 
-The dereferencing of an HTTP Slash URI identifying a thing will
-therefore follow a process in four steps: (1) The client makes a first
-attempt to connect (HTTP GET) to the HTTP Slash URI; (2) the server
+The dereferencing of an HTTP Slash URI identifying a thing follows  a four-step 
+process in four steps: 
+\begin{enumerate}
+    \item The client makes the first
+attempt to connect (HTTP GET) to the HTTP Slash URI; 
+    \item the server
 respond with a ``303 See Other'' HTTP code and provides the URL to get a
-description; (3) the client performs a second call (HTTP GET) to the
-provided URL; (4) the server provides the requested description (200
-OK). Again this process can be combined with content negotiation so that
-the provided URL corresponds as closely as possible to the preferences
+description;
+    \item the client performs a second call (HTTP GET) to the
+provided URL;
+    \item the server provides the requested description (200
+OK).
+\end{enumerate}
+
+Just as is the case for any URI resolution, yhis process can be combined with 
+content negotiation so that
+the result provided by the web server corresponds as closely as possible to the preferences
 of the client.
 
-This alternative, using slashes, allows us to be much more modular in
-the storage and transfer of descriptions. Here, a Web client can
+The slash URI alternative allows us to be much more modular in
+the storage and transfer of descriptions. In this case, a Web client can
 retrieve only the description it is interested in.
 
 Disadvantages include the multiplication (by two) of HTTP calls (the
@@ -911,34 +920,37 @@ retrieve a collection of them.
 To summarize, fragments can be used for small datasets where grouping
 makes sense (unity of content, linked, same life cycle), a classical
 example of that are vocabularies, schemas or ontologies. This option is
-also the simplest one as it can be implemented, for instance, just by
+also simpler as it can be implemented, for instance, just by
 hosting a file on a Web server. The redirection by HTTP 303 is more
 technical but allows more control over the data served.
 
 Finally, nothing prevents you from using and mixing these two options
 even inside the same dataset. A classical way to do that is to add an
-artificial fragment (e.g. \#me, \#this) to have the modularity of the
-slash and the simple call of the hash. For instance, we can have a full
+artificial fragment (e.g. \#me, \#this) to combine the modularity of 
+slash URIs with the simplicity  of  hash URIs. For example, we can have a full
 path with slashes to generate identifiers allowing us to be modular in
 the storage and transfer of descriptions and add an artificial fragment
 (\#this) to enforce that the URI of the thing (with the fragment) and
 the URI of the description (without the fragment) are two different
-identifiers and avoid to perform a redirection. In a way we have our
+identifiers and avoid a redirection. In this way, we can have our
 cake and eat it too:
 
 \begin{lstlisting}
-http://fabien.gandon.me/my/objects/cars/tesla1\#this
+http://fabien.gandon.me/my/objects/cars/tesla1#this
 \end{lstlisting}
 
 \hypertarget{see-it-for-yourself}{%
-\subsection{See it for yourself\ldots{}}\label{see-it-for-yourself}}
+\section{See it for yourself\ldots{}}\label{see-it-for-yourself}}
 
-Because this book is about linked data on the \emph{Web} and semantic
-Web we are going to give you a number example directly from the Web. At
-the moment of writing this book most these examples are online and
-accessible but, with the Web, things change fast and some of our
-examples may no longer work. For this reason, and in order to show the
-diversity of usages, we will include several such examples.
+This chapter is about linked data on the \emph{Web}.  To illustrate 
+how this works, we will examine some examples taken directly from the Web. At
+the moment of writing this book, most these examples are online and
+accessible.   But things change fast on the Web, so there is no guarantee that 
+any particular example will work in the future.   We'll provide a number of examples,
+in the hopes that at least some of them will continue for a while.  This has the added benefit 
+that it allows us to demonstrate a wide range of uses of linked data on the web. 
+
+\subsection{Documentary pages at the BBC}
 
 Our first example is from an unfortunately discontinued version of the
 BBC Web Site. In order to experience by yourself the existence of the
@@ -1007,9 +1019,15 @@ machines}
     \label{fig:ch5.4}
 \end{figure}
 
-Moving to a completely different domain and data source, let us now
-consider UniProt that provides RDF descriptions of protein sequence and
-function. Again, if you are a biologist interested in the ``Cell surface
+
+\subsection{Publishing Protein Sequences}
+
+The Universal Protein Resource (\emph{UniProt} for short) is a service whose mission is to 
+provide the scientific community 
+with a comprehensive, high-quality and freely accessible resource of protein sequence and 
+functional information \footnote{https://www.uniprot.org/}. 
+Among its services, UniProt  provides RDF descriptions of protein sequence and
+function. For example, if you are a biologist interested in the ``Cell surface
 glycoprotein MUC18'', there is a URI for that:
 
 \begin{lstlisting}
@@ -1025,14 +1043,26 @@ rendering for humans}
     \label{fig:ch5.5}
 \end{figure}
 
-When accessed by a Web browser for a human the response contains an HTML
-page to be displayed (Figure~\ref{fig:ch5.5}) but when accessed by a machine the
-response is a redirection to the RDF version of that description (Figure~\ref{fig:ch5.6} that can be found here:
+UniProt's service provides a good example of URI redirection.  The persistent URI is \textt{http://purl.uniprot.org/uniprot/P43121}.  
+When this HTTP URI is accessed by a Web browser for a human,  the response is a redirection to 
+
+\begin{lstlisting}
+https://www.uniprot.org/uniprot/P43121
+\end{lstlisting}
+
+which resolves to an HTML
+page suitable for display in a browser (see Figure~\ref{fig:ch5.5}).   
+
+On the other hand, when  that same HTTP URI is accessed by a 
+machine,  the
+response is a redirection to the RDF version of that description:
 
 \begin{lstlisting}
 https://www.uniprot.org/uniprot/P43121.rdf
 \end{lstlisting}
 
+This redirected URI resolves to an RDF document, an excerpt of which can be seen in 
+Figure~\ref{fig:ch5.6}.
 
 
 \begin{figure}
@@ -1050,53 +1080,61 @@ https://www.uniprot.org/uniprot/P43121.rdf
     <replaces rdf:resource="http://purl.uniprot.org/uniprot/Q59E86"/>
     <replaces rdf:resource="http://purl.uniprot.org/uniprot/Q6PHR3"/>
     <replaces rdf:resource="http://purl.uniprot.org/uniprot/Q6ZTR2"/>
-    <citation rdf:resource="http://purl.uniprot.org/citations/2602381" rdf:ID="_P43121-citation-2602381"/>
-    <citation rdf:resource="http://purl.uniprot.org/citations/8378324" rdf:ID="_P43121-citation-8378324"/>
-    <citation rdf:resource="http://purl.uniprot.org/citations/11709656" rdf:ID="_P43121-citation-11709656"/>
+    <citation rdf:resource="http://purl.uniprot.org/citations/2602381" 
+              rdf:ID="_P43121-citation-2602381"/>
+    <citation rdf:resource="http://purl.uniprot.org/citations/8378324" 
+              rdf:ID="_P43121-citation-8378324"/>
+    <citation rdf:resource="http://purl.uniprot.org/citations/11709656" 
+              rdf:ID="_P43121-citation-11709656"/>
 \end{lstlisting}
     \caption{Cell surface glycoprotein MUC18 in UnitProt: extract of the
-RDF/XML version for machines}
+RDF/XML version for automated use}
     \label{fig:ch5.6}
 \end{figure}
 
-As a third example let us consider DBpedia, which is according to their
-own site, ``a crowd-sourced community effort to extract structured
-content from the information created in various Wikimedia projects''
-including the famous Wikipedia encyclopaedia. This initiatives extracts
-and publicly makes available structured data from the pages of Wikipedia
-and other Wikimedia projects, therefore covering a wide variety of
-domains and topics. Again they use RDF and linked data principles
-therefore every topic has a URI for which you can negotiate HRTML of
-RDF. Consider for instance the topic ``Eiffel Tower'' identified by the
+\subsection{Wikipedia as Data: DBpedia}
+
+DBpedia is a crowd-sourced community effort to extract structured
+content from the information created in various Wikimedia projects\footnote{https://wiki.dbpedia.org/about}. 
+This includes the famous Wikipedia encyclop{\ae}ia.  This initiatives extracts
+and publishes structured data from the pages of Wikipedia
+and other Wikimedia projects, and therefore covers a wide variety of
+domains and topics. As in the other examples in the chapter, DBpedia uses RDF and linked data 
+principles in the publication of their information. 
+Thus, every topic has an HTTP URI, the description of which, using redirection and \emph{conneg},  
+is provided  either as
+HTML or as 
+RDF. Let's take as an example the concept ``Eiffel Tower'', which is identified by the
 following identifier:
 
 \begin{lstlisting}
-{http://dbpedia.org/\textbf{resource}/Eiffel\_Tower
+http://dbpedia.org/resource/Eiffel_Tower
 \end{lstlisting}
 
 If you access that HTTP URI with a browser, you are redirected to the
 following URL
 
 \begin{lstlisting}
-http://dbpedia.org/\textbf{page}/Eiffel\_Tower
+http://dbpedia.org/page/Eiffel_Tower
 \end{lstlisting}
 
 This URL displays an HTML page rendering all the data extracted about
-that topic and available publicly on the Web as linked data (Figure 7).
+that topic and available publicly on the Web as linked data (Figure~\ref{fig:ch5.7}.
 
 \begin{figure}
     \centering
     \includegraphics[width=5in]{media/ch5/figure-05-07.jpg}
-
     \caption{Eiffel Tower at DBpedia: extract of the HTML rendering for humans}
     \label{fig:ch5.7}
 \end{figure}
 
 At the same HTTP URI you can negotiate many other formats including, for
-instance RDF using Turtle /N3 syntax. You would then be redirected
-(Figure 8) to another URL for instance:
+instance RDF using Turtle/N3 syntax. You would then be redirected
+(Figure~\ref{fig:ch5.8}) to another URL for instance:
 
-\url{http://dbpedia.org/data/Eiffel_Tower.n3}
+\begin{lstlisting}
+http://dbpedia.org/data/Eiffel_Tower.n3
+\end{lstlisting}
 
 
 \begin{figure}
@@ -1130,31 +1168,32 @@ machines}
     \label{fig:ch5.8}
 \end{figure}
 
-Now let us fully play the game of linked data. In (Figure 8) you can
-find a piece of code (line 8) saying that the Eiffel Tower is of type
-wikidata:Q41176 which is a qualified name using the prefix ``wikidata''
-attached to a namespace (line 6). At this stage we don't know what this
-means but we can follow our nose and expand the qualify name by
-replacing the prefix with the namespace to obtain an HTTP URI that we
-can access
+Now let us fully play the game of linked data. In (Figure~\ref{fig:ch5.8}) you can
+find a triple (line 8) saying that the Eiffel Tower is of type
+wikidata:Q41176 which is a QName using the namesace prefix \texttt{wikidata:}, which is defined 
+on line 6. At this stage we don't know what this
+means, but we can follow our nose by expanding the QName (i.e., 
+replacing the prefix with its defined  namespace) to obtain an HTTP URI that we
+can access:
 
 \begin{lstlisting}
-http://www.wikidata.org/\textbf{entity}/Q41176
+http://www.wikidata.org/entity/Q41176
 \end{lstlisting}
 
 If you access that HTTP URI with a browser, you are redirected to the
 following URL
 
 \begin{lstlisting}
-https://www.wikidata.org/\textbf{wiki}/Q41176
+https://www.wikidata.org/wiki/Q41176
 \end{lstlisting}
 
 
-This URL displays an HTML page rendering all the data about that
-resource in another important data source of the Web of data: Wikidata
-(Figure 9). This is another initiative of Wikimedia that provides as
+This URL resolves to an HTML page that displys all the data about this
+resource.   
+(Figure~\ref{fig:ch5.9}). This page is part of another important  data source on the Web of data, 
+\emph{Wikidata}. Wikidata is  is another initiative of the Wikimedia Foundation, which provides 
 central storage for the structured data used in other projects of the
-foundation projects including Wikipedia, Wikivoyage, etc. This knowledge
+foundation,  including Wikipedia, Wikivoyage, etc.  Like many of the initiatives of the Wikimedia foundation, this knowledge
 base is open on the Web and can be read and edited by both humans and
 machines.
 
@@ -1165,41 +1204,53 @@ machines.
     \label{fig:ch5.9}
 \end{figure}
 
-Again you can force the access to another format for the same data for
-instance in RDF N-Triple (Figure 10). But if we now put all the pieces
-together we can see that this mysterious resource called wikidata:Q41176
-and found among the types of the Eiffel Tower in DBpedia represents the
-category of the buildings in the data of Wikidata. So we see that these
-linked data explain that the dataset of DBpedia the Eiffel Tower is
-declared to be a Building in the sense of the dataset of Wikidata. We
-witness a link across two data sources on the Web of data.
+As we have seen in the other examples, an application can specify that it prefers  another format for 
+the same data (Figure~\ref{fig:ch5.10}), for
+instance,  as  RDF N-Triples (see Section~\ref{ntriples}).  
+
+Putting  all the pieces
+together, we can see that this mysterious resource called \texttt{wikidata:Q41176},
+which  was found among the types of the Eiffel Tower listed in DBpedia, represents the
+category of \texttt{Buildings} as represented in  Wikidata.   
+In order to get the big picture of the Eiffel Tower, 
+including the fact that it is a building, we combine information from two datasets: DBpedia and Wikidata. 
+In this way, we have
+witnessed a link across two data sources on the Web of data.
 
 \begin{figure}
  \begin{lstlisting}
-<http://www.wikidata.org/entity/Q41176> <http://www.w3.org/2000/01/rdf-schema#label> "building"@en .
-<http://www.wikidata.org/entity/Q41176> <http://www.w3.org/2004/02/skos/core#prefLabel> "building"@en .
+<http://www.wikidata.org/entity/Q41176> rdfs:label "building"@en .
+<http://www.wikidata.org/entity/Q41176> skos:prefLabel "building"@en .
 <http://www.wikidata.org/entity/Q41176> <http://schema.org/name> "building"@en .
-<http://www.wikidata.org/entity/Q41176> <http://www.w3.org/2000/01/rdf-schema#label> "Bilding"@pih .
-<http://www.wikidata.org/entity/Q41176> <http://www.w3.org/2004/02/skos/core#prefLabel> "Bilding"@pih .
+<http://www.wikidata.org/entity/Q41176> rdfs:label "Bilding"@pih .
+<http://www.wikidata.org/entity/Q41176> skos:prefLabel "Bilding"@pih .
 <http://www.wikidata.org/entity/Q41176> <http://schema.org/name> "Bilding"@pih .
-<http://www.wikidata.org/entity/Q41176> <http://www.w3.org/2000/01/rdf-schema#label> "budova"@sk .
-<http://www.wikidata.org/entity/Q41176> <http://www.w3.org/2004/02/skos/core#prefLabel> "budova"@sk .
+<http://www.wikidata.org/entity/Q41176> rdfs:label "budova"@sk .
+<http://www.wikidata.org/entity/Q41176> skos:prefLabel "budova"@sk .
 \end{lstlisting}
     \caption{Building at Wikidata: extract of the RDF N-Triple version for
 machines}
     \label{fig:ch5.10}
 \end{figure}
 
-Until now we have used different tricks (different URLs) to see the
+
+\subsection{Running it yourself}
+
+
+
+
+
+
+So far, we have used different tricks (different URLs) to see the
 different formats available for each description avoiding to perform the
 content negotiation ourselves. Let us now mention one way to perform
-manually the dereferenciation of an HTTP URI and the content
-negotiation. For this, you may use different tools or command and even
-do it from a programming language if you want. Here we use the CURL
+manually the dereferencing of an HTTP URI and the content
+negotiation. For this, you may use different tools or commands and even
+do it from a programming language if you want. Here we use the \texttt{CURL}
 command line tool and library to transfer data using HTTP URIs. The
 command may already be available on your machine or you may have to
 install it from the Web site of the software\footnote{\url{https://curl.haxx.se/}}.
-As show in Figure 11, this tool allow us to perform calls as command
+As show in Figure~\ref{fig:ch5.11}, this tool allow us to perform calls as command
 lines and we performed two executions of CURL here on the same URL from
 Wikidata we just saw. The first execution uses CURL with the options
 ``-o'' to save the output in a file named ``PageBuildings.html''. It
@@ -1214,6 +1265,7 @@ we want a response in RDF/XML and we save this second result in another
 file named ``DataBuildings.rdf''. The result shows that again CURL makes
 a first call, as a result it is redirected to another address and makes
 a second call from which it obtains an RDF/XML file of 1620 kilo bytes
+
 
 \begin{figure}
     \centering
