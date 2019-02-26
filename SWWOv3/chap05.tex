@@ -140,6 +140,9 @@ are some examples:
   \url{http://www.timeanddate.com/worldclock/meetingdetails.html?year=2017\&month=1\&day=1\&hour=4\&min=0\&sec=0\&p1=179}
 \end{itemize}
 
+Many of the data sources for these examples play a central role in the Web of data, and we'll 
+have a closer look at them later. 
+
 The reliance on URIs is key to distributed data, to the Web\-based
 architecture and to the integration of datasets coming from different
 sources and produced by different means.
@@ -317,7 +320,7 @@ access}
     \label{fig:ch5.2}
 \end{figure}
 
-\subsetcion{How to build a URI}
+\subsection{How to build a URI}
 
 Since we are using HTTP URIs for all our data elements, we need to have some 
 method for generating enough distinct URIs for everything we want to describe in our data, now and in the future.
@@ -1094,8 +1097,9 @@ RDF/XML version for automated use}
 \end{figure}
 
 \subsection{Wikipedia as Data: DBpedia}
+\label{dbpedia}
 
-DBpedia is a crowd-sourced community effort to extract structured
+\emph{DBpedia} is a crowd-sourced community effort to extract structured
 content from the information created in various Wikimedia projects\footnote{https://wiki.dbpedia.org/about}. 
 This includes the famous Wikipedia encyclop{\ae}ia.  This initiatives extracts
 and publishes structured data from the pages of Wikipedia
@@ -1189,7 +1193,7 @@ https://www.wikidata.org/wiki/Q41176
 \end{lstlisting}
 
 
-This URL resolves to an HTML page that displys all the data about this
+This URL resolves to an HTML page that displays all the data about this
 resource.   
 (Figure~\ref{fig:ch5.9}). This page is part of another important  data source on the Web of data, 
 \emph{Wikidata}. Wikidata is  is another initiative of the Wikimedia Foundation, which provides 
@@ -1424,215 +1428,93 @@ right. The different colors show different domains of application (e.g.
 life sciences, publication, government, geography).
 
 Some of the sources included in this cloud are well-known for being
-central, historic or atypical. Let us mention some of them:
+central, historic or atypical.  We've seen most of these before:
 
 \begin{itemize}
 \item
-  \emph{DBPedia} is a central and historical source of data and identifiers in
+  \emph{DBPedia}, described in Section~\ref{dbpedia} was one of the first reliable open sources
+  of data and identifiers in
   the linked open data cloud. It is one of the pioneering sources and
   its encyclopedic nature makes it well-suited as a source of reference
-  for other datasets. Its name comes from the fact it publishes linked
-  structured data extracted from Wikipedia and, in particular, from its
-  \emph{infoboxes} (structured tables summarizing facts about a topic in
-  a Wikipedia page). DBPedia includes all kinds of data, including birth
-  dates of famous people, names of capital cities in different
-  languages, geographical coordinates of landmarks, names and
-  identifiers of drugs, etc. All of these data are available as linked
-  open data.
+  for other datasets.
+
 \item
-  \emph{Wikidata} is an initiative of the Wikimedia foundation to crowdsource
-  the contribution and maintenance of a central storage for the
-  structured data to be used in other foundation projects including
-  Wikipedia, Wikivoyage, etc. Here the approach is not to extract data
+  \emph{Wikidata}, also described in Section~\ref{dbpedia}, is a close relative of DBpedia.  In contrast to
+  DBpedia, Wikidata's approach is not to extract data
   from other sources but to directly edit and curate structured data in
-  a Wiki manner. Then this structured data sources can be queried to
-  generate content such a as tables or infoboxes in other sites. Again,
-  all of these data are available as linked open data.
+  a Wiki manner.  This structured data sources can be queried to
+  generate content such as tables or infoboxes in other sites. 
+
 \item
   \emph{Geonames} is a free geographical database that covers all countries
   and, at the time of this writing, contains over eleven million place
   descriptions (countries, cities, regions, etc.) with their names and
   information including currency, population, language, area,
   geographical coordinates, etc.
+
 \item
   \emph{UniProt} stands for Universal Protein Resource and is an international
   initiative to build and publish a comprehensive dataset of protein
   sequences and annotations.
 \end{itemize}
 
-In this book, we have included a number of examples from the Web such as the
-data sources we just mentioned. At the time of this writing, all of these sources are
-available, but, of course,  anything can change on the Web at any moment.  We have done our best to select
-sources that have already shown some longevity, so that we can have some confidence that they 
-will not have disappeared by the time you read these lines.  
 
-\hypertarget{validating-data}{%
-\subsection{Validating data}\label{validating-data}}
-
-Applications that publish and consume data from the Web of data are
-written and hosted by very different organizations. Validation is a way
-to ensure interoperability between open and heterogeneous as the ones
-the Web architecture now links. Moreover, one of the strengths of RDF is
-the simplicity and genericity of its standard graph data model but, as a
-result, it is used to represent a huge variety of data and that variety
-is one of the issues when processing big data. This means that the
-quality of the data you will get may vary a lot from one source to
-another. When discovering and exchanging data over the Web we therefore
-need to check whether the data we obtain match what we expect in terms
-of content and structure. This is also true when obtaining data from
-users. In designing interactions with a user it is important to know
-what information is mandatory and the constraints that must be met for
-the input to be valid. If the user is entering their personal data, you
-may want to check that the family name and first name have been provided
-properly. If they are taking orders, you may want to ensure the product
-ID and the quantity have been appropriately filled in, etc. All these
-are examples of use cases for an RDF validation mechanism that allows us
-to validate the data before adding them to our databases.
-
-SHACL (Shapes Constraint Language) addresses the issue of data quality
-at the structural level by providing a language to describe the
-``shapes'' of the data you are expecting. This takes the form of an RDF
-description of the constraints you want to enforce on the data,
-including the required properties and the types of values you expect.
-Once you have defined your constraints on the RDF data you are
-interested in, you can check any piece of data from any source using a
-validation software.
-
-Imagine you design an application for collecting user profiles from the
-Web. \emph{FOAF} (which stands for \emph{Friend of a Friend}) is a
-popular vocabulary for representing user profile data on the Web of
-data. Suppose that every time your application finds such a FOAF profile
-on the Web, it wants to check its completeness with respect to some
-requirements. As shown in Figure~\ref{fig:ch5.15}, the conditions are themselves
-expressed in RDF and the core notion is the ``shape'' providing a
-description that the data graphs need to satisfy. In our example, we
-declare a shape (line 5) that targets resources of type foaf:Person
-(line 7) and specified three constraints we would like to enforce. The
-first constraint (lines 8-15) makes it compulsory to have exactly one
-family name that must be a string of characters. The second constraint
-(lines 16-24) makes it compulsory to have a gender and this must have
-for value either ``male'' or ``female''. The third constraint (lines
-25-28) just ensures that if the homepage is provided it is a valid IRI.
-
-\begin{figure}
-\begin{lstlisting}
-1.	@prefix foaf: <http://xmlns.com/foaf/0.1/> .
-2.	@prefix sh: <http://www.w3.org/ns/shacl#> .
-3.	@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
-4.	
-5.	:PersonShape
-6.	    a sh:NodeShape ;
-7.	    sh:targetClass foaf:Person ;
-8.	    sh:property [
-9.	        sh:path foaf:familyName ;
-10.	        sh:name "family name" ;
-11.	        sh:description "the family name of a 
-                                          person." ;
-12.	        sh:datatype xsd:string ;
-13.	        sh:maxCount 1 ;
-14.	        sh:minCount 1 ;
-15.	    ] ;
-16.	    sh:property [
-17.	        sh:path foaf:gender ;
-18.	        sh:name "gender" ;
-19.	        sh:description "the gender of a person 
-                                 ('male' or 'female')." ;
-20.	        sh:datatype xsd:string ;
-21.	        sh:maxCount 1 ;
-22.	        sh:minCount 1 ;
-23.		sh:pattern "^(male|female)$" ;
-24.	    ] ;
-25.		sh:property [                
-26.			sh:path foaf:homepage ;
-27.			sh:nodeKind sh:IRI ;
-28.		] .
-\end{lstlisting}
-\label{fig:5.15}
-\caption{A SHACL shape to validate FOAF data: the shape is represented
-itself in RDF.}
-\end{figure}
-
-
-If you provide such a SHACL shape to a SHACL validator, you can then
-check if some data is valid with respect to these constraints. Consider
-the data in Figure 16 containing two small FOAF profiles for Bob (lines
-3-5) and Alice (lines 7-11). If you run a validator on these data the
-report indicates that Alice is a valid foaf:Person according to your
-constraints but that Bob is missing the gender property.
-
-\begin{figure}
-\begin{lstlisting}
-1.	@prefix foaf: <http://xmlns.com/foaf/0.1/> .
-2.	
-3.	:Bob a foaf:Person ;
-4.	    foaf:firstName "Robert" ;
-5.	    foaf:familyName "Doe" .
-6.	
-7.	:Alice a foaf:Person ;
-8.	    foaf:firstName "Alice" ;
-9.	    foaf:familyName "Doe" ;
-10.	    foaf:gender "female" ;
-11.	    foaf:homepage <http://alice.homepage.com/> .
-\end{lstlisting}
-\label{fig:5.16}
-\caption{Two FOAF profiles to be validated with the SHACL shape of Figure~\ref{fig:ch5.15}}
-\end{figure}
-
-
-
-SHACL provides a standard to specify structural patterns to be checked
-upon the data by expressing rules about how actual RDF graphs or
-subgraphs should look like in your data. This validation happens at the
-structural level of the RDF graphs before considering any kind of
-semantics or inference as we will see in the chapters about RDFS and
-OWL. These structural constraints are already very useful to validate
-and integrate data, to document data models, to generate user interfaces
-or even code.
 
 \hypertarget{the-linked-data-platform-architecture}{%
 \subsection{The Linked Data Platform
 architecture}\label{the-linked-data-platform-architecture}}
 
-\emph{Representational State Transfer} (\emph{REST}) is a popular
-software architecture style for creating and publishing services on the
-Web. REST defines a set of constraints to ensure service
+In the history of the development of the Web as an application architecture,
+a great advance was made with the specificationn of 
+\emph{Representational State Transfer} (\emph{REST}), a set of recommendations 
+for how to organize and publicize a service on the Web.  
+REST could be a topic of a book in its own right, but the basic 
+strucutre of REST is that it ensures service
 interoperability over the Web, based on accessing and manipulating
-representations of resources through a uniform and predefined set of
+representations of resources through a small, uniform and predefined set of
 operations (in particular, the standard HTTP methods \emph{GET},
 \emph{PUT}, \emph{PATCH}, \emph{POST}, and \emph{DELETE}). A service
 that complies with the REST principles is said to be \emph{RESTful}.
 
-In a similar way, the W3C has defined the Linked Data Platform (LDP)
-that specifies how web applications can publish, edit and delete
-resources using the HTTP protocol. It can be seen as a standardized REST
+Following on the success of REST, the W3C has defined the \emph{Linked Data Platform} (LDP), which
+specifies how web applications can publish, edit and delete data
+resources using the HTTP protocol. LDP is a standardized specification of how to use REST
 access to linked data, describing how to build clients and servers that
-create, read, and write linked data Resources.
+create, read, and write linked data ersources.
 
-Because in real applications you have to manage a variety of files and
+Because  real applications  have to manage a variety of files and
 data formats, LDP distinguishes two kinds of resources: resources with
 an RDF representation (RDF descriptions) and resources using other
 formats (e.g. HTML files, images, binary files).
 
 In order to be able to add or remove resources from the Web, you need to
 have some kind of data space in which to read and write these resources.
-For this reason, LDP also introduces the notion of \emph{containers} to
-group and manage resources. A container is collections of resources,
-often homogeneous ones (e.g. a collection of user profiles, a catalog of
+For this reason, LDP also introduces the notion of a \emph{container} to
+group and manage resources.  A container is collections of resources; often the members of a container
+are  homogeneous  (e.g. a collection of user profiles, a catalog of
 book descriptions, an inventory of cars). LDP supports three kinds of
-containers with more or less support to automate the creation of
-membership relations between the resources and their containers. A
+containers with varying levels of support for automation of the management of 
+the resources in the container:
+
+\begin{itemize}
+    \item A
 \emph{Basic Container} provides a simple containment vocabulary and
-access mechanism. A \emph{Direct Container} supports the use of a
+access mechanism. 
+
+\item A \emph{Direct Container} supports the use of a
 domain-specific membership assertions (e.g. assert a relation called
 ``author'' between all the resources of a collection of books and a
-resource representing their author). An \emph{Indirect Container} allows
-you to control more precisely the URI of the domain-specific member
+resource representing their author).
+
+\item An \emph{Indirect Container} provides more precise control of the URIs of the domain-specific member
 resources you create.
 
+\end{itemize} 
+
 LDP specifies the effect that each HTTP verb has on resources and
-containers. Figure 17 summarizes each case and shows how these standard
-methods allow you to use only HTTP to remotely manage resources and
-containers in any LDP-compliant platform.
+containers. Figure~\ref{ch5.17} summarizes each case and shows how to use the standard HTTP verbs to 
+remotely manage
+resources and containers in an LDP-compliant platform. 
 
 
 \begin{figure}
@@ -1666,9 +1548,10 @@ resource\tabularnewline
 
 Figure~\ref{fig:ch5.18} shows the transcript of an HTTP request (lines 1-13) sent to a
 container (/fabien/, line 1) on an LDP platform on a Web server
-(inria.fr). The request uses the verb POST (line 1). As we saw in Figure~\ref{fig:ch5.17}, POST to a container creates a new member of that container. The
+(inria.fr). The request uses the verb POST (line 1). As we saw in 
+Figure~\ref{fig:ch5.17}, POST to a container creates a new member of that container. The
 request provides the description of the RDF resource in Turtle
-(serialization specified in line 4) and directly includes the data for
+(serialization specified in line 4), and directly includes the data for
 the new resource in the request itself (lines 7-13). The result (lines
 15-18) shows that the request was accepted by the server (line 16), the
 resource was created (also line 16), and it provides the URI of the
@@ -1688,7 +1571,7 @@ newly created description is returned (line 17).
 8.	@prefix dc: <http://purl.org/dc/terms/> .
 9.	<> a foaf:PersonalProfileDocument;
 10.	   foaf:primaryTopic <#me> ;
-11.	   dc:title 'Fabien’s FOAF profile' .
+11.    dc:title 'Fabien’s FOAF profile' .
 12.	<#me> a foaf:Person;
 13.	   foaf:name 'Fabien Gandon' .
 14.	 
@@ -1703,7 +1586,8 @@ newly created description is returned (line 17).
   \end{figure}
 
 \hypertarget{summary}{%
-\subsection{Summary}\label{summary}}
+
+\section{SUMMARY}\label{summary}}
 
 To weave a Web of linked data you must follow three rules: (1) use HTTP
 URIs to name everything (2) provide descriptive information in
@@ -1711,11 +1595,10 @@ appropriate formats about the resources identified by these URIs every
 time they are accessed, and (3) include, in these descriptions, links to
 HTTP URIs of other things. We have seen how to mint the URIs and how
 HTTP can be used to negotiate the best answer when dereferencing a URI.
-Web agents may need to validate data that comes from the Web or its
-users. For this purpose, the Semantic Web stack provides SHACL, a
-language for specifying ``shapes'' for data, which specify structural
-constraints to be met by a piece of RDF to be valid. Finally, we saw how
-the Linked Data Platform (LDP) provides a standardized service
+We showed examples of linked data resources on the Web today, and how they form
+a Linked Data Cloud. 
+Finally, we saw how
+the Linked Data Platform (LDP) specification provides a standardized service
 architecture and set of operations based on HTTP verbs to read and write
 resources and resource descriptions on the Web of data.
 
@@ -1726,17 +1609,18 @@ The following fundamental concepts were introduced in this chapter:
 
 \begin{itemize}
 \item
-  HTTP URIs and dereferencing: a URIs created to name anything but that
-  uses the HTTP in order to be dereferenceable by just making and HTTP
-  call to the address it provides.
+  \emph{\textbf{HTTP URI}}: a URI created to name anything but that
+  uses the HTTP protocol.
 \item
-  the content negotiation in HTTP allowing a server to serve for the
-  same HTTP URI different contents to Web clients.
+  \emph{\textbf{dereferencing}}: the process of resolving an HTTP URI to find information about 
+  the resource it references. 
 \item
-  SHACL shapes to validate RDF data at the structural level by providing
-  the constraint you expect them to meet.
-\item
-  Linked Data Platform (LDP) that specifies how web applications can
+  \emph{\textbf{content negotiation}} the process by which an HTTP server provides content in different forms when 
+  resolving the
+  same HTTP URI, based on client content specifications.  
+
+\item 
+  \emph{\textt{Linked Data Platform (LDP)}}: a sest of recommendations about how web applications should 
   publish, edit and delete resources using the HTTP protocol.
 \end{itemize}
 

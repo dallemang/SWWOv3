@@ -1,5 +1,23 @@
-\chapter{RDF and inferencing}
+\chapter{Extending RDF}
 \label{ch7}
+
+RDF allows us to represent data as a graph, and as we have seen in Chapter~\ref{ch5}, when we use HTTP URIs as 
+identifiers in RDF, we can weave a world-wide Web of data.  This Web of data already exists and has billions of triples. The Semantic Web standards build on top of RDF to provide more modeling capabilities for the Web of data.  There are two basic ideas at play in these extensions:
+
+\begin{itemize}
+    \item \emph{Inference}, where we draw conclusions based on data we have already seen.  Inference is
+    a way to create new data from existing data. 
+    \item \emph{Expectation} where we form some prediction about data we haven't yet seen.  Expectation is useful when 
+    eliciting data from a user or for validating data from a new data source. 
+\end{itemize}
+
+\section{Inference in RDF}
+
+In Chapter~\ref{ch1}, we examined some of the assumptions around managing information on the web, 
+whether it is to be consumed directly by humans or first by machines.  One of the basic assumptions is
+that we cannot know, in advance, what we will find on the web, therefore, we must proceed with the \emph{Open World} assumption (Section~\ref{openworld}).  We only draw conclusions from data that will not be undermined or countermanded by the discovery of new data.  
+
+
 
 Suppose you hit the web page of an online clothing retailer, and you
 search for ``chamois'' in the category of ``Shirts.'' Your search comes
@@ -7,7 +25,7 @@ up empty. You are surprised, because you were quite certain that you saw
 a chamois Henley in the paper catalog that landed in your mailbox. So
 you look up the unit number in the catalog and do another search, using
 that. Sure enough, there is the chamois Henley. Furthermore, you find
-that ``Henleys'' is shown in the catalog as a kind of ``Shirts.'' You
+that ``Henleys'' is shown in the catalog as a kind of ``Shirts.'' You might
 mutter to yourself. ``If it comes up under `Henleys,' it should come up
 under `Shirts.' What's the matter with this thing?''
 
@@ -62,7 +80,7 @@ just know that this is the way families work?), it is the lack of just
 this sort of correlation that keeps data inconsistent and is vital to
 scenarios such as the search engine we mentioned.
 
-\section{Inference in the Semantic Web}
+\subsection{Inference in the Semantic Web}
 
 To make our data seem more connected and consistently integrated, we
 must be able to add relationships into the data that will constrain how
@@ -537,6 +555,141 @@ the query or program. If many people develop different systems (even
 using different technological approaches), the results they provide will
 be consistent, if they justify them all against the same model.
 
+
+\section{Expectation in RDF}
+
+
+
+
+%%%%%%% Begin material from chapter 5
+
+\hypertarget{validating-data}{%
+\subsection{Validating data}\label{validating-data}}
+
+Applications that publish and consume data from the Web of data are
+written and hosted by very different organizations. Validation is a way
+to ensure interoperability between open and heterogeneous as the ones
+the Web architecture now links. Moreover, one of the strengths of RDF is
+the simplicity and genericity of its standard graph data model but, as a
+result, it is used to represent a huge variety of data and that variety
+is one of the issues when processing big data. This means that the
+quality of the data you will get may vary a lot from one source to
+another. When discovering and exchanging data over the Web we therefore
+need to check whether the data we obtain match what we expect in terms
+of content and structure. This is also true when obtaining data from
+users. In designing interactions with a user it is important to know
+what information is mandatory and the constraints that must be met for
+the input to be valid. If the user is entering their personal data, you
+may want to check that the family name and first name have been provided
+properly. If they are taking orders, you may want to ensure the product
+ID and the quantity have been appropriately filled in, etc. All these
+are examples of use cases for an RDF validation mechanism that allows us
+to validate the data before adding them to our databases.
+
+SHACL (Shapes Constraint Language) addresses the issue of data quality
+at the structural level by providing a language to describe the
+``shapes'' of the data you are expecting. This takes the form of an RDF
+description of the constraints you want to enforce on the data,
+including the required properties and the types of values you expect.
+Once you have defined your constraints on the RDF data you are
+interested in, you can check any piece of data from any source using a
+validation software.
+
+Imagine you design an application for collecting user profiles from the
+Web. \emph{FOAF} (which stands for \emph{Friend of a Friend}) is a
+popular vocabulary for representing user profile data on the Web of
+data. Suppose that every time your application finds such a FOAF profile
+on the Web, it wants to check its completeness with respect to some
+requirements. As shown in Figure~\ref{fig:ch5.15}, the conditions are themselves
+expressed in RDF and the core notion is the ``shape'' providing a
+description that the data graphs need to satisfy. In our example, we
+declare a shape (line 5) that targets resources of type foaf:Person
+(line 7) and specified three constraints we would like to enforce. The
+first constraint (lines 8-15) makes it compulsory to have exactly one
+family name that must be a string of characters. The second constraint
+(lines 16-24) makes it compulsory to have a gender and this must have
+for value either ``male'' or ``female''. The third constraint (lines
+25-28) just ensures that if the homepage is provided it is a valid IRI.
+
+\begin{figure}
+\begin{lstlisting}
+1.	@prefix foaf: <http://xmlns.com/foaf/0.1/> .
+2.	@prefix sh: <http://www.w3.org/ns/shacl#> .
+3.	@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+4.	
+5.	:PersonShape
+6.	    a sh:NodeShape ;
+7.	    sh:targetClass foaf:Person ;
+8.	    sh:property [
+9.	        sh:path foaf:familyName ;
+10.	        sh:name "family name" ;
+11.	        sh:description "the family name of a 
+                                          person." ;
+12.	        sh:datatype xsd:string ;
+13.	        sh:maxCount 1 ;
+14.	        sh:minCount 1 ;
+15.	    ] ;
+16.	    sh:property [
+17.	        sh:path foaf:gender ;
+18.	        sh:name "gender" ;
+19.	        sh:description "the gender of a person 
+                                 ('male' or 'female')." ;
+20.	        sh:datatype xsd:string ;
+21.	        sh:maxCount 1 ;
+22.	        sh:minCount 1 ;
+23.		sh:pattern "^(male|female)$" ;
+24.	    ] ;
+25.		sh:property [                
+26.			sh:path foaf:homepage ;
+27.			sh:nodeKind sh:IRI ;
+28.		] .
+\end{lstlisting}
+\label{fig:ch5.15}
+\caption{A SHACL shape to validate FOAF data: the shape is represented
+itself in RDF.}
+\end{figure}
+
+
+If you provide such a SHACL shape to a SHACL validator, you can then
+check if some data is valid with respect to these constraints. Consider
+the data in Figure 16 containing two small FOAF profiles for Bob (lines
+3-5) and Alice (lines 7-11). If you run a validator on these data the
+report indicates that Alice is a valid foaf:Person according to your
+constraints but that Bob is missing the gender property.
+
+\begin{figure}
+\begin{lstlisting}
+1.	@prefix foaf: <http://xmlns.com/foaf/0.1/> .
+2.	
+3.	:Bob a foaf:Person ;
+4.	    foaf:firstName "Robert" ;
+5.	    foaf:familyName "Doe" .
+6.	
+7.	:Alice a foaf:Person ;
+8.	    foaf:firstName "Alice" ;
+9.	    foaf:familyName "Doe" ;
+10.	    foaf:gender "female" ;
+11.	    foaf:homepage <http://alice.homepage.com/> .
+\end{lstlisting}
+\label{fig:5.16}
+\caption{Two FOAF profiles to be validated with the SHACL shape of Figure~\ref{fig:ch5.15}}
+\end{figure}
+
+
+
+SHACL provides a standard to specify structural patterns to be checked
+upon the data by expressing rules about how actual RDF graphs or
+subgraphs should look like in your data. This validation happens at the
+structural level of the RDF graphs before considering any kind of
+semantics or inference as we will see in the chapters about RDFS and
+OWL. These structural constraints are already very useful to validate
+and integrate data, to document data models, to generate user interfaces
+or even code.
+
+
+%%%%%% End material from Chapter 5
+
+
 \section{SUMMARY}
 
 RDF provides a way to represent data so that information from multiple
@@ -584,17 +737,24 @@ they support.
 
 The following fundamental concepts were introduced in this chapter.
 
-Inferencing---The process by which new triples are systematically added
+\begin{itemize}
+\item Inferencing---The process by which new triples are systematically added
 to a graph based on patterns in existing triples.
 
-Asserted triples---The triples in a graph that were provided by some
+\item Asserted triples---The triples in a graph that were provided by some
 data source.
 
-Inferred triples---Triples that were added to a model based on
+\item Inferred triples---Triples that were added to a model based on
 systematic inference patterns.
 
-Inference rules---Systematic patterns defining which of the triples
+\item Inference rules---Systematic patterns defining which of the triples
 should be inferred.
 
-Inference engine---A program that performs inferences according to some
+\item Inference engine---A program that performs inferences according to some
 inference rules. It is often integrated with a query engine.
+
+\item
+  SHACL shapes to validate RDF data at the structural level by providing
+  the constraint you expect them to meet.
+  \end{itemize}
+  
