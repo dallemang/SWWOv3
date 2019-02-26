@@ -2,13 +2,13 @@
 % Please see read-me.txt for details.
 
 \documentclass[times]{acm-book}%%%
-\usepackage{arabtex}
-\usepackage{utf8}
-\usepackage{CJKutf8}
+
 \usepackage{amsmath}    % Package for AMS math extensions.
 \usepackage{graphicx}   % Package for importing EPS files.
 \usepackage{listings}
-
+\usepackage{arabtex}
+\usepackage{utf8}
+\usepackage{CJKutf8}
 
 \lstset{
 morecomment = [l]{*}
@@ -28,7 +28,7 @@ morecomment = [l]{*}
 
 \newenvironment{solution}[1][]{\textbf{SOLUTION}}
 
-\renewcommand{\star}{{\usefont{OML}{cmm}{m}{it}\symbol{63}}}
+%\renewcommand{\star}{{\usefont{OML}{cmm}{m}{it}\symbol{63}}}
 
 \newcounter{example}
 \newenvironment{example}[1][]{\refstepcounter{example}\par\medskip

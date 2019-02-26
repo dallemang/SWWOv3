@@ -1,0 +1,37 @@
+\documentclass[times]{acm-book}%%%
+%In the preamble section include the arabtex and utf8 packages
+\usepackage{amsmath}    % Package for AMS math extensions.
+\usepackage{graphicx}   % Package for importing EPS files.
+\usepackage{listings}
+\usepackage{arabtex}
+\usepackage{utf8}
+\usepackage{CJKutf8}
+
+\begin{document}
+\chapter{The first chapter}
+\label{ch5}
+
+\section{Weaving a Web of Data}
+
+%start encoding to unicode
+%Note that your layout must support arabic text when compiling
+\setcode{utf8}
+%To start typing in Arabic use the command arabtext
+hello
+(e.g., http://\<الحيوانات.tn/ >.tn/\begin{CJK*}{UTF8}{gbsn}猫
+\end{CJK*}\#mytsie)
+
+\begin{quote}
+$\star{}$ Data is available on the Web, in whatever format.
+
+$\star{}\star{}$ Available as machine-readable structured data, (i.e., not a scanned
+image).
+
+$\star\star\star$ Available in a non-proprietary format, (i.e, CSV, not Microsoft
+Excel).
+
+$\star\star\star\star$ Published using open standards from the W3C (RDF and SPARQL).
+
+$\star\star\star\star\star$ All of the above and links to other Linked Open Data.
+\end{quote}
+\end{document}
