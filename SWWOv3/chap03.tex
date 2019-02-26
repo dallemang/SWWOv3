@@ -33,8 +33,8 @@ at such an unprecedented rate. To implement the Semantic Web, we need a
 model of data that allows information to be distributed over the Web.
 
 \section{Distributing Data Across the Web}
-
-Data are most often represented in tabular form, in which each row
+\label{distribute}
+Data are most typically represented in tabular form, in which each row
 represents some item we are describing, and each column represents some
 property of those items. The cells in the table are the particular
 values for those properties. Table~\ref{tab:ch3.1} shows a sample of some data about
@@ -123,7 +123,7 @@ something new about the entities (say, how many pages the manuscript
 is), we can add a new server with that information without disrupting
 the others.
 
-This solution is similar to the solution in Figure 3.1 in that it
+This solution is similar to the solution in Figure~\ref{fig:ch3.1} in that it
 requires some coordination between the servers. In this case, the
 coordination has to do with the identities of the entities to be
 described. How do I know that row 3 on one server refers to the same
@@ -192,7 +192,8 @@ Triples become more interesting when more than one triple refers to the
 same entity, such as in Table~\ref{tab:ch3.3}. When more than one triple refers to
 the same thing, sometimes it is convenient to view the triples as a
 directed graph in which each triple is an edge from its subject to its
-object, with the predicate as the label on the edge, as shown in Figure~\ref{fig:ch3.4}. The graph visualization in Figure~\ref{fig:ch3.4} expresses the same
+object, with the predicate as the label on the edge, as shown in Figure~\ref{fig:ch3.4}. The graph 
+visualization in Figure~\ref{fig:ch3.4} expresses the same
 information presented in Table~\ref{tab:ch3.3}, but everything we know about
 Shakespeare (either as subject or object) is displayed at a single node.
 
@@ -227,7 +228,7 @@ Scotland&partOf&UK \\
 \end{figure}
 
 
-\section{MERGING DATA FROM MULTIPLE SOURCES}
+\section{Merging Data from Multiple Sources}
 
 We started off describing RDF as a way to distribute data over several
 sources. But when we want to use that data, we will need to merge those
@@ -246,7 +247,8 @@ in the original table, as shown in Figure~\ref{fig:ch3.5}.
 
 What happens when we merge together the information from these three
 sources? We simply get the graph of all the triples that show up in
-Figures \ref{fig:ch3.4} and \ref{fig:ch3.5}. Merging graphs like those in Figures \ref{fig:ch3.4} and \ref{fig:ch3.5} to
+Figures \ref{fig:ch3.4} and \ref{fig:ch3.5}. Merging graphs like those in 
+Figures \ref{fig:ch3.4} and \ref{fig:ch3.5} to
 create a combined graph like the one shown in Figure~\ref{fig:ch3.6} is a
 straightforward process---but only when it is known which nodes in each
 of the source graphs match.

@@ -102,6 +102,7 @@ identify what exists on the web (\url{http://my-site.fr}), we also start using
 URIs to identify, on the web, what exists in general
 (e.g., \url{http://animals.org/cat\#mytsie}, for Fabien's cat, Mytsie).  As we include IRIs in the Web of data, we identify,
 on the web, what exists, in any language
+\setcode{utf8}
 (e.g., http://\<الحيوانات.tn/ >.tn/\begin{CJK*}{UTF8}{gbsn}猫
 \end{CJK*}\#mytsie).
 
@@ -1043,7 +1044,7 @@ rendering for humans}
     \label{fig:ch5.5}
 \end{figure}
 
-UniProt's service provides a good example of URI redirection.  The persistent URI is \textt{http://purl.uniprot.org/uniprot/P43121}.  
+UniProt's service provides a good example of URI redirection.  The persistent URI is \texttt{http://purl.uniprot.org/uniprot/P43121}.  
 When this HTTP URI is accessed by a Web browser for a human,  the response is a redirection to 
 
 \begin{lstlisting}
@@ -1234,105 +1235,91 @@ machines}
 \end{figure}
 
 
-\subsection{Running it yourself}
 
-
-
-
-
-
-So far, we have used different tricks (different URLs) to see the
-different formats available for each description avoiding to perform the
-content negotiation ourselves. Let us now mention one way to perform
-manually the dereferencing of an HTTP URI and the content
-negotiation. For this, you may use different tools or commands and even
-do it from a programming language if you want. Here we use the \texttt{CURL}
-command line tool and library to transfer data using HTTP URIs. The
-command may already be available on your machine or you may have to
-install it from the Web site of the software\footnote{\url{https://curl.haxx.se/}}.
-As show in Figure~\ref{fig:ch5.11}, this tool allow us to perform calls as command
-lines and we performed two executions of CURL here on the same URL from
-Wikidata we just saw. The first execution uses CURL with the options
-``-o'' to save the output in a file named ``PageBuildings.html''. It
-also uses the option ``-L'' to follow redirections and ``-H'' to specify
-in the HTTP headers of our call that we want a response in HTML. The
-last parameter is the URI of the category Buildings in Wikidata as seen
-before. The result shows that CURL makes a first call, as a result it is
-redirected to another address and makes a second call from which it
-obtains and saves an HTML file of 230 kilobytes. The second execution is
-almost the same except we specify in the HTTP headers of our call that
-we want a response in RDF/XML and we save this second result in another
-file named ``DataBuildings.rdf''. The result shows that again CURL makes
-a first call, as a result it is redirected to another address and makes
-a second call from which it obtains an RDF/XML file of 1620 kilo bytes
-
-
-\begin{figure}
-    \centering
-    \includegraphics[width=5.0in]{media/ch5/figure-05-11.jpg}
-    \caption{Performing CURL calls on Wikidata HTTP URIs to demonstrate
-dereferencing and content negotiation}
-    \label{fig:ch5.11}
-\end{figure}
 
 \hypertarget{linking-rdf-data}{%
 \subsection{Linking RDF data}\label{linking-rdf-data}}
 
-The recommended format to publish linked data on the Web is RDF and we
-now know it has different serialization formats (XML, Turtle/N3,
-JSON-LD, RDFa, etc.) that can be part of the content negotiation when
-dereferencing an HTTP URI. The very fact RDF relies on URIs to identify
-everything makes it an excellent data model to allow anyone to publish,
-exchange and extend descriptions on the Web. The use of HTTP URIs
-provide a standard way to obtain and augment data about any encountered
+The recommended format for publishing linked data on the Web is RDF,  and as we saw in Chapter~\ref{ch3}, it 
+has different serialization formats (XML, Turtle,
+JSON-LD, RDFa, etc.).  These formats can be specified as   part of the content negotiation when
+dereferencing an HTTP URI.   But regardless of the serialization, the content is given as 
+a set of triples (Section \ref{distribute}), where each component of each triple is an HTTP URI. 
+
+The very fact that RDF relies on URIs to identify
+everything makes it an excellent data model for publishing,
+exchanging and extending descriptions on the Web. The use of HTTP URIs
+provides a standard way to obtain and augment data about any 
 identifier. In fact, an RDF triple contains up to three HTTP URIs
-(subject, predicate and object) and each can be used to ``follow our
-noses'' and discover new data. Any HTTP URI used in an RDF description
-can be looked-up for more information.
+(subject, predicate and object), and each can be used to follow our
+noses and discover new data. Any HTTP URI used in an RDF dataset
+can be looked up for more information.
 
-While it is true that any piece of RDF already contains links - since
-RDF triples are links between a resource and (another) resource or a
-literal -- this must be turned into a more specific best practice: to
-weave a Web of linked data we need links across datasets which means the
-subjects or objects of the triples of the dataset should reuse or link
-URIs from other datasets as much as possible in order to generate that
-global giant graph of data we want.
+In this sense,   any RDF data set already contains links, since
+RDF triples are links between one resource and another.  
+But this sense of linkage isn't enough to weave a Web of data.  After all, 
+If each data source were to only use  URIs from  its own domain, then
+that source would be an isolated island,  and there would be no
+Web of data.  To
+weave a Web of linked data we need links across datasets,  which means the
+subjects or objects of the triples of one dataset have to reuse
+URIs from some other datasets.  As a good practice, the more such links, the better, 
+since it means we have a more densely interconnected web of data, which in turn, supports
+improved discovery,  crawling, integration, browsing,
+aggregation, etc. of multiple data sources
 
-If each source was only using its own URIs within its own domain, then
-each source would be an isolated island by default and there would be no
-Web of data. As soon as external links are established either when the
-data are created (e.g. reusing URIs) or after they were generated (e.g.
-alignment) this supports the discovery, crawling, integration, browsing,
-aggregation, etc. of multiple data sources in a Web of data.
+External links can be established in many different ways.
+\begin{enumerate}
+    \item A new dataset can create its own URIs for common entities.  This is 
+    the most likely scenario for datasets that have been created on their own, without
+    expectation that they will be part of a Web of data.  In this case, links
+    are established later on by identifying the fact that some URI in the new datasets
+    actually refers to an entity that already has a URI in another dataset.  
+    
+    \item{A designer of a new dataset can make an effort to re-use URIs that have already been established by 
+    existing datasets.  This method requires a bit more effort up front, since the designer of the new 
+    dataset has to determine which URI corresponds to the thing they are describing. This up-front 
+    work can pay off in the long run,  since
+    there is no need to establish later on whether two entities really are intended to refer to the same thing. 
+    In this case, the data designer has already made that clear.  
+    \label{ref}
+    }
+    
+    \item In many cases, a standard is already available for some entities, but it has not been published as 
+    linked data.  For example, the ISO publishes short (i.e., up to three character) codes for countries of the world. 
+    A variant of the  option \ref{ref} above is to coin a URI using that standard.  The Object Management Group (OMG) publishes Languages, Countries and Codes (LCC) using this strategy (among others).  For example, the URI for the ISO code for Great Britain is 
+    \begin{lstlisting}
+    http://www.omg.org/spec/LCC/Countries/ISO3166-1-CountryCodes/GB
+    \end{lstlisting}
+    You don't have to look this up 
+    at the OMG; you can build this slash URI yourself, once you know that the ISO 2-digit code for Great Britain is \texttt{GB}. Just append the ISO 2-digit country code at the end of 
+    \begin{lstlisting}
+    http://www.omg.org/spec/LCC/Countries/ISO3166-1-CountryCodes/
+    \end{lstlisting}
+    
+    \item Another variant of option \ref{ref} above is for a data set to link to a schema.  We will see schema languages for RDF in Chapters \ref{ch8} (RDFS), \ref{ch9} (RDFS-Plus), \ref{ch11} (SKOS) and \ref{ch12} (OWL).  These schema languages typically define metadata entities like \emph{classes} and \emph{properties} that can be used to align data.  These classes and properties themselves are identified by HTTP URIs.   \label{schem}
+\end{enumerate}
 
-The external links can be established in many different ways. First the
-subject or object of the descriptions can reuse URIs from other
-datasources. If the things described are already described somewhere
-else in a different way, a new source may decide to reuse the URIs to
-extend these descriptions; however the dereferenciation here would be
-handled by the other site and this would lead to centralization of URIs.
+To elaborate on option \ref{schem}, as far as the URIs are concerned, it is identical to option \ref{ref}. 
+but in this case, the URIs refer to class names and property names (which might correspond to table names and field names 
+if the data were originally represented in a relational data store).  
+When two or more data sets re-use the same schema, it is easier to federate the data sets.  
 
-More classically if the descriptions of a source (e.g. a catalog of
-products) provide relations (e.g. ``Made In'') to other things (e.g.
-geographical places) they may reuse URIs for descriptions about these
-others things from other sources (e.g. a geographical linked dataset).
-Related to the idea of alignment, the dataset can also provide
-equivalence or identity links between URIs to assert for instance that
-two different URIs are in fact identifying the same thing and provide
-two different addresses to lookup for information about that same thing.
+As an example, the Financial Industry Business Ontology (FIBO)\footnote{https://spec.edmcouncil.org/} provides 
+schema information for financial instruments.  In particular, it provides a class called \texttt{LoanDrawdown}, which 
+for those of us who are not experts in finance, is the sort of loan you pay off bit by bit, like an auto loan or a home 
+mortgage. 
+FIBO states (among other things), that this sort of loan has a borrower, a lender, a time to maturity, a balance, etc. If 
+two data sets decide to link to FIBO for schema information, then we can easily merge the data from these two sources to 
+find, e.g., all the loans for a particular borrower and their balances. 
 
-Finally every class or property used in an RDF description is also an
-HTTP URI that, when looked up, can provide additional semantics and
-support additional inferences. In addition, by reusing existing schemata
-a description can be integrated to other datasets using the same
-schemata and can be consumed by software that use same schemata. The
-reuse of schemata fosters interoperability.
-
+FIBO is just one of several schemas that have been published as linked data.  Depending on what domain 
+your data covers, there are literally hundreds of possible schema published on the Web of data. 
 To find the schema of your dreams, like for anything on the Web, there
 are Web applications providing directories and search engine
 functionality. One of them is called LOV for Linked Open
 Vocabularies\footnote{\url{http://lov.okfn.org/}} where you can find the
-most well-known vocabularies and their links (Figure)
+most well-known vocabularies and their links (Figure~\ref{fig:ch5.12})
 
 \begin{figure}
     \centering
@@ -1356,7 +1343,7 @@ used as an ingredient for other dishes such as (stage 3).
 
 Preparing, publishing and (re)using linked data has a lot in common with
 this process. Each data source is massaged and prepared separately by
-its owner and with adequate applications. Each data provider has his own
+its owner. Each data provider has their own
 constraints in terms of data selection (sensitivity, anonymity, etc.),
 dataset features (velocity, volume, etc.) and data infrastructure
 (legacy software, maintenance cost, etc.). Each source will therefore
@@ -1413,13 +1400,13 @@ The term ``linked open data cloud'' or ``LOD Cloud'' does not refer to
 the cloud paradigm of computer science but to of linked datasets
 obtained by applying the linked data principles. This cloud is a graph
 formed by nodes representing open datasets and edges indicating that the
-data of two datasets are linked i.e. if one of the dataset reuses the
-identifiers of the other dataset to identify the same resources (e.g.
+data of two datasets are linked  the sense of Section~\ref{linking-rdf-data}, i.e. if one dataset reuses some
+identifiers from the other to identify the same resources (e.g.
 persons, places, etc.). This cloud comprises only a small part the Web
-of Data, made up of datasets that have declared at the Linked Open Data
-Hub Web site, which collects and curates their descriptions before
+of Data, made up of datasets that have registered at the Linked Open Data
+Hub Web site\footnote{https://old.datahub.io/organization/lodcloud}, which collects and curates their descriptions before
 compiling them into the Linking Open Data cloud diagram as shown in
-figure 14.
+figure~\ref{fig:ch5.14}.
 
 \begin{figure}
 \includegraphics[width=5.0in]{media/ch5/figure-05-14.jpg}
@@ -1431,17 +1418,17 @@ figure 14.
   http://lod-cloud.net/}
 
 The 2017 edition of the diagram shown above shows a LOD cloud
-aggregating 150 billion triples from nearly 3000 datasets. Every node
+aggregating 150 billion triples from nearly 3000 datasets. Each node
 (circle) corresponds to a dataset, some of them very large in their own
 right. The different colors show different domains of application (e.g.
-life sciences, publication, governmental, geography).
+life sciences, publication, government, geography).
 
 Some of the sources included in this cloud are well-known for being
 central, historic or atypical. Let us mention some of them:
 
 \begin{itemize}
 \item
-  DBPedia is a central and historical source of data and identifiers in
+  \emph{DBPedia} is a central and historical source of data and identifiers in
   the linked open data cloud. It is one of the pioneering sources and
   its encyclopedic nature makes it well-suited as a source of reference
   for other datasets. Its name comes from the fact it publishes linked
@@ -1453,7 +1440,7 @@ central, historic or atypical. Let us mention some of them:
   identifiers of drugs, etc. All of these data are available as linked
   open data.
 \item
-  Wikidata is an initiative of the Wikimedia foundation to crowdsource
+  \emph{Wikidata} is an initiative of the Wikimedia foundation to crowdsource
   the contribution and maintenance of a central storage for the
   structured data to be used in other foundation projects including
   Wikipedia, Wikivoyage, etc. Here the approach is not to extract data
@@ -1462,23 +1449,22 @@ central, historic or atypical. Let us mention some of them:
   generate content such a as tables or infoboxes in other sites. Again,
   all of these data are available as linked open data.
 \item
-  Geonames is a free geographical database that covers all countries
+  \emph{Geonames} is a free geographical database that covers all countries
   and, at the time of this writing, contains over eleven million place
   descriptions (countries, cities, regions, etc.) with their names and
   information including currency, population, language, area,
   geographical coordinates, etc.
 \item
-  UniProt stands for Universal Protein Resource and is an international
+  \emph{UniProt} stands for Universal Protein Resource and is an international
   initiative to build and publish a comprehensive dataset of protein
   sequences and annotations.
 \end{itemize}
 
-In this book we included a number of examples from the Web such as the
-data sources we just mentioned. At the time of writing these sources ae
-available but anything can change on the Web at any moment and we
-included several of them not only to show the variety but also to
-account for the fact that some of them may change, move or even
-disappear by the time you read these lines.
+In this book, we have included a number of examples from the Web such as the
+data sources we just mentioned. At the time of this writing, all of these sources are
+available, but, of course,  anything can change on the Web at any moment.  We have done our best to select
+sources that have already shown some longevity, so that we can have some confidence that they 
+will not have disappeared by the time you read these lines.  
 
 \hypertarget{validating-data}{%
 \subsection{Validating data}\label{validating-data}}
@@ -1680,8 +1666,7 @@ resource\tabularnewline
 
 Figure~\ref{fig:ch5.18} shows the transcript of an HTTP request (lines 1-13) sent to a
 container (/fabien/, line 1) on an LDP platform on a Web server
-(inria.fr). The request uses the verb POST (line 1). As we saw in Figure
-17, POST to a container creates a new member of that container. The
+(inria.fr). The request uses the verb POST (line 1). As we saw in Figure~\ref{fig:ch5.17}, POST to a container creates a new member of that container. The
 request provides the description of the RDF resource in Turtle
 (serialization specified in line 4) and directly includes the data for
 the new resource in the request itself (lines 7-13). The result (lines
