@@ -32,13 +32,14 @@ or IRIs (Internationalized resource identifiers), to identify and then describe 
 \end{figure}
 
 
-Publishing data on the Web is not only about dumping data somewhere on
-the Web, it also means linking data so that it can be found, browsed,
-crawled, integrated, etc. So in a Web of data, the core idea is the one
-of \emph{linked data}, i.e. datasets (and data elements in them)  linked across the
+\subsection{A Web of Data vs Data on the Web}
+
+We can put data on the web simply by making a spreadsheet or even a PDF available on
+a web page somewhere.    A Web of data, in contrast, consists of data from around the world that is linked together so that it can be found, browsed,
+crawled, integrated, etc. In a Web of data, the core idea is \emph{linked data}, i.e. datasets (and data elements in them)  linked across the
 World Wide Web in the same way Web pages, Web sites and anchored texts
 are linked across the World on the Web. Instead of just
-using HTML to write Web pages that inlcude links to other pages, the Web of
+using HTML to write Web pages that include links to other pages, the Web of
 data uses RDF to write data descriptions that include links to other data
 descriptions.
 
@@ -101,7 +102,8 @@ identify what exists on the web (\url{http://my-site.fr}), we also start using
 URIs to identify, on the web, what exists in general
 (e.g., \url{http://animals.org/cat\#mytsie}, for Fabien's cat, Mytsie).  As we include IRIs in the Web of data, we identify,
 on the web, what exists, in any language
-(e.g., http://\RLالحيوانات.tn/\textb\TRLf{猫}\#mytsie).
+(e.g., http://\<الحيوانات.tn/ >.tn/\begin{CJK*}{UTF8}{gbsn}猫
+\end{CJK*}\#mytsie).
 
 
 
@@ -200,7 +202,7 @@ We don't use the term URL (Uniform Resource \textbf{Locator}) for these identifi
 point that the thing  being
 represented may not itself be on the Web at this address, or even at on the Web at all. For example, I
 may want to specify an HTTP URI for my cat Mytsie. No matter how hard I
-try, Mytsie herself will never be ``located'' on the Web so I cannot give
+try, Mytsie herself will never be located on the Web, so I cannot give
 her a URL \emph{per se}. But this adorable cat can be identified on the
 Web by an HTTP URI and if you ever go to that address you will be
 provided with a description (maybe even a photo or two) on the Web about the resource represented by
@@ -219,30 +221,23 @@ learn more about it.  It is up to the data consumer and the details of their app
 quality, etc.)
 whether they want to follow these links at any particular time. 
 
+%%%%
 
-Since HTTP URIs rely on the domain names to create the first part of the
-URI scheme, they support the decentralized creation of globally unique
-identifiers. Any owner of a web domain can create and control the access to
-any HTTP URIs in that domain. In choosing and using HTTP URIs, there are
-three important standard mechanisms of the Web and Internet to be aware
-of: the Domain Name Service (DNS) and its implication on the choice of
-domain part of the URIs; content negotiation in HTTP, which allows a
-server to serve different contents for the same HTTP URI to different
-clients; and HTTP redirection, which allows a server to redirect a call
-to another address. These three mechanisms and their impacts are
-illustrated in figure~\ref{fig:ch5.2} and detailed in the next sections.
+%Since HTTP URIs rely on the domain names to create the first part of the
+%URI scheme, they support the decentralized creation of globally unique
+%identifiers. Any owner of a web domain can create and control the access to
+%any HTTP URIs in that domain. 
 
+%In choosing and using HTTP URIs, there are
+%three important standard mechanisms of the Web and Internet to be aware
+%of: the Domain Name Service (DNS) and its implication on the choice of
+%domain part of the URIs; content negotiation in HTTP, which allows a
+%server to serve different contents for the same HTTP URI to different
+%clients; and HTTP redirection, . These three mechanisms and their impacts are
+%illustrated in figure~\ref{fig:ch5.2} and detailed in the next sections.
 
+%%%%%
 
-\begin{figure}
-    \centering
-        \includegraphics[width=5.0in]{media/ch5/figure-05-02.jpg}
-    \caption{Three standard mechanisms used in Web Data publishing and
-accessing}
-    \label{fig:ch5.2}
-\end{figure}
-
-FIG 2. 
 
 \hypertarget{minting-http-uris}{%
 \subsection{Minting HTTP URIs}\label{minting-http-uris}}
@@ -270,9 +265,8 @@ For instance, a valid URI according to this pattern is for instance:
 urn:animals.org\#mycat
 \end{lstlisting}
 
-As we saw in Section~\ref{usehttp}, using HTTP URIs is preferring for the web 
+As we saw in Section~\ref{usehttp}, using HTTP URIs is the preferred option for the web 
 of data, in contrast to other protocols.  An HTTP URI has the form: 
-
 
 
 \begin{lstlisting}
@@ -289,16 +283,43 @@ http://animals.org/cats/?owner=fabien
 ...
 \end{lstlisting}
 
+The major advantage of using HTTP URIs as identifiers on the  Web  of data is that
+they participate in the full infrastructure that drives the hypertext web.  Figure~\ref{fig:ch5.2} shows the three basic mechanism of that infrastructure. 
+\begin{itemize}
+    \item The \emph{Domain Name Service} (DNS), which associates domain names on the web with internet addresses of web servers,
+    \item \emph{Content Negotiation} in HTTP, which allows a web 
+     server to serve different content for the same HTTP URI to different
+     clients, and
+     \item \emph{HTTP Redirection}, which allows a server to redirect a reference
+     to another address.
+\end{itemize}
+The \texttt{host} part of an HTTP URI (\emph{animals.org} in the examples) is managed by 
+the DNS (left column of Figure~\ref{fig:ch5.2}).   Someone who wants to publish 
+anything on the Web, whether hypertext pages or data, registers a \emph{domain 
+name} (e.g., \emph{animals.org}) with the DNS.  Once they have completed this registration, they 
+can create and control the access to
+any HTTP URIs  that use that domain in the \texttt{host} field. 
 
-Within a single domain (which corresponds to the \emph{host} in the HTTP protocol, 
-the \emph{path} part of the HTTP URI can be arbitrarily long, therefore. 
-no practical limit on the number of possible URI patterns we have at our disposal to name the things we
+The \emph{path} part of the HTTP URI can be arbitrarily long, and is fully at the discretion of
+whoever is minting the URL.  This means that there is 
+no practical limit on the number of possible URI patterns a data publisher has  at their disposal to name the things they
 want to describe on the Web. 
+
+\begin{figure}
+    \centering
+        \includegraphics[width=5.0in]{media/ch5/figure-05-02.jpg}
+        \begin{tabular}{lll}
+        A. Domain Name Service\ \ \ \ \ \ &B. Content Negotiation\ \ \ \ \ &C. HTTP Redirection\ \ \ \  \\
+        \end{tabular}
+    \caption{Three standard mechanisms used in Web Data publishing and
+access}
+    \label{fig:ch5.2}
+\end{figure}
 
 \subsetcion{How to build a URI}
 
 Since we are using HTTP URIs for all our data elements, we need to have some 
-method for how we will generate enough distinct URIs for everything we want to describe in our data. 
+method for generating enough distinct URIs for everything we want to describe in our data, now and in the future.
 The problem of coming up with appropriate identifiers in a large data set is not 
 specific to the Semantic Web, and there is no perfect answer. In the context of HTTP URIs for the Semantic Web,
 Pros
@@ -315,7 +336,7 @@ minting URIs for the semantic Web is called \emph{Cool URIs}
 As suggested by the eponymous article, a key aspect of cool URIs is that they don't change: you want to ensure
 that your URIs will be as stable as possible by choosing a stable URI pattern. 
 Why is it important to have stable URIs?  
-While the ``404 page not found'' error is disappointing on the hypertext web, it can be catastrophic in the Web of Data, wherethe URIs are the
+While the ``404 page not found'' error is disappointing on the hypertext web, it can be catastrophic in the Web of Data, where the URIs are the
 linkage points between data sets.  A broken link can mean loss of access to an entire data set.
 
 The Cool URI proposal has some advice for how to make URIs stable:
@@ -338,17 +359,17 @@ providing information about the vaccination records for our pets, as shown in Ta
     \hline
     ID&Species&Name&Expiration Date \\
     \hline\hline
-V366863&dog&Fido&2020 \\
-V851903&dog&Bastian&2021 \\
-V775304&cat&Mytsie&2019 \\
-V898202&cat&Corvus&2021 \\
-V847823&cat&Fenris&2019 \\
-V399378&dog&Maddie&2022 \\
-V911236&cat&Twinkie&2016 \\
-V897991&dog&Champ&2019 \\
-V032579&dog&Zeke&2020 \\
-V31450&cat&Nix&2019 \\
-V87580&dog&Fido&2021 \\
+366863&dog&Fido&2020 \\
+851903&dog&Bastian&2021 \\
+775304&cat&Mytsie&2019 \\
+898202&cat&Corvus&2021 \\
+847823&cat&Fenris&2019 \\
+399378&dog&Maddie&2022 \\
+911236&cat&Twinkie&2016 \\
+897991&dog&Champ&2019 \\
+032579&dog&Zeke&2020 \\
+31450&cat&Nix&2019 \\
+87580&dog&Fido&2021 \\
 \hline
     \end{tabular}
     \caption{Sample data about the vaccine records for our pets. }
@@ -363,21 +384,21 @@ This method is guaranteed to ensure uniqueness in the data, but makes for very l
 
 \begin{table}
     \centering
-    \begin{tabular}
+    \begin{tabular}{|l|}
     \hline
     URI \\
     \hline\hline
-http://www.example.com/vac/V366863/dog/Fido/2020 \\
-http://www.example.com/vac/V851903/dog/Bastian/2021 \\
-http://www.example.com/vac/V775304/cat/Mytsie/2019 \\
-http://www.example.com/vac/V898202/cat/Corvus/2021 \\
-http://www.example.com/vac/V847823/cat/Fenris/2019 \\
-http://www.example.com/vac/V399378/dog/Maddie/2022 \\
-http://www.example.com/vac/V911236/cat/Twinkie/2016 \\
-http://www.example.com/vac/V897991/dog/Champ/2019 \\
-http://www.example.com/vac/V032579/dog/Zeke/2020 \\
-http://www.example.com/vac/V31450/cat/Nix/2019 \\
-http://www.example.com/vac/V87580/dog/Fido/2021 \\
+http://www.example.com/vac/366863/dog/Fido/2020 \\
+http://www.example.com/vac/851903/dog/Bastian/2021 \\
+http://www.example.com/vac/775304/cat/Mytsie/2019 \\
+http://www.example.com/vac/898202/cat/Corvus/2021 \\
+http://www.example.com/vac/847823/cat/Fenris/2019 \\
+http://www.example.com/vac/399378/dog/Maddie/2022 \\
+http://www.example.com/vac/911236/cat/Twinkie/2016 \\
+http://www.example.com/vac/897991/dog/Champ/2019 \\
+http://www.example.com/vac/032579/dog/Zeke/2020 \\
+http://www.example.com/vac/31450/cat/Nix/2019 \\
+http://www.example.com/vac/87580/dog/Fido/2021 \\
 \hline
     \end{tabular}
     \caption{Coining URIs by repeating all the data }
@@ -393,17 +414,17 @@ will uniquely identify a vaccination, so we can use it for the URI, as in Table~
     \hline
     URI \\
     \hline\hline
-http://www.example.com/vac/V366863 \\
-http://www.example.com/vac/V851903 \\
-http://www.example.com/vac/V775304 \\
-http://www.example.com/vac/V898202 \\
-http://www.example.com/vac/V847823 \\
-http://www.example.com/vac/V399378 \\
-http://www.example.com/vac/V911236 \\
-http://www.example.com/vac/V897991 \\
-http://www.example.com/vac/V032579 \\
-http://www.example.com/vac/V31450 \\
-http://www.example.com/vac/V87580 \\
+http://www.example.com/vac/366863 \\
+http://www.example.com/vac/851903 \\
+http://www.example.com/vac/775304 \\
+http://www.example.com/vac/898202 \\
+http://www.example.com/vac/847823 \\
+http://www.example.com/vac/399378 \\
+http://www.example.com/vac/911236 \\
+http://www.example.com/vac/897991 \\
+http://www.example.com/vac/032579 \\
+http://www.example.com/vac/31450 \\
+http://www.example.com/vac/87580 \\
 \hline
     \end{tabular}
     \caption{Coining URIs using the ID field }
@@ -411,8 +432,9 @@ http://www.example.com/vac/V87580 \\
 \end{table}
 
 
-In order for this method to work, we have to make sure that the column we use really is an identifier. 
-We might be tempted to use the column \texttt{name} to coin our URIs.  This will cause two problems: 
+In order for this method to work, we have to make sure that the column we use really is a unique  identifier. 
+For example, we might be tempted to use the column \texttt{name} to coin our URIs.  
+This will cause two problems: 
 
 \begin{itemize}
     \item we will end up coining 
@@ -420,187 +442,223 @@ We might be tempted to use the column \texttt{name} to coin our URIs.  This will
 \item Even if there is no  name duplication in our data, one of the animals (say, Mytsie) might be adopted and given a new name (``Missy'').  If this happens, do we have to create a new URI?   Or do we say that the URI at \texttt{<http://example.com/vac/Mytsie>} now has name ``Missy''?
 \end{itemize}
 
-As we saw in Chapter~\ref{ch3}, URIs can be abbreviated using namespaces and QNames (Qualified names). 
-A possible QName representation for the identifier of
-Mytsie could then be, \texttt{cat:mytsie} with
-the prefix \texttt{cat} bound to the namespace
-\textt{http://animals.org/cat\#}
+In Chapter~\ref{ch3}, we saw how URIs can be abbreviated using namespaces and QNames (Qualified names). 
+If we define the prefix \texttt{vac} to be the namespace
+\textt{http://www.example.org/vac/}, then the QName for Mytsie's vaccination would evidenty be
+\texttt{vac:775304}.   However, there is a constraint on QNames \footnote{Extensible Markup Language
+ (XML) 1.0 (Fifth Edition) https://www.w3.org/TR/xml/} that says that the name after the 
+ prefix cannot start with a digit (1, 2,
+3\ldots{}) or with basic combining characters (e.g. a comma).  So the proposed QName \texttt{vac:775304} is not valid.  Since QNames are useful in many contexts, it is good practice to append an alphabetic character at the beginning of the identifier.  So instead of using the URIs in Table~\ref{tab:ch5.id}, we use URIs like those in Table~\ref{tab:ch5.vid}
 
-Another detail affecting the choice of the URIs id 
-is the constraint
-imposed by some other standards built on top of them. For instance, we
-mentioned the use of QNames (Qualified names) to simplifying the writing
-of URIs. One of the constraints\footnote{Extensible Markup Language
-  (XML) 1.0 (Fifth Edition) https://www.w3.org/TR/xml/} of QNames is
-that the name after the prefix cannot start with digits (1, 2,
-3\ldots{}) or with basic combining characters (e.g. a comma). Therefore
-in our example where animals have numerical identifiers a better pattern
-to mint URIs could be to prefix the original identifier with a letter:
+\begin{table}
+    \centering
+    \begin{tabular}{|l l|}
+    \hline
+    URI&QName \\
+    \hline\hline
+http://www.example.com/vac/V366863&vac:V366863 \\
+http://www.example.com/vac/V851903&vac:V851903 \\
+http://www.example.com/vac/V775304&vac:V775304 \\
+http://www.example.com/vac/V898202&vac:V898202 \\
+http://www.example.com/vac/V847823&vac:V847823 \\
+http://www.example.com/vac/V399378&vac:V399378 \\
+http://www.example.com/vac/V911236&vac:V911236 \\
+http://www.example.com/vac/V897991&vac:V897991 \\
+http://www.example.com/vac/V032579&vac:V032579 \\
+http://www.example.com/vac/V31450&vac:V31450 \\
+http://www.example.com/vac/V87580&vac:V87580 \\
+\hline
+    \end{tabular}
+    \caption{Coining URIs using the ID field, with an alphabetic character ("V") pre-pended to satisfy  }
+    \label{tab:ch5.id}
+\end{table}
 
-cat,1223 →~
-\href{http://animals.org/cat/A1223}{http://animals.org/cat/\textbf{A}1223}
+\subsection{Minting URIs in the Wild}
+Let us examine two real examples of minting URIs, IETF RFC's and DOIs. 
 
-Allowing us to latter use the QName ``cat:A1223'' with the prefix
-``cat'' bound to the namespace ``\url{http://animals.org/cat/}''.
-
-Let us know take two real examples of minting URIs. The first one comes
-from the Internet Engineering Task Force (IETF), which is an open
+\subsubsection{URIs for the IETF}
+The Internet Engineering Task Force (IETF) is an open
 standards organization in charge of developing and promoting the
-Internet standards. We already know one of these standards: the URIs.
-The official publication channel of IETF are publications called Request
-for Comments (RFC). For instance the latest RFC standardizing URIs is
-RFC 3986 entitled ``Uniform Resource Identifier (URI): Generic Syntax''.
+Internet standards. We have already seen   one of these standards: the URI itself.  It is the IETF who manages registrations for the DNS and the format for URIs.
+An official publication of the IETF is   called a \emph{Request
+for Comments} (RFC). For instance, the latest RFC that gives the standard specification for
+URIs is
+\emph{RFC 3986}, which has the title  \emph{Uniform Resource Identifier (URI): Generic Syntax}.
 In order to publish the RFCs and support stable references to these
 standards, IETF has adopted several URI minting schemes. For instance,
-the default URL for an HTML version RFC is obtained by concatenating the
-domain address ``https://tools.ietf.org/html/rfc'' and the RFC number:
+the default URL for an HTML version of an RFC is obtained by concatenating the
+domain address \texttt{https://tools.ietf.org/html/rfc} and the RFC number. So, for RFC 3986, we have:
 
-\textbf{html},\textbf{3986} →~
-\href{https://tools.ietf.org/html/rfc3986}{https://tools.ietf.org/\textbf{html}/rfc\textbf{3986}}
+\begin{lstlisting}
+https://tools.ietf.org/html/rfc3986
+\end{lstlisting}
 
-and you can access other versions in plain text and PDF applying
-different minting schemes:
 
-\textbf{txt},\textbf{3986} →~
-\href{https://tools.ietf.org/rfc/rfc3986.txt}{https://tools.ietf.org/rfc/rfc\textbf{3986}.\textbf{txt}}
+You can access other versions of the same RFC in plain text and PDF by applying
+similar  minting schemes.
 
-\textbf{pdf},\textbf{3986} →~
-https://tools.ietf.org/\textbf{pdf}/rfc\textbf{3986}.\textbf{pdf}
+For the text version of RFC 3986:
+\begin{lstlisting}
+https://tools.ietf.org/rfc/rfc3986
+\end{lstlisting}
+
+For the PDF version of RFC 3986:
+\begin{lstlisting}
+https://tools.ietf.org/pdf/rfc3986
+\end{lstlisting}
+
+These schemes have the advantage that they are stable; we can use the same URI
+for the HTML presentation of the latest RFC version, even as new versions are published.  It has the disadvantage that I cannot refer to RDF 3968 itself, only to particular documents about it.  This violates one of our guidelines for URI formation, that a URI should not include implementation-specific information about a document. We'll see later in this chapter how to use Content Negotiation to address this issue. 
+
+These schemes follow the QName suggestion that the final part of the URI begin with an alphabetic character (in this case, it is always 'r'), but they suffer from the drawback that each of them will have a different prefix, since they don't share a common prefix.  If we were to make these into QNames, we woud need a separate prefix for \texttt{https://tools.ietf.org/rfc/}, \texttt{https://tools.ietf.org/pdf/} and  \texttt{https://tools.ietf.org/txt/}. 
+
+\subsubsection{URIs for ISO DOIs}
+
 
 As a second example, we can consider a family of identifiers
-standardized by the International Organization for Standardization (ISO
-26324) to uniquely identify objects including books, articles, datasets,
-videos, etc. This family of identifiers is called digital object
-identifier (DOI) and is used a lot to identify and reference digital
-resources in a perennial manner. For instance, the article entitled
+standardized by 
+The International Organization for Standardization (ISO) maintains a standard family 
+of identifiers (ISO~26324) to uniquely identify objects including books, articles, datasets,
+videos, etc. This family of identifiers is called \emph{digital object
+identifier} (DOI) and is used to identify and reference digital
+resources in a sustainable manner. For instance, ISO assigned to the article entitled
 ``Distributed Artificial Intelligence for Distributed Corporate
-Knowledge Management'' published by Springer was given by them the DOI
+Knowledge Management'' published by Springer the DOI
 
 \begin{lstlisting}
 doi:10.1007/3-540-45741-0_18
 \end{lstlisting}
 
 
-The very nice thing about DOI is that there is a way to lookup any DOI
-on the Web through a service implementing a mapping from DOIs to HTTP
-URIs. If you take for instance the previous DOI, you can transform it
-into the following HTTP URI following the URI minting scheme implemented
-by the site \href{https://www.doi.org/}{doi.org}:
+The ISO  provides an online service that looks up any DOI and provides a corresponding HTTP
+URI.   For example, the service (available at https://www.doi.org/) translates this DOI into the HTTP URI:
+
 
 \begin{lstlisting}
-http://doi.org/10.1007/3-540-45741-0\_18
+http://doi.org/10.1007/3-540-45741-0_18
 \end{lstlisting}
 
 
 This HTTP URI will then redirect you to a description of the object
-identified by the DOI. In other words, this known URI minting scheme
-allow you to transform any DOI found in any database into a
-dereferenceable HTTP URI where to get more data bout the identified
-object.
+identified by the DOI.  
 
-Once the pattern for your URIs is established,~we will see in the next
-sections that HTTP content negotiation (also called conneg) and,
-possibly, redirections have to be configured on the server to provide
-content in XML, RDF, HTML, JSON, etc. to whoever looks up these URIs.
-But before we move to these next steps, let us look at the implications
-of the choice of a domain name for your URIs.
+The advantage of these URIs is that they are stable; ISO makes sure that for a particular 
+resource, the DOI will not change.  They have the drawback that they cannot be formed into 
+QNames, since the final component begins with a number. 
+
+
+
+
+%Once you have established a pattern for  URIs, we will see in the next
+%sections that HTTP content negotiation (also called \textit{conneg}) and,
+%ossibly, \textit{redirections} have to be configured on the server to provide
+%content in XML, RDF, HTML, JSON, etc. to whomever looks up these URIs.
+%But before we move to these next steps, let us look at the implications
+%of the choice of a domain name for your URIs.
+
+
+\section{HTTP and the Architecture of the web}
+
+Figure~\ref{fig:ch5.2} shows the basics of the architecture of the web as three pillars; the domain name service, content negotiation, and redirection.  We now take a deep dive into how this architecture influences the way we as  publishers and consumers of data interact with the Web of data. 
 
 \hypertarget{king-of-my-domain}{%
 \subsection{King of My Domain}\label{king-of-my-domain}}
 
-Let us now come back to figure 2 and zoom on the first standard
-mechanisms used in Web Data publishing and accessing: the Domain Name
-Resolution.
+We'll start with Domain Name Resolution, or DNS for short  figure~\ref{fig:ch5.2}(A). 
 
-HTTP URIs heavily use the Domain Name System (DNS) to identify the host
-machine to query to get data about the resource identified by the URI.
-The DNS is a decentralized hierarchical naming system to identify
-devices and services connected to networks and in particular to the
-Internet. We use the DNS every days because it provides the service that
-transforms a domain name (e.g. \href{http://www.inria.fr}{ns.inria.fr})
+The first step in resolving an HTTP URI is to identify what host (machine) on the internet 
+to query get data about the resource identified by the URI. HTTP URIs rely on the Domain Name System (DNS) for this function.
+The DNS is a decentralized hierarchical naming system for identifying
+devices and services connected to the
+Internet. Anyone who browses the Web use the DNS every day, because it provides the service that
+transforms a domain name (e.g. ns.inria.fr)
 into the internet address (IP address e.g. 128.93.162.87) of the machine
-or service in charge of answering for that domain. Although the host
+or service in charge of answering for that domain.  Although the host
 machine could be identified in the HTTP URIs by its IP address directly
-(e.g. http:// 128.93.162.87/ is a valid HTTP URI), we human prefer
+(e.g. http:// 128.93.162.87/ is a valid HTTP URI), there are two advantages to 
+using a name service to provide domain names instead of IP addresses.  First, We humans prefer
 domain names that are easier to read and memorize (e.g.
-http://ns.inria.fr). Using domain names is also important in our case to
-provide stable URIs and, for instance, be able to change the servers'
-addresses without changing the URIs. This mechanism allows us to agree
-on the way we name things but it does not prevent peoples to mint
-different names for the same purpose or to disagree on the descriptions
-of the things they identify. We will not all agree on what the thing
-means, but we can agree on which thing we are disagreeing about.
+http://ns.inria.fr).   More importantly for a stable web of data, the use of domain names 
+provide stable URIs, allowing a data provider to change a server's
+addresses without changing the URIs of the data that is hosted there.
 
-More importantly, in the context of dereferenceable HTTP URIs, the DNS
-makes sure that if anyone in the world uses a name for a domain, they
-will get to the same place. This ensures that whoever tries to look-up
-an HTTP URI minted with a specific domain name will end up the same and
-unique service. In other words, because any look up on a URI will start
-by the domain name resolution, he who controls the DNS results for a
+%This mechanism allows us to agree
+%on the way we name things but it does not prevent peoples to mint
+%different names for the same purpose or to disagree on the descriptions
+%of the things they identify. We will not all agree on what the thing
+%means, but 
+
+In the context of dereferenceable HTTP URIs, the DNS
+makes sure that if anyone in the world resolves a particular HTTP URI, they
+will all get to the same place.   This provides us a world-wide reference mechanism.  We 
+might not want to say the same things about Mytsie the cat 
+(e.g., I might want to say that she 
+is calico, an another source might want to record her weight from week to week).  
+Different sources might even disagree; someone else might claim that she is tortoiseshell, 
+not calico.  In a world-wide distributed web of data, we can't expect everyone to agree on 
+their statements
+about Mytsie, but the DNS provides a mechanism so we can agree on which thing we are 
+disagreeing about.
+
+Now that we understand how DNS works and its importance in HTTP URs, what does this mean
+for choosing URIs for our data? Since any look up on a URI starts with  domain name 
+resolution, whoever controls the DNS registraion for a
 domain name controls the access to the HTTP URIs minted with that domain
-name. So if you lose control over a domain name you lose control of the
-linked data using that domain in there URIs in the sense that you no
+name, in the sense that they can specify what server the DNS will map the URIs to. 
+So if you lose control over a domain name you lose control of the
+linked data using that domain in there URIs, in the sense that you no
 longer control the answer provided when the HTTP URIs are dereferenced
 and accessed.
 
-Therefore, one must be careful in choosing the domain name for the host
+Therefore, one must be careful in choosing the domain name for the \texttt{host}
 part of a URI pattern one uses as identifiers in publishing linked data
 because it is key to ensure persistence and control of dereferenceable
-URIs. In the next chapters of this book, we will introduce W3C standards
-to represent linked data (RDF) and linked vocabularies (RDFS, OWL,
-SKOS). In order to maintain control over the definition of these
-standards, W3C minted URIs for them using its own domain name:
+URIs.  In Chapter~\ref{ch3}, we saw some namespaces that have been defined 
+by the World Wide Web consortium (the W3C) themselves, to define namespaces for 
+\texttt{rdf:}, \texttt{rdfs:} and \texttt{owl:}. Now we understand more deeply what this
+means. If you want to look up what any resource in one of these namespaces means, 
+for example, \texttt{rdf:type} 
+(short for \texttt{http://www.w3.org/1999/02/22-rdf-syntax-ns\#type}, you can 
+find it by resolving that URI (try it in a web browser!).  The result is controlled by the 
+W3C, becasue the W3C owns the domain at w3.org. 
 
-\begin{itemize}
-\item
-  The namespace for RDF is
-  \href{http://www.w3.org/1999/02/22-rdf-syntax-ns\#}{http://\textbf{www.w3.org}/1999/02/22-rdf-syntax-ns\#}
-\item
-  The namespace for RDFS is
-  \href{http://www.w3.org/2000/01/rdf-schema\#}{http://\textbf{www.w3.org}/2000/01/rdf-schema\#}
-\item
-  The namespace for OWL is
-  \href{http://www.w3.org/2002/07/owl\#}{http://\textbf{www.w3.org}/2002/07/owl\#}
-\item
-  The namespace for SKOS is
-  \href{http://www.w3.org/2004/02/skos/core\#}{http://\textbf{www.w3.org}/2004/02/skos/core\#}
-\end{itemize}
 
-All of these namespaces have HTTP URIs using the W3C domain name and
-this ensures that when anyone looks them up they get to the same service
-at W3C and get the answer W3C chose to provide. What we will now see is
+We have already seen several standard namespaces from the W3C, and in the following 
+chapters, we will see some more.  In each case, the W3C publishes a namespace along 
+with information about the resources in that namespace.  All of these namespaces have HTTP 
+URIs using the domain  \texttt{w3.org} as the host, ensuring that when anyone looks 
+them up they get the answer that the W3C chose to provide.  What we will now see is
 that each of the access to this service can negotiate a customized
 answer.
 
 \hypertarget{negotiating-your-web}{%
 \subsection{Negotiating your Web}\label{negotiating-your-web}}
 
-Considering Figure~\ref{fig:ch5.2}, we now move to the second standard mechanisms used
-in Web Data publishing and accessing: the Content Negotiation.
+The second pillar of the Web architecture shown in Figure~\ref{fig:ch5.2} is  Content Negotiation.
 
-Although we are talking about weaving a Web of data there is only one
-Web with all its different facets interlinked (data, hypertext, schemas,
-services, etc.). The Web is intended to be used at the same time by
+So far, we have been talking primarily about a Web of Data.  But in fact, there  is only one
+Web with all its different facets interlinked, including data, hypertext, schemas,
+services, etc.  The Web is intended to be used at the same time by
 machines and by humans as a shared common space for hybrid communities
 of natural intelligence and computational intelligence. Therefore, a
 human user or a software agent must both be capable of obtaining
-descriptions of the resources described on the Web in the most suitable
-format for them e.g. a Web page in HTML for a human and an RDF/XML
-description for a Web robot. Even more, each human has preferences (e.g.
-in terms of languages one may prefer a description in French) and
-software may have too (e.g. in terms of format an application may prefer
-data in JSON-LD).
+descriptions of any particular resource described on the Web  in the most suitable
+format for them, for example,  a Web page in HTML for a human reader  and an RDF/XML
+description for a Web robot.   Furthermore, each human will have some preferences (e.g.
+in terms of which human language they prefer, e.g.,  English, Chinese or French) and
+software may have specific preferences as well  in terms of the format an application may prefer (e.g., 
+data in JSON-LD vs. CSV).
 
 Using the HTTP protocol\footnote{Hypertext Transfer Protocol -\/-
-  HTTP/1.1, RFC 2616, https://tools.ietf.org/html/rfc2616} a Web client
+HTTP/1.1, RFC 2616, https://tools.ietf.org/html/rfc2616} a Web client
 can negotiate the content of a response to an HTTP URI look up: whether
 you are interested in a Web of hypertext because your application is
-displaying the results directly to humans or you are interested in a Web
-of data because your application is building a database or consuming
-data for some calculation, the content negotiation mechanism of HTTP
-allows you state the type of content most suitable to you.
+displaying the results directly to humans or you are interested in a data packet 
+because your application is linking together the Web of data, 
+the content negotiation mechanism of HTTP
+allows you to state the form of content that is most suitable to you.
 
-This mechanism, sometime called \emph{conneg} in short, is part of the
+The Content Negotiation mechanism, sometime called \emph{conneg} for short, is part of the
 HTTP standard. The HTTP protocol allows Web clients to set headers in
 the requests they send in order to specify their preferences in
 particular in terms of format. These headers rely on several standards
@@ -610,29 +668,29 @@ to allow you to specify formats (media types or MIME types\footnote{Media
 language codes\footnote{Language codes - ISO 639,
   \url{https://www.iso.org/iso-639-language-codes.html}}), etc.
 
-Using these preferences the server may decide to adapt its response or
+Using these preferences, the server may decide to adapt its response or
 re-route the request to best serve the client. It is the responsibility
 of the server to match between the preferences of the client and the
 options it has available, and to select the best response for the
-client. As a result, as shown in Figure 2.B the same URI may be accessed
+client. As a result, as shown in Figure~\ref{fig:ch5.2}B,  the same URI may be accessed
 by two different clients: the client used by humans (e.g. a Web browser)
-could retrieve an HTML description while another application could
+could retrieve an HTML description while a software  application could
 negotiate an RDF description at the very same HTTP URI.
 
 Going even further, the HTTP content negotiation can be used by linked
 data applications to negotiate the RDF syntax they prefer (e.g. XML,
-Turtle, JSON-LD) or alternate representations for their interfaces (e.g.
+Turtle, JSON-LD, see Chapter~\ref{ch3}) or alternate representations for their interfaces (e.g.
 HTML, text, image, etc.).
 
 Let us give an example, this time from the DBpedia site providing RDF
-data extracted from Wikipedia. There, the thing ``Paris'' is identified
+data extracted from Wikipedia. There, the thing \emph{Paris} is identified
 by
 
 \begin{lstlisting}
 http://dbpedia.org/resource/Paris
 \end{lstlisting}
 
-If you lookup that URI as a human in a Web browser (try it) the content
+If you lookup that URI as a human in a Web browser (try it), content
 negotiation will redirect you to a Web page for humans:
 
 \begin{lstlisting}
@@ -646,13 +704,23 @@ address:
 http://dbpedia.org/data/Paris
 \end{lstlisting}
 
+the result is a data set expressed in RDF (by default, in RDF/XML).  
+
+In this way, \emphh{conneg} allows us some flexibilty in the use of HTTP URIs;  we can use 
+the same URI for the hypertext Web and the data Web (which, after all, are the same Web), but
+provide different responses depending on who is doing the asking.  It is, of course, the server's responsibility to make sure that the content of the response is the same, regardless of its form. 
+
+%% finish this sentence!! - FG, please review the previous paragraph.  
+%% In the original, the text simply ended, so I finished what I thought 
+%% you had in  mind here. 
+
 \hypertarget{rerouting-calls}{%
 \subsection{Rerouting calls}\label{rerouting-calls}}
 
-The last standard mechanisms shown in Figure 2 and used in Web Data
-publishing and accessing is HTTP redirection.
+The final pillar of Figure~\ref{fig:ch5.2} is  \emph{HTTP redirection}.
 
-We all know the error ``404 Not Found'' we sometime get in our browser
+Anyone who has ever browsed the web is familiar with the ``404 Not Found'' error we sometime 
+get in our browser
 when accessing a link that is broken because the URL no longer exists
 (e.g. the page was deleted) or never existed (e.g. we misspelled the
 URL). The code 404 is one of the most well-known error code of HTTP
@@ -662,7 +730,7 @@ don't see because it means the HTTP request was successful and the
 response provides the content or result we were asking. The mundane use
 of the HTTP redirection mechanism is to avoid broken links: when a page
 is moved, when a Web application is redesigned or when a Web site is
-relocated, and HTTP redirection may be setup on the Web server to
+relocated, and HTTP redirection may be set up on the Web server to
 redirect Web clients to the new address where a content or service has
 moved. When you browse the Web this happens all the time and you won't
 even notice it unless you pay attention at the changes in the address
@@ -690,12 +758,10 @@ Location: http://animals.org/page/cat/1278
 \end{lstlisting}
 
 
-In our case responding 303 to an HTTP URI means that the URI is known
-and while the requested resource is not on the Web itself, a description
-can be found at another address on the Web. In other words by using 303
-the server indicates that no representation of the target resource can
-be transferred over HTTP and refers the requester to another resource
-that is a description of the target resource and that description can be
+In our case responding 303 to an HTTP URI means that the service that the DNS 
+referred the URI to is unable to provide a representation of the target resource, but
+it can refer the requester to another resource instead, which 
+is also description of the target resource, and which can be
 transferred over HTTP. The 303 code provides us a Web-compatible way of
 responding to a request for a URI that identifies a things that are not
 on the Web.
@@ -707,16 +773,17 @@ resources. If the negotiated content is RDF, at least some triples of
 the answer must use the URI of the target resource.
 
 \hypertarget{hash-or-slash}{%
-\subsection{Hash or Slash}\label{hash-or-slash}}
+\section{Hash or Slash}\label{hash-or-slash}}
 
-Finally, even inside the last parts of the URIs (path, query and
+Even inside the last parts of the URIs (path, query and
 fragment) there are minting choices that impact the performance in
 dereferencing a URI. In particular, if you intend to support
-dereferenceable HTTP URIs, there are two main design patterns that can
-be considered every time you want to choose a naming scheme to identify
+dereferenceable HTTP URIs, there are two main design patterns you can 
+considered when you want to choose a naming scheme to identify
 things that are not on the Web. These two families are referred to as
-the ``hash URIs'' and the ``slash URIs''. These two options were the
-subject of many discussions we will not detail here.
+the ``hash URIs'' and the ``slash URIs''.  
+
+%These two options were the subject of many discussions we will not detail here.
 
 If the reader is familiar with the book ``Gulliver's Travels'' and its
 influence on computer science, at first this distinction can sound like
@@ -734,7 +801,7 @@ In a URL it is traditionally used to denote a fragment of a Web page
 e.g.
 
 \begin{lstlisting}
-http://fabien.info/publications.html\#navothers
+http://fabien.info/publications.html#navothers
 \end{lstlisting}
 
 This could indicate a section ``navothers'' in the page
@@ -757,7 +824,7 @@ Generalizing this example, whenever a URI contains a hash (\#), this
 indicates a fragment in the URI:
 
 \begin{lstlisting}
-http://my.domain.name/my/path\#the-fragment
+http://my.domain.name/my/path#the-fragment
 \end{lstlisting}
 
 
@@ -779,11 +846,11 @@ The use of a fragment has two advantages:
 \begin{enumerate}
 \def\labelenumi{\arabic{enumi}.}
 \item
-  To immediately differentiate the name of the descriptions and the
-  names of the resources described without performing a redirection;
+  it differentiates between the name of the descriptions and the
+  names of the resources described without performing a redirection, and
 \item
-  The grouping of several descriptions in one resource that can be
-  cached to avoid several calls to discover different linked resources.
+  it allows grouping of several descriptions in a single resource that can be
+  cached by a client to avoid several calls to discover different linked resources.
 \end{enumerate}
 
 For example, in one source at the address:
@@ -797,22 +864,20 @@ I can describe several things:
 
 
 \begin{lstlisting}
-http://fabien.gandon.me/my/objects/cars\#bmw1
-http://fabien.gandon.me/my/objects/cars\#smart1
-http://fabien.gandon.me/my/objects/cars\#tesla1
+http://fabien.gandon.me/my/objects/cars#bmw1
+http://fabien.gandon.me/my/objects/cars#smart1
+http://fabien.gandon.me/my/objects/cars#tesla1
 \end{lstlisting}
 \ldots{} 
 
-
-
-This first option also has "the disadvantages of its advantages": one
-cannot obtain the description of only one resource since the whole
-description source is retrieved every time the address is accessed and
-this could be costly in terms of network traffic, memory and processing
+These advantages of hash URIs can also be a drawback; since the whole
+description source is retrieved every time the address is accessed, one
+cannot obtain the description of just a  single resource.  This could 
+be costly in terms of network traffic, memory and processing
 when the set of described resources is large.
 
-The alternative is to use only the path with slashes (i.e. the symbol /
-) to generate identifiers. For instance:
+The alternative is to use only slash URIs (i.e. the symbol /) 
+to generate identifiers. For instance:
 
 \begin{lstlisting}
 http://fabien.gandon.me/my/objects/cars/bmw1
@@ -824,18 +889,27 @@ redirect'' that relies on the use of the "303 See Other" HTTP answer to
 redirect accesses to the HTTP URI of a thing to some URL where to find a
 description about that thing.
 
-The dereferencing of an HTTP Slash URI identifying a thing will
-therefore follow a process in four steps: (1) The client makes a first
-attempt to connect (HTTP GET) to the HTTP Slash URI; (2) the server
+The dereferencing of an HTTP Slash URI identifying a thing follows  a four-step 
+process in four steps: 
+\begin{enumerate}
+    \item The client makes the first
+attempt to connect (HTTP GET) to the HTTP Slash URI; 
+    \item the server
 respond with a ``303 See Other'' HTTP code and provides the URL to get a
-description; (3) the client performs a second call (HTTP GET) to the
-provided URL; (4) the server provides the requested description (200
-OK). Again this process can be combined with content negotiation so that
-the provided URL corresponds as closely as possible to the preferences
+description;
+    \item the client performs a second call (HTTP GET) to the
+provided URL;
+    \item the server provides the requested description (200
+OK).
+\end{enumerate}
+
+Just as is the case for any URI resolution, yhis process can be combined with 
+content negotiation so that
+the result provided by the web server corresponds as closely as possible to the preferences
 of the client.
 
-This alternative, using slashes, allows us to be much more modular in
-the storage and transfer of descriptions. Here, a Web client can
+The slash URI alternative allows us to be much more modular in
+the storage and transfer of descriptions. In this case, a Web client can
 retrieve only the description it is interested in.
 
 Disadvantages include the multiplication (by two) of HTTP calls (the
@@ -846,34 +920,37 @@ retrieve a collection of them.
 To summarize, fragments can be used for small datasets where grouping
 makes sense (unity of content, linked, same life cycle), a classical
 example of that are vocabularies, schemas or ontologies. This option is
-also the simplest one as it can be implemented, for instance, just by
+also simpler as it can be implemented, for instance, just by
 hosting a file on a Web server. The redirection by HTTP 303 is more
 technical but allows more control over the data served.
 
 Finally, nothing prevents you from using and mixing these two options
 even inside the same dataset. A classical way to do that is to add an
-artificial fragment (e.g. \#me, \#this) to have the modularity of the
-slash and the simple call of the hash. For instance, we can have a full
+artificial fragment (e.g. \#me, \#this) to combine the modularity of 
+slash URIs with the simplicity  of  hash URIs. For example, we can have a full
 path with slashes to generate identifiers allowing us to be modular in
 the storage and transfer of descriptions and add an artificial fragment
 (\#this) to enforce that the URI of the thing (with the fragment) and
 the URI of the description (without the fragment) are two different
-identifiers and avoid to perform a redirection. In a way we have our
+identifiers and avoid a redirection. In this way, we can have our
 cake and eat it too:
 
 \begin{lstlisting}
-http://fabien.gandon.me/my/objects/cars/tesla1\#this
+http://fabien.gandon.me/my/objects/cars/tesla1#this
 \end{lstlisting}
 
 \hypertarget{see-it-for-yourself}{%
-\subsection{See it for yourself\ldots{}}\label{see-it-for-yourself}}
+\section{See it for yourself\ldots{}}\label{see-it-for-yourself}}
 
-Because this book is about linked data on the \emph{Web} and semantic
-Web we are going to give you a number example directly from the Web. At
-the moment of writing this book most these examples are online and
-accessible but, with the Web, things change fast and some of our
-examples may no longer work. For this reason, and in order to show the
-diversity of usages, we will include several such examples.
+This chapter is about linked data on the \emph{Web}.  To illustrate 
+how this works, we will examine some examples taken directly from the Web. At
+the moment of writing this book, most these examples are online and
+accessible.   But things change fast on the Web, so there is no guarantee that 
+any particular example will work in the future.   We'll provide a number of examples,
+in the hopes that at least some of them will continue for a while.  This has the added benefit 
+that it allows us to demonstrate a wide range of uses of linked data on the web. 
+
+\subsection{Documentary pages at the BBC}
 
 Our first example is from an unfortunately discontinued version of the
 BBC Web Site. In order to experience by yourself the existence of the
@@ -942,9 +1019,15 @@ machines}
     \label{fig:ch5.4}
 \end{figure}
 
-Moving to a completely different domain and data source, let us now
-consider UniProt that provides RDF descriptions of protein sequence and
-function. Again, if you are a biologist interested in the ``Cell surface
+
+\subsection{Publishing Protein Sequences}
+
+The Universal Protein Resource (\emph{UniProt} for short) is a service whose mission is to 
+provide the scientific community 
+with a comprehensive, high-quality and freely accessible resource of protein sequence and 
+functional information \footnote{https://www.uniprot.org/}. 
+Among its services, UniProt  provides RDF descriptions of protein sequence and
+function. For example, if you are a biologist interested in the ``Cell surface
 glycoprotein MUC18'', there is a URI for that:
 
 \begin{lstlisting}
@@ -960,14 +1043,26 @@ rendering for humans}
     \label{fig:ch5.5}
 \end{figure}
 
-When accessed by a Web browser for a human the response contains an HTML
-page to be displayed (Figure~\ref{fig:ch5.5}) but when accessed by a machine the
-response is a redirection to the RDF version of that description (Figure~\ref{fig:ch5.6} that can be found here:
+UniProt's service provides a good example of URI redirection.  The persistent URI is \textt{http://purl.uniprot.org/uniprot/P43121}.  
+When this HTTP URI is accessed by a Web browser for a human,  the response is a redirection to 
+
+\begin{lstlisting}
+https://www.uniprot.org/uniprot/P43121
+\end{lstlisting}
+
+which resolves to an HTML
+page suitable for display in a browser (see Figure~\ref{fig:ch5.5}).   
+
+On the other hand, when  that same HTTP URI is accessed by a 
+machine,  the
+response is a redirection to the RDF version of that description:
 
 \begin{lstlisting}
 https://www.uniprot.org/uniprot/P43121.rdf
 \end{lstlisting}
 
+This redirected URI resolves to an RDF document, an excerpt of which can be seen in 
+Figure~\ref{fig:ch5.6}.
 
 
 \begin{figure}
@@ -985,53 +1080,61 @@ https://www.uniprot.org/uniprot/P43121.rdf
     <replaces rdf:resource="http://purl.uniprot.org/uniprot/Q59E86"/>
     <replaces rdf:resource="http://purl.uniprot.org/uniprot/Q6PHR3"/>
     <replaces rdf:resource="http://purl.uniprot.org/uniprot/Q6ZTR2"/>
-    <citation rdf:resource="http://purl.uniprot.org/citations/2602381" rdf:ID="_P43121-citation-2602381"/>
-    <citation rdf:resource="http://purl.uniprot.org/citations/8378324" rdf:ID="_P43121-citation-8378324"/>
-    <citation rdf:resource="http://purl.uniprot.org/citations/11709656" rdf:ID="_P43121-citation-11709656"/>
+    <citation rdf:resource="http://purl.uniprot.org/citations/2602381" 
+              rdf:ID="_P43121-citation-2602381"/>
+    <citation rdf:resource="http://purl.uniprot.org/citations/8378324" 
+              rdf:ID="_P43121-citation-8378324"/>
+    <citation rdf:resource="http://purl.uniprot.org/citations/11709656" 
+              rdf:ID="_P43121-citation-11709656"/>
 \end{lstlisting}
     \caption{Cell surface glycoprotein MUC18 in UnitProt: extract of the
-RDF/XML version for machines}
+RDF/XML version for automated use}
     \label{fig:ch5.6}
 \end{figure}
 
-As a third example let us consider DBpedia, which is according to their
-own site, ``a crowd-sourced community effort to extract structured
-content from the information created in various Wikimedia projects''
-including the famous Wikipedia encyclopaedia. This initiatives extracts
-and publicly makes available structured data from the pages of Wikipedia
-and other Wikimedia projects, therefore covering a wide variety of
-domains and topics. Again they use RDF and linked data principles
-therefore every topic has a URI for which you can negotiate HRTML of
-RDF. Consider for instance the topic ``Eiffel Tower'' identified by the
+\subsection{Wikipedia as Data: DBpedia}
+
+DBpedia is a crowd-sourced community effort to extract structured
+content from the information created in various Wikimedia projects\footnote{https://wiki.dbpedia.org/about}. 
+This includes the famous Wikipedia encyclop{\ae}ia.  This initiatives extracts
+and publishes structured data from the pages of Wikipedia
+and other Wikimedia projects, and therefore covers a wide variety of
+domains and topics. As in the other examples in the chapter, DBpedia uses RDF and linked data 
+principles in the publication of their information. 
+Thus, every topic has an HTTP URI, the description of which, using redirection and \emph{conneg},  
+is provided  either as
+HTML or as 
+RDF. Let's take as an example the concept ``Eiffel Tower'', which is identified by the
 following identifier:
 
 \begin{lstlisting}
-{http://dbpedia.org/\textbf{resource}/Eiffel\_Tower
+http://dbpedia.org/resource/Eiffel_Tower
 \end{lstlisting}
 
 If you access that HTTP URI with a browser, you are redirected to the
 following URL
 
 \begin{lstlisting}
-http://dbpedia.org/\textbf{page}/Eiffel\_Tower
+http://dbpedia.org/page/Eiffel_Tower
 \end{lstlisting}
 
 This URL displays an HTML page rendering all the data extracted about
-that topic and available publicly on the Web as linked data (Figure 7).
+that topic and available publicly on the Web as linked data (Figure~\ref{fig:ch5.7}.
 
 \begin{figure}
     \centering
     \includegraphics[width=5in]{media/ch5/figure-05-07.jpg}
-
     \caption{Eiffel Tower at DBpedia: extract of the HTML rendering for humans}
     \label{fig:ch5.7}
 \end{figure}
 
 At the same HTTP URI you can negotiate many other formats including, for
-instance RDF using Turtle /N3 syntax. You would then be redirected
-(Figure 8) to another URL for instance:
+instance RDF using Turtle/N3 syntax. You would then be redirected
+(Figure~\ref{fig:ch5.8}) to another URL for instance:
 
-\url{http://dbpedia.org/data/Eiffel_Tower.n3}
+\begin{lstlisting}
+http://dbpedia.org/data/Eiffel_Tower.n3
+\end{lstlisting}
 
 
 \begin{figure}
@@ -1065,31 +1168,32 @@ machines}
     \label{fig:ch5.8}
 \end{figure}
 
-Now let us fully play the game of linked data. In (Figure 8) you can
-find a piece of code (line 8) saying that the Eiffel Tower is of type
-wikidata:Q41176 which is a qualified name using the prefix ``wikidata''
-attached to a namespace (line 6). At this stage we don't know what this
-means but we can follow our nose and expand the qualify name by
-replacing the prefix with the namespace to obtain an HTTP URI that we
-can access
+Now let us fully play the game of linked data. In (Figure~\ref{fig:ch5.8}) you can
+find a triple (line 8) saying that the Eiffel Tower is of type
+wikidata:Q41176 which is a QName using the namesace prefix \texttt{wikidata:}, which is defined 
+on line 6. At this stage we don't know what this
+means, but we can follow our nose by expanding the QName (i.e., 
+replacing the prefix with its defined  namespace) to obtain an HTTP URI that we
+can access:
 
 \begin{lstlisting}
-http://www.wikidata.org/\textbf{entity}/Q41176
+http://www.wikidata.org/entity/Q41176
 \end{lstlisting}
 
 If you access that HTTP URI with a browser, you are redirected to the
 following URL
 
 \begin{lstlisting}
-https://www.wikidata.org/\textbf{wiki}/Q41176
+https://www.wikidata.org/wiki/Q41176
 \end{lstlisting}
 
 
-This URL displays an HTML page rendering all the data about that
-resource in another important data source of the Web of data: Wikidata
-(Figure 9). This is another initiative of Wikimedia that provides as
+This URL resolves to an HTML page that displys all the data about this
+resource.   
+(Figure~\ref{fig:ch5.9}). This page is part of another important  data source on the Web of data, 
+\emph{Wikidata}. Wikidata is  is another initiative of the Wikimedia Foundation, which provides 
 central storage for the structured data used in other projects of the
-foundation projects including Wikipedia, Wikivoyage, etc. This knowledge
+foundation,  including Wikipedia, Wikivoyage, etc.  Like many of the initiatives of the Wikimedia foundation, this knowledge
 base is open on the Web and can be read and edited by both humans and
 machines.
 
@@ -1100,41 +1204,53 @@ machines.
     \label{fig:ch5.9}
 \end{figure}
 
-Again you can force the access to another format for the same data for
-instance in RDF N-Triple (Figure 10). But if we now put all the pieces
-together we can see that this mysterious resource called wikidata:Q41176
-and found among the types of the Eiffel Tower in DBpedia represents the
-category of the buildings in the data of Wikidata. So we see that these
-linked data explain that the dataset of DBpedia the Eiffel Tower is
-declared to be a Building in the sense of the dataset of Wikidata. We
-witness a link across two data sources on the Web of data.
+As we have seen in the other examples, an application can specify that it prefers  another format for 
+the same data (Figure~\ref{fig:ch5.10}), for
+instance,  as  RDF N-Triples (see Section~\ref{ntriples}).  
+
+Putting  all the pieces
+together, we can see that this mysterious resource called \texttt{wikidata:Q41176},
+which  was found among the types of the Eiffel Tower listed in DBpedia, represents the
+category of \texttt{Buildings} as represented in  Wikidata.   
+In order to get the big picture of the Eiffel Tower, 
+including the fact that it is a building, we combine information from two datasets: DBpedia and Wikidata. 
+In this way, we have
+witnessed a link across two data sources on the Web of data.
 
 \begin{figure}
  \begin{lstlisting}
-<http://www.wikidata.org/entity/Q41176> <http://www.w3.org/2000/01/rdf-schema#label> "building"@en .
-<http://www.wikidata.org/entity/Q41176> <http://www.w3.org/2004/02/skos/core#prefLabel> "building"@en .
+<http://www.wikidata.org/entity/Q41176> rdfs:label "building"@en .
+<http://www.wikidata.org/entity/Q41176> skos:prefLabel "building"@en .
 <http://www.wikidata.org/entity/Q41176> <http://schema.org/name> "building"@en .
-<http://www.wikidata.org/entity/Q41176> <http://www.w3.org/2000/01/rdf-schema#label> "Bilding"@pih .
-<http://www.wikidata.org/entity/Q41176> <http://www.w3.org/2004/02/skos/core#prefLabel> "Bilding"@pih .
+<http://www.wikidata.org/entity/Q41176> rdfs:label "Bilding"@pih .
+<http://www.wikidata.org/entity/Q41176> skos:prefLabel "Bilding"@pih .
 <http://www.wikidata.org/entity/Q41176> <http://schema.org/name> "Bilding"@pih .
-<http://www.wikidata.org/entity/Q41176> <http://www.w3.org/2000/01/rdf-schema#label> "budova"@sk .
-<http://www.wikidata.org/entity/Q41176> <http://www.w3.org/2004/02/skos/core#prefLabel> "budova"@sk .
+<http://www.wikidata.org/entity/Q41176> rdfs:label "budova"@sk .
+<http://www.wikidata.org/entity/Q41176> skos:prefLabel "budova"@sk .
 \end{lstlisting}
     \caption{Building at Wikidata: extract of the RDF N-Triple version for
 machines}
     \label{fig:ch5.10}
 \end{figure}
 
-Until now we have used different tricks (different URLs) to see the
+
+\subsection{Running it yourself}
+
+
+
+
+
+
+So far, we have used different tricks (different URLs) to see the
 different formats available for each description avoiding to perform the
 content negotiation ourselves. Let us now mention one way to perform
-manually the dereferenciation of an HTTP URI and the content
-negotiation. For this, you may use different tools or command and even
-do it from a programming language if you want. Here we use the CURL
+manually the dereferencing of an HTTP URI and the content
+negotiation. For this, you may use different tools or commands and even
+do it from a programming language if you want. Here we use the \texttt{CURL}
 command line tool and library to transfer data using HTTP URIs. The
 command may already be available on your machine or you may have to
 install it from the Web site of the software\footnote{\url{https://curl.haxx.se/}}.
-As show in Figure 11, this tool allow us to perform calls as command
+As show in Figure~\ref{fig:ch5.11}, this tool allow us to perform calls as command
 lines and we performed two executions of CURL here on the same URL from
 Wikidata we just saw. The first execution uses CURL with the options
 ``-o'' to save the output in a file named ``PageBuildings.html''. It
@@ -1149,6 +1265,7 @@ we want a response in RDF/XML and we save this second result in another
 file named ``DataBuildings.rdf''. The result shows that again CURL makes
 a first call, as a result it is redirected to another address and makes
 a second call from which it obtains an RDF/XML file of 1620 kilo bytes
+
 
 \begin{figure}
     \centering
