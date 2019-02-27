@@ -41,8 +41,18 @@ satisfies some purpose?
 How can we express our intentions for the purpose of a model? In the
 case where we are engineering a model from scratch, we can express
 requirements for the model we are creating. One common practice for
-semantic models usually starts with the notion of ``competency
-questions.'' Begin the modeling process by determining what questions
+semantic models usually starts with the notions of ``motivating scenarios'' and ``competency
+questions''. %FAB: ideally here we should add a reference to: M. Uschold and Gruninger M. Ontologies: Principles, methods and applications. Knowledge Engineering Review, Vol. 11:2, 93-136, 1996. Also available as AIAI-TR-191 from AIAI, The University of Edinburgh
+
+%FAB : beginning of new text to introduce motivating scenarios
+In software engineering an interesting technique to capture the application requirements in context, is the one of scenario analysis. These scenarios descriptions are usually information-rich stories capturing problems and wishes and they are used as the entrance point to the project. Just like it is the case for a software, no-one should start the development of an ontology without a clear specification of its purpose and scope. The scenarios help us identify the goals and limits of such a development by clearly stating why the ontology is being built, what its intended uses are and who are the stakeholders.
+
+Because they are human-friendly short stories, scenarios have the advantage to enable communication in natural language while capturing situation, context, stakeholders, problems and solutions with their associated vocabulary. This last aspect also makes scenarios very interesting for the development of ontologies: these short stories identify (1) the needs that are not covered by the existing solutions together with the vocabulary to express these needs and (2) the possible solutions to these problems that would be supported by the introduction of an ontology-based solution together with the vocabulary to describe the results.
+
+The text of the motivating scenarios introduces informal competency questions placing expressiveness requirements on the vocabulary to express both the needs and the results captured in the scenarios. Together, the motivating scenarios and competency questions help us scope the ontology in terms of completeness (the extent to which it covers the scenario), specificity (the extend to which specific terms of the scenario are captured), granularity (the extend to which terms are precisely defined) and formality (the extend to which definitions are formalized). Motivating scenarios and competency questions serve as sources, guides and constraints capturing at the same time the directions, domains, seed terms and frontier for the ontology design. It should also be noted that scenario analysis, as many other activities in ontology engineering, is not a one-off activity, but will be pursued during the whole ontology design process and lifecycle. New scenarios will arise and existing scenarios will be refined leading to ontology evolution.
+%FAB : end of new text to introduce motivating scenarios
+
+Begin the modeling process by determining what questions
 the model will need to answer. Then construct the model so that these
 questions can be answered, and, to the extent possible, model no further
 than necessary to answer them.
