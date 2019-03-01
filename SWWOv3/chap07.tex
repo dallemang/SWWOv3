@@ -13,10 +13,6 @@ identifiers in RDF, we can weave a world-wide Web of data.  This Web of data alr
 
 \section{Inference in RDF}
 
-In Chapter~\ref{ch1}, we examined some of the assumptions around managing information on the web, 
-whether it is to be consumed directly by humans or first by machines.  One of the basic assumptions is
-that we cannot know, in advance, what we will find on the web, therefore, we must proceed with the \emph{Open World} assumption (Section~\ref{openworld}).  We only draw conclusions from data that will not be undermined or countermanded by the discovery of new data.  
-
 
 
 Suppose you hit the web page of an online clothing retailer, and you
@@ -559,135 +555,249 @@ be consistent, if they justify them all against the same model.
 \section{Expectation in RDF}
 
 
+In Chapter~\ref{ch1}, we examined some of the assumptions around managing information on the web, 
+whether it is to be consumed directly by humans or first by machines.  One of the basic assumptions is
+that we cannot know, in advance, what we will find on the web, therefore, we must proceed with the \emph{Open World} assumption (Section~\ref{openworld}).  We only draw conclusions from data that will not be undermined or countermanded by the discovery of new data.  This assumption makes sense when we are interpreting data we find in the wild.
+
+But there are some situations in which we are not interpreting data, we instead are acting on some expectations about the
+data in the wild.  Our expectations about data might come from regulatory control (an application for a loan must
+include certain information about the borrower), or our own business policies (we require certain information about a
+prospective borrower before we will consider a loan), or just plain common sense (a borrow's date of birth cannot be in
+the future).
+
+Expectations in the Semantic Web can take three broad forms:
+
+\begin{itemize}
+    \item \emph{Data Validation} \label{datav} Data found in the wild purports to describe a particular kind of thing, and we have
+    expectations about that type.  We want to validate that the data matches our expectations.
+
+  \item \emph{Soliciting user input} \label{form}
+      We might not find our data published on the web as a linked data resource, but
+      rather, we want to request input from a user.  In this case, we want to be able to communicate to that user what
+      our expectations are for the data they will provide.  This is typically done with a form or a wizard that a user
+      fills out with the data they are providing.
+
+    \item \emph{Validating user input} \label{userv} Even when we have communicated our expectations to a user,
+      they might not provide 
+      data in the form we expect.  In this case, just as in the first case, we will want to validate our data against our
+      expectations.
+\end{itemize}
+
+We can think of our expectations for a data description as a specification of the \emph{shape} that the data should take.  This metaphor is quite literal in case \ref{form} above, where the expected shape of the data is presented in a form that a user will fill out.  
+
+Beyond the shape of a data description, our expectations can also place constraints on values.  The age of an adult must be greater than 18 (or 21, depending on the intent of the data shape in question);  a social security number must be of the form XXX-XX-XXXX.
+
+These intuitions are the motivation behing the name of the expectation modeling language of the Semantic Web, \emph{SHACL}, Shapes Constraint Language.  SHACL provides a mechanism for specifying the expected shape of a data description and constraints on its validity.
+
+We'll illustrate all three uses of SHACL with a single example, shown in Figure~\ref{fig:ch7.account}.
+
+\begin{figure}
+  \begin{lstlisting}
+ 1. @prefix sh: <http://www.w3.org/ns/shacl#> .
+ 2. account:Account
+ 3.   rdf:type sh:NodeShape ;
+ 4.   rdfs:label "Account" ;
+ 5.   sh:property [
+ 6.       rdf:type sh:PropertyShape ;
+ 7.       sh:path account:lastName ;
+ 8.       sh:datatype xsd:string ;
+ 9.       sh:name "family name" ;
+10.       sh:description "the name shared by all members of a family" ;
+11.       sh:maxCount 1 ] ;
+12.   sh:property [
+13.       rdf:type sh:PropertyShape ;
+14.       sh:path account:ssn ;
+15.       sh:datatype xsd:string ;
+16.       sh:description
+17.            "US Social Security Number - format XXX-XX-XXXX" ;
+18.       sh:maxCount 1 ;
+19.       sh:minCount 1 ;
+20.       sh:name "SSN" ;
+21.       sh:pattern
+22.          "[0-9][0-9][0-9]-[0-9][0-9]-[0-9][0-9][0-9][0-9]" ] ;
+23.   sh:property [
+24.       sh:path account:gender ;
+25.       sh:datatype xsd:string ;
+26.       sh:in (
+27.           "female"
+28.           "male"
+29.         ) ;
+30.       sh:maxCount 1 ;
+31.       sh:name "gender" ] .
+  \end{lstlisting}
+  \caption{Listing of a SHACL model for an Account}
+  \label{fig:ch7.account}
+\end{figure}
+
+The first thing to notice about Figure~\ref{fig:ch7.account} is that it is expressed in RDF.  This is typical of the langauges of the Semantic Web; every language is expressed in RDF, so that the models in that language can be distirbuted across the web as linked data sets in their own right (see Chapter~\ref{ch5}. 
+
+The second thing to notice is the large number of resources whose names
+begin with \texttt{sh:}.  As we see in line 1, this is a prefix abbreviation for
+\texttt{http://www.w3.org/ns/shacl#}, which is a domain prefix controlled by the
+W3C (as we saw in Section~\ref{minting-http-uris}).  This is also typical of how a
+new language is built on top of RDF; the language publisher (in this case, the W3C)
+defines a number of resources in a single domain that they control.  If you dereference
+one of these HTTP URIs, the result (which is maintained by the same publisher, the W3C) is a description of that resource.  If you paste the HTTP URI \texttt{http://www.w3.org/ns/shacl#} into a web browser, you will see the W3C Recommendation document that describes SHACL.
 
 
-%%%%%%% Begin material from chapter 5
+Now let's dive into the details of the shapes.  
+In the data, we have three entities that claim to be \texttt{Accounts}.  For
+each of them, certain data is provided; first names, last names, SSN, gender.
+The shapes in Figure~\ref{fig:ch7.account} specifies our expectations about these
+things.
+
+There are three constraints on properties defined in Figure~\ref{fig:ch7.account}, beginning on lines 5, 12 and 23.  The property that they place a constraint on is given by \texttt{sh:path}, so they constrain \texttt{account:lastName} (line 7), \texttt{account:ssn} (ine 14)  and \texttt{account:gender} (line 24) respectively.
+
+Each of these constraints say something different about the property.  
+In the case of \texttt{account:lastName} (lines 5-11), the constraint says 
+that the value must be a string,  and that there can be at most one value.
+
+In the case of \texttt{account:ssn} (lines 12-22), there must be exactly one value 
+(both min and max of 1 are specified), it must be a string, but it also must match
+a pattern given by a regular expression.  Regular expressions are beyond the scope
+of this book, but this one says that the string must have the form ``XXX-XX-XXXX''
+where each X is a digit from 0 to 9.
+
+Finally, the third contraint, on \texttt{account:gender} (lines 23-31) specifies that
+there can be at most one value, and that value must be in the list given, that is, one
+of ``male'' or ``female''.
 
 \hypertarget{validating-data}{%
 \subsection{Validating data}\label{validating-data}}
 
-Applications that publish and consume data from the Web of data are
-written and hosted by very different organizations. Validation is a way
-to ensure interoperability between open and heterogeneous as the ones
-the Web architecture now links. Moreover, one of the strengths of RDF is
-the simplicity and genericity of its standard graph data model but, as a
-result, it is used to represent a huge variety of data and that variety
-is one of the issues when processing big data. This means that the
-quality of the data you will get may vary a lot from one source to
-another. When discovering and exchanging data over the Web we therefore
-need to check whether the data we obtain match what we expect in terms
-of content and structure. This is also true when obtaining data from
-users. In designing interactions with a user it is important to know
-what information is mandatory and the constraints that must be met for
-the input to be valid. If the user is entering their personal data, you
-may want to check that the family name and first name have been provided
-properly. If they are taking orders, you may want to ensure the product
-ID and the quantity have been appropriately filled in, etc. All these
-are examples of use cases for an RDF validation mechanism that allows us
-to validate the data before adding them to our databases.
 
-SHACL (Shapes Constraint Language) addresses the issue of data quality
-at the structural level by providing a language to describe the
-``shapes'' of the data you are expecting. This takes the form of an RDF
-description of the constraints you want to enforce on the data,
-including the required properties and the types of values you expect.
-Once you have defined your constraints on the RDF data you are
-interested in, you can check any piece of data from any source using a
-validation software.
+Let's see how this works, first in the context
+of data validation.  Suppose we have data about the active accounts as shown in
+Figure~\ref{fig:ch7.data}.
 
-Imagine you design an application for collecting user profiles from the
-Web. \emph{FOAF} (which stands for \emph{Friend of a Friend}) is a
-popular vocabulary for representing user profile data on the Web of
-data. Suppose that every time your application finds such a FOAF profile
-on the Web, it wants to check its completeness with respect to some
-requirements. As shown in Figure~\ref{fig:ch5.15}, the conditions are themselves
-expressed in RDF and the core notion is the ``shape'' providing a
-description that the data graphs need to satisfy. In our example, we
-declare a shape (line 5) that targets resources of type foaf:Person
-(line 7) and specified three constraints we would like to enforce. The
-first constraint (lines 8-15) makes it compulsory to have exactly one
-family name that must be a string of characters. The second constraint
-(lines 16-24) makes it compulsory to have a gender and this must have
-for value either ``male'' or ``female''. The third constraint (lines
-25-28) just ensures that if the homepage is provided it is a valid IRI.
 
 \begin{figure}
-\begin{lstlisting}
-1.	@prefix foaf: <http://xmlns.com/foaf/0.1/> .
-2.	@prefix sh: <http://www.w3.org/ns/shacl#> .
-3.	@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
-4.	
-5.	:PersonShape
-6.	    a sh:NodeShape ;
-7.	    sh:targetClass foaf:Person ;
-8.	    sh:property [
-9.	        sh:path foaf:familyName ;
-10.	        sh:name "family name" ;
-11.	        sh:description "the family name of a 
-                                          person." ;
-12.	        sh:datatype xsd:string ;
-13.	        sh:maxCount 1 ;
-14.	        sh:minCount 1 ;
-15.	    ] ;
-16.	    sh:property [
-17.	        sh:path foaf:gender ;
-18.	        sh:name "gender" ;
-19.	        sh:description "the gender of a person 
-                                 ('male' or 'female')." ;
-20.	        sh:datatype xsd:string ;
-21.	        sh:maxCount 1 ;
-22.	        sh:minCount 1 ;
-23.		sh:pattern "^(male|female)$" ;
-24.	    ] ;
-25.		sh:property [                
-26.			sh:path foaf:homepage ;
-27.			sh:nodeKind sh:IRI ;
-28.		] .
-\end{lstlisting}
-\label{fig:ch5.15}
-\caption{A SHACL shape to validate FOAF data: the shape is represented
-itself in RDF.}
+  \begin{lstlisting}
+active:Account_1
+  rdf:type account:Account ;
+  rdfs:label "Account 1" ;
+  account:firstName "Aaron" ;
+  account:gender "male" ;
+  account:lastName "Beatte" ;
+  account:ssn "123-45-6789" .
+
+active:Account_2
+  rdf:type account:Account ;
+  rdfs:label "Account 2" ;
+  account:firstName "George" ;
+  account:gender "unknown" ;
+  account:lastName "Deller" ;
+  account:ssn "12-345678" .
+
+active:Account_3
+  rdf:type account:Account ;
+  rdfs:label "Account 3" ;
+  account:firstName "Edelyn" ;
+  account:lastName "Zetta" .
+  \end{lstlisting}
+\label{fig:ch7.data}
+\caption{Data to be vaidated by Figure~\protect\ref{fig:ch7.account}.}
 \end{figure}
 
+First off, each descriptions in Figure~\ref{fig:ch7.data} has a single string value for
+\texttt{account:lastName}, as expected.  So there is no violation in this data set for \texttt{lastName}.
 
-If you provide such a SHACL shape to a SHACL validator, you can then
-check if some data is valid with respect to these constraints. Consider
-the data in Figure 16 containing two small FOAF profiles for Bob (lines
-3-5) and Alice (lines 7-11). If you run a validator on these data the
-report indicates that Alice is a valid foaf:Person according to your
-constraints but that Bob is missing the gender property.
+Now let's look at \texttt{account:gender}.  \texttt{Account\_1} has the
+value ``male'', which is one of the expected values, so there is no
+violation.  \texttt{Account\_2} has the value ``unknown'' for \texttt{account:gender}.  This is not one 
+of the expected values, so this is a violation.  SHACL can be quite specific about
+the violation - the given value, ``unknown'', is not in the list of allowed
+values (``female'', ``male'').  \texttt{Account\_3}, on the other hand, has 
+no value at all for \texttt{account:gender}.  The constraint says that the
+maximum number of values we can have for this property is 1, but says nothing about the
+minimum number of values.  So, according to this shape, the correct way to specify
+an unknown gender (or an unwillingness to provide one from the list ``male''
+and ``female'') is to leave it out. 
 
-\begin{figure}
-\begin{lstlisting}
-1.	@prefix foaf: <http://xmlns.com/foaf/0.1/> .
-2.	
-3.	:Bob a foaf:Person ;
-4.	    foaf:firstName "Robert" ;
-5.	    foaf:familyName "Doe" .
-6.	
-7.	:Alice a foaf:Person ;
-8.	    foaf:firstName "Alice" ;
-9.	    foaf:familyName "Doe" ;
-10.	    foaf:gender "female" ;
-11.	    foaf:homepage <http://alice.homepage.com/> .
-\end{lstlisting}
-\label{fig:5.16}
-\caption{Two FOAF profiles to be validated with the SHACL shape of Figure~\ref{fig:ch5.15}}
-\end{figure}
+The constraint on \texttt{account:ssn} specifies a pattern that a SSN should take.
+In our data, \texttt{active:Account\_1} specifies a SSN of the appropriate format.
+\texttt{active:Account\_2} specifies an SSN, but the format does not match.  SHACL can
+be very specific about the violation, that the value for \texttt{account:ssn}
+does not match the pattern given in the shape.  Finally, \texttt{active:Account\_3}  provides no value for SSN at all.  In this case, the shape specifies (line 18, Figure~\ref{fig:ch7.account}) \texttt{sh:minCount 1}, so, unlike the case of the missing
+gender, this is a violation, namely, property needs at least 1 value, found 0.
 
+The process we just outlined is called \emph{SHACL validation}; given a set of
+shape defintions in SHACL, and data that purports to conform to those shapes,
+we can automatically determine whether and how the data violates the constraints
+given in the shape.
 
-
-SHACL provides a standard to specify structural patterns to be checked
-upon the data by expressing rules about how actual RDF graphs or
-subgraphs should look like in your data. This validation happens at the
-structural level of the RDF graphs before considering any kind of
-semantics or inference as we will see in the chapters about RDFS and
-OWL. These structural constraints are already very useful to validate
-and integrate data, to document data models, to generate user interfaces
-or even code.
+Validation is important in the web of data, since the applications
+that publish and consume data from the Web of data are  written and
+hosted by different organizations.  if we want to ensure
+interoperability between open and heterogeneous systems, we need a way
+to specify our expectations about the data they will provide and
+consume.  SHACL provides a way to specify those expectations, and
+SHACL validation provides a way to enforce them.
 
 
-%%%%%% End material from Chapter 5
+
+\subsection{Soliciting User Input}\label{soliciting}
+
+The same constraints that allow us to validate data can be used to
+control the solicitation of data from a user.  Take the shape given in
+Figure~\ref{fig:ch7.account}.  Just intuitively, if we wanted to make
+a form for a user to fill out, we would expect the form to have three
+fields, one each for \texttt{account:lastName}, \texttt{account:ssn}
+and \texttt{account:gender}.  But we of course don't expect a form to
+use the QName of a property to elicit input.  Fortunatlely,
+Figure~\ref{fig:ch7.account} also provides names for each of the
+constraints, and these names are more suitable for human consumption;
+``family name'', ``SSN'' and ``gender''.  If further information is
+needed about any of these things (e.g., what does SSN stand for?),
+there is the \texttt{sh:description}, which describes it in more
+detail.  In the case of \texttt{account:gender}, the constraint even
+provides a suggestion for how the form should operate; it should only
+provide two options for the answer, corresponding to the two
+accpetable answers, ``male'' and ``female''.
+
+There are any number of technologies avaiable for producing forms for
+people to fill in; SHACL simply provides the content, in terms of
+field names, types, and allowable values that the forms should have.
+Figure~\ref{fig.ch7.form} shows an example form created from the shape
+in Figure~\ref{fig.ch7.account}, using basic HTML.
+
+
+
+\subsection{Validating User Input}\label{vuser}
+
+One of the advantages of using a machine-readable shapes language like
+SHACL (remember, SHACL is in RDF, so we can query over it using
+SPARQL, as we saw in Chapter~\ref{ch6}) is that we can use the same
+model (Figure~\ref{fig.ch7.account}) to drive data validation
+(Section~\ref{validating-data}} as we use to solicit data from human
+users (Section~\ref{soliciting}).  We can combine these processes, and
+use the same model to validate user input.
+
+We've already seen that the model can be used to prevent certain data
+errors by users.  By buiding a form that only accepts values ``male''
+and ``female'', we prevent a user from submitting a form with a value
+like ``unknown''.  But, depending on the technology we are using for
+the forms, we might not be able to enforce all of the constraints
+expressed in a shape with a form.
+
+For example, the constraint on SSN is somewhat elaborate; it requires
+something that can check a regular expression against the human
+input.  Simple HTML forms don't have a facility for regular
+expressions, so we just have to leave it to the human to fill in the
+form, and hope that they follow the format suggestion given in the
+\texttt{sh:description} field of the shape.
+
+Once we have the results from the form, we can process it using the
+same tool that we used for data on the web, namely, a SHACL
+validator. This allows us to make sure that the data entered by a
+human user will conform to the same high standard as data we find on
+the web.
+
+In this way, SHACL helps us to retain the value of the data wilderness
+while, to some extent, taming its wild nature.  We still accept data
+from across the web, we still allow anyone to say anything about any
+topic, but we protect our data applications from runaway behavior by
+enforcing shapes and constraints on the data.
 
 
 \section{SUMMARY}
