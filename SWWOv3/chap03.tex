@@ -317,31 +317,31 @@ this issue is resolved through the use of Uniform Resource Identifiers
 (URIs).
 
 In the figures so far, we have labeled the nodes and edges in the graphs
-with simple names like Shakespeare or Wales. On the Semantic Web, this
+with simple names like \emphh{Shakespeare} or \emphh{Wales}. On the Semantic Web, this
 is not sufficient information to determine whether two nodes are really
 the same. Why not? Isn't there just one thing in the universe that
-everyone agrees refers to as Shakespeare? When referring to agreement on
-the Web, never say, ``everyone.'' Some- where, someone will refer not to
+everyone agrees refers to as \emphh{Shakespeare}? When referring to agreement on
+the Web, never say, ``everyone.'' Somewhere, someone will refer not to
 the historical Shakespeare but to the title character of the feature
 film \emph{Shakespeare in Love}, which bears very little resemblance to
 the historical figure. And ``Shakespeare'' is one of the more stable
 concepts to appear on the Web; consider the range of referents for a
 name like ``Washington'' or ``Bordeaux.'' To merge graphs in a Semantic
 Web setting, we have to be more specific: In what sense do we mean the
-word Shakespeare?
+word \emphh{Shakespeare}?
 
 RDF borrows its solution to this problem from foundational Web
-technology --- in particular, the URI. The syntax and format of a URI are
+technology --- in particular, the \emphh{URI}. The basic syntax and format of a URI are
 familiar even to casual users of the Web today because of the special,
 but typical, case of the URL --- for example,
-{http://www.workingontologist.org/Examples/Chapter3/Shakespeare\#Shakespeare}. 
+\texttt{http://www.workingontologist.org/Examples/Chapter3/Shakespeare\#Shakespeare}. 
 But the significance of the URI as a
 global identifier for a Web resource is often not appreciated. A URI
 provides a global identification for a resource that is common across
 the Web. This is not a stipulation that is particular to the Semantic
 Web but to the Web in general; global naming leads to global network
 effects. Of course, in the jungle that is the web, we can't expect that
-every data source that refers to Shakespeare will use the same URI In
+every data source that refers to Shakespeare will use the same URI.  In
 Chapter~\ref{ch5} we will explore when and why we might use different URIs for
 the same individual, and what capabilities the Semantic Web provides to
 manage them.
@@ -382,7 +382,7 @@ URIs work very well for expressing identity on the World Wide Web, but
 they are typically a bit of a pain to write out in detail when
 expressing models, especially in print. So for the examples in this
 book, we use a simplified version of a URI abbreviation scheme called
-\emph{QNames} (standing for \emph{qualified names}). In its simplest form, a
+\emph{QNames} (standing for \emph{Qualified Names}). In its simplest form, a
 URI expressed as a QName has two parts: a namespace and an identifier,
 written with a colon between. So the QName representation for the
 identifier \emph{England} in the namespace \emph{geo} is simply \texttt{geo:England}.
@@ -397,7 +397,7 @@ are global Web names. Thus, any representation of a QName must, in
 principle, be accompanied by a declaration of the namespace
 correspondence.
 
-It is customary on the Web in general and part of the XML specification
+It is customary on the Web in general
 to insist that URIs contain no embedded spaces. For example, an
 identifier ``part of'' is typically not used in the web. Instead, we
 follow the InterCap convention (sometimes called CamelCase), whereby
@@ -492,7 +492,8 @@ organization (like the W3C) to specify the meaning of certain terms in
 the standard. As we will see in coming chapters, the W3C standards
 provide definitions for terms such as type, subClassOf, Class,
 inverseOf, and so forth. But these standards are intended to apply
-globally across the Semantic Web, so the standards
+globally across the Semantic Web, so the standards refer to these reserved words in the same way as they refer to any other
+resource on the Semantic Web, as URIs.
 
 \begin{table}[h]
 \centering
@@ -514,8 +515,7 @@ geo:Scotland&geo:partOf&geo:UK\\
 \label{tab:ch3.8}
 \end{table}
 
-refer to these reserved words in the same way as they refer to any other
-resource on the Semantic Web, as URIs.
+
 
 The W3C has defined a number of standard namespaces for use with Web
 technologies, including \emph{xsd:} for XML schema definition;
@@ -535,6 +535,12 @@ scope and semantics of the symbols in this namespace are the topics of
 future chapters. The global URI for the rdfs namespace is
 \href{http://www.w3.org/2000/01/rdf-schema}{http://www.w3.org/2000/01/rdf-schema\#.}
 
+\emph{skos}: Indicates identifiers used for the Simple Knowledge Organization System (SKOS), a schema for
+distributed management of vocabularies on the web.  
+Chapter~\ref{ch11} provides a detailed discussion on SKOS and it's use.   The global URI  for SKOS  is
+\texttt{http://www.w3.org/2004/02/skos/core}
+
+
 \emph{owl}: Indicates identifiers used for the Web Ontology Language, OWL. The
 scope and semantics of the symbols in this namespace are the topics of
 future chapters. The global URI for the owl namespace is
@@ -546,8 +552,8 @@ URL. For modeling purposes, any URI in one of these namespaces (e.g.,
 \texttt{rdfs:subClassOf} for short) refers to a particular term that the W3C
 makes some statements about in the RDFS standard. But the term can also
 be dereferenced---that is, if we look at the server
-www.w3.org, there is a page at the location
-2000/01/rdf-schema with an entry about subClassOf, giving supplemental
+\texttt{www.w3.org}, there is a page at the location
+\texttt{2000/01/rdf-schema} with an entry about \texttt{subClassOf}, giving supplemental
 information about this resource. From the point of view of modeling, it
 is not necessary that it be possible to dereference this URI, but from
 the point of view of Web integration, it is critical that it is. The
@@ -747,7 +753,7 @@ this case, the types of all data are strings or integers.
 The usual interpretation of a table is that each row in the table
 corresponds to one individual and that the type of these individuals
 corresponds to the name of the table. In Table~\ref{tab:ch3.12}, each row
-corresponds to a Product. We can represent this in RDF by adding one
+corresponds to a \texttt{Product}. We can represent this in RDF by adding one
 triple per row that specifies the type of the individual described by
 each row, as shown in Table~\ref{tab:ch3.14}.
 
@@ -836,7 +842,7 @@ resource that corresponds to the row in the table.
 
 An example of this can be seen in Table~\ref{tab:ch3.13}, where several triples have
 the same subject and one triple apiece for each column in the table.
-This approach to reification has a strong pedigree in rela-tional
+This approach to reification has a strong pedigree in relational
 modeling, and it has worked well for a wide range of modeling
 applications. It can be applied in RDF even when the data have not been
 imported from tabular form. That is, the statement \emph{Shakespeare
@@ -870,7 +876,7 @@ wrote Hamlet}), context (specific information about a project setting in
 which a statement holds, such as \emph{Kenneth Branagh played Hamlet in
 the movie}), or time frame (\emph{Hamlet plays on Broadway January 11
 through March 12}). In such cases, it is useful to explicitly make a
-statement about a statement. This process, called explicit reification,
+statement about a statement. This process, called \emph{explicit reification},
 is supported by the W3C RDF standard with three resources called
 \texttt{rdf:subject}, \texttt{rdf:predicate}, and \texttt{rdf:object}.
 
@@ -902,6 +908,33 @@ This is as it should be; after all, if an application does not trust
 information from Wikipedia, then it should not behave as though that
 triple has been asserted. An application that does trust Wikipedia will
 want to behave as though it had.
+
+
+\section{Naming RDF Graphs}
+So far, we have seen how a collection of triples can be considered as a graph,
+either for display purposes (as in many of the figures in this chapter), or as we will
+see in Chapter~\ref{ch6}, for querying.  But we haven't been very
+specific about what exactly we mean by a \emph{graph}.
+
+Informally, a graph is a diagram with nodes and edges.  In RDF, this
+corresponds directly to a set of triples.  When the same URI is used in
+many triples (as in, for example, Figure~\ref{fig:ch3.7}, the drawing
+of the graph is be highly connected.
+
+From a more formal point of view in RDF, a graph is simply a set of
+triples. They might be highly connect, or not at all, it doesn't
+matter; a graph is just a set of triples.
+
+When we manage data sets, we might just refer to all the triples in
+our data, as we have done with all the examples in this chapter so
+far.  For most situations, this is fine.  But we might want to single
+out a set of triples (i.e., a graph) and give \emph{that} a name.
+Since this is the web, that name will be in the form of a URI.  The
+RDF standard provides a means for doing this - it is called the
+\emph{named graph}.
+
+The idea of a named graph is quite simple; we refer to a set of
+triples with a name, which itself is a URI.  
 
 \section{Alternatives for Serialization}
 \label{serialization}
