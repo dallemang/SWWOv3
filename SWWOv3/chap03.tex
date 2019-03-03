@@ -9,6 +9,8 @@ its familiar and proven features, while extending them to provide a
 foundation for a distributed network of data and the resulting paradigm
 of linked data on the Web will be explained in details in Chapter~\ref{ch5}.
 
+
+
 The Web that we are accustomed to is made up of hypertext documents that are
 linked to one another. Any connection between a document and the
 thing(s) in the world it describes is made only by the person who reads
@@ -20,8 +22,8 @@ In the Semantic Web we refer to the things in the world as resources; a
 resource can be anything that someone might want to talk about. Shakespeare, Stratford, ``the
 value of X,'' and ``all the cows in Texas'' are all examples of things
 someone might talk about and that can be resources in the Semantic Web.
-This is admittedly a pretty odd use of the word resource, but
-alternatives like entity or thing, which might be more accurate, have
+This is admittedly a pretty odd use of the word "resource", but
+alternatives like "entity" or "thing", which might be more accurate, have
 their own issues. In any case, resource is the word used in the
 Semantic Web standards. In fact, the name of the base technology in the
 Semantic Web (RDF) uses this word in an essential way: RDF stands for
@@ -317,10 +319,10 @@ this issue is resolved through the use of Uniform Resource Identifiers
 (URIs).
 
 In the figures so far, we have labeled the nodes and edges in the graphs
-with simple names like \emphh{Shakespeare} or \emphh{Wales}. On the Semantic Web, this
+with simple names like \emph{Shakespeare} or \emph{Wales}. On the Semantic Web, this
 is not sufficient information to determine whether two nodes are really
 the same. Why not? Isn't there just one thing in the universe that
-everyone agrees refers to as \emphh{Shakespeare}? When referring to agreement on
+everyone agrees refers to as \emph{Shakespeare}? When referring to agreement on
 the Web, never say, ``everyone.'' Somewhere, someone will refer not to
 the historical Shakespeare but to the title character of the feature
 film \emph{Shakespeare in Love}, which bears very little resemblance to
@@ -328,10 +330,10 @@ the historical figure. And ``Shakespeare'' is one of the more stable
 concepts to appear on the Web; consider the range of referents for a
 name like ``Washington'' or ``Bordeaux.'' To merge graphs in a Semantic
 Web setting, we have to be more specific: In what sense do we mean the
-word \emphh{Shakespeare}?
+word \emph{Shakespeare}?
 
 RDF borrows its solution to this problem from foundational Web
-technology --- in particular, the \emphh{URI}. The basic syntax and format of a URI are
+technology --- in particular, the \emph{URI}. The basic syntax and format of a URI are
 familiar even to casual users of the Web today because of the special,
 but typical, case of the URL --- for example,
 \texttt{http://www.workingontologist.org/Examples/Chapter3/Shakespeare\#Shakespeare}. 
@@ -632,7 +634,7 @@ out loud, we just have to take some liberties in adding in connecting
 words. So this triple can be pronounced, ``Shakespeare {[}has{]} type
 Playwright,'' adding in the ``has'' (or sometimes, the word ``is'' works
 better) to make the sentence into somewhat correct English. Later in
-this chapter, we'll see the Turtle syntax for writing RDF, in which a
+this chapter, we'll see the \emph{Turtle} syntax for writing RDF, in which a
 shortcut has been introduced for this particular case: the keyword ``a''
 can be used instead of rdf:type which makes the reading ever easier
 ``Shakespeare {[}is{]} a Playwright''.
@@ -814,6 +816,7 @@ mfg:Product9&rdf:type&mfg:Product\\
 \end{challenge}
 
 \section{Higher-Order Relationships}
+\label{ch5.reification}
 
 It is not unusual for someone who is building a model in RDF for the
 first time to feel a bit limited by the simple subject/predicate/object
@@ -849,11 +852,15 @@ imported from tabular form. That is, the statement \emph{Shakespeare
 wrote Hamlet in 1601} (disagreeing with the statement in Table~\ref{tab:ch3.2}) can
 be expressed with these three triples:
 
-\begin{lstlisting}
-bio:n1 bio:author lit:Shakespeare . 
-bio:n1 bio:title ``Hamlet'' .
-bio:n1 bio:publicationDate 1601 .
-\end{lstlisting}
+\begin{tabular}{|l l l |}
+\hline
+Subject&Predicate&Object\\
+\hline
+bio:n1&bio:author&lit:Shakespeare \\
+bio:n1&bio:title&``Hamlet''\\
+bio:n1&bio:publicationDate&1601\\
+\hline
+\end{tabular}
 
 \begin{figure}
     \centering
@@ -883,26 +890,39 @@ is supported by the W3C RDF standard with three resources called
 Let's take the example of \emph{Wikipedia says Shakespeare wrote
 Hamlet}. Using the RDF standard, we can refer to a triple as follows:
 
-\begin{lstlisting}
-q:n1 rdf:subject lit:Shakespeare ; 
-     rdf:predicate lit:wrote ; 
-     rdf:object lit:Hamlet .
-\end{lstlisting}
+\begin{tabular}{|lll|}
+\hline
+Subject&Predicate&Object\\
+\hline
+q:n1&rdf:subject&lit:Shakespeare \\
+q:n1&rdf:predicate&lit:wrote \\
+q:n1&rdf:object&lit:Hamlet \\
+\hline
+\end{tabular}
 
 Then we can express the relation of Wikipedia to this statement as
 follows:
 
-\begin{lstlisting}
-web:Wikipedia m:says q:n1.
-\end{lstlisting}
+\begin{tabular}{|lll|}
+\hline
+Subject&Predicate&Object\\
+\hline
+web:Wikipedia&m:says&q:n1.\\
+\hline
+\end{tabular}
+
 
 Notice that just because we have asserted the reification triples about
 \texttt{q:n1}, it is not necessarily the case that we have also asserted the
 triple itself:
 
-\begin{lstlisting}
-lit:Shakespeare lit:wrote lit:Hamlet.
-\end{lstlisting}
+\begin{tabular}{|lll|}
+\hline
+Subject&Predicate&Object\\
+\hline
+lit:Shakespeare&lit:wrote&lit:Hamlet \\
+\hline
+\end{tabular}
 
 This is as it should be; after all, if an application does not trust
 information from Wikipedia, then it should not behave as though that
@@ -934,7 +954,56 @@ RDF standard provides a means for doing this - it is called the
 \emph{named graph}.
 
 The idea of a named graph is quite simple; we refer to a set of
-triples with a name, which itself is a URI.  
+triples with a name, which itself is a URI. 
+
+Why would we want to name a graph?  There are a few basic use cases:
+
+\begin{itemize}
+    \item \emph{One file, one graph.} So far, we have seen examples of how we can 
+    extract RDF data from spreadsheets.  We can extract RDF data from other sources as well, 
+    and indeed, we can create data natively as RDF.  In the next section, we'll see how 
+    to write down RDF data into a plain text file.  When we load this data into an RDF data store, we might want to keep data from different sources separate.  A convenient way to do this is to put all the data from one source into a single named graph.  The name of the graph (as a URI) can even give information as to where we can find that source.
+    \item \emph{Reification} In Section~\ref{ch5.reification}, we saw the need for higher-order relationships, in which we want to make statements about statements.  Named graphs provide another way to accompplish this.  We put a set of triples about which we want to make some statement into a named graph, and make the statement about that graph.
+    \item \emph{Context} Sometimes when we have a set of triples, we would like to consider them in some context; for example, earlier we considered the fact \emph{Kenneth Brannagh played Hamlet in the movie}.  In this example, \emph{in the movie} (where by \emph{the movie} we are referring specifically to \texttt{https://www.imdb.com/title/tt0116477/}) represents a context for the assertion \emph{Kenneth Brannagh played Hamlet}. 
+\end{itemize}
+
+As an example of reification with named graphs, let's return to the statement, \emph{Wikipedia says Shakespeare wrote Hamlet}.   Suppose we start with the single triple stating that fact:
+
+\begin{tabular}{|lll|}
+\hline
+Subject&Predicate&Object\\
+\hline
+lit:Shakespeare&lit:wrote&lit:Hamlet \\
+\hline
+\end{tabular}
+
+Now, let's add a column to this table to specify which named graph this is in.  Furthermore, 
+we'll just use the URI \texttt{https://www.wikipedia.org/} for wikipedia (since that's the 
+URL for wikipedia itself).  Then we have 
+
+\begin{tabular}{|llll|}
+\hline
+Subject&Predicate&Object&Graph\\
+\hline
+lit:Shakespeare&lit:wrote&lit:Hamlet&https://www.wikipedia.org/ \\
+\hline
+\end{tabular}
+
+
+This is a bit of a degenerate example, since we have a graph that contains a single triple, 
+but there is no reason not to have graphs this small.  Of course, there are a lot of other 
+facts that are in the wikipedia graph.  In fact, there is a resource on the web called \texttt{dbpedia} that
+does just this - it makes all the data of wikipedia available as RDF data.  We describe it in 
+detail in Chapter~\ref{ch5}.
+
+
+Named graphs are a simple extension to the RDF formalism, and really don't change any of the basics; 
+RDF still links one named resource to another, where each name is global in scope (i.e., on the web). 
+Named graphs simply allow us to manage sets of these links, and to name them as well.  Sometimes when
+we are using named graphs, we refer to emph{quads} instead of triples; this is because it is possible
+to represent a triple and its graph as a four-tuple (as shown in the table above).  The name of the 
+fourth entry in the quad is usually called the graph (as it is here), but is sometimes referred to as 
+the \emph{context}, anticipating a particular use for the named graph. 
 
 \section{Alternatives for Serialization}
 \label{serialization}
@@ -948,6 +1017,15 @@ The issue of representing RDF in text doesn't only arise in books and
 documents about RDF; it also arises when we want to publish data in RDF
 on the Web. In response to this need, there are multiple ways of
 expressing RDF in textual form.
+
+One might wonder why we have so many different ways to express RDF, and how they 
+differ.  It is useful to compare different serlizations to different ways to write
+the same language; in English and other Eurpean langauges, the same sentence can be printed
+or written in cursive script.  These don't look at all alike, and there are good reasons
+for why we might use one instead of the other in any particular situation.   But we can copy 
+a message from cursive to print without any loss of content.  The same is true with the serializations; 
+we can express the same triples in one serialization or the other, depending on taste, expediency, 
+availability of tools, etc. 
 
 \subsection{N-Triples}
 \label{ntriples}
@@ -963,7 +1041,8 @@ in N-Triples as follows:
 
 
 \begin{lstlisting}
-<http://www.WorkingOntologist.org/Examples/Chapter3Manufacture\#> <http://www.WorkingOntologist.org/Examples/Chapter3/Manufacture\#Product1> <http://www.WorkingOntologist.org/Examples/Chapter3/Manufacture\#Product> .
+ <http://www.WorkingOntologist.org/Examples/Chapter3/Manufacture#Product1>
+ <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.WorkingOntologist.org/Examples/Chapter3/Manufacture#Product> .
 \end{lstlisting}
 
 It is difficult to print N-Triples on a page in a book---the
@@ -974,7 +1053,7 @@ easy to read from a file (parse) and to write into a file for importing
 and exporting.
 
 \subsection{Turtle/N3}
-
+\label{ch3.turtle}
 In this book, we use a more compact serialization of RDF called
 \emph{Turtle} which is itself a subset of a syntax called \emph{N3}. Turtle
 combines the apparent display of triples from N-Triples with the
@@ -989,11 +1068,11 @@ which these bindings are defined; for example, we can define the QNames
 needed in the Challenge example with the following preamble:
 
 \begin{lstlisting}
-@prefix mfg: <http://www.WorkingOntologist.com/Examples/Chapter3/Manufacturing\#>
+@prefix mfg: <http://www.WorkingOntologist.com/Examples/Chapter3/Manufacturing#>
 @prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns> 
 \end{lstlisting}
 
-Once the local QNames have been defined, Turtle provides a very simple
+Once the local QNames have been defined, Turtle provides a  simple
 way to express a triple by listing three resources, using QName
 abbreviations, in subject/predicate/object order, followed by a period,
 such as the following:
@@ -1018,22 +1097,22 @@ appears in Turtle as follows:
 
 \begin{lstlisting}
 mfg:Product1 rdf:type mfg:Product;
-             mfg:Product\_Division "Manufacturing support"; 
-             mfg:Product\_ID "1";
-	     mfg:Product\_Manufacture\_Location "Sacramento";
-	     mfg:Product\_ModelNo "ZX-3"; 
-	     mfg:Product\_Product\_Line "Paper Machine"; 
-	     mfg:Product\_SKU "FB3524";
-	     mfg:Product\_Available "23" .
+             mfg:Product_Division "Manufacturing support"; 
+             mfg:Product_ID "1";
+	     mfg:Product_Manufacture_Location "Sacramento";
+	     mfg:Product_ModelNo "ZX-3"; 
+	     mfg:Product_Product_Line "Paper Machine"; 
+	     mfg:Product_SKU "FB3524";
+	     mfg:Product_Available "23" .
 
 mfg:Product2 rdf:type mfg:Product; 
-             mfg:Product\_Division "Manufacturing support"; 
-	     mfg:Product\_ID "2"; 
-	     mfg:Product\_Manufacture\_Location "Sacramento"; 
-	     mfg:Product\_ModelNo "ZX-3P"; 
- 	     mfg:Product\_Product\_Line "Paper Machine"; 
-	     mfg:Product\_SKU "KD5243";
-	     mfg:Product\_Available "4" .
+             mfg:Product_Division "Manufacturing support"; 
+	     mfg:Product_ID "2"; 
+	     mfg:Product_Manufacture_Location "Sacramento"; 
+	     mfg:Product_ModelNo "ZX-3P"; 
+ 	     mfg:Product_Product_Line "Paper Machine"; 
+	     mfg:Product_SKU "KD5243";
+	     mfg:Product_Available "4" .
 \end{lstlisting}
 
 When there are several triples that share both subject and predicate,
@@ -1043,33 +1122,33 @@ the subject nor the predicate needs to be repeated. Turtle uses a comma
 children named Susanna, Judith, and Hamnet can be expressed as follows:
 
 \begin{lstlisting}
-lit:Shakespeare b:hasChild b:Susanna, b:Judith, b:Hamnet.
+lit:Shakespeare b:hasChild b:Susanna, b:Judith, b:Hamnet .
 \end{lstlisting}
 
 There are actually three triples represented here---namely:
 
 \begin{lstlisting}
-lit:Shakespeare b:hasChild b:Susanna. 
-lit:Shakespeare b:hasChild b:Judith. 
-lit:Shakespeare b:hasChild b:Hamnet.
+lit:Shakespeare b:hasChild b:Susanna . 
+lit:Shakespeare b:hasChild b:Judith . 
+lit:Shakespeare b:hasChild b:Hamnet .
 \end{lstlisting}
 
 Turtle provides some abbreviations to improve terseness and readability;
 in this book, we use just a few of these. One of the most widely used
-abbreviations is to use the word a to mean rdf:type. The motivation for
+abbreviations is to use the word \textbf{\texttt{a}} to mean rdf:type. The motivation for
 this is that in common speech, we are likely to say, ``Product1 is a
 Product'' or ``Shakespeare is a playwright'' for the triples,
 
 \begin{lstlisting}
-mfg:Product1 rdf:type mfg:Product. 
-lit:Shakespeare rdf:type lit:Playwright.
+mfg:Product1 rdf:type mfg:Product . 
+lit:Shakespeare rdf:type lit:Playwright .
 \end{lstlisting}
 
 respectively. Thus we will usually write instead:
 
 \begin{lstlisting}
-mfg:Product1 a mfg:Product. 
-lit:Shakespeare a lit:Playwright.
+mfg:Product1 a mfg:Product . 
+lit:Shakespeare a lit:Playwright .
 \end{lstlisting}
 
 \subsection{RDF/XML}
@@ -1087,9 +1166,9 @@ RDF/XML syntax are beyond the scope of this discussion and can be found in the W
 
 \begin{lstlisting}
 <rdf:RDF" 
-  xmlns:mfg=http://www.WorkingOntologist.com/Examples/Chapter3/Manufacturing\#"
-  xmlns:rdf=http://www.w3.org/1999/02/22-rdf-syntax- ns\#">
-<mfg:Product rdf:about="http://www.WorkingOntologist.com/Examples/Chapter3/Manufacturing\#Product1">
+  xmlns:mfg=http://www.WorkingOntologist.com/Examples/Chapter3/Manufacturing#"
+  xmlns:rdf=http://www.w3.org/1999/02/22-rdf-syntax- ns#">
+<mfg:Product rdf:about="http://www.WorkingOntologist.com/Examples/Chapter3/Manufacturing#Product1">
   <mfg:Available>23</mfg:Available>
   <mfg:Division>Manufacturing support</mfg:Division>
   <mfg:ProductLine>Paper machine</mfg:ProductLine>
@@ -1097,7 +1176,7 @@ RDF/XML syntax are beyond the scope of this discussion and can be found in the W
   <mfg:ModelNo>ZX-3</mfg:ModelNo>
   <mfg:ManufactureLocation>Sacramento</mfg:ManufactureLocation>
 </mfg:Product>
-<mfg:Product rdf:about="http://www.WorkingOntologist.com/Examples/Chapter3/Manufacturing\#Product2">
+<mfg:Product rdf:about="http://www.WorkingOntologist.com/Examples/Chapter3/Manufacturing#Product2">
   <mfg:SKU>KD5243</mfg:SKU>
   <mfg:Division>Manufacturing support</mfg:Division>
   <mfg:ManufactureLocation>Sacramento</mfg:ManufactureLocation>
@@ -1303,35 +1382,91 @@ considerable complexity of representation. Fortunately, the Turtle
 representation is quite compact, so it is not usually necessary to
 remember the details of the RDF triples behind it.
 
+\subsection{N-Quads}
+
+So far, we have talked about how to serialize triples.  But what if we want to 
+serialize triples in the context of one or more named graphs?   The W3C provides simple
+extensions of the serializations for triples for use with named graphs.  The simplest is
+called \emph{N-Quads}. 
+
+Like N-Triples, N-Quads uses no QNames and no prefixes.  A triple is written in the form of a 
+quad, that is, with Subject, Predicate, Object and Graph, in that order.  So, to extend our example from 
+N-Triples, if we were to say that Product1 is a Product in graph \texttt{http://www.WorkingOntologist.org/Examples/Chapter3/Manufacture}, we would simply write
+
+\begin{lstlisting}
+<http://www.WorkingOntologist.org/Examples/Chapter3/Manufacture#Product1>
+ <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.WorkingOntologist.org/Examples/Chapter3/Manufacture#Product> 
+ <http://www.WorkingOntologist.org/Examples/Chapter3/Manufacture> .
+\end{lstlisting}
+
+This is a very long line indeed (even longer than it was in N-Triples), so it doesn't show up well
+in a book, but it is simple to write an parse - no shortcuts, no prefixes, just subject, predicate, object, graph, period. 
+
+\subsection{TriG}
+TriG is an extension of the Turtle format from Section~\ref{ch3.turtle}.  It includes all of the
+abbreviations for namespaces and elisions with semicolons and commas as Turtle does.  The main difference is 
+that it is possible to specify a URI for a graph for all triples in the file.  This is done simply by 
+putting all the triples in a graph between braces (\{ and \}), and then prefix the name of the graph. 
+
+For example, if we take the 
+example from Section~\ref{ch3.turtle} about manufacturing products, and put them into a graph with name \texttt{<http://www.WorkingOntologist.org/Examples/Chapter3/Manufacture>}, this can be expressed in TriG as follows: 
+
+
+\begin{lstlisting}
+<http://www.WorkingOntologist.org/Examples/Chapter3/Manufacture> 
+   { mfg:Product1 rdf:type mfg:Product;
+                 mfg:Product_Division "Manufacturing support"; 
+                 mfg:Product_ID "1";
+                 mfg:Product_Manufacture_Location "Sacramento";
+                 mfg:Product_ModelNo "ZX-3"; 
+                 mfg:Product_Product_Line "Paper Machine"; 
+                 mfg:Product_SKU "FB3524";
+                 mfg:Product_Available "23" .
+    
+    mfg:Product2 rdf:type mfg:Product; 
+                 mfg:Product_Division "Manufacturing support"; 
+                 mfg:Product_ID "2"; 
+                 mfg:Product_Manufacture_Location "Sacramento"; 
+                 mfg:Product_ModelNo "ZX-3P"; 
+                 mfg:Product_Product_Line "Paper Machine"; 
+                 mfg:Product_SKU "KD5243";
+                 mfg:Product_Available "4" .
+   }
+\end{lstlisting}
+
+In this way, we can express several graphs in a single file. 
+
+
+
+
 \section{SUMMARY}
 
-RDF is, first and foremost, a system for modeling data. It gives up in
-compactness what it gains in flexibility. Every relationship between any
-two data elements is explicitly represented, allowing for a very simple
-model of merging data. There is no need to arrange the columns of tables
-so that they ``match up'' or to worry about data ``missing'' from a
-particular column. A relationship (expressed in a familiar form of
-subject/predicate/object) is either present or it is not. Merging data
-is thus reduced to a simple matter of considering all such statements
-from all sources, together in a single place.
 
-The only challenge that remains in such a system is the challenge of
-identity. How do we have a global notation for the identity of any
-entity? Fortunately, this problem is not unique to the RDF data model.
-The infrastructure of the Web itself has the same issue and has a
-standard solution: the URI. RDF borrows this solution.
+RDF is a simple standard; its job is to model distributed data on the web.
+It accomplishes this job, and nothing more.  If you want to model data in a
+distributed way,  you can either use RDF or you will re-invent it; there isn't very
+much to it.  The basic idea of RDF is that, in a distributed setting, you need a global 
+identifier for anything you refer to.  If you want to connect that to some other 
+thing, you will need a name for that.  And if you want to connect them, you'll need a
+name for the connection.  All of these names have to be global. 
 
-Since RDF is a Web language, a fundamental consideration is the
-distribution of information from multiple sources, across the Web. On
-the Web, the AAA slogan holds: Anyone can say Anything about Any topic.
-RDF supports this slogan by allowing any data source to refer to
-resources in any name- space. Even a single triple can refer to
-resources in multiple namespaces.
+The hypertext web has already given us the global identifiers; we'll see the details of how
+the Web infrastructure processes these identifier, but that isn't part of the Semantic Web, that's
+part of the Web we all use every day.  RDF doesn't solve the distributed identity problem; the Web solved that,
+and RDF re-uses that solution. 
+
+Given this, the very minimum required for distributed represenation of data on the
+Web is a way to connect one Web identifier (that is, a URI) to another, with a link that is also named with a URI.  This is the basis of the RDF triple.  Everything else is just plumbing.  If you are distributing data, 
+you'll want a way to store it (those are the serializations).  You'll want a way to convert data
+from non-distributed forms (like tables) into distributed form.  RDF simply provides the infrastructure to deal
+with the simplest way of representing distributed information. 
+
+
 
 As a data model, RDF provides a clear specification of what has to
 happen to merge information from multiple sources. It does not provide
 algorithms or technology to implement those processes. These
-technologies are the topic of the next chapter.
+technologies are the topic of subsequent chapters.
 
 \subsection{Fundamental concepts}
 

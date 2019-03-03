@@ -591,7 +591,7 @@ WHERE {:JamesDean :playedIn ?movie .
 \hline
 \end{tabular}
 
-Figure~\ref{ch5.4} shows a fragment of the data graph, and the graph pattern,
+Figure~\ref{fig:ch5.4} shows a fragment of the data graph, and the graph pattern,
 with the result for the question word \texttt{?actress} indicated in the third
 `column' of the figure. Notice that Rock Hudson is not a match; while he
 indeed played in \emph{Giant}, there is no match for the third triple,
@@ -2076,7 +2076,7 @@ actor to the director, and another time relating the director to the
 actor. Furthermore, we have two rather trivial results, that every actor
 is an exact match to itself (and the same for directors). These extra
 results appear because SPARQL finds every match for the graph pattern in
-the data; and all four assignments of \texttt{?a} and \texttt{?b} to director:8533 and
+the data; and all four bindings of \texttt{?a} and \texttt{?b} to director:8533 and
 actor:29753 satisfy the pattern (they have the same values for \texttt{:page}).
 These extra triples don't really cause any harm -- after all, it seems
 correct to say that something is an exact match to itself -- but at the
@@ -2875,7 +2875,7 @@ information that was not directly told to the system, but was computed
 from information that was already there.
 
 But sometimes we would like to specify a special purpose computation as
-part of the ask process. Spreadsheets excel at this functionality, with
+part of the \emph{ask} process. Spreadsheets excel at this functionality, with
 the ability for the user to specify arbitrary formulas that will be
 calculated and updated whenever data are changed or entered. Databases
 have stored procedures that execute arbitrary code based on information
@@ -2898,7 +2898,7 @@ that have already been matched or bound. Like stored
 procedures in relational databases, the function calls can include
 arbitrary programs in a variety of programming languages. For the
 examples in this book, we will restrict ourselves to some standard
-functions, those from the XPATH spec for XML.
+functions, those from the XPATH specification for XML.
 
 Suppose we have some data about books and their authors, including the
 following data:
@@ -2917,10 +2917,8 @@ following data:
               :lastName "Gandon" .
 
 :WorkingOntologist rdf:type :Book ;
-
-rdfs:label "Semantic Web for the Working Ontologist" ;
-
-dc:creator :DeanAllemang , :JimHendler, :FabienGandon .
+    rdfs:label "Semantic Web for the Working Ontologist" ;
+    dc:creator :DeanAllemang , :JimHendler, :FabienGandon .
 \end{lstlisting}
 
 

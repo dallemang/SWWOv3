@@ -221,27 +221,27 @@ we restrict the value of \texttt{orbitsAround} by saying that its object must be
 the sun (i.e., our solar system).
 
 \subsection{Kinds of restrictions}
-
+\label{ch12.restriction}
 OWL provides a number of kinds of restrictions, three of which are
 \texttt{owl:allValuesFrom}, \texttt{owl:someValuesFrom}, and \texttt{owl:hasValue}. Each describes
 how the new class is constrained by the possible asserted values of
 properties.
 
 Additionally, a restriction class in OWL is defined by the keyword
-owl:onProperty. This specifies what property is to be used in the
+\texttt{owl:onProperty}. This specifies what property is to be used in the
 definition of the restriction class. For example, the restriction
-defining the objects that orbit around the sun will use owl:onProperty
-orbitsAround, whereas the restriction defining major league players will
-use owl:onProperty playsFor.
+defining the objects that orbit around the sun will use \texttt{owl:onProperty}
+\texttt{orbitsAround}, whereas the restriction defining major league players will
+use \texttt{owl:onProperty} \texttt{playsFor}.
 
 A restriction is a special kind of a class, so it has individual members
 just like any class.
 Membership in a restriction class must satisfy the conditions specified
 by the kind of restriction (\texttt{owl:allValuesFrom}, \texttt{owl:someValuesFrom}, or
-\texttt{owl:hasValue}), as well as the onProperty specification.
+\texttt{owl:hasValue}), as well as the \texttt{onProperty} specification.
 
 \subsubsection{owl:someValuesFrom}
-
+\label{ch12.somevaluesfrom}
 \texttt{owl:someValuesFrom} is used to produce a restriction of the form ``All
 individuals for which at least one value of the property P comes from
 class C.'' In other words, one could define the class

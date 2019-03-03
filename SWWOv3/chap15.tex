@@ -38,72 +38,110 @@ satisfies some purpose?
 
 \subsection{Know what you want}
 
-How can we express our intentions for the purpose of a model? In the
-case where we are engineering a model from scratch, we can express
-requirements for the model we are creating. One common practice for
-semantic models usually starts with the notions of ``motivating scenarios'' and ``competency
-questions''. %FAB: ideally here we should add a reference to: \footnote{M. Uschold and Gruninger M. Ontologies: Principles, methods and applications. Knowledge Engineering Review, Vol. 11:2, 93-136, 1996. Also available as AIAI-TR-191 from AIAI, The University of Edinburgh}
+How can we express our intentions for the purpose of a model?  Since a model
+is similar to other software artifacts (it is machine readable, and it drives our 
+experience with information systems), we can borrow some insights from the conventional
+wisdom of software engineering.  But models on the Semantic Web differ from many
+software artifacts, so we need to understand how conventional software 
+engineering practices
+might fall short.
 
-%FAB : beginning of new text to introduce motivating scenarios
-In software engineering an interesting technique to capture the application requirements in context, is the one of scenario analysis. These scenarios descriptions are usually information-rich stories capturing problems and wishes and they are used as the entrance point to the project. Just like it is the case for a software, no-one should start the development of an ontology without a clear specification of its purpose and scope. The scenarios help us identify the goals and limits of such a development by clearly stating why the ontology is being built, what its intended uses are and who are the stakeholders.
+It is common in software engineering to speak of the 
+requirements of a system we are about to build; what does the system have to 
+do, given the state of the world in which it has to do it?  Starting from 
+software requirements, there are a number of methodologies that guide software 
+engineers in the construction of systems that satisfy those requirements. 
 
-Because they are human-friendly short stories, scenarios have the advantage to enable communication in natural language while capturing situation, context, stakeholders, problems and solutions with their associated vocabulary. This last aspect also makes scenarios very interesting for the development of ontologies: these short stories identify (1) the needs that are not covered by the existing solutions together with the vocabulary to express these needs and (2) the possible solutions to these problems that would be supported by the introduction of an ontology-based solution together with the vocabulary to describe the results.
-
-The text of the motivating scenarios introduces informal competency questions placing expressiveness requirements on the vocabulary to express both the needs and the results captured in the scenarios. Together, the motivating scenarios and competency questions help us scope the ontology in terms of completeness (the extent to which it covers the scenario), specificity (the extend to which specific terms of the scenario are captured), granularity (the extend to which terms are precisely defined) and formality (the extend to which definitions are formalized). Motivating scenarios and competency questions serve as sources, guides and constraints capturing at the same time the directions, domains, seed terms and frontier for the ontology design. It should also be noted that scenario analysis, as many other activities in ontology engineering, is not a one-off activity, but will be pursued during the whole ontology design process and lifecycle. New scenarios will arise and existing scenarios will be refined leading to ontology evolution.
-%FAB : end of new text to introduce motivating scenarios
-
-Begin the modeling process by determining what questions
-the model will need to answer. Then construct the model so that these
-questions can be answered, and, to the extent possible, model no further
-than necessary to answer them.
-
-Although competency questions provide a reasonable start for specifying
-the purpose of a model, they have some limitations in the context of
-modeling in the Semantic Web. The first drawback is that for models that
-have been found on the Web, or for other information artifacts that we
-have used as a basis for a new model, competency questions typically
-will not have been provided. It is not uncommon for a modeler to find
-themselves in a position of determining what a model can do, based
-simply on an examination of the model.
-
-A more serious limitation stems from the observation that a model in the
+A model in the
 Semantic Web goes beyond the usual role of an engineered artifact with
 system requirements. On the Semantic Web, it is expected that a model
 will be merged with other information, often from unanticipated sources.
 This means that the design of a semantic model must not only respond to
-known requirements (represented with competency questions) but also
+known requirements, but also
 express a range of variation that anticipates to some extent the
 organization of the information with which it might be merged.
 
 Although this seems like an impossible task (and in its full generality,
 of course, it is
 impossible to anticipate all the uses to which a model might be
-applied), there are some simple applications of it, in light of the
-other guidelines. You model \texttt{ShakespeareanWork} as a class not only when
-you have a corresponding competency question (e.g., ``What are the works
-of Shakespeare?'') but also whenever you anticipate that someone else
-might be interested in that competency question. You model
-\texttt{ShakespeareanWork} as a subclass of \texttt{ElizabethanWork} not just in the case
-when you have a competency question of that form (e.g., ``What are all
-the kinds of Elizabethan works?'') but also if you anticipate that
-someone might be interested in Shakespearean works and someone else
-might be interested in Elizabethan works, and you want the answers to
-both questions to be consistent (i.e., each \texttt{ShakespeareanWork} is also an
-\texttt{ElizabethanWork}).
+applied), it is usually quite manageable. Take \texttt{ShakespeareanWork}
+as an example.  Suppose that among your known requirements, you know that 
+someone will want to sort through the works of Shakespeare, and perhaps
+filter other questions by asking which results are also works of Shakespeare. 
+In this case, it is pretty easy to know how to model \texttt{ShakespeareanWork}; it 
+is a class, whose members are the works of Shakespeare. 
+If you were working only with your own known requirements, then you would be
+finished.  But on the web, people are interested in more things than Shakespeare.
+If you were to anticipate that someone might be interested in all of the works
+of the Elizabethan era (\texttt{ElizabethanWork}), then you would want to model not just
+\texttt{ElizabethanWork} but also, and more importantly from an ontology modeling 
+perspective, the relationship between \texttt{ElizabethanWork} and \texttt{ShakespeareanWork}.  Since the fact of the matter is that any \texttt{ShakespeareanWork} is also an \texttt{ElizabethanWork}, then you model the former as a \textt{subClassOf} the latter. 
 
 This idea gets to the crux of how modeling in the Semantic Web differs
 from many other engineering
 modeling practices. Not only do you have to model for a particular
 engineering setting but for a variety of anticipated settings, as well.
 We have already seen examples of how this acts as a driving force behind
-our models in the wild. OBO ontologies are structured as they are, not
-primarily because a single stakeholder needs to understand the
-organization of the terminology of the life sciences, but because
-members of a community of stakeholders with different goals need answers
-to a variety of questions, which must all be answered consistently.
+our models in the wild.
+
+This simple example leaves open a number of issues; how do we know what our expectations 
+for future application of our models will be?  How do we write down and manage
+the requirements we have for these models?  These questions can be addressed to some 
+extent with the use of  \emph{motivating scenarios} and \emph{competency
+questions}. %FAB: ideally here we should add a reference to: 
+\footnote{M. Uschold and Gruninger M. Ontologies: Principles, methods and applications. Knowledge Engineering Review, Vol. 11:2, 93-136, 1996. Also available as AIAI-TR-191 from AIAI, The University of Edinburgh}
+
+Scenarios in software engineering are information-rich stories that  capture problems and 
+wishes for a system to be designed, and they are used as the starting point to a software 
+development project. Just as in the case for a software, the design of an ontology needs 
+a clear specification of its purpose and scope, including an awareness of the 
+stakeholders that might interact with it. Scenarios help us identify the goals and limits 
+of such a development by clearly stating why the ontology is being built, what its 
+intended uses are, and who are the stakeholders.
+
+Scenarios are human-friendly short stories, and as such, they foster communication in 
+natural language while capturing situation, context, stakeholders, problems and solutions 
+with their associated vocabulary.  Scenarios in classical software engineering reveal two 
+important aspects of the system to be designed, namely: 
+
+\begin{itemize}
+    \item the needs that are not covered by the existing solutions together with the vocabulary to express these needs, and
+    \item the possible solutions to these problems that would be supported by the introduction of a new system. 
+\end{itemize}
+
+Both of these are important for the development of an ontology-based solution.  A scenario 
+also provides context and stakeholders, making it possible to have some idea  of the scope 
+of reuse of the ontology (or ontologies) to be developed.  
+
+How can a scenario specify the requirements an ontology must satisfy?  The text of a 
+motivating scenario introduces informal \emph{competency questions}; that is, questions 
+that have to be answered by the ontology, in order to support the scenarios. 
+These questions
+place  requirements on the ontology to express both the needs and the results 
+captured in the scenarios. Together, the motivating scenarios and competency 
+questions help 
+us scope the ontology in terms of completeness (the extent to which it covers the 
+scenario), specificity (the extend to which specific terms of the scenario are captured), 
+granularity (the extend to which terms are precisely defined), formality (the extend to 
+which definitions are formalized) and reusability (the scope of situations in which the
+ontology will continue to produce useful answers). 
+Motivating scenarios and competency questions together  serve as 
+sources, guides and constraints capturing at the same time the directions, domains, seed 
+terms and boundaries for the ontology design. 
+
+The utility of Scenario 
+analysis does not end with ontology design.  Scenarios continue to provide input 
+throughout the continued development of an ontology, as they are tested, refined, 
+and reused. As we see how the ontology is being used and re-used, new scenarios will 
+be discovered  
+and existing scenarios will  be refined, managing an evolutionary process of
+ontology maintenance. 
+%FAB : end of new text to introduce motivating scenarios
+
+
 
 \subsection{Say what you mean, mean what you say}
-
+\label{ch15:swym}
 The March Hare in Alice in Wonderland challenged Alice to say what she
 means and mean what she says. This is good advice for anyone building a
 model as well; the model is a set of statements that we ought to stand
@@ -111,7 +149,7 @@ behind, and a modeling language gives us a way to make those statements.
 When we make a statement, we should mean it. If we have something to
 say, we should find a way to express it in a modeling language. We can
 only do this, if we have a way of knowing what statements in a modeling
-language mean. It is fine to talk about stakeholders, variation, and
+language mean. It is fine to talk about scenarios,  stakeholders, variation, and
 competency questions, but even when we do have a specific understanding
 of the intent of a model, how can we even determine whether the model,
 as constructed, meets that intention?
@@ -157,63 +195,216 @@ say what we mean and mean what we say. What do I mean when I refer to a
 of \texttt{ElizabethanWork}. If furthermore I mean that an \texttt{ElizabethanWork} is one
 that was created or performed by an \texttt{ElizfabethanAuthor} and that
 \texttt{Shakespeare} is one of these authors, then I say by building a model that
-entails the corresponding inferences (e.g., using \texttt{owl:someValuesFrom}).
+entails the corresponding inferences (e.g., using \texttt{owl:someValuesFrom}, as 
+outlined in Section~\ref{ch12.somevaluesfrom}).
 Inferencing is the way I can tell whether what I have said is what I
 mean---do the inferences the model entrails reflect the relationships
 between concepts that I mean to express?
 
-\section{Modeling for Reuse}
+%\section{Modeling for Reuse}%
 
-One of the principal drivers in the creation of a semantic model is that
-it will be used by someone other than its designer in a new context that
-was not fully anticipated. If you are designing a model, you must
-consider the challenges the people using your model might face. How can
-you make this job easier for them?
+%One of the principal drivers in the creation of a semantic model is that
+%it will be used by someone other than its designer in a new context that
+%was not fully anticipated. If you are designing a model, you must
+%consider the challenges the people using your model might face. How can
+%you make this job easier for them?
 
-\section{Insightful names versus wishful names}
+\section{Good Naming Practices}
 
-When you are reusing a model that you found on the Web, you'd like to
-know the intent of the various components of the model (classes,
-properties, individuals). The support that a model provides for question
-answering is given formally by the inferences that the model entails. As
-far as an inference engine is concerned, entities in the model could
-have any name at all, like G0001 or Node97. But names of this sort are
-of little help when perusing a model to determine whether it can satisfy
-your own goals. Putting the shoe on the other foot, when you build a
-model, you are also selecting names for those who will want to link to
-your model and need to know what is in it, as well as for those,
-including yourself at a later date, who may have to maintain or extend
-the model. There's a fine line between good naming and wishful thinking,
-but keeping in mind that your model will be ``read'' by others is always
-good practice.
+In Chapter~\ref{ch5}, we saw the importance of using HTTP URIs to refer to entities
+on the Web of Data (just as we have been using HTTP URIs on the hypertext Web for decades).
+It should come as no surprise that naming in a distributed system like the web
+can have subtle effect. 
 
-A closely related issue to naming is the use of annotations like
-\texttt{rdfs:label}, \texttt{rdfs:comment}, and \texttt{rdfs:seeAlso}. Even if you choose a name
-for a resource that you understand, and even one that is understood by
-the community you participate in, there could well be another community
-who will find that usage meaningless or even misleading. We have seen an
-example of this before with \texttt{skos:broader}. For someone with a background
-in thesaurus management, it is understood that skos:broader is used to
-connect a narrow term to a broader term, such as:
+First, in Chapter~\ref{ch5} we discussed at length the impact of the choice of 
+domain name for an HTTP URI.   We also discussed the distinction between \emph{slash} and 
+\emph{hash} URIs (Section~\ref{hash-or-slash}).  But once we have got all of those details 
+out of the way, there is still the question of how we should choose the \emph{local} names 
+for our URIs. 
+
+The local name for a URI is the part of the name after the final slash (for slash URIs) or 
+after the hash (for hash URIs).  This is the name that appears in the QName for the URI. 
+For example, the local name for \texttt{skos:broader}  (Section~\ref{ch11.semrel}) is 
+\emph{broader}; the local name for \textt{wikidata:Q41176} (Section~\ref{dbpedia})is 
+\emph{Q41176}. 
+
+\subsection{Meaningful/Meaningless URIs?}
+
+The first question we will consider is whether the local name should be meaningful
+when read by a human being or not.  There are two basic approaches to this question: 
+
+\begin{enumerate}
+    \item \emph{Opaque local names} Local names for URIs are meaningless strings, usually numbers, that are guaranteed to be unique inside that namespace.  Examples are \texttt{wikidata:Q41176} (``building'') and \texttt{agrovoc:c\_4397} (``Livestock''). 
+    \item \emph{Readable local names} Local names for URIs have names that are meaningful
+    for a human reader.  Examples are \texttt{skos:broader}, \texttt{owl:someValuesFrom}, and \texttt{fibo-be-le-lp:LegalPerson}.
+\end{enumerate}
+
+As we can already see, both approaches have a strong pedigree in successful examples.  
+What are the trade-offs, and how should you make your choice? 
+
+\subsubsection{Advantages of Opaque local names}
+This is a choice that was explicitly made by the wikimedia foundation for the names of the 
+resources on wikidata, and also by the UN/FAO in AGROVOC (Section~\ref{ch11.skos}).  What
+are the advantages? 
+
+First, in both of these cases, there is a chance that the preferred name of the
+entity might change, as we learn more about our domain.  The word ``building'' seems 
+stable enough, but it does have synonyms in English, and as we see how this resource is
+being used, we might find that one of the other words (structure, construction, 
+erection, edifice, etc.) 
+is more appropriate.  Whan we use opaque local names, this bit of maintenance is simple.  We remove the triple
 
 \begin{lstlisting}
-:cheese skos:broader :dairy.
+wikidata:Q41176  rdfs:label "building" .
 \end{lstlisting}
 
-That is, \texttt{skos:broader} should be read as ``has broader term.'' Other
-readers might expect this to be read ``cheese is broader than dairy,''
-and they would either be confused by the use of \texttt{skos:broader} or, worse,
-would misuse it in their own models. Judicious use of rdfs:label can
-alleviate this issue, as follows:
+and replace it with
+
 
 \begin{lstlisting}
-skos:broader rdfs:label "has broader".
+wikidata:Q41176  rdfs:label "structure" .
 \end{lstlisting}
 
-In addition to the selection of meaningful names and quality naming,
-some simple conventions can contribute to the understandability of a
-model. The conventions listed next have grown up as de facto standard
-ways to name entities on the Semantic Web and are followed by the W3C
+For the FAO, there was another consideration (which might also be a consideration 
+for wikidata).. 
+that the United Nations recognizes six official languages, and all 
+UN documents must be simultaneously published in all six of these languages. 
+Suppose that the UN had chosen a human-readable local name for \texttt{c\_4397}, which one
+should it be?  Should it be \texttt{agrovoc:Livestock} or should it be 
+\texttt{agrovoc:B\'etail}?  One could argue that both options are in violation of 
+UN language guidelines.  Opaque names solve this question without any further 
+discussion. 
+
+Another reason to use opaque names is to avoid the fallacy of \emph{wishful naming} 
+as described in Section~\ref{ch15:swym}.  If we don't give our URIs a readable name
+we won't be tempted to believe that they mean something that the model doesn't 
+express.  In the infrastructure of the Web, URIs are actually meaningless; it does
+nobody a service to pretend that they have meaning. 
+
+\subsubsection{Disadvantages of opaque names}
+
+Despite the advantages listed above, opaque names remain unpopular among students 
+and developers.  The reasons for this are pretty obvious; when you are reading this 
+book, and I refer to \texttt{agrovoc:c\_4397}, the text has to annotate somewhere that this
+refers to ``Livestock'' (as we did in the introduction to this very section).   
+
+This problem carries on into engineering settings; if we view a model or a vocabulary with 
+a resource like \texttt{agrovoc:c\_4397} in a tool for managing ontologies or 
+vocabularies, we see a structure full of these meaningless references.  It 
+is very difficult to review a model if you can't read any of the concepts. 
+
+This disadvantage can be dealt with, of course, by using tools that are aware of this 
+problem.  Most vocabulary tools have a mode in which resources are displayed based on 
+their label.  For example,  since AGROVOC includes the triples
+
+
+\begin{lstlisting}
+agrovoc:c_4397   skos:prefLabel   "Livestock"@en , "B(*@\'e@*)tail"@fr .
+\end{lstlisting}
+
+
+a vocabulary tool can display this using that name.  It can even switch to use
+\texttt{B\'etail} if the tool is internationalized to use French. 
+
+But even this solution has its problems; the National Agriculture Library for the
+United States also has a thesaurus, which has considerable common coverage with 
+AGROVOC, and there is a resource in that vocabulary called "Livestock".  If 
+we want to compare and contrast these vocabularies, and we use even a 
+sophisticated  tool that 
+is able to deal with preferred labels and various languages, how should it display the
+fact that one resource is the AGROVOC version of Livestock and the other is
+the NAL version of Livestock?  If we had meaningful local names, then this
+problem would have been solved already by the QNames:  
+\texttt{agrovoc:Livestock} vs. \texttt{NAL:Livestock}.
+
+\subsubsection{Disadvantages of Meaningful Names}
+
+
+A problem with human readable local names comes up when we consider what constitutes 
+a legal HTTP URI.  Since these URIs are used for identifying resources on the web, and
+the URIs themselves are sent across the web as identifiers, the web transport protocols 
+have a lot to say about their format.  In particular, the local part of an HTTP URI 
+is not allowed to have any of a set of special characters, which include parentheses, ampersands, and spaces. 
+
+The most natural name for many entities contains these characters; for 
+example, \texttt{agrovoc:c\_2018} is "dairy cattle".  If we try to make a 
+readable URI from this,
+then it will contain a blank, which is not allowed by the HTTP URI protocol.  There
+are ways around this, but all of them require breaking the connection between the URI
+and the preferred name.  The main issue here is that we are letting a transport
+protocol (HTTP) have an influence on a human communication form (the name of 
+a concept in a vocabulary). 
+
+In FIBO, for historical reasons, the URI names have all been done as human readable names.
+Furthermore, in the history of FIBO, some of the names have been changed.  For example, 
+the technical term \emph{Juridical Person} refers to a legal entity that is not a real
+human being; it is a legal fiction.  Many sources find this usage confusing (a definition
+that says that some kind of person is not a person is likely to be confusing), so 
+FIBO changed the preferred name of this concept to \emph{Legal Entity}, to remove 
+that confusion.  This put FIBO into a bit of a puzzling situation; should they 
+simply change the label of the resource, so that we have a triple that looks like 
+this?
+
+\begin{lstlisting}
+fibo-be-le-lp:JuridicalPerson rdfs:label "Legal Entity" .
+\end{lstlisting}
+
+
+If we are trying to avoid confusion, this practice is not likely to help. 
+
+If we change the URI, we get a triple like this:
+
+\begin{lstlisting}
+fibo-be-le-lp:LegalEntity rdfs:label "Legal Entity" .
+\end{lstlisting}
+
+
+which is more normal, but now we have another problem; what do we do about the applications
+across the web who have made a reference to \texttt{fibo-be-le-lp:JuridicalPerson}?  
+Now their references refer to no resource that FIBO defines, and their applications
+will not find the data they expect.  For an international standard such as FIBO, this
+is not an acceptable situation. 
+
+FIBO seems to be caught between two unacceptable choices; have a confusing
+practice of labeling, where a readable URI has a label which is not consistent
+with the URI local name, or risk breaking any datasets or applications that refer to 
+the former name.  
+
+FIBO makes a compromise solution to this problem.  It retains the old URI (since 
+other datasets might refer to it), but marks it as ``deprecated''.  Furthermore, it 
+establishes the connection from the deprecated URI to the new one, 
+using \texttt{owl:equivalentClass}.  Finally, any supplemental infomormation
+(definitions, restrictions, inverses, etc.) are moved to the new URI.  In the case of 
+this example, this results in the following triples: 
+
+\begin{lstlisting}
+fibo-be-le-lp:JuridicalPerson rdfs:label "juridical person" ;
+     owl:deprecated true ;
+     owl:equivalentClass fibo-be-le-lp:LegalEntity .
+fibo-be-le-lp:LegalEntity a owl:Class ;
+     rdfs:label "legal entity" ;
+     rdfs:subClassOf fibo-be-le-lp:LegalPerson ;
+     owl:disjointWith fibo-be-le-lp:LegallyCompetentNaturalPerson ;
+     ...
+\end{lstlisting}
+
+
+This mitigates many of the issues with changing identity of meaningful URIs, in that 
+it keeps consistent labels, it satisfies legacy users, and it allows FIBO to 
+change the name of key concepts when necessary.  
+
+The pro's and con's of these conventions do not make for a clear victor, which is 
+why we see examples of all of these usages in successful open ontologies today.  
+This analysis has covered most of the concerns to be considered when making a
+decision for any particular project. 
+
+\subsection{Naming Conventions}
+
+In the common case in which meaningful URIs are used, there are some limitations
+on the allowable names (as we saw above with embedded spaces).  This and other 
+considerations have led to a set of \emph{de facto} conventions for how to build
+local names for models in RDFS and OWL.  These conventions map more or less to conventions
+for naming in XML and other web modeling languages, and are followed by the W3C
 itself as well as throughout this book.
 
 \begin{itemize}

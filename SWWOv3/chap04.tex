@@ -206,12 +206,11 @@ RDF store implementations range from custom programmed database
 solutions to fully supported off-the-shelf products from specialty
 vendors. Conceptually, the simplest relational implementation of a
 triple store is as a single table with three columns, one each for the
-subject, predicate, and object of the triple. Table 4.1 shows some data
+subject, predicate, and object of the triple. Table~\ref{tab:ch3.14} shows some data
 about Los Angeles Metro stations, organized in this way.
 
 This representation should look familiar, as it is exactly the
 representation we used to introduce
-
 RDF triples in Chapter~\ref{ch3}. Since this fits in a relational database
 representation, it can be accessed using conventional relational
 database tools such as SQL. An experienced SQL programmer would have no
@@ -353,12 +352,12 @@ Database applications include more than just a database and query
 engine; they also include some application code, in an application
 environment, that performs some analysis on or displays some information
 from the database. The only access the application has to the database
-is through the query interface, as shown in Figure 4.1.
+is through the query interface, as shown in Figure~\ref{fig:ch4.1}.
 
 An RDF application has a similar architecture, but it includes the RDF
 parser and serializer, converters, the RDF merge functionality, and the
 RDF query engine. These capabilities interact with the application
-itself and the RDF store as shown in Figure 4.2.
+itself and the RDF store as shown in Figure~\ref{fig:ch4.2}.
 
 The application itself can take any of several forms. Most commonly, it
 is written in a conventional programming language (Java, C, Python, and
@@ -435,7 +434,7 @@ federated information graph.
 \subsection{RDF-backed web portals}
 
 When the front end of an application is a web server, the architecture
-(shown in Figure 4.1) is well known for a database-backed web portal.
+(shown in Figure\ref{fig:ch4.1}) is well known for a database-backed web portal.
 The pages are generated using any of a number of technologies (e.g.,
 CGI, ASP, JSP, React, Angular) that allow web pages to be constructed
 from the results of queries against a database. In the earliest days of
@@ -444,13 +443,12 @@ system. The move to database-backed portals was made to allow web sites
 to reflect the complex interrelated structure of data as it appears in a
 relational database.
 
-The system architecture outlined in Figure 4.2 can be used the same way
+The system architecture outlined in Figure~\ref{fig:ch4.2} can be used the same way
 to implement a Semantic Web portal. The RDF store plays the same role
 that the database plays in database-backed portals. It is important to
 note that because of the separation between the presentation layer in
-both Figures 4.1 and
-
-4.2, it is possible to use all the same technologies for the actual web
+both Figures \ref{fig:ch4.1} and \ref{fig:ch4.2}, it is possible to use all the same 
+technologies for the actual web
 page construction for a Semantic Web portal as those used in a
 database-backed portal. But, in contrast to conventional data-backed web
 portals, and because of the distributed nature of the RDF store that
@@ -468,7 +466,7 @@ The RDF data model was designed from the beginning with data federation
 in mind. Information from any source is converted into a set of triples
 so that data federation of any kind---spreadsheets and XML, database
 tables and web pages---is accomplished with a single mechanism. As shown
-in Figure 4.2,
+in Figure~\ref{fig:ch4.2},
 
 this strategy of federation converts information from multiple sources
 into a single format and then combines all the information into a single
@@ -510,9 +508,8 @@ model. The model will be represented in RDF, to be sure. As we shall
 see, the semantic modeling languages of the W3C, RDFS, and OWL are built
 entirely in RDF, and they can be federated just like any other RDF data.
 
-Where do semantic models fit into the application architecture of Figure
-4.2? As data expressed in
-
+Where do semantic models fit into the application architecture of Figure~\ref{fig:ch4.2}? 
+As data expressed in
 RDF, they will be housed in the RDF store, along with all other data.
 But semantic models go beyond just including data that will be used to
 answer a query, like the list of plays that Shakespeare wrote or the
