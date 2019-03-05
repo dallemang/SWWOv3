@@ -1571,7 +1571,7 @@ newly created description is returned (line 17).
 8.	@prefix dc: <http://purl.org/dc/terms/> .
 9.	<> a foaf:PersonalProfileDocument;
 10.	   foaf:primaryTopic <#me> ;
-11.    dc:title 'Fabien’s FOAF profile' .
+11.    dc:title 'Fabien's FOAF profile' .
 12.	<#me> a foaf:Person;
 13.	   foaf:name 'Fabien Gandon' .
 14.	 
@@ -1585,8 +1585,20 @@ newly created description is returned (line 17).
   \caption{Example of a POST request on an LDP container and its result}
   \end{figure}
 
-\hypertarget{summary}{%
+% Let's put a section in here about URIs in the enterprise.  What are the issues? 
+% All of our own URIs are going be be local, 
+% We aren't going to open them all up and make them available by FYN
+% Nevertheless, we need to organize them, and know where to look for data
+% We'll be in a Web Services setting (try not to say RESTful)
+% This means that our URIs really are identifiers; we won't be resolving them, 
+% except for the ones that are service calls
+% Parameters sent via HTTP protocol (GET and POST) 
+% 
 
+
+
+
+\hypertarget{summary}{%
 \section{SUMMARY}\label{summary:ch5}}
 
 To weave a Web of linked data you must follow three rules: (1) use HTTP

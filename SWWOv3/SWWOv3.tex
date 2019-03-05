@@ -20,6 +20,9 @@ morecomment = [l]{*}
 
 \usepackage{hyperref}
 
+
+
+
 \makeindex              % if you use \index{...} in your book.
 
 \title{Semantic Web for the Working Ontologist}
@@ -36,6 +39,13 @@ morecomment = [l]{*}
 \newcounter{example}
 \newenvironment{example}[1][]{\refstepcounter{example}\par\medskip
    \textbf{Example~\theexample. #1} \rmfamily}{\medskip}
+
+
+\newcounter{query}[chapter]
+\newenvironment{query}[1][]{\refstepcounter{query}\par\medskip
+   \textbf{Query~\thechapter.\thequery. #1} \rmfamily}{\medskip}
+
+
 
 \frontmatter
 \include{front}         % Front matter.

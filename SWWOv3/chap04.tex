@@ -108,7 +108,9 @@ in general, possible to read in an RDF file,
 export it again, and be certain that the resulting file will be
 identical (character by character) to the input file.
 
-\subsection{Other data sources}
+\subsection{Other data sources- CSV}
+
+\subsection{Other data sources- Relational Databases}
 
 Parsers and serializers based on the standard representations of RDF are
 useful for the systematic processing and archiving of data in RDF. While
@@ -117,8 +119,9 @@ are not already available in RDF. Fortunately, for many common data
 formats (e.g., tabular data), it is quite easy to convert these formats
 into RDF triples.
 
+% This is where we need to talk about R2RML
 We already saw how tabular data can be mapped into triples in a natural
-way. This approach can be applied to relational databases or
+way. This approach can be applied equally well to relational databases or
 spreadsheets. Tools to perform a conversion based on this mapping,
 though not strictly speaking parsers, play the same role as a parser in
 a semantic solution: They connect the triple store with sources of
@@ -126,55 +129,84 @@ information in the form of triples. Most RDF systems include a table
 input converter of some sort. Some tools specifically target relational
 databases, including appropriate treatment of foreign key references,
 whereas others work more directly with spreadsheet tables. Tools of this
-sort are called converters, since they typically convert information
+sort are called \emph{converters}, since they typically convert information
 from some form into RDF and often into a standard form of RDF like
-Turtle. This allows them to be used with any other RDF. Another rich
+Turtle. This allows them to be used with any other RDF. 
+
+
+\subsection{Other data sources - Web pages}
+\label{webembed}
+
+Another rich
 source of data for the Semantic Web can be found in existing web
 pages---that is, in HTML pages. Such pages often include structured
 information, like contact information, descriptions of events, product
-descriptions, publications, and so on. This information can be combined
-in novel ways on the Semantic Web once it is available in RDF.
+descriptions, publications, opening hours, prices, and so on. This information is 
+easily understood by humans, but is difficult to extract as linked
+data, unless the pages include some specific data markup.   In Chapter~\ref{ch10} 
+we will see a number of systems that make use of data embedded in web pages, including 
+the \emph{Open Graph Protocol} of Facebook and \emph{schema.org}, from a consortium that
+includes Google, Microsoft, Yahoo and Yandex.   All such effort require some way to
+mark up HTML pages to include structured data, and some converter to extract this data. 
 
-A related approach to encoding information in web pages is a trend that
-goes by the name of microformats. The idea of a microformat is that some
-web page authors might be willing to embed structured information in
-their web pages. To enable them to do this, a standard vocabulary
-(usually embedded in HTML as special tag attributes that have no impact
-on how a browser displays a page) is developed for commonly used items
-on a web page. Some of the first microformats were for business cards
-(including, in the controlled vocabulary, names, positions, companies,
-and phone numbers) and events (including location, start time, and end
-time). One limitation of microformats is the need to specify a
-controlled vocabulary and provide a parser that can process that
-vocabulary. Wouldn't it be better if, instead, someone (like the W3C)
-would simply specify a single syntax for marking up HTML pages with RDF
-data? Then there would be a single processing script for all
-microformats.
+A key capability provided by the ability to embed structured data in web pages is 
+called \emph{rich snippets}.  A rich snippet refers to the inclusion of structured
+data in the display of a search result.  Figure~\ref{fig:ch4.RS} shows an example of two 
+search results, one as a rich snippet (a) and the other as a plain snippet.  Rich snippets
+can appear in many contexts, but their use in search results is the most familiar. 
+You've probably seen hundreds of rich snippets while shopping, without knowing how
+the data for them is managed. 
 
-The W3C has proposed just such a format called RDFa. The idea behind
-RDFa is quite simple: Use the attribute tags in HTML to embed
-information that can be parsed into RDF. Just like microformats, RDFa
-has no effect on how a browser displays a page. A number of search
-engines (Google and Yahoo!) and retailers (BestBuy, Overstock.com) have
-begun to adopt RDFa to provide machine processable Semantic Web data.
-Facebook has adopted a variant of RDFa as part of the Open Graph
-Protocol---a network of information available in Facebook. A web site
-called schema.org is even maintained by several big players of the Web
-to explain how to embed these metadata in a page and some recommended
-vocabularies to cover most frequent topics.
+\begin{figure}
+    \centering
+    \includegraphics{SWWOv3/media/ch4/WithRichSnippet.png}
+    (a)
+    \includegraphics{SWWOv3/media/ch4/WithoutRichSnippet.png}
+    (b)
+    \caption{Two search results, one with rich snippets (a) and one without (b). }
+    \label{fig:ch4.RS}
+\end{figure}
 
-RDFa provides two advantages for sharing data on the Web. First, from
-the point of view of data consumers, it is easier to harvest the RDF
-data from pages that were marked up with structured data extraction in
-mind, than from sources that were developed without this intention. But,
-more important, from the point of view of the content author, it allows
-them to express the intended meaning of a web page inside the web page
-itself. This ensures that the RDF data in the document matches the
-intended meaning of the document itself. This really is the spirit of
-the word semantic in the Semantic
+The rich snippet in Figure~\ref{fig:ch4.RS}(a) is produced using data that is e
+ncoded in the corresponding 
+web page.  For example, if the product on the web page is given by the QName \texttt{bnb:Buffalo},  
+then we the information needed to show that the item is "In stock" is just 
+a single triple
 
-Web---that page authors be given the capability of expressing what they
-mean in a web page for a machine to read and use.
+\begin{lstlisting}
+bnb:Buffalo  :availability  :InStock .
+\end{lstlisting}
+
+
+In Chapter~\ref{ch10} we examine the details of the schema.org vocabulary, to 
+see exactly how  resources like \texttt{:availability} and \texttt{:InStock} are used. 
+
+There are several ways to embed RDF data into an HTML Web page.  The most commonly used ones
+today are \emph{Microdata} (pioneered by schema.org), RDFa (standardized by the W3C)
+and JSON-LD, which we already saw in Section~\ref{ch3.JSON}. 
+
+Both Microdata and RDFa work on a similar principle; we add new elements to an 
+HTML page that are meaningful to an RDF converter.  In both cases, the new elements
+are meaningless to a Web browser, and are ignored, so regular visitors to the
+web page see no change.  But for an application that reads the page with the appropriate
+converter, the RDF data is available, and can be used to augment search, to provide
+a rich snippet, or for any other use case that can use structured product data.  In 
+Chapter~\ref{ch14} we will see how this sort of data can be used to support a comparative
+shopping application. 
+
+JSON-LD, as we saw in Section~\ref{ch3.JSON}, is a serialization format for RDF, so 
+any number of arbitrary triples can be encoded in JSON-LD.  But JSON-LD is also 
+a Web-friendly language, which can be included in Web pages verbatim, allowing Web
+authors to include arbitrarily complex data in their pages. The advantage of doing this 
+the web page author is that they can make sure that downstream applications
+like search engines get an accurate picture of the goods they are advertising. 
+The advantage of having a standard format for application developers is that they 
+can browse over the whole web, and create data-driven applications (like rich snippets)
+that improve the quality of the web experience. 
+
+Since all of these methods create RDF triples, they can be used together or 
+separately, to provide bits of data that can link together. 
+
 
 \section{RDF STORE}
 

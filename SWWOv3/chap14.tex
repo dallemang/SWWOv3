@@ -173,7 +173,7 @@ manicure:
 \begin{lstlisting}
 plush:Offering_1 gr:hasPriceSpecification plush:PriceSpec_1 .
 plush:PriceSpec_1 a gr:UnitPriceSpecification ;
-        gr:hasCurrency "USD""^^xsd:string ; 
+        gr:hasCurrency "USD"^^xsd:string ; 
 	gr:hasCurrencyValue "19"^^xsd:float ; 
 	gr:hasUnitOfMeasurement "C62" .
 \end{lstlisting}
@@ -220,7 +220,7 @@ WHERE {?o a gr:Offering ;
 
 \begin{figure}
 \centering
-\includegraphics[width=5in]{media/ch14/f14-02.jpg}
+\includegraphics[width=5in]{media/ch14/f14-02.png}
 \caption{Information about Plush's manicure offering, shown in graph form.}
 \label{fig:ch14.02}
 \end{figure}
@@ -463,6 +463,7 @@ strides in this direction, by achieving structured markup in tens of
 thousands of sites.
 
 \section{Quantities, Units, and Dimensions}
+\label{QUDT}
 
 As part of the Constellation Program, NASA developed an ontology to deal
 with units of measure. The utility of controlling references to units in

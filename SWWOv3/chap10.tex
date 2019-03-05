@@ -3,47 +3,363 @@
 
 We have seen a number of examples of the use of RDFS-Plus modeling for
 merging information from multiple sources in a dynamic and flexible way.
-In this chapter, we describe two example uses of the RDFS-Plus
-constructs. Both of these applications of RDFS-Plus have attracted
-considerable user communities in their respective fields. Both of them
-also make essential use of the constructs in RDFS- Plus, though often in
+In this chapter, we describe three  example uses of the RDFS-Plus
+constructs. All of these applications of RDFS-Plus have attracted
+considerable user communities in their respective fields. They
+also make essential use of the constructs in RDFS-Plus, though often in
 quite different ways. These are real modeling applications built by
-groups who originally had no technology commitment to RDFS or OWL
+groups who originally had no technology commitment to RDF, RDFS or OWL
 (though both were conceived as RDF applications).
 
-In both cases, the projects are about setting up an infrastructure for a
-particular web community. The use of RDFS-Plus appears in the models
-that describe data in these communities, rather than in the everyday use
-in these communities. In this book, we are describing how modeling works
-in RDFS and OWL, so we focus on the community infrastructure of these
-projects.
+In all three of these examples, a model, expressed in RDFS, is used to describe
+data that is distributed on the web.  In each case, one or more applications
+make use of this data to provide valuable services to some user communities. 
 
-The first application is part of a major US government effort called
+
+
+We already met the first application back in Section~\ref{webembed}; it is 
+called \emph{schema.org} and is used by Google, Microsoft, Yahoo and Yandex 
+to describe data embedded in Web pages.  This data is used to optimize search
+engine results, to provide rich snippets, and can be used for more elaborate 
+applications. 
+
+The second application is part of a major US government effort called
 Data.gov (\url{http://data.gov}). Data.gov is an effort made by the US
 government to publish public information. There are hundreds of
 thousands of datasets in Data.gov, of which hundreds are made available
 in RDF, with many more being converted all the time. Data.gov is a great
 example of the data wilderness; the published data sets
-
 come from a wide variety of source formats and collection methodologies,
 resulting in idiosyncratic data representations. Data.gov shows how
 technologies like RDFS and SPARQL can be useful in dealing with this
 sort of data wilderness.
 
-The second application is called FOAF, for ``Friend of a Friend.'' FOAF
+The third application is called \texttt{FOAF}, for ``Friend of a Friend.'' FOAF
 is a project dedicated to creating and using machine-readable homepages
 that describe people, the links between them, and the things they create
 and do. It is based on RDF, but it originally made no commitment to RDFS
 or OWL.
-
 FOAF was originally based on RDF because of the inherently distributed
 and weblike nature of the 
 project requirements. As the project evolved, there was a need to
 describe the relationships between various resources in a formal way;
 this led it to RDFS and then on to RDFS-Plus.
 
+
 In this chapter, we describe each of these efforts and show the use they
 make of the RDFS-Plus constructs we introduced in previous chapters.
+
+\section{schema.org}
+
+While the content of Web pages, their topics, authors, context, etc. are usually easily 
+understandable by humans, the data they contain are hard to extract unless they include a 
+known markup. Schema.org is a joint initiative started by Google, Microsoft, Yahoo and 
+Yandex to provide shared ontologies supporting the embedding of structured data in web 
+pages. We saw in Section~\ref{webembed} how formats like RDFa, Microdata and JSON-LD can 
+be used to embed RDF in web pages, and how such data is used to provide
+advanced data application like rich snippets and enhanced search engine optimization. 
+But these applications can't do their job without some sort of shared vocabulary 
+for that data.  schema.org provides a central location for this shared vocabulary. 
+
+Millions of sites use the ontologies of schema.org to markup their pages and improve search and user experience in general across applications. Although the mark up of Web pages may have been motivated by the impact it has on the major search engines, it also makes the embedded data available to anyone and to any Web application. The fact that standard syntaxes like RDFa, Microdata or JSON-LD and schemas are supported by major search engines has made the mark up of Web pages with structured data  widespread.  Since the W3C has standardized on these
+syntaxes, anyone can parse them, making this data resuable by anyone in their own application. 
+
+
+The class hierarchy of schema.org includes things that you can describe in 
+your web pages. 
+Commonly used classes include: Persons, Events, Organizations, Places, Creative works, non-text objects embedded in pages (Image, Video, Audio), Products and offers, Reviews and ratings, Actions (search trade, update, ...), etc.
+
+Let's start with a simple example, of how we would mark up a product page about 
+a Men's tie so that we can support a rich snippet such as the one shown in Figure~\ref{fig:ch4.RS}(a).
+
+The namespace prefix for schema.org is just \texttt{https://schema.org/}; here, we will 
+use the prefix \texttt{schema:} for that.  To get started,  schema.org defines a class called a \texttt{schema:Product}.  For any class in schema.org, you can see the 
+documentation for that class through follow-your-nose; if you type \texttt{http://schema.org/Product} into your web browser, you will get a page outlining
+the properties that can be used with a Product and some example markup that uses them. 
+For the purpose of this example, lets call this tie texttt{bnb:Buffalo}.  Then 
+the simplest triples we can have for this product say that it is a product and its 
+name:
+
+\begin{lstlisting}
+bnb:Buffalo  a schema:Product ;
+             schema:name "Buffalo Plaid Tie - Blade and Blue" .
+\end{lstlisting}
+
+So far, we haven't provided any information beyond the title of the page.  How do we get
+to the price of the item or whether it is in stock? 
+
+These things are represented in schema.org as an \texttt{schema:Offer}, which describes, 
+for a product or service, an offer to sell it.  Hence, it is the \texttt{Offer} that has
+a price, availability, etc.  The \texttt{Offer} is linked to the \texttt{Product} with a 
+property called \texttt{schema:offers}:
+
+\begin{lstlisting}
+bnb:Buffalo a schema:Product ;
+    schema:name "Buffalo Plaid Tie - Blade and Blue"@en ;
+    schema:offers [ a schema:Offer ;
+            schema:availability schema:InStock ;
+            schema:price "$ 49"@en ;
+            schema:priceCurrency "USD"@en ] .
+\end{lstlisting}
+
+The \texttt{Offer} has all the price and availability details.  It is up to the 
+application (in this case, the google search engine) to do something appropriate
+with this information.  In the case of the rich snippet in Figure~\ref{fig:ch4.RS}, that
+means displaying it right under the name in the search results.  The reviews and ratings 
+managed in a similar way. 
+
+The core vocabulary of schema.org currently consists of 598 Types and 862 Properties that 
+have been collaboratively defined and maintained through an open community process on the 
+Web.  The community was originallly formed as a W3C Community group that manages the 
+issues 
+and proposals. 
+
+The ontology of schema.org is always growing.  In 2012, the Good Relations ontology
+was integrated into schema.org.  This integration provides more detailed descriptions of 
+products, services and offerings.  We'll show an example of how schema.org 
+(using to a large extent the vocabulary from Good Relations).
+
+\begin{example}{Plush Beauty Bar}
+
+Let's take an example of a day spa, which we'll call the 
+\emph{Plush Beauty Bar} \footnote{This example is based on a real example from 
+a day spa in West Hollywood which is no longer in operation}.   Let's see how
+Plush can use schema.org to make its customers more aware of its
+offerings. 
+The particular information in this example is
+for educational purposes only, and does not correspond to any real
+offerings by the Plush Beauty Bar. In this exposition, we will use the
+namespace prefix \texttt{plush:} for all resources defined by Plush Beauty Bar.
+
+The Plush description begins with the business entity itself, the
+Plush Beauty Bar. It offers several services,
+including a massage:
+
+\begin{lstlisting}
+plush:BeautyBar a schema:DaySpa ;
+               schema:makesOffer plush:Offer1 ;
+               schema:makesOffer plush:Offer2 ;
+               schema:makesOffer plush:Offer3 ;
+plush:Offer1 rdfs:label "Hour and a half massage" .
+  ...
+\end{lstlisting}
+
+
+Plush's services come at a price, of course, and schema.org allows Plush to
+describe these.   This poses a modeling problem---if we were to
+define a property called, say, \texttt{:cost}, that related an offering to a
+number, we could specify the amount of the price, but in business we
+need to know more about the cost than just the number, we need to know
+currency as well. This means that we have to put some more information
+on the cost relationship between the offering and its price. This is an
+example of reification from Chapter~\ref{ch3}, and schema.org
+solves it by defining a
+class called a \texttt{UnitPriceSpecification} for the full description of a
+price. We'll see how Plush uses this to describe the price of their
+manicure, building on the examle above:
+
+\begin{lstlisting}
+plush:Offer1
+  rdf:type schema:Offer ;
+  schema:priceSpecification plush:PriceSpec1 ;
+  rdfs:label "Hour and a half massage" .
+plush:PriceSpec1
+  rdf:type schema:UnitPriceSpecification ;
+  schema:price "80.0" ;
+  schema:priceCurrency "USD" .
+\end{lstlisting}
+
+This says that the massage offering has a price, which is \$80 (US).
+
+This offering is for a particular service; we have seen the price and 
+a label for the offering, 
+but we haven't yet talked about the service itself.  An
+offering can include several services, but in this case, the offering
+includes just one--- a massage that lasts for an hour an a half.  
+
+We'll start by describing the type of service that we'll be offering, a massage:
+
+
+\begin{lstlisting}
+plush:Massage a schema:Service ;
+  rdfs:label "Relaxing Massage" .
+\end{lstlisting}
+
+Now, we can build that up to talk about a massage that lasts for an hour
+and a half.  This is called a \texttt{schema:TypeAndQuantityNode}, and as its 
+name suggests, it refers to a type and a quantity as a single node.  
+So an hour and a half long  massage looks like this:
+
+\begin{lstlisting}
+plush:Massage1_5
+  a schema:TypeAndQuantityNode ;
+  schema:amountOfThisGood "1.5" ;
+  schema:unitCode unit:HR ;  
+  schema:typeOfGood plush:Massage .
+\end{lstlisting}
+
+The idea of "an hour and a half" is done by specifying units (unsing \texttt{schema:unitCode} and the amount in those units (using \texttt{schema:amountOfThisGood}.  The units are specified by referring 
+to another QName, \texttt{units:HR}.  The \texttt{units:} namespace
+is short for \texttt{http://qudt.org/vocab/unit/}, referring the the Quantities, Units, Dimensions and Types ontology, which we will explore in more detail in 
+Section~\ref{QUDT}. 
+
+Finally, we can bring it all together as an offering, which includes a massage
+that lasts for an hour and a half, with a price of \$80.  The data is shown in 
+Turtle in Figure~\ref{fig:ch10.plushdata}, and as a graph in Figure~\ref{ch10.02}.
+
+\begin{figure}
+\begin{lstlisting}
+plush:BeautyBar
+  a schema:DaySpa ;
+  schema:makesOffer plush:Offer1 .
+plush:Offer1
+  rdf:type schema:Offer ;
+  schema:priceSpecification plush:PriceSpec1 ;
+  schema:includesObject plush:Massage1_5 ;
+  rdfs:label "Hour and a half massage" .
+plush:PriceSpec1
+  rdf:type schema:UnitPriceSpecification ;
+  schema:price "80.0" ;
+  schema:priceCurrency "USD" .
+plush:Massage1_5
+  a schema:TypeAndQuantityNode ;
+  schema:amountOfThisGood "1.5" ;
+  schema:unitCode unit:HR ;  
+  schema:typeOfGood plush:Massage .
+plush:Massage a schema:Service ;
+  rdfs:label "Relaxing Massage" .
+\end{lstlisting}
+    \caption{Caption}
+    \label{fig:ch10.plushdata}
+\end{figure}
+
+\begin{figure}
+\centering
+\includegraphics[width=5in]{media/ch14/f14-02.png}
+\caption{Information about Plush's massage offering, shown in graph form.}
+\label{fig:ch10.02}
+\end{figure}
+
+
+
+We can query this structure of this sort to answer questions like,
+``Show me the names of services that
+cost less than \$100'' with SPARQL as follows:
+
+\query{Services under \$100}
+\begin{lstlisting}
+SELECT ?service 
+FROM  file:plush.ttl
+WHERE {
+    plush:BeautyBar schema:makesOffer ?offer . 
+    ?offer schema:priceSpecification ?amount .
+    ?amount schema:priceCurrency "USD" ;
+            schema:price ?price .
+    ?offer schema:includesObject ?node .
+    ?node schema:typeOfGood ?type .
+    ?type rdfs:label ?service .
+    FILTER (xsd:decimal(?price) < 100)
+}
+\end{lstlisting}
+
+
+The results will list all the services in that price range.  The data to 
+support queries of this sort is normally published on a web page, 
+but schema.org makes it possible to use it to do this sort of filtering. 
+\end{example}
+
+
+
+
+
+\subsection{Modeling in schema.org}
+
+
+At the time of this writing, schema.org contains roughly 600 classes and nearly 
+900 properties.  These numbers grow quickly, because schema.org is being
+maintained through an open community collaboration process. 
+
+The class definitions in schema.org are represented as \texttt{rdfs:Class}.  
+For the 
+example above, a few class definitions are needed, as shown in Figure~\ref{fig:ch10.s.o.def}.  These class definitions use simple concepts from RDFS, in particular, 
+\texttt{rdfs:subClassOf}.  They don't give any indication about what
+properties can or should be used to describe members of these classes. 
+
+
+\begin{figure}
+\begin{lstlisting}
+schema:DaySpa
+  rdf:type rdfs:Class ;
+  rdfs:label "DaySpa" ;
+  rdfs:subClassOf schema:HealthAndBeautyBusiness .
+
+schema:Offer
+  rdf:type rdfs:Class ;
+  rdfs:label "Offer" .
+  
+schema:Service
+  rdf:type rdfs:Class ;
+  rdfs:label "Service" .
+  
+schema:TypeAndQuantityNode
+  rdf:type rdfs:Class ;
+  rdfs:label "TypeAndQuantityNode" ;
+  rdfs:subClassOf schema:StructuredValue .
+
+schema:UnitPriceSpecification
+  rdf:type rdfs:Class ;
+  rdfs:label "UnitPriceSpecification" ;
+  rdfs:subClassOf schema:PriceSpecification .
+\end{lstlisting} 
+
+    \caption{Simple class definitions used in the Plush example. }
+    \label{fig:ch10.s.o.def}
+\end{figure}
+
+In RDFS, we normally indicate the relationship between a class and the properties
+we expect to use for it using \texttt{rdfs:domain}, and the expected 
+type of the value for that property using \texttt{rdfs:range}.  However, as we 
+saw in Section~\ref{multidomain}, the interpretation of having multiple 
+\texttt{domain} (respectively \texttt{range}) declarations in RDFS is that 
+we effectily express the \texttt{interesection} of the domains.  But for 
+schema.org, the desired effect is that it should be possible to express the 
+\texttt{union} of multiple domains.  We saw in Section~\ref{sunion} that it is 
+possible to represent something like a union in RDFS, but this involves
+creating a special class for each desired union.  In the case of schema.org, 
+the requirement is simply to be able to specify a class as a domain (respectively 
+range), and to have the actual domain (respectively range) be the union of all 
+the classes so specified.  For this reason, schema.org defines its own 
+properties, \texttt{schema:domainIncludes} and \texttt{schema:rangeIncludes}. 
+These are used just like \text{rdfs:domain} and \texttt{rdfs:range}, but 
+their semantics (as suggested by the name) is that the actual domain of 
+the property includes the specified class. 
+
+As an example, in Figure~\ref{fig:ch10.plushdata} we see the use of a property 
+called \texttt{schema:unitCode}.  This is how schema.org refers to the units
+for some compound value.  In our example, we specified the units for a measurement
+(1.5 hours), but it is also possible to specify units for other kinds of things, 
+for example, for a \texttt{schema:UnitPriceSpecification}.  This is 
+handled in schema.org with two triples about the domain, as follows:
+
+\begin{lstlisting}
+schema:unitCode
+  rdf:type rdf:Property ;
+  schema:domainIncludes schema:TypeAndQuantityNode ;
+  schema:domainIncludes schema:UnitPriceSpecification .
+\end{lstlisting}
+
+In schema.org, this means that the property unitCode can be used for any 
+\texttt{TypeAndQuantityNode} and also for any \texttt{UnitPriceSpecification}.
+
+Once you have modeled your data in Schema.org, you can embed it into a web page
+using any of the formats RDFa, Microdata, (Section~\ref{webembed} or 
+JSON-LD (Section~\ref{ch3.JSON}), then you can check what it means to Schema.org
+by using the Google Strucutured Testing Tool \footnote{https://search.google.com/structured-data/testing-tool} or the W3C RDFa distiller \footnote{https://www.w3.org/2012/pyRdfa/} .
+
+
+
+
+
 
 \section{Open Government Data}
 
@@ -336,9 +652,9 @@ These data include information in the form
 
 \begin{lstlisting}
 US:Los_Angeles_CountyCalifornia a US:County ;
-                                rdfs:label "Los Angeles County, California" ;
-                                geo:lat "34.3871821"^{}^{}xsd:float ;
-                                geo:long "-228.1122679"^{}^{}xsd:float .
+                        rdfs:label "Los Angeles County, California" ;
+                        geo:lat "34.3871821"^{}^{}xsd:float ;
+                        geo:long "-228.1122679"^{}^{}xsd:float .
 \end{lstlisting}
 
 We would like to be able to cross-reference our FHEO data with these
@@ -1076,7 +1392,8 @@ itself. This solution lets the web page author maintain a single page on
 a particular subject, putting all the necessary information into that
 page.
 
-Facebook uses a simplified version of RDFa to encode OGP data in a web
+Facebook uses a simplified version of RDFa (Section~\ref{webembed}) to 
+encode OGP data in a web
 page. As with the vocabulary itself, user tests showed that embedding
 information in the web page had to be very simple. In particular, the
 web page author shouldn't have to face a lot of decisions about how to
