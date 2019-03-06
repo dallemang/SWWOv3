@@ -890,6 +890,8 @@ is supported by the W3C RDF standard with three resources called
 Let's take the example of \emph{Wikipedia says Shakespeare wrote
 Hamlet}. Using the RDF standard, we can refer to a triple as follows:
 
+\phantom{I}
+
 \begin{tabular}{|lll|}
 \hline
 Subject&Predicate&Object\\
@@ -900,8 +902,12 @@ q:n1&rdf:object&lit:Hamlet \\
 \hline
 \end{tabular}
 
+\phantom{I}
+
 Then we can express the relation of Wikipedia to this statement as
 follows:
+
+\phantom{I}
 
 \begin{tabular}{|lll|}
 \hline
@@ -911,10 +917,13 @@ web:Wikipedia&m:says&q:n1.\\
 \hline
 \end{tabular}
 
+\phantom{I}
 
 Notice that just because we have asserted the reification triples about
 \texttt{q:n1}, it is not necessarily the case that we have also asserted the
 triple itself:
+
+\phantom{I}
 
 \begin{tabular}{|lll|}
 \hline
@@ -923,6 +932,8 @@ Subject&Predicate&Object\\
 lit:Shakespeare&lit:wrote&lit:Hamlet \\
 \hline
 \end{tabular}
+
+\phantom{I}
 
 This is as it should be; after all, if an application does not trust
 information from Wikipedia, then it should not behave as though that
