@@ -94,7 +94,7 @@ paradigms. Let's take the relationship between ``Henleys'' and
 of \emph{broader term}. ``Shirts'' is a broader term than ``Henleys.''
 Object-oriented programmers are accustomed to the notion of subclasses
 or class extensions. ``Henleys'' is a subclass of, or extends, the class
-``Shirts.'' In the RDF Schema language, to be described in Chapter~\ref{ch8}, we say, ``Henleys'' subClassOf ``Shirts.''  
+``Shirts.'' In the RDF Schema language, to be described in Chapter~\ref{ch8}, we say, ``Henleys'' \texttt{subClassOf} ``Shirts.''  
 In the Simple Knowledge Organization System (SKOS) which we describe in Chapter~\ref{ch11}, we say ``Shirts'' broader term ``Henleys''. 
 It is all well and
 good to say these things, but what do they mean?
@@ -139,8 +139,7 @@ Web Ontology Language (OWL, Chapter\ref{ch12}) work.
 
 Our first example is one that we can use with the Henleys and Shirts
 example. The meaning for
-
-rdfs:subClassOf is given by the following inference:
+\texttt{rdfs:subClassOf} is given by the following inference:
 
 \begin{lstlisting}
 IF
@@ -151,7 +150,7 @@ IF
 
 In plain English, this says that if one class A is a subclass of another
 class B, anything of type A is also of type B. This simple statement is
-the entire definition of the meaning of subClassOf in the RDF Schema
+the entire definition of the meaning of \texttt{subClassOf} in the RDF Schema
 language. We will refer to this rule as the \emph{type propagation
 rule}. This very simple interpretation of the subclass relationship
 makes it a workhorse for RDFS modeling (and also for OWL modeling, as
@@ -160,7 +159,7 @@ construct of programming languages: IF something is a member of the
 subclass, THEN it is a member of the superclass.
 
 \begin{sidebar}{}
-The Semantic Web definition of subClassOf is similar to the definition
+The Semantic Web definition of \texttt{subClassOf} is similar to the definition
 of subclass or extension in OOP. In OOP, an instance of some class
 responds to the same methods in the same way that instances of its
 superclass do. In Semantic Web terms, this is because that instance is
@@ -180,7 +179,7 @@ Web, this is not allowed.
 \end{sidebar}
 
 \subsection{SPARQL and inference}
-
+\label{shacl-rules}
 Often, we can express the inference rules of RDFS (and OWL) by using
 SPARQL CONSTRUCT. For example, since a CONSTRUCT query specifies new
 triples based on a graph pattern of triples found in
@@ -202,23 +201,26 @@ Semantic Web languages.
 
 Using SPARQL to define inference isn't just a convenience for writing a
 book---SPARQL can be used as the basis for an inference language itself.
-One proposal for such an inference language is called SPARQL Inferencing
-Notation (SPIN)\footnote{http://spinrdf.org/}. SPIN includes a number of constructs for managing
-inferencing with SPARQL, but for the purposes of this book, SPIN is
+One proposal for such an inference language is called 
+\emph{SHACL-Rules} \footnote{https://www.w3.org/TR/shacl-af/#rules}. 
+SHACL-Rules includes a number of constructs for managing
+inferences with SPARQL, but for the purposes of this book, it is
 simply a way to specify that a particular CONSTRUCT query is to be used
 as a definition for inferences for a particular model. For example, if
 we want to say that the type propagation rule holds for all members of
-the class Shirt, we can specify this in SPIN as
+the class \texttt{Shirt}, we can specify this in SHACL-Rules as
 
 \begin{lstlisting}
-:Shirt spin:rule "CONSTRUCT {?this rdf:type ?B}
-                  WHERE {?A rdfs:subClassOf ?B .
-                         ?this rdf:type ?A}" .
+:Shirt sh:rule "CONSTRUCT {$this rdf:type ?B}
+                WHERE {?A rdfs:subClassOf ?B .
+                       $this rdf:type ?A}" .
 \end{lstlisting}
 
-The variable ?this has special meaning in SPIN; it refers to a member of
-the class that the query is attached to by spin:rule. In this example,
-?this refers to any member of the class :Shirt. We will use SPIN from
+The variable \texttt{\$this} has special meaning in SHACL-Rules; 
+it refers to a member of
+the class that the query is attached to by sh:rule. In this example,
+\texttt{\$this} refers to any member of the class \texttt{:Shirt}. 
+We will use SHACL-Rules from
 time to time to elaborate how inferences in RDFS and OWL are related to
 constructions that can be specified in SPARQL.
 
@@ -234,8 +236,8 @@ data more useful is to have them behave in a consistent way when
 combined with data from multiple sources. The strategy of basing the
 meaning of our terms on inferencing provides a robust solution to
 understanding the meaning of novel combinations of terms. Taking
-subClassOf as an example. It is not out of the question for a single
-class to be specified as subClassOf two other classes. What does this
+\texttt{subClassOf} as an example. It is not out of the question for a single
+class to be specified as \texttt{subClassOf} two other classes. What does this
 mean?
 
 In an informal thesaurus setting, the meaning of such a construct is
@@ -266,10 +268,10 @@ language.
 In an inference-based system like the Semantic Web, the answer to this
 question (for better or worse) is defined by the interaction of the
 basic inference patterns. How does multiple inheritance work in the RDF
-Schema Language? Just apply the rule twice. If A is subClassOf B and A
-is also subClassOf C, then any individual x that is a member of A will
+Schema Language? Just apply the rule twice. If A is \texttt{subClassOf} B and A
+is also \texttt{subClassOf} C, then any individual x that is a member of A will
 also be a member of B and of C. No discussion is needed, no design
-decisions. The meaning of subClassOf, in any context, is given elegant
+decisions. The meaning of \texttt{subClassOf}, in any context, is given elegant
 expression in a single simple rule: the type propagation rule. This
 feature of inference systems is particularly suited to a Semantic Web
 context, in which novel combinations of relationships are bound to occur
@@ -500,7 +502,7 @@ important in organizing and understanding a semantic application.
 \subsection{Inferencing as specification}
 
 At the beginning of this chapter, we looked at a query to find all the
-Shirts in a catalog, explicitly tracing down the all rdfs:subClassOf
+Shirts in a catalog, explicitly tracing down the all \texttt{rdfs:subClassOf}
 links:
 
 \begin{lstlisting}

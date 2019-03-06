@@ -4,7 +4,7 @@
 A comprehensive listing of ontologies in the wild is impossible, just as
 a complete listing of all web pages is impossible. New ontologies and
 open data sets on the Semantic Web are showing up every day. In Chapter~\ref{ch10}, we got a glimpse of the data sets that make up the data.gov project,
-and we saw how data based on FOAF and OGP are scattered all over the
+and we saw how data based on FOAF, Schema.org and OGP are scattered all over the
 Web. In selecting ontologies for this chapter, we had to leave some
 favorite projects behind.
 
@@ -12,17 +12,11 @@ We ended up with three examples. These examples were chosen for this
 chapter because of their advanced use modeling features beyond
 RDFS-Plus, and how widespread their impact has been.
 
-The first is called Good Relations (GR for short). GR allows businesses
-to make very detailed descriptions of their offerings on the
-marketplace. GR is similar to the OGP model described in Chapter~\ref{ch10} in
-that it provides a controlled vocabulary that can be used by Web content
-providers to mark up web pages. It differs from OGP in that it has a
-great deal more structure---business offerings come in all shapes and
-sizes and have a lot of details describing them.
+The first is the \emph{Financial Industry Business Ontology} (\emph{FIBO} for short).
 
 The second is called Quantities/Units/Dimensions/Types, or QUDT for
 short. It addresses an obvious problem that must be solved in any
-attempt to align quantitative data, that is, data from
+attempt to align quantitative data, that is, measurement data from
 multiple sources will be expressed in different units. In order to
 integrate data, it is necessary to be able to determine whether two
 quantities are commensurate (that's where the dimensions come in), and
@@ -32,324 +26,35 @@ come in).
 The third ontology is actually a whole collection of ontologies that are
 collectively known as the Open Biological and Biomedical Ontologies
 (OBO). As the name implies, this is a set of ontologies about biological
-and biomedical information. In contrast to Good Relations, which is a
-small vocabulary for describing information on the Web, OBO includes
+and biomedical information.  OBO includes
 massive amounts of data about biomedicine and biology, including genome
 information, catalogs of known cancer genes, and biochemistry data.
 
-\section{The Good Relations Ontology}
-
-The Good Relations ontology (GR) was developed by Martin Hepp of the
-E-Business and Web Science Research Group at the Universitaet der
-Bundeswehr Muenchen. Like OGP, it has been used to annotate a large
-number of web pages. Within a year of its release, already tens of
-thousands of web pages were annotated in RDFa using GR. These
-annotations have been used by search engines (Yahoo! and Google, in
-particular) for Search Engine Optimization; the more completely a
-product can be described, the more highly it can be trusted to be an
-appropriate match for a search engine query. The use of GR for
-annotating product web pages at Best Buy and overstock.com resulted in
-web pages that were ranked more highly in search results than much more
-established pages. But Good Relations can do more than simply give pages
-a higher rank--- Google uses Good Relations data to enhance the
-information it gives about a product in response to a search. Figure
-13.1 shows search results for a product, with and without Good Relations
-markup. The page with Good Relations markup provides much more
-information to lead a potential buyer to the product.
-
-How does GR allow someone to make such detailed descriptions of their
-business? While GR is relatively simple (in comparison, say, to OBO),
-there is more to it than can be covered in this case study. The
-interested reader is encouraged to see more of the GR at
-\href{http://purl.org/goodrelations/}{{http://purl.org/goodrelations/}}
-for a full and current description of the ontology. We will cover just
-enough of the GR ontology to see how it is used to describe products for
-Search Engine Optimization.
-
-\begin{figure}
-\centering
-\includegraphics[width=5in]{media/ch14/f14-01.png}
-\caption{Google search results for the same product, without (top) and with
-(bottom) GR markup.}
-\label{fig:ch14.01}
-\end{figure}
 
 
+\section{Ontology Architecture}
 
-
-GR provides a way to express that a company is making an offer of a
-product or a service. This is expressed in three classes in GR:
-
-\begin{lstlisting}
-gr:BusinessEntity a owl:Class .
-gr:Offering a owl:Class .
-gr:ProductOrService a owl:Class .
-gr:offers a owl:ObjectProperty ;
-          rdfs:domain gr:BusinessEntity ;
-	  rdfs:range gr:Offering .
-gr:includes a owl:ObjectProperty ;
-            rdfs:domain gr:Offering ;
-	    rdfs:range gr:ProductOrService .
-\end{lstlisting}
-
-This provides the basic framework of how a business offering is
-described in GR. GR provides many ways to enhance a description of an
-offering, based on these three things. We'll illustrate how this works
-with a real example of a business that uses GR and RDFa on its web site
-to enhance Search Engine Optimization.
-
-\begin{example}{Plush Beauty Bar}
-
-The Plush Beauty Bar in West Hollywood has used RDFa to mark up its web
-site,
-\href{http://plushbeautybar.com/\%20}{{http://plushbeautybar.com/}},
-using the Good Relations ontology. We will use their markup as an
-example of the use of GR. The particular information in this example is
-for educational purposes only, and does not correspond to any real
-offerings by the Plush Beauty Bar. In this exposition, we will use the
-namespace prefix plush: for all resources defined by Plush Beauty Bar.
-
-The Plush description begins with the business entity itself, the
-PlushBeautyBar. It offers several services,
-including a basic manicure (shiny buff or polish):
-
-\begin{lstlisting}
-plush:Business a gr:BusinessEntity ;
-               gr:offers plush:Offering_1 ;
-	       gr:offers plush:Offering_2 ;
-	       gr:offers plush:Offering_3 .
-plush:Offering_1 rdfs:label "NAIL SERVICES (shiny buff or polish)" .
-\end{lstlisting}
-
-GR allows Plush to specify what kind of client they are advertising
-to---is this a Business-to-Business shop or a Business-to-Consumer shop?
-A nail salon is of course the latter---they are selling to individuals
-who want to buy a service. GR includes a property called
-gr:eligibleCustomerTypes for this. Its range is a class called
-BusinessEntityType, that includes a handful of predefined business
-entities that Plush can choose from:
-
-\begin{lstlisting}
-gr:eligibleCustomerType a owl:ObjectProperty ;
-     rdfs:domain gr:Offering ;
-     rdfs:range gr:BusinessEntityType .
-gr:Business a gr:BusinessEntityType .
-gr:Enduser a gr:BusinessEntityType .
-gr:PublicInstitution a gr:BusinessEntityType .
-gr:Reseller a gr:BusinessEntityType .
-\end{lstlisting}
-
-Plush expresses its desired end customer as a selection from these
-business entity types:
-
-\begin{lstlisting}
-plush:Offering_1 gr:eligibleCustomerType gr:Enduser .
-\end{lstlisting}
-
-In a similar fashion, GR provides predefined classes of business
-functions, payment methods, delivery methods, warranty scopes, etc.,
-along with corresponding properties. Plus uses some of these to describe
-its offering as well:
-
-\begin{lstlisting}
-plush:Offering_1
-     gr:acceptedPaymentMethods
-         gr:Cash , gr:Discover , gr:VISA , gr:MasterCard ;
-     gr:hasBusinessFunction gr:ProvideService .
-\end{lstlisting}
-
-Plush's services come at a price, of course, and GR allows Plush to
-describe these, as well. This poses a modeling problem---if we were to
-define a property called, say, :cost, that related an offering to a
-number, we could specify the amount of the price, but in business we
-need to know more about the cost than just the number, we need to know
-currency as well. This means that we have to put some more information
-on the cost relationship between the offering and its price. This is an
-example of reification from Chapter~\ref{ch3}, and GR solves it by defining a
-class called a UnitPriceSpecification for the full description of a
-price. We'll see how Plush uses this to describe the price of their
-manicure:
-
-\begin{lstlisting}
-plush:Offering_1 gr:hasPriceSpecification plush:PriceSpec_1 .
-plush:PriceSpec_1 a gr:UnitPriceSpecification ;
-        gr:hasCurrency "USD"^^xsd:string ; 
-	gr:hasCurrencyValue "19"^^xsd:float ; 
-	gr:hasUnitOfMeasurement "C62" .
-\end{lstlisting}
-
-This says that the manicure offering has a price, which is \$19 (US).
-The unit of measure is worth looking at, since units of measure play a
-key role in commerce. GR uses the United Nations standard called UNECE
-for referring to measurement units; ``C62'' is the unit for ``by the
-job.'' If instead Plush were charging by the hour, the unit would be the
-UNECE unit for hour, ``HUR.''
-
-This offering is for a particular service; we have seen the price, the
-methods of payment, the kinds of
-customer, but we haven't yet talked about the service itself. An
-offering can include several services, but in this case, the offering
-includes just one---the basic manicure. This is stated simply as:
-
-\begin{lstlisting}
-plush:Offering_1 gr:includes plush:Service_1 .
-plush:Service_1 a gr:ProductOrService ; 
-        rdfs:label "NAIL SERVICES: Manicure" .
-\end{lstlisting}
-
-The information Plush expresses about its manicure offering is shown in
-Figure~\ref{fig:ch14.02}
-
-We can query this structure of this sort to answer questions like,
-``Show me the services for individual customers (i.e., end users) that
-cost less than \$20'' with SPARQL as follows:
-
-\begin{lstlisting}
-SELECT ?service
-WHERE {?o a gr:Offering ;
-          gr:eligibleCustomerTypes gr:EndUser ; 
-          gr:includes ?s ;
-          gr:hasPriceSpecification ?ps .
-       ?ps gr:hasCurrencyValue ?v;
-          gr:hasCurrency "USD" .
-       ?s rdfs:label ?service .
-       FILTER (?v < 20)
-}
-\end{lstlisting}
-
-
-\begin{figure}
-\centering
-\includegraphics[width=5in]{media/ch14/f14-02.png}
-\caption{Information about Plush's manicure offering, shown in graph form.}
-\label{fig:ch14.02}
-\end{figure}
-
-
-
-The results will list all the services in that price range; a regular
-search engine can filter those based on keywords, to focus on the
-particular service desired.
-\end{example}
-
-\section{Inferencing in the Good Relations Ontology}
-
-Suppose that in addition to its manicure services, Plush were to offer a
-massage service, priced by the hour. If we wanted to describe a
-one-and-a-half-hour massage session, the notion of includes would have
-to be reified, just as we did for the price. GR provides a means to do
-this, by introducing the notion of a \texttt{TypeAndQuantityNode}:
-
-\begin{lstlisting}
-plush:Offering_2 a gr:Offering ; 
-     gr:includesObject plush:Quantity_2 .
-plush:Quantity_2 a gr:TypeAndQuantityNode ; 
-     gr:typeOfGood plush:Service_2 ; 
-     gr:hasUnitOfMeasurement "HUR" ; 
-     gr:amountOfThisGood "1.5"^^xsd:float .
-plush:Service_2 a gr:ProductOrService ;
-     rdfs:label "Relaxing Massage" .
-\end{lstlisting}
-
-This model differs from the description of the manicure in two ways;
-first, it includes the intermediate entity \texttt{Quantity\_1} that allows us
-to make multiple statements about the massage service; in particular,
-that it lasts for 1.5 hours. The second difference is that the property
-used to connect the offering to the (reified) service description is
-includesObject (whereas it was includes in the manicure example). This
-is how GR indicates the reified relationship, by using the property
-\texttt{includesObject} to indicate the service.
-
-This method for representing services by the hour (or any other good
-that is sold in some units) is
-expressive and consistent, but it does pose a problem when it comes to
-querying a Good Relations data
-set. If we represent massages as we have done here, and manicures as we
-did in the previous example, we can't query both structures using just
-the query we used for manicures---we will need a query that knows how to
-work with both ways of representing services.
-
-One solution to this would be to retire the simple representation of
-services---the one that uses the predicate \texttt{includes},  we used for
-the manicure---in favor of the more expressive representation using
-includesObject. This is certainly possible---we could represent the
-manicure as being a service, measured ``by the job,'' i.e., unit
-``C62,'' where the amount is 1. Then the manicure representation would
-look like
-
-\begin{lstlisting}
-plush:Offering_1 a gr:Offering ;
-    gr:includesObject plush:Quantity_1 .
-plush:Quantity_1 a gr:TypeAndQuantityNode ;
-    gr:typeOfGood plush:Service_1 ;
-    gr:hasUnitOfMeasurement "C62" ;
-    gr:amountOfThisGood  "1" .
-plush:Service_1 a gr:ProductOrService ;
-    rdfs:label "NAIL SERVICES: Manicure " .
-\end{lstlisting}
-
-But this is a lot of work to go through, in comparison to the much
-simpler representation we are already using, i.e.,
-
-\begin{lstlisting}
-plush:Offering_1 gr:includes plus:Service_1 .
-\end{lstlisting}
-
-Do we really have to abandon this simple representation, and go for the
-more complex one? Good Relations includes a number of ``Optional
-Axioms''---these are rules that apply to the
-Good Relations ontology, but are not expressed in the OWL representation
-of Good Relations. They are described on the Good Relations web site
-both in plain English, as well as in SPARQL.\footnote{http://www.ebusiness-unibw.org/wiki/GoodRelationsOptionalAxiomsAndLinks} One of these rules is
-designed exactly for this case. A simplified version of the rule can be
-expressed in SPARQL as
-
-\begin{lstlisting}
-CONSTRUCT {
-?o gr:includesObject _:n .
-_:n rdf:type gr:TypeAndQuantityNode.
-_:n gr:amountOfThisGood "1.0"^^xsd:float .
-_:n gr:hasUnitOfMeasurement "C62"^^xsd:string.
-_:n gr:typeOfGood ?p. }
-WHERE
-{
-?o rdf:type gr:Offering .
-?o gr:includes ?p . 
-}
-\end{lstlisting}
-
-That is, if an offering gr:includes something, then construct a
-\texttt{TypeAndQuantityNode} with units ``C62'' (``by the job'') and amount
-1 --- building in the reified structure. Figure~\ref{ch114.03} shows the result of
-constructing these triples for the manicure example.
-
-
-
-\begin{figure}
-\centering
-\includegraphics[width=5in]{media/ch14/f14-03.eps}
-\caption{Offering\_1 after inferencing; the reified object has been constructed
-from the asserted includes triple.
-}
-\label{fig:ch14.03}
-\end{figure}
-
-
-
-
-\section{Composing Files}
-
-The Optional Axioms of Good Relations are not represented as part of the
-published GR ontology. The reason for this is that most of the optional
-axioms cannot be expressed in OWL, and the GR authors want GR to be an
-OWL ontology. But these rules can be expressed in languages that go
-beyond OWL. We want to leave the published GR ontology ``pure'' OWL,
-while having the non-OWL parts in another file. Most software languages
+Before we start talking about specific ontologies in OWL, we want to 
+outline some of the facilities in OWL that help us manage ontologies and
+the files we store them in.     Most software languages
 have features for managing modularity of this sort, and OWL is no
 exception; it has language features for modularizing semantic models.
 These language features have no semantics for the model (they allow no
 new triples to be inferred), but they help us, as humans, to organize a
 model in a modular way.
+
+There are many reasons why we might want to 
+modularize our ontologies.  Some of them have to do with governanace; if
+I am responsible for changes to one part of an ontology, and you are 
+responsible for changes to another, it might make sense to split them 
+into two ontologies, so that each of us can change our own file without 
+having to coordinate with the other.   Another reason has to do with 
+the speed at which changes happen; if part of the ontology changes rapidly, 
+and another part changes very slowly, we might want to split them out. 
+As we'll see below, each of the examples in this chapter have made different
+choices about how to modularize, but they all use the same features of OWL
+to do it.  
+
 
 \subsubsection{owl:Ontology}
 
@@ -389,83 +94,24 @@ file corresponding to an instance of \texttt{owl:Ontology}, it can also find any
 file corresponding to an imported ontology and load that as well. This
 load can, in turn, trigger further imports, which trigger further loads,
 and so on. There is no need to worry about the situation in which there
-is a circuit of imports (e.g., GR imports OGP imports FOAF imports GR).
+is a circuit of imports (e.g., if FIBO imports OGP imports FOAF imports FIBO).
 A simple policy of taking no action when a file is imported for a second
 time will guarantee that no vicious loops will occur. The resulting set
 of triples is the union of all triples in all imported files.
 
-In the case of GR, we can separate its rules out into a separate file,
-and have that file import the GR ontology. If someone just wants the
-``pure OWL'' GR ontology, they can import it from its base URI,
-http://purl.org/goodrelations/v1.
-If someone else wants the GR ontology together with its (non-OWL) rules,
-they can import
-http://WorkingOntologist.org/Examples/Chapter13/GROptionalAxioms,
-which expresses these rules in a non-OWL rules language called SPIN,
-found at spinrdf.org.
+\section{FIBO - the Financial Industry Business Ontology}
 
-\begin{lstlisting}
-<http://WorkingOntologist.org/Examples/Chapter13/GROptional_Axioms>
-       rdf:type owl:Ontology ;
-       owl:imports <http://purl.org/goodrelations/v1> ;
-       owl:imports <http://spinrdf.org/spin> ,
-\end{lstlisting}
 
-SPIN is a very simple, SPARQL-based rules language that works by linking
-classes in an ontology to SPARQL CONSTRUCT queries. To express one of
-the optional axioms in SPIN, we simply assert a triple that relates a
-query to the relevant class. The axiom we saw in the previous section
-applied to offerings, so we associate the query that defines the rule
-with the \texttt{gr:Offering} class as follows:
 
-\begin{lstlisting}
-gr:Offering spin:rule
-"CONSTRUCT {
- ?o gr:includesObject _:n .
- _:n rdf:type gr:TypeAndQuantityNode .
- _:n gr:amountOfThisGood "1.0"^^xsd:float .
- _:n gr:hasUnitOfMeasurement "C62"^^xsd:string .
- _:n gr:typeOfGood ?p . }
- WHERE
- {
- ?o rdf:type gr:Offering .
- ?o gr:includes ?p. }"
-\end{lstlisting}
+\subsection{FIBO Summary}
 
-In this example, we have represented the query associated with
-\texttt{gr:Offering} as a string; SPIN also includes a way to represent the query
-in RDF that is often more convenient for storage, but is not as
-convenient for reading in a book. Associating a rule (in the form of a
-CONSTRUCT query) with a class allows us to specify the scope of each of
-the rules, and to express them in a familiar language. Like Good
-Relations itself, there is a lot more to SPIN, and the interested reader
-is referred to http://spinrdf.org/.
 
-\subsection{Summary}
-
-The Good Relations ontology provides a way in which Web content
-providers can mark up their web pages to describe business offerings.
-Like OGP, its designers have made a commitment to simplicity. But as GR
-is more ambitious than OGP, it provides a good deal more sophistication
-in the model for providing structured descriptions of goods and
-services. GR both provides standards of reference for describing
-business entities (like \texttt{gr:EndUser} and \texttt{gr:ProvideService}), as well as
-referring to other standards (like the UN/CEFACT codes for units of
-measure). As such, it is a good Semantic Web citizen, providing linkages
-to familiar vocabularies as well as contributing its own.
-
-To date, Good Relations has been used for Search Engine Optimization,
-with considerable impact. But the real value to having structured data
-is to support true semantic search, whereby a customer can be very
-specific about what they are searching for, and have some confidence
-that if it exists, then it can be found. Good Relations has made great
-strides in this direction, by achieving structured markup in tens of
-thousands of sites.
 
 \section{Quantities, Units, and Dimensions}
 \label{QUDT}
 
-As part of the Constellation Program, NASA developed an ontology to deal
+As part of the Constellation Program, NASA developed an ontology 
+(actually, several ontologies) to deal
 with units of measure. The utility of controlling references to units in
 science and engineering has been understood for centuries, and there are
 several standard systems of units; there is the US Customary set of
@@ -476,12 +122,13 @@ Kelvins. NASA built an ontology of Quantities, Units, and Dimensions
 of this treatment.}
 to capture and manage this information.
 
-What is the purpose of such an ontology? In contrast to OGP and Good
-Relations, which provide vocabularies that assist web page developers in
+What is the purpose of such an ontology? In contrast to OGP and Schema.org, 
+which provide vocabularies that assist web page developers in
 marking up their pages, QUDT cuts across many domains. It was designed
 for science and engineering, but it has applicability in any setting
 where information can be expressed in different units. We have already
-seen an application for units in the Good Relations ontology---it is
+seen an application for units in Schema.org (Example~\ref{Plushex}) 
+---it is
 important to know how a service is measured---by the hour, by the
 minute, or by the job.
 
@@ -493,12 +140,12 @@ are making reference to the same notion of pound (there is more than
 one)? QUDT provides a URI for the notion of pound (with information to
 distinguish it from other units with the same common name), so that such
 references can be made unambiguously. QUDT is not alone in providing
-this service; as we have already seen with Good Relations, UN/CEFACT
-also provides a canonical set of codes for unambiguously identifying
+this service; the United Nations maintains a standard called UN/CEFACT
+which also  provides a canonical set of codes for unambiguously identifying
 units. QUDT connects to the UN/CEFACT codes with the property
 \texttt{qudt:uneceCommonCode}.
 
-The second purpose that QUDT serves is to provide conversion services.
+The second purpose that QUDT fills is to provide conversion services.
 If two information sources
 provide information in terms of pounds, and we use something like
 UN/CEFACT or QUDT to determine that they are the same notion of pound,
@@ -506,27 +153,27 @@ then we can compare the offerings. But what if one of them offers a
 product measured in pounds, and the other in kilograms? There are a few
 things that have to happen before we can compare the offerings. First,
 we have to understand whether it is even possible to compare pounds and
-kilograms (are they ``commensurate'' values). If they are, then we need
+kilograms (are they ``commensurate'' values?). If they are, then we need
 to convert values from one unit to the other. QUDT offers both of these
 services. These services are useful in science and engineering settings,
 but also in more common settings like the commercial applications of
-Good Relations.
+Schema.org. 
 
 The third purpose that QUDT serves is mostly focused on engineering
 settings, where it is often important to verify the dimensions of
 certain quantities. One way to check for errors in a formula is to check
 the dimensions of the components of a formula; only quantities with the
 same dimensions may be added to one another or compared to one another;
-for example, it makes no sense to add kilograms and centimeters or to
+for example, it makes no sense to add kilograms to centimeters or to
 compare seconds to feet. A simple check for correct dimensions can turn
 up errors, even in quite complex formulas. QUDT includes a comprehensive
-model of dimensions, cross- referenced with units, which enables
+model of dimensions, cross-referenced with units, which enables
 dimension-based calculations. The simplest application of this facility
 is for units conversion---it makes no sense to convert from one unit to
 another, if the units don't have the same dimension. The formula to
 convert from meters to feet, 1m = 3.28 ft, can be checked for
 dimensional correctness---do meters and feet have the same dimension?
-Yes, they do; both are measures of length.
+Yes, they do; both are measures of \emph{length}.
 
 We will explore just enough of the QUDT ontology to show how it supports
 these three functions. The QUDT ontology supports this functionality
@@ -545,7 +192,7 @@ common to have several units for a single kind; feet, inches,
 kilometers, Angstroms, light-years, and furlongs are all measures for
 length.
 
-QUDT uses the \emph{Local Restriction of Range} pattern described in Chapter\ref{ch12}; that is, it uses
+QUDT uses the \emph{Local Restriction of Range} pattern described in Section~\ref{lror}; that is, it uses
 \texttt{owl:allValuesFrom} to restrict the possible values for a property. The
 relationship between \texttt{qudt:Unit} and \texttt{qudt:QuantityKind} is called
 \texttt{qudt:quantityKind} (note the naming convention; \texttt{qudt:quantityKind} begins
@@ -573,7 +220,7 @@ vocab-units:Foot a qudt:Unit ;
       qudt:quantityKind vocab-quantities:Length .
 \end{lstlisting}
 
-Following along as in the example of this pattern from Chapter 12, from
+Following along as in the example of this pattern from Section~\ref{lror}, from
 these triples we can infer that
 
 \begin{lstlisting}
@@ -584,10 +231,10 @@ QUDT includes a comprehensive list of units and quantities from many
 fields of science, including mechanics, thermodynamics, chemistry,
 informatics, and biology. It organizes its namespaces in a modular
 way---as we saw in this example, resources that describe how units work
-(like the resources \texttt{qudt:QuantityKind} and \texttt{qudt:Unit}) are in the qudt:
+(like the resources \texttt{qudt:QuantityKind} and \texttt{qudt:Unit}) are in the \textt{qudt:}
 namespace, while particular quantities and units (like
 vocab-\texttt{quantities:Length} and vocab-\texttt{units:Foot}) are in namespaces whose
-names begin with vocab-. These resources are so named because together
+names begin with \text{vocab-}. These resources are so named because together
 they form controlled vocabularies; one for quantities and one for units.
 These resources resolve the first function of the QUDT vocabulary, that
 is, they provide unambiguous reference URIs for all the units and
@@ -678,10 +325,11 @@ We can express these conversions in a SPARQL query, but this isn't
 available as an inference. That is, if we have some quantity specified
 in miles, we can't always count on an inference engine to express that
 value in kilometers. Calculations of this sort are the sort of things
-that one usually puts into an application program. SPIN is an example of
-how to do this. SPIN is a proposal for a way to work with SPARQL in a
-programmatic way. Earlier in Chapter~\ref{ch7} we saw how SPIN could be used to
-attach queries to an ontology. Here we see another application of SPIN.
+that one usually puts into an application program. SHACL Rules
+(Section~\ref{shacl-rules}) is an example of
+how to make these conversions into inferences.  
+We already saw how SHACL-Rules can  be used to
+attach queries to an ontology. Here we see another application of SHACL-Rules.
 The query we used to convert kilometers to miles required us to put the
 information about the conversion into the query; the number to be
 converted (10.0), the source unit (kilometer), and the target unit
@@ -702,17 +350,21 @@ WHERE {
 }
 \end{lstlisting}
 
-SPIN allows such queries to be given names, which themselves are
-resources in RDF. If we give this query the name \texttt{qudtspin:convert}, then
+SHACL allows such queries to be given names, which themselves are
+resources in RDF.   When we do this, we refer to the named query 
+as a \emph{function}.  If we give this query the 
+name \texttt{qudtsh:convert}, then
 we could write the 10 kilometer query simply as
 
 \begin{lstlisting}
-SELECT (qudtspin:convert(10.0, unit:Kilometer, unit:MileInternational)
+SELECT (qudtsh:convert(10.0, unit:Kilometer, unit:MileInternational)
                    AS ?value)
 WHERE {}
 \end{lstlisting}
 
-The function call to \texttt{qudtspin:convert} is doing all the work---there is
+Answer: 6.21
+
+The call to the function \texttt{qudtsh:convert} is doing all the work---there is
 nothing in the
 WHERE clause to match at all!
 
@@ -720,7 +372,7 @@ The conversion of 32 degrees Fahrenheit to Centigrade looks very
 similar:
 
 \begin{lstlisting}
-SELECT (qudtspin:convert(32.0, unit:DegreeFahrenheit,
+SELECT (qudtsh:convert(32.0, unit:DegreeFahrenheit,
 unit:DegreeCelsius)
 AS ?value)
 WHERE {}
@@ -731,73 +383,70 @@ Answer: 0.0
 \begin{challenge}{Comparison Shopping with Good Relations}
 \label{chal:38}
 
-Now that we can use QUDT to convert values from one unit to another, wec
-an apply this to Good Relations data for purposes of comparison
+Now that we can use QUDT to convert values from one unit to another, we
+can apply this to Schema.org data for purposes of comparison
 shopping.
 
-At the end of the Good Relations section, we had an example of a massage
-service. Let's add some pricing information to it---a single
-one-and-a-half-hour session costs US\$80.00.
+In Example~\ref{Plushex}, we have an example of a massage
+service, priced at \$80.00 for an hour and a half session (see Figure~\ref{fig:ch10.plushdata})
 
-\begin{lstlisting}
-plush:Offering_2 a gr:Offering ;
-    gr:hasPriceSpecification plush:PriceSpec_2 ;
-    gr:includesObject plush:Quantity_2 .
-plush:Quantity_2 a gr:TypeAndQuantityNode ;
-    gr:typeOfGood plush:Service_2 ;
-    gr:hasUnitOfMeasurement "HUR" ;
-    gr:amountOfThisGood "1.5"^^xsd:float .
-plush:Service_2 a gr:ProductOrService ;
-    rdfs:label "Relaxing Massage" .
-plush:PriceSpec_2 a gr:UnitPriceSpecification ;
-    gr:hasCurrency "USD"^^xsd:string ; 
-   gr:hasCurrencyValue "80.00"^^xsd:float .
-\end{lstlisting}
-
-Down the street from Plush, a competing day spa has its own offer---a
+Down the street from Plush, the Style Cafe, a competing day spa, has 
+its own offer---a
 fifteen-minute chair massage, for the busy person-on-the-go:
 
 \begin{lstlisting}
-dayspa:Offering_3 a gr:Offering ;
-          gr:hasPriceSpecification
-          dayspa:PriceSpec_3 ;
-	  gr:includesObject dayspa:Quantity_3 .
-dayspa:Quantity_3 a gr:TypeAndQuantityNode ;
-          gr:typeOfGood dayspa:Service_3 ;
-	  gr:hasUnitOfMeasurement "MIN"^^xsd:string ;
-	  gr:amountOfThisGood "15"^^xsd:float .
-dayspa:Service_3 a gr:ProductOrService ;
-rdfs:label "Chair Massage" . dayspa:PriceSpec_3 a
-gr:UnitPriceSpecification ;
-gr:hasCurrency "USD"^{}^{}xsd:string ;
-gr:hasCurrencyValue "15.00"^{}^{}xsd:float .
+plush:StyleCafe
+  a schema:DaySpa ;
+  schema:makesOffer plush:Offer10 .
+plush:Offer10
+  rdf:type schema:Offer ;
+  schema:priceSpecification plush:PriceSpec10 ;
+  schema:includesObject plush:ChairMassage ;
+  rdfs:label "Chair massage" .
+plush:PriceSpec10
+  rdf:type schema:UnitPriceSpecification ;
+  schema:price "15.0" ;
+  schema:priceCurrency "USD" .
+plush:ChairMassage
+  a schema:TypeAndQuantityNode ;
+  schema:amountOfThisGood "15" ;
+  schema:unitCode unit:MIN ;  
+  schema:typeOfGood plush:Massage .
 \end{lstlisting}
+
+
 
 Suppose we want to compare these two offerings in terms of their price
 per minute of services. All the information is there---one of them costs
 \$15 for 15 minutes, the other is \$80 for an hour and a half. But to
 make the comparison, we have to convert the amounts into the same units.
 
-We can do this by combining Good Relations with QUDT. First, we want to
-query the Good Relations data to find out all the things we need to know
+We can do this by combining Schema.org with QUDT. First, we want to
+query the Schema.org data to find out all the things we need to know
 to make the comparison. We can do this simply by generalizing the common
 data form into a query:
 
+\query{Combining Services for Comparison}
 \begin{lstlisting}
-SELECT *
+SELECT * 
 WHERE {
-?offering a gr:Offering ;
-   gr:hasPriceSpecification ?pricespec ;
-   gr:includesObject ?quantity .
-?quantity a gr:TypeAndQuantityNode ;
-   gr:typeOfGood ?service ;
-   gr:hasUnitOfMeasurement ?UNunit ;
-   gr:amountOfThisGood ?amt .
-?service a gr:ProductOrService ;
-   rdfs:label ?servicename .
-   ?pricespec a gr:UnitPriceSpecification ;
-   gr:hasCurrency ?currency ;
-   gr:hasCurrencyValue ?price .
+?spa
+  a schema:DaySpa ;
+  schema:makesOffer ?offer .
+?offer
+  rdf:type schema:Offer ;
+  schema:priceSpecification ?pricespec ;
+  schema:includesObject ?tqn ;
+  rdfs:label ?offering .
+?pricespec
+  rdf:type schema:UnitPriceSpecification ;
+  schema:price ?price ;
+  schema:priceCurrency ?currency .
+?tqn
+  a schema:TypeAndQuantityNode ;
+  schema:amountOfThisGood ?duration ;
+  schema:unitCode ?qunit ;  
+  schema:typeOfGood plush:Massage .
 }
 \end{lstlisting}
 
@@ -805,53 +454,43 @@ The graph pattern (the part after the keyword WHERE) corresponds line
 per line to the data, with all the values that the two examples don't
 have in common turned into variables. We have chosen names for the
 variables that indicate their role in the graph; for example, \texttt{?pricespec}
-is a \texttt{UnitPriceSpecification}; \texttt{?UNunit} is the designator for the units,
-using the United Nations UNECE standard (as is common practice with Good
-Relations).
+is a \texttt{UnitPriceSpecification}; \texttt{?qunit} refers to the QUDT units.
 
-We want to be able to use the conversion capabilities of QUDT on this
-information, so we need to link our Good Relations results to QUDT. The
-linkage point is, of course, the units. But Good Relations doesn't
-reference QUDT units directly---it references UNECE units. Fortunately,
-QUDT also references the UNECE units, with a property called
-\texttt{qudt:uneceCommonCode}. We can get the QUDT units by matching a triple
-using this property:
-
-\begin{lstlisting}
-?qudtunit qudt:uneceCommonCode ?UNunit .
-\end{lstlisting}
-
-Now we are in a position to compute a comparable cost rate in price per
+Now we can use QUDT to compute a comparable cost rate in price per
 minute. The choice of ``minutes'' here is somewhat arbitrary---we could
 have as easily chosen any other time unit, like seconds or hours. Now
 that we know what units (?qudtunit) the amount (?amt) is in, we can
-convert it to minutes using \texttt{qudtspin:convert}:
+convert it to minutes using \texttt{qudtsh:convert}:
 
 \begin{lstlisting}
-qudtspin:convert (?amt, ?qudtunit, unit:MinuteTime)
+qudtsh:convert (?amt, ?qudtunit, unit:MIN)
 \end{lstlisting}
 
-We can compute the cost per minute by dividing ?price by this. The final
+We can compute the cost per minute by dividing \texttt{?price} by this. The final
 query is
 
 \begin{lstlisting}
-SELECT ?servicename ?currency
-       ((?price/qudtspin:convert(?amt, ?qudtunit,
-                                 unit:MinuteTime))AS ?cost_per_min )
+SELECT ?offering ?currency ?cost_per_min
+       ((?price/qudtsh:convert(?duration, ?qunit,
+                                 unit:MIN))AS ?cost_per_min )
 WHERE {
-?offering a gr:Offering ;
-    gr:hasPriceSpecification ?pricespec;
-    gr:includesObject ?quantity .
-?quantity a gr:TypeAndQuantityNode ;
-    gr:typeOfGood ?service ;
-    gr:hasUnitOfMeasurement ?UNunit ;
-    gr:amountOfThisGood ?amt .
-?service a gr:ProductOrService ;
-    rdfs:label ?servicename .
-    ?pricespec a gr:UnitPriceSpecification ;
-    gr:hasCurrency ?currency ;
-    gr:hasCurrencyValue ?price .
-?qudtunit qudt:uneceCommonCode ?UNunit .
+?spa
+  a schema:DaySpa ;
+  schema:makesOffer ?offer .
+?offer
+  rdf:type schema:Offer ;
+  schema:priceSpecification ?pricespec ;
+  schema:includesObject ?tqn ;
+  rdfs:label ?offering .
+?pricespec
+  rdf:type schema:UnitPriceSpecification ;
+  schema:price ?price ;
+  schema:priceCurrency ?currency .
+?tqn
+  a schema:TypeAndQuantityNode ;
+  schema:amountOfThisGood ?duration ;
+  schema:unitCode ?qunit ;  
+  schema:typeOfGood plush:Massage .
     }
 ORDER BY ( ?cost_per_min )
 \end{lstlisting}
@@ -860,10 +499,10 @@ Answer:
 
 \begin{tabular}{|ll|}
 \hline
-servicename&currencycost\_per\_min\\
+servicename&currency&cost\_per\_min\\
 \hline
-Relaxing Massage&USD 0.88\\
-Chair Massage&USD 1.0\\
+Relaxing Massage&USD&0.88\\
+Chair Massage&USD&1.0\\
 \hline
 \end{tabular}
 
@@ -873,18 +512,12 @@ Relaxing Massage is the better value per minute.
 \end{challenge}
 
 This example shows a number of features of the role that models play in
-linking data sources. The structure of the Good Relations ontology gave
+linking data sources. The structure of Schema.org gave
 us a consistent way to represent offerings, prices, amounts, and units
 of competing businesses. QUDT provides useful services (units
-conversions) for computations over these data. But as often happens in
-the data wilderness, these two models were not designed to connect. In
-particular, the Good Relations model does not use QUDT as its
-unambiguous reference for units. Fortunately, there is a common
-reference shared by QUDT and Good Relations---namely, the United Nations
-UNECE unit names standard. Since they both share a reference to UNECE,
-the connection can be made (with a single triple in the graph pattern!).
-The result is a price comparison based on published information, from a
-single query over the combined data sets.
+conversions) for computations over these data. Schema.org allows our 
+descriptions to refer to external sources (in this case, QUDT) to define
+its details, making it easy to connect the two offerings. 
 
 \subsection{DIMENSION CHECKING IN QUDT}
 
@@ -922,10 +555,10 @@ compared, so this formula makes sense only if the dimensionality of
 Force is the same as the dimensionality of the product of mass and
 acceleration. The dimensionality of Force is given by the expression
 $ml/{t^2}$ , that is, mass times length divided by time twice. The
-dimensionality of acceleration is given as $l/{t^2}, or length divided by
+dimensionality of acceleration is given as $l/{t^2}$, or length divided by
 time twice, and mass is given simply by $m$. So we can check the
 dimensionality of $F = ma$ by replacing each term with its dimensions,
-i.e., ${ml}/{t^2} = m(l/{t^2}). Since the dimensions on both sides are the
+i.e., ${ml}/{t^2} = m(l/{t^2})$. Since the dimensions on both sides are the
 same, the formula has been verified to pass the test of dimensionality.
 It is important to note that this kind of simple dimensional analysis
 can uncover certain formulas that are incorrect; a correct dimensional
@@ -933,7 +566,7 @@ analysis does not guarantee that the formula doesn't have some other
 problems with it.
 
 In terms of dimension vectors, we can do the same calculation using
-vectors. The dimension vector for Force is $[1, 1, -2]$. The vector
+vectors. The dimension vector for force is $[1, 1, -2]$. The vector
 for mass is $[0, 1, 0]$ and the vector for acceleration is $[1, 0,
 -2]$. The formula is verified if the vectors add up; that is, if the
 vector for mass plus the vector for acceleration
@@ -995,7 +628,8 @@ itself (mass, length, time) is given by the property \texttt{baseElement}.
 
 We can see all of this come together in Figure~\ref{fig:ch14.05} for the time
 dimension; we have our three
-quantities, \texttt{Mass}, \texttt{LinearAcceleration} and \texttt{Force}. Each of these is
+quantities, \texttt{Mass}, \texttt{LinearAcceleration} and \texttt{Force}. 
+Each of these is
 referenced by a particular dimension expression -- $m$ for mass, $l/{t^2}$ for
 linear acceleration, and $ml/{t^2}$ for force. Each of these, in turn, is
 related to several base vectors. The figure shows the vector for time,
@@ -1003,9 +637,10 @@ with coefficient zero for mass (since the vector for mass has a zero in
 the time place), coefficient -2 for linear acceleration
 (since the vector for linear acceleration has a -2 in the time place),
 and also a coefficient -2 for force (since the vector for force also has
-a -2 in the time place). From the information in Figure~\ref{fig:ch14.04}, we are in
-a position to verify (for the time dimension, anyway) that the formula F
-= ma is correct from a dimensional point of view, by noticing that the
+a -2 in the time place). From the information in Figure~\ref{fig:ch14.04}, 
+we are in
+a position to verify (for the time dimension, anyway) that the formula $F = ma$ 
+is correct from a dimensional point of view, by noticing that the
 time coefficient for mass (0) plus that for linear acceleration (-2)
 equals the coefficient for force (-2); $0 + (-2) = -2$.
 
@@ -1040,18 +675,22 @@ Answer: 0.0
 
 We can verify the correctness of the dimensionality of $F = ma$ by
 repeating this pattern three times, once each for mass, acceleration and
-force. If we filter with the formula (?MassMagnitude + ?AccMagnitude != ?ForceMagnitude), we will eliminate those dimensions
+force. If we filter with the formula 
+(?MassMagnitude + ?AccMagnitude != ?ForceMagnitude), we will eliminate those 
+dimensions
 for which the vectors
 don't add up.
 
-If we replace \texttt{quantity:Time} with another variable (\texttt{?base}), we can repeat
+If we replace \texttt{quantity:Time} with another 
+variable (\texttt{?base}), we can repeat
 this calculation for every vector base. We will need to list out those
 bases; QUDT provides this list as the class \texttt{qudt:VectorBase}. Finally,
 the dimension analysis matches exactly if there is no dimension for
 which it fails. We accomplish this in SPARQL by putting the check for a
 failure into a subquery, and then checking for no failures using the
 SPARQL keyword NOT EXISTS. If there does not exist a failure, then the
-query returns true. The complete query that checks the dimensions of $F = ma$ is shown here. It returns true, since the dimensions do check out.
+query returns true. The complete query that checks the dimensions 
+of $F = ma$ is shown here. It returns true, since the dimensions do check out.
 
 \begin{lstlisting}
 ASK WHERE
@@ -1079,17 +718,18 @@ WHERE {
 \end{lstlisting}
 
 The real test of a query like this is to try it on formulas that do not
-check out. Indeed, if we replace e.g,. \texttt{Mass} with \texttt{Time} or \texttt{Force} with
+check out. Indeed, if we replace e.g,. \texttt{Mass} 
+with \texttt{Time} or \texttt{Force} with
 \texttt{Energy} in this query, the result is false, since those dimensions do not
 add up.
 
 While it is easy enough to build up a query like this from identical
 pieces, reading and maintaining them can become unwieldy. Since large
 parts of the query are repetitive, this is a great opportunity to define
-the repeating parts as SPIN functions. It is beyond the scope of this
-book to work out all the dimensional analysis queries using SPIN---but
+the repeating parts as SHACL functions. It is beyond the scope of this
+book to work out all the dimensional analysis queries using SHACL---but
 the same approach used to generate this query has been used to create
-SPIN functions for checking the dimensionality of formulas. Details of
+SHACL functions for checking the dimensionality of formulas. Details of
 this approach can be found at http://qudt.org/.
 
 \subsection{Summary}
@@ -1422,7 +1062,7 @@ This gives the same result as the OWL inference, namely that \textit{glyphosate}
 satisfies all of these criteria. The representation is simpler, but the
 query is more complex. In particular, the query writer must take
 responsibility for all of the transitive relationships, using
-\texttt{skos:broader}* at each point, and making sure that it appears at every
+\texttt{skos:broader*} at each point, and making sure that it appears at every
 point in the query. This is a common trade-off in representation---does
 the model do more work, with a more involved representation, or does the
 query do more work, matching the correct information? The contrast
@@ -1452,34 +1092,44 @@ will treat all such definitions in a consistent and correct manner.
 \begin{figure}
 \centering
 \includegraphics[width=5in]{media/ch14/f14-07.jpg}
-\caption{CHEBI concepts from Figure 13.6 shown in SKOS. The standard SKOS
+\caption{CHEBI concepts from Figure \protect\ref{fig:ch14.06} shown in SKOS. The standard SKOS
 property \texttt{skos:broader} is shown here as ``has broader.''
 }
 \label{fig:ch14.07}
 \end{figure}
-
+\end{challenge}
 
 \section{SUMMARY}
 
-The three ontologies discussed in this chapter, Good Relations, QUDT,
+The three ontologies discussed in this chapter, FIBO, QUDT,
 and OBO Foundry ontologies, cover the spectrum from ontologies that
-include almost no data at all (Good Relations) to ontologies that
-include very large amounts of richly interconnected data (OBO). They all
+include very little data (FIBO) to ontologies that
+include very large amounts of richly interconnected data (OBO). 
+At the same time, they run from ontologies that say a lot about the 
+structure of data (FIBO) to ontologies that say relatively little about 
+it (OBO). 
+They all
 supply, to varying extents, the basic capabilities of the Semantic Web
 of sharing information in a coherent way across multiple systems.
 
-Good Relations is the smallest of the ontologies described here. Its
-main goal in the Semantic Web is to provide a framework in which
-information can be shared---a vocabulary that different suppliers
-can use to describe their offerings. The data in Good Relations aren't
-in the ontology at all; it is distributed across the Web. OBO Foundry
-ontologies, in contrast, are much, much larger, and include large
+The job of FIBO is to describe how financial data can be interpreted and 
+understood.  The data themselves, which could be details of a loan or a 
+financial instrument, the price of a security on a certain day, 
+or the standing of some account, are not part of the ontology at all, 
+and are expected to be quite volatile and confidential.  Their structure, 
+on the other hand, is quite complex and in many cases highly regulated. 
+
+OBO Foundry
+ontologies, in contrast, contain detailed data that describe particular 
+chemicals.  The fact that glyphosate has a phosphate group is represented 
+in CHEBI; nothing so specific is represented in FIBO. 
+Some of the OBO ontologies are very large indeed, and contain massive
 amounts of data about biology, medicine, life sciences, etc. There are
 complex questions that can be answered, using OBO as a data resource.
 QUDT sits in the middle; it contains a good deal of data (conversion
 factors, relationships between dimensions and units, etc.), but its main
 purpose is to provide connection between other data sets; two data
-sources that both use Good Relations might still fail to be
+sources that both use FIBO might still fail to be
 interoperable because of mismatch of units; QUDT provides enhanced
 interoperability in these cases. All three of these ontologies play the
 basic role in the Semantic Web of providing globally unambiguous names

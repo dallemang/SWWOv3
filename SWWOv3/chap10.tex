@@ -18,7 +18,7 @@ make use of this data to provide valuable services to some user communities.
 
 
 We already met the first application back in Section~\ref{webembed}; it is 
-called \emph{schema.org} and is used by Google, Microsoft, Yahoo and Yandex 
+called \emph{Schema.org} and is used by Google, Microsoft, Yahoo and Yandex 
 to describe data embedded in Web pages.  This data is used to optimize search
 engine results, to provide rich snippets, and can be used for more elaborate 
 applications. 
@@ -49,7 +49,7 @@ this led it to RDFS and then on to RDFS-Plus.
 In this chapter, we describe each of these efforts and show the use they
 make of the RDFS-Plus constructs we introduced in previous chapters.
 
-\section{schema.org}
+\section{Schema.org}
 
 While the content of Web pages, their topics, authors, context, etc. are usually easily 
 understandable by humans, the data they contain are hard to extract unless they include a 
@@ -59,21 +59,21 @@ pages. We saw in Section~\ref{webembed} how formats like RDFa, Microdata and JSO
 be used to embed RDF in web pages, and how such data is used to provide
 advanced data application like rich snippets and enhanced search engine optimization. 
 But these applications can't do their job without some sort of shared vocabulary 
-for that data.  schema.org provides a central location for this shared vocabulary. 
+for that data.  Schema.org provides a central location for this shared vocabulary. 
 
-Millions of sites use the ontologies of schema.org to markup their pages and improve search and user experience in general across applications. Although the mark up of Web pages may have been motivated by the impact it has on the major search engines, it also makes the embedded data available to anyone and to any Web application. The fact that standard syntaxes like RDFa, Microdata or JSON-LD and schemas are supported by major search engines has made the mark up of Web pages with structured data  widespread.  Since the W3C has standardized on these
+Millions of sites use the ontologies of Schema.org to markup their pages and improve search and user experience in general across applications. Although the mark up of Web pages may have been motivated by the impact it has on the major search engines, it also makes the embedded data available to anyone and to any Web application. The fact that standard syntaxes like RDFa, Microdata or JSON-LD and schemas are supported by major search engines has made the mark up of Web pages with structured data  widespread.  Since the W3C has standardized on these
 syntaxes, anyone can parse them, making this data resuable by anyone in their own application. 
 
 
-The class hierarchy of schema.org includes things that you can describe in 
+The class hierarchy of Schema.org includes things that you can describe in 
 your web pages. 
 Commonly used classes include: Persons, Events, Organizations, Places, Creative works, non-text objects embedded in pages (Image, Video, Audio), Products and offers, Reviews and ratings, Actions (search trade, update, ...), etc.
 
 Let's start with a simple example, of how we would mark up a product page about 
 a Men's tie so that we can support a rich snippet such as the one shown in Figure~\ref{fig:ch4.RS}(a).
 
-The namespace prefix for schema.org is just \texttt{https://schema.org/}; here, we will 
-use the prefix \texttt{schema:} for that.  To get started,  schema.org defines a class called a \texttt{schema:Product}.  For any class in schema.org, you can see the 
+The namespace prefix for Schema.org is just \texttt{https://schema.org/}; here, we will 
+use the prefix \texttt{schema:} for that.  To get started,  Schema.org defines a class called a \texttt{schema:Product}.  For any class in Schema.org, you can see the 
 documentation for that class through follow-your-nose; if you type \texttt{http://schema.org/Product} into your web browser, you will get a page outlining
 the properties that can be used with a Product and some example markup that uses them. 
 For the purpose of this example, lets call this tie texttt{bnb:Buffalo}.  Then 
@@ -88,7 +88,7 @@ bnb:Buffalo  a schema:Product ;
 So far, we haven't provided any information beyond the title of the page.  How do we get
 to the price of the item or whether it is in stock? 
 
-These things are represented in schema.org as an \texttt{schema:Offer}, which describes, 
+These things are represented in Schema.org as an \texttt{schema:Offer}, which describes, 
 for a product or service, an offer to sell it.  Hence, it is the \texttt{Offer} that has
 a price, availability, etc.  The \texttt{Offer} is linked to the \texttt{Product} with a 
 property called \texttt{schema:offers}:
@@ -108,23 +108,23 @@ with this information.  In the case of the rich snippet in Figure~\ref{fig:ch4.R
 means displaying it right under the name in the search results.  The reviews and ratings 
 managed in a similar way. 
 
-The core vocabulary of schema.org currently consists of 598 Types and 862 Properties that 
+The core vocabulary of Schema.org currently consists of 598 Types and 862 Properties that 
 have been collaboratively defined and maintained through an open community process on the 
 Web.  The community was originallly formed as a W3C Community group that manages the 
 issues 
 and proposals. 
 
-The ontology of schema.org is always growing.  In 2012, the Good Relations ontology
-was integrated into schema.org.  This integration provides more detailed descriptions of 
-products, services and offerings.  We'll show an example of how schema.org 
+The ontology of Schema.org is always growing.  In 2012, the Good Relations ontology
+was integrated into Schema.org.  This integration provides more detailed descriptions of 
+products, services and offerings.  We'll show an example of how Schema.org 
 (using to a large extent the vocabulary from Good Relations).
 
 \begin{example}{Plush Beauty Bar}
-
+\label{Plushex}
 Let's take an example of a day spa, which we'll call the 
 \emph{Plush Beauty Bar} \footnote{This example is based on a real example from 
 a day spa in West Hollywood which is no longer in operation}.   Let's see how
-Plush can use schema.org to make its customers more aware of its
+Plush can use Schema.org to make its customers more aware of its
 offerings. 
 The particular information in this example is
 for educational purposes only, and does not correspond to any real
@@ -145,14 +145,14 @@ plush:Offer1 rdfs:label "Hour and a half massage" .
 \end{lstlisting}
 
 
-Plush's services come at a price, of course, and schema.org allows Plush to
+Plush's services come at a price, of course, and Schema.org allows Plush to
 describe these.   This poses a modeling problem---if we were to
 define a property called, say, \texttt{:cost}, that related an offering to a
 number, we could specify the amount of the price, but in business we
 need to know more about the cost than just the number, we need to know
 currency as well. This means that we have to put some more information
 on the cost relationship between the offering and its price. This is an
-example of reification from Chapter~\ref{ch3}, and schema.org
+example of reification from Chapter~\ref{ch3}, and Schema.org
 solves it by defining a
 class called a \texttt{UnitPriceSpecification} for the full description of a
 price. We'll see how Plush uses this to describe the price of their
@@ -265,21 +265,21 @@ WHERE {
 
 The results will list all the services in that price range.  The data to 
 support queries of this sort is normally published on a web page, 
-but schema.org makes it possible to use it to do this sort of filtering. 
+but Schema.org makes it possible to use it to do this sort of filtering. 
 \end{example}
 
 
 
 
 
-\subsection{Modeling in schema.org}
+\subsection{Modeling in Schema.org}
 
 
-At the time of this writing, schema.org contains roughly 600 classes and nearly 
-900 properties.  These numbers grow quickly, because schema.org is being
+At the time of this writing, Schema.org contains roughly 600 classes and nearly 
+900 properties.  These numbers grow quickly, because Schema.org is being
 maintained through an open community collaboration process. 
 
-The class definitions in schema.org are represented as \texttt{rdfs:Class}.  
+The class definitions in Schema.org are represented as \texttt{rdfs:Class}.  
 For the 
 example above, a few class definitions are needed, as shown in Figure~\ref{fig:ch10.s.o.def}.  These class definitions use simple concepts from RDFS, in particular, 
 \texttt{rdfs:subClassOf}.  They don't give any indication about what
@@ -322,24 +322,24 @@ type of the value for that property using \texttt{rdfs:range}.  However, as we
 saw in Section~\ref{multidomain}, the interpretation of having multiple 
 \texttt{domain} (respectively \texttt{range}) declarations in RDFS is that 
 we effectily express the \texttt{interesection} of the domains.  But for 
-schema.org, the desired effect is that it should be possible to express the 
+Schema.org, the desired effect is that it should be possible to express the 
 \texttt{union} of multiple domains.  We saw in Section~\ref{sunion} that it is 
 possible to represent something like a union in RDFS, but this involves
-creating a special class for each desired union.  In the case of schema.org, 
+creating a special class for each desired union.  In the case of Schema.org, 
 the requirement is simply to be able to specify a class as a domain (respectively 
 range), and to have the actual domain (respectively range) be the union of all 
-the classes so specified.  For this reason, schema.org defines its own 
+the classes so specified.  For this reason, Schema.org defines its own 
 properties, \texttt{schema:domainIncludes} and \texttt{schema:rangeIncludes}. 
 These are used just like \text{rdfs:domain} and \texttt{rdfs:range}, but 
 their semantics (as suggested by the name) is that the actual domain of 
 the property includes the specified class. 
 
 As an example, in Figure~\ref{fig:ch10.plushdata} we see the use of a property 
-called \texttt{schema:unitCode}.  This is how schema.org refers to the units
+called \texttt{schema:unitCode}.  This is how Schema.org refers to the units
 for some compound value.  In our example, we specified the units for a measurement
 (1.5 hours), but it is also possible to specify units for other kinds of things, 
 for example, for a \texttt{schema:UnitPriceSpecification}.  This is 
-handled in schema.org with two triples about the domain, as follows:
+handled in Schema.org with two triples about the domain, as follows:
 
 \begin{lstlisting}
 schema:unitCode
@@ -348,10 +348,25 @@ schema:unitCode
   schema:domainIncludes schema:UnitPriceSpecification .
 \end{lstlisting}
 
-In schema.org, this means that the property unitCode can be used for any 
+In Schema.org, this means that the property unitCode can be used for any 
 \texttt{TypeAndQuantityNode} and also for any \texttt{UnitPriceSpecification}.
 
-Once you have modeled your data in Schema.org, you can embed it into a web page
+\subsection{Schema.org Summary}
+
+Schema.org provides a way in which Web content
+providers can mark up their web pages to describe business offerings.
+Schema.org is based loosely on the modeling structures of RDFS, and participates
+in the Semantic Web by allowing its users to make references beyond Schema.org 
+(as in our example, we referred to a resource defined by QUDT). 
+
+Schema.org's main use to date has been for Search Engine Optimization and 
+rich snippets, but any application, like chatbots and personal assistants, that 
+wants to make reference to data on the web, is enabled by Schema.org markup. 
+
+Schema.org was designed with web developers in mind, so if you are maintaining 
+a web site, it is straightforward to mark it up using Schema.org. 
+Once you have modeled your data in Schema.org (following the examples
+in this chapter), you can embed them into web pages
 using any of the formats RDFa, Microdata, (Section~\ref{webembed} or 
 JSON-LD (Section~\ref{ch3.JSON}), then you can check what it means to Schema.org
 by using the Google Strucutured Testing Tool \footnote{https://search.google.com/structured-data/testing-tool} or the W3C RDFa distiller \footnote{https://www.w3.org/2012/pyRdfa/} .
