@@ -553,10 +553,10 @@ restriction from Chapter\ref{ch9}:
 
 \begin{lstlisting}
 :JamesDeanExclusive owl:equivalentClass
-   [ a owl:Restriction;
-     owl:onProperty :ownsMovie;
-     owl:allValuesFrom :JamesDeanMovie{]}.
-:Rocky a:JamesDeanExclusive.
+   [ a owl:Restriction ;
+     owl:onProperty :ownsMovie ;
+     owl:allValuesFrom :JamesDeanMovie ] .
+:Rocky a :JamesDeanExclusive .
 \end{lstlisting}
 
 Rocky is a member of the class \texttt{JamesDeanExclusive}, which is the class of
@@ -623,10 +623,10 @@ restriction class for ``the set of things that own exactly three movies'':
 
 \begin{lstlisting}
 :ThreeMovieOwner owl:equivalentClass
-   [ a owl:Restriction;
-     owl:onProperty :ownsMovie;
+   [ a owl:Restriction ;
+     owl:onProperty :ownsMovie ;
      owl:cardinality 3 ] .
-   :Rocky a:ThreeMovieOwner.
+   :Rocky a :ThreeMovieOwner .
 \end{lstlisting}
 
 Since Rocky owns exactly three distinct movies, and all of his movies
@@ -674,8 +674,7 @@ a slight generalization of the form for cardinality:
     [ a owl:Restriction ;
       owl:onClass :JDPerson ;
       owl:onProperty :stars ;
-      owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger
-    ] .
+      owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ] .
 :JDPerson a owl:Class ;
           owl:oneOf (:JamesDean) .
 \end{lstlisting}
@@ -815,16 +814,16 @@ Model this situation and conclusion in OWL.
 For this challenge, we need to have an inverse for \texttt{ownsMovie}:
 
 \begin{lstlisting}
-:ownedBy owl:inverseOf :ownsMovie.
+:ownedBy owl:inverseOf :ownsMovie .
 \end{lstlisting}
 
 We can define the class of all the movies that Paul owns as follows:
 
 \begin{lstlisting}
-:PaulsMovie a owl:Class;
+:PaulsMovie a owl:Class ;
             owl:intersectionOf
-              ( [ a owl:Restriction;
-	          owl:onProperty :ownedBy;
+              ( [ a owl:Restriction ;
+	          owl:onProperty :ownedBy ;
 		  owl:hasValue :Paul ]
                 :Movie ) .
 \end{lstlisting}
@@ -834,14 +833,14 @@ Paul says that he owns every James Dean movie---that is, every
 (but possibly not vice versa), so we assert
 
 \begin{lstlisting}
-:JamesDeanMovie rdfs:subClassOf :PaulsMovie.
+:JamesDeanMovie rdfs:subClassOf :PaulsMovie .
 \end{lstlisting}
 
 Paul claims to own other movies, too. We can express that by saying
 
 \begin{lstlisting}
-:Paul a [ a owl:Restriction;
-          owl:onProperty :ownsMovie;
+:Paul a [ a owl:Restriction ;
+          owl:onProperty :ownsMovie ;
           owl:someValuesFrom [ owl:complementOf :JamesDeanMovie ] 
         ] .
 \end{lstlisting}
@@ -872,7 +871,7 @@ using \texttt{owl:minCardinality}.
 \begin{lstlisting}
 :ManyMovieOwner owl:equivalentClass
       [ a owl:Restriction;
-        owl:onProperty :ownsMovie;
+        owl:onProperty :ownsMovie ;
         owl:minCardinality 4 ] .
 \end{lstlisting}
 
@@ -881,7 +880,7 @@ least one that isn't a James Dean movie. That makes (at least) four in
 all; so we can infer that Paul qualifies as a member of \texttt{ManyMovieOwner}.
 
 \begin{lstlisting}
-:Paul rdf:type :ManyMovieOwner.
+:Paul rdf:type :ManyMovieOwner .
 \end{lstlisting}
 
 These assertions and conclusion can be seen in Figure\ref{fig:ch13.05}.
@@ -953,16 +952,16 @@ for each one:
 
 \begin{lstlisting}
 :Paul a [ a owl:Restriction;
-          owl:onProperty :ownsMovie;
+          owl:onProperty :ownsMovie ;
           owl:someValuesFrom :JudyGarlandMovie ] .
 :Paul a  [ a owl:Restriction;
-           owl:onProperty :ownsMovie;
+           owl:onProperty :ownsMovie ;
            owl:someValuesFrom :JudiDenchMovie ].
 :Paul a [ a owl:Restriction;
-          owl:onProperty :ownsMovie;
+          owl:onProperty :ownsMovie ;
           owl:someValuesFrom :TomCruiseMovie ] .
 :Paul a [ a owl:Restriction;
-          owl:onProperty :ownsMovie;
+          owl:onProperty :ownsMovie ;
           owl:someValuesFrom :AntonioBanderasMovie ] .
 \end{lstlisting}
 
@@ -1038,11 +1037,11 @@ has all its prerequisites satisfied (i.e., selected) is an
 EnabledQuestion as follows:
 
 \begin{lstlisting}
-q:hasPrerequisite a owl:ObjectProperty.
-[ a owl:Restriction;
-  owl:onProperty hasPrerequisite;
+q:hasPrerequisite a owl:ObjectProperty .
+[ a owl:Restriction ;
+  owl:onProperty hasPrerequisite ;
   owl:allValuesFrom q:SelectedAnswer ] 
- rdfs:subClassOf q:EnabledQuestion.
+ rdfs:subClassOf q:EnabledQuestion .
 \end{lstlisting}
 
 Remember that in this case, the restriction is a subclass of the named class, \texttt{EnabledQuestion}.
@@ -1061,9 +1060,9 @@ some property by using the
 cardinality restrictions. In particular, if we say that
 
 \begin{lstlisting}
-c:WhatProblem a [ a owl:Restriction;
-                  owl:onProperty q:hasPrerequisite;
-                  owl:cardinality 0].
+c:WhatProblem a [ a owl:Restriction ;
+                  owl:onProperty q:hasPrerequisite ;
+                  owl:cardinality 0] .
 \end{lstlisting}
 
 Then we know that there are no triples of the form
@@ -1076,10 +1075,9 @@ That is, \texttt{WhatProblem} has no prerequisites. Therefore it satisfies the
 restriction
 
 \begin{lstlisting}
-c:WhatProblem a [ a owl:Restriction;
-                  owl:onProperty hasPrerequisite;
-		  owl:allValuesFrom q:SelectedAnswer
-		].
+c:WhatProblem a [ a owl:Restriction ;
+                  owl:onProperty hasPrerequisite ;
+		  owl:allValuesFrom q:SelectedAnswer ] .
 \end{lstlisting}
 
 hence
@@ -1103,8 +1101,8 @@ restriction:
 
 \begin{lstlisting}
 :ParentOfBoysOnly owl:equivalentClass
-[ a owl:Restriction;
-  owl:onProperty :hasChild;
+[ a owl:Restriction ;
+  owl:onProperty :hasChild ;
   owl:allValuesFrom :Boy ] .
 \end{lstlisting}
 
@@ -1151,8 +1149,8 @@ having died childless. We can assert this in OWL by asserting her
 membership in a restriction class of cardinality 0, thus:
 
 \begin{lstlisting}
-:ElizabethI a [ a owl:Restriction;
-                owl:onProperty :hasChild;
+:ElizabethI a [ a owl:Restriction ;
+                owl:onProperty :hasChild ;
 		owl:cardinality 0 ] .
 \end{lstlisting}
 
@@ -1181,8 +1179,8 @@ done with counting James Dean movies, we can count prerequisites.
 Suppose we know that something has exactly one prerequisite:
 
 \begin{lstlisting}
-c:TvSymptom a [ a owl:Restriction;
-                owl:onProperty hasPrerequisite;
+c:TvSymptom a [ a owl:Restriction ;
+                owl:onProperty hasPrerequisite ;
                 owl:cardinality 1 ] .
 \end{lstlisting}
 
@@ -1223,7 +1221,7 @@ we can infer that
 
 \begin{lstlisting}
 c:TVTurnedOn a [ a owl:Restriction ;
-                 owl:onProperty hasPrerequisite;
+                 owl:onProperty hasPrerequisite ;
 		 owl:allValuesFrom q:SelectedAnswer ] .
 \end{lstlisting}
 
@@ -1253,8 +1251,8 @@ The interpretation of \texttt{someValuesFrom} is that we do know that there is a
 pair of triples of the form
 
 \begin{lstlisting}
-A P X.
-X rdf:type C.
+A P X .
+X rdf:type C .
 \end{lstlisting}
 
 Evidently, if we have both of these triples, then we certainly have a
@@ -1378,7 +1376,7 @@ Now, instead of claiming that Rocky is a member of both this class and
 
 \begin{lstlisting}
 :JDJG owl:intersectionOf
-       ( :JudyGarlandMovieOwner :JamesDeanExclusive ).
+       ( :JudyGarlandMovieOwner :JamesDeanExclusive ) .
 \end{lstlisting}
 
 Rocky has claimed to be a member of this class; this claim led to a

@@ -12,9 +12,8 @@ We ended up with three examples. These examples were chosen for this
 chapter because of their advanced use modeling features beyond
 RDFS-Plus, and how widespread their impact has been.
 
-The first is the \emph{Financial Industry Business Ontology} (\emph{FIBO} for short).
 
-The second is called Quantities/Units/Dimensions/Types, or QUDT for
+The first is called \emph{Quantities/Units/Dimensions/Types}, or QUDT for
 short. It addresses an obvious problem that must be solved in any
 attempt to align quantitative data, that is, measurement data from
 multiple sources will be expressed in different units. In order to
@@ -23,13 +22,23 @@ quantities are commensurate (that's where the dimensions come in), and
 if so, how to convert from one system to another (that's where the units
 come in).
 
-The third ontology is actually a whole collection of ontologies that are
-collectively known as the Open Biological and Biomedical Ontologies
+The second ontology is actually a whole collection of ontologies that are
+collectively known as the \emph{Open Biological and Biomedical Ontologies}
 (OBO). As the name implies, this is a set of ontologies about biological
 and biomedical information.  OBO includes
 massive amounts of data about biomedicine and biology, including genome
 information, catalogs of known cancer genes, and biochemistry data.
 
+
+The third is the \emph{Financial Industry Business Ontology} (\emph{FIBO} for short).
+This is an ongoing effort by the Enterprise Data Management Council (EDMC) to 
+build a reference ontology for the purpose of exchanging information about 
+financial instruments.  It was inspired by
+BCBS 239\footnote{https://www.bis.org/publ/bcbs239.pdf}, a white paper by the Based Commission 
+on Banking Supervision, that outlined root causes for the financial crisis of
+20018.  FIBO provides detailed logical definitions of financial instruments
+for many purposes.  Its design is a good example of modeling for a very wide
+audience of stakeholders. 
 
 
 \section{Ontology Architecture}
@@ -38,8 +47,8 @@ Before we start talking about specific ontologies in OWL, we want to
 outline some of the facilities in OWL that help us manage ontologies and
 the files we store them in.     Most software languages
 have features for managing modularity of this sort, and OWL is no
-exception; it has language features for modularizing semantic models.
-These language features have no semantics for the model (they allow no
+exception.
+These language features have no semantics for the model (i.e., they allow no
 new triples to be inferred), but they help us, as humans, to organize a
 model in a modular way.
 
@@ -99,11 +108,6 @@ A simple policy of taking no action when a file is imported for a second
 time will guarantee that no vicious loops will occur. The resulting set
 of triples is the union of all triples in all imported files.
 
-\section{FIBO - the Financial Industry Business Ontology}
-
-
-
-\subsection{FIBO Summary}
 
 
 
@@ -231,7 +235,7 @@ QUDT includes a comprehensive list of units and quantities from many
 fields of science, including mechanics, thermodynamics, chemistry,
 informatics, and biology. It organizes its namespaces in a modular
 way---as we saw in this example, resources that describe how units work
-(like the resources \texttt{qudt:QuantityKind} and \texttt{qudt:Unit}) are in the \textt{qudt:}
+(like the resources \texttt{qudt:QuantityKind} and \texttt{qudt:Unit}) are in the \texttt{qudt:}
 namespace, while particular quantities and units (like
 vocab-\texttt{quantities:Length} and vocab-\texttt{units:Foot}) are in namespaces whose
 names begin with \text{vocab-}. These resources are so named because together
@@ -577,8 +581,8 @@ formula are identical.
 
 \begin{figure}
 \centering
-\includegraphics[width=5in]{media/ch14/f14-04.jpg}
-\caption{Dimensional structure in QUDT to support analysis of F ¼ ma (time
+\includegraphics[width=5in]{media/ch14/f14-04.png}
+\caption{Dimensional structure in QUDT to support analysis of $F=ma$ (time
 dimension)}
 \label{fig:ch14.04}
 \end{figure}
@@ -1091,13 +1095,81 @@ will treat all such definitions in a consistent and correct manner.
 
 \begin{figure}
 \centering
-\includegraphics[width=5in]{media/ch14/f14-07.jpg}
+\includegraphics[width=5in]{media/ch14/f14-07.png}
 \caption{CHEBI concepts from Figure \protect\ref{fig:ch14.06} shown in SKOS. The standard SKOS
 property \texttt{skos:broader} is shown here as ``has broader.''
 }
 \label{fig:ch14.07}
 \end{figure}
 \end{challenge}
+
+\section{FIBO - the Financial Industry Business Ontology}
+
+FIBO is a massive undertaking to produce an ontology for describing financial instruments.  It is impossible to cover all aspects of FIBO in just a single chapter; more comprehensive details are available in the FIBO Primer \footnote{https://spec.edmcouncil.org/fibo/doc/FIBO_Primer.pdf}.   The industrial
+motivation for FIBO is to make information about financial instruments more transparent at all levels. 
+Specifically, 
+FIBO assists in the following ways:
+
+\begin{enumerate}
+    \item Provide a means for financial institutions to report information in an interoperable way, so that regulators can 
+    consume data from multiple providers and make sense of the aggregate, 
+    \item Encourage financial institutions to improve the quality of their own data management so that they have 
+    a better understanding of the standing of the instruments they participate in, and 
+    \item Provide a starting point for institutions that want to manage all of the firm's information in an enterprise-wide knowledge graph. 
+\end{enumerate}
+
+\subsection{Modularity in FIBO}
+
+Like Schema.org, FIBO is continually under development, responding to newly perceived needs by members of the 
+finance industry.  At the time of this writing, FIBO includes over four thousand classes and nearly 2500 properties. As 
+it is applied to more and more areas, these numbers change. They don't always increase; it is possible for FIBO development to 
+merge classes or properties so that the number will actually decrease as FIBO is applied to more areas. 
+
+These classes are organized into nearly 400 ontologies, taking the notion of ontology modularity to an extreme.  
+For this reason, FIBO is organized into eleven \emph{domains} \footnote{FIBO Domains are not to be confused with \texttt{rdfs:domain}}
+These domains are Foundations (FND), Business Entities (BE), Financial Business and Commerce (FBC), Loans (LOAN), Securities (SEC), 
+Indices and Indicators (IND), Market Data (MD), Business Process (BP), Collective Investment Vehicles (CIV), Derivatives (DER) and 
+Corporate Actions and Events (CAE).   Each of these domains has a short (2- to 4-letter) mnemonic. 
+
+Naming so many ontologies can be a challenge.  FIBO meets this challenge by organizing each domain 
+into \emph{sub-domains} and \emph{modules}. 
+As we saw in Chapter~\ref{ch5}, HTTP URIs are expressive enough to represent arbitrary amounts of structure in names; 
+FIBO takes advantage of this by reflecting the domains (and below domains, subdomains and modules as needed) in the URI 
+of each ontology.  For example, in the domain Business Entities, there is a module called \emph{Legal Entities}.  Inside that 
+module, there are several ontologies, one of which is called \texttt{LegalPersons}.  The HTTP URI for this ontology
+is made up of its complete heritage in FIBO, thus:
+
+\begin{lstlisting}
+https://spec.edmcouncil.org/fibo/ontology/BE/LegalEntities/LegalPersons/
+\end{lstlisting}
+
+FIBO implements the Follow-Your-Nose pattern (Section~\ref{dereferencing-http-uri}), so this HTTP URI resolves to 
+a web resource that describes the ontology (try it in a web browser!). 
+
+Each resource (i.e., Class or Property) in FIBO is given an HTTP URI relative to the ontology that defines it.  In the LegalPersons 
+ontology, there is a class called \texttt{BusinessEntity} whose HTTP URI is 
+
+\begin{lstlisting}
+https://spec.edmcouncil.org/fibo/ontology/BE/LegalEntities/LegalPersons/BusinessEntity
+\end{lstlisting}
+
+FIBO contains too many domains, subdomains, modules and ontologies to list all of them here. An index of all of them
+is maintained by the EDMCouncil in a form called 
+the \emph{fibopedia}\footnote{https://spec.edmcouncil.org/fibo/fibopedia/master/2018Q4/FIBOpedia.html}.  
+
+Since FIBO has hundreds of ontologies, it also has hundreds of namespace prefixes.  These are managed in a systematic way,
+that corresponds to the systematic structure of the HTTP URIs themselves.  Not only does each FIBO domain have a short mnemonic, so 
+does each subdomain and module.  These are concatenated together (with hyphens) to form namespace prefixes.  For example, the 
+prefix for the LegalPersons ontology above is \texttt{fibo-be-le-lp:}.  Therefore, the QName for BusinessEntity 
+is \texttt{fibo-be-le-lp:BusinessEntity}.  In the examples we'll show here, we will only use the official FIBO QNames, expanding
+them out just once for each prefix. 
+
+\subsection{FIBO and data mapping}
+
+FIBO's main use case is data interoperability.  The financial institutions already manage structured data 
+
+
+\subsection{FIBO Summary}
 
 \section{SUMMARY}
 
