@@ -252,7 +252,7 @@ entity might change, as we learn more about our domain.  The word ``building'' s
 stable enough, but it does have synonyms in English, and as we see how this resource is
 being used, we might find that one of the other words (structure, construction, 
 erection, edifice, etc.) 
-is more appropriate.  Whan we use opaque local names, this bit of maintenance is simple.  We remove the triple
+is more appropriate.  When we use opaque local names, this bit of maintenance is simple.  We remove the triple
 
 \begin{lstlisting}
 wikidata:Q41176  rdfs:label "building" .
@@ -266,7 +266,7 @@ wikidata:Q41176  rdfs:label "structure" .
 \end{lstlisting}
 
 For the FAO, there was another consideration (which might also be a consideration 
-for wikidata).. 
+for wikidata)
 that the United Nations recognizes six official languages, and all 
 UN documents must be simultaneously published in all six of these languages. 
 Suppose that the UN had chosen a human-readable local name for \texttt{c\_4397}, which one
@@ -299,7 +299,7 @@ their label.  For example,  since AGROVOC includes the triples
 
 
 \begin{lstlisting}
-agrovoc:c_4397   skos:prefLabel   "Livestock"@en , "B(*@\'e@*)tail"@fr .
+agrovoc:c_4397 skos:prefLabel "Livestock"@en , "B(*@\'e@*)tail"@fr .
 \end{lstlisting}
 
 
@@ -315,7 +315,11 @@ is able to deal with preferred labels and various languages, how should it displ
 fact that one resource is the AGROVOC version of Livestock and the other is
 the NAL version of Livestock?  If we had meaningful local names, then this
 problem would have been solved already by the QNames:  
-\texttt{agrovoc:Livestock} vs. \texttt{NAL:Livestock}.
+\texttt{agrovoc:Livestock} vs. \texttt{NAL:Livestock}.  If we just use labels, 
+we have to ask about the relationship between "livestock" and "livestock"; this only makes sense
+if we expand it out to say: the relationship between "livestock" (in the AGROVOC sense) vs "livestock" 
+(in the NAL sense).  QNames are a much more precise and compact way to do this, but they only make
+sense in the context of meaningful URIs. 
 
 \subsubsection{Disadvantages of Meaningful Names}
 
