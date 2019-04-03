@@ -693,7 +693,7 @@ arise.
 \begin{challenge}{Managing transitive relations alongside non-transitive ones}
 \label{chal:18}
 How can we simultaneously maintain transitive and nontransitive versions
-of the partOf information?
+of the \texttt{partOf} information?
 
 \solution
 
@@ -1222,14 +1222,14 @@ friend William Shakespeare will provide us with an example of how
 the literary career of William Shakespeare:
 
 \begin{lstlisting}
-lit:Shakespeare lit:wrote lit:AsYouLikeIt;
-                lit:wrote lit:HenryV;
-                lit:wrote lit:LovesLaboursLost;
-                lit:wrote lit:MeasureForMeasure; 
-                lit:wrote lit:TwelfthNight;
-		lit:wrote lit:WintersTale; 
-                lit:wrote lit:Hamlet;
-                lit:wrote lit:Othello.
+lit:Shakespeare lit:wrote lit:AsYouLikeIt ;
+                lit:wrote lit:HenryV ;
+                lit:wrote lit:LovesLaboursLost ;
+                lit:wrote lit:MeasureForMeasure ; 
+                lit:wrote lit:TwelfthNight ;
+		lit:wrote lit:WintersTale ; 
+                lit:wrote lit:Hamlet ;
+                lit:wrote lit:Othello .
 \end{lstlisting}
 
 Suppose we have at our disposal information from the Stratford Parish
@@ -1238,10 +1238,10 @@ occurred there. We will use \texttt{spr:} as the namespace identifier for URIs
 from the Stratford Parish Register.
 
 \begin{lstlisting}
-spr:Gulielmus spr:hasFather spr:JohannesShakspere.
-spr:Susanna spr:hasFather spr:WilliamShakspere.
-spr:Hamnet spr:hasFather spr:WilliamShakspere.
-spr:Judeth spr:hasFather spr:WilliamShakspere.
+spr:Gulielmus spr:hasFather spr:JohannesShakspere .
+spr:Susanna spr:hasFather spr:WilliamShakspere .
+spr:Hamnet spr:hasFather spr:WilliamShakspere .
+spr:Judeth spr:hasFather spr:WilliamShakspere .
 \end{lstlisting}
 
 Suppose that our research determines that, indeed, the resources
@@ -1260,22 +1260,20 @@ write Hamlet ?'' We can write this as a graph pattern in SPARQL as
 follows:
 
 \begin{lstlisting}
-{spr:Hamnet spr:hasFather ?d.
- ?d lit:wrote lit:Hamlet.}
+{spr:Hamnet spr:hasFather ?d .
+ ?d lit:wrote lit:Hamlet . }
 \end{lstlisting}
 
 that is, we are looking for a single resource that links Hamnet to
 Hamlet via the two links
+\texttt{spr:hasFather} and \texttt{lit:wrote}.
 
-\begin{lstlisting}
-spr:hasFather and lit:wrote.
-\end{lstlisting}
 
 In RDFS-Plus, we have the option of asserting the sameness of two
 resources. Let's start with just one:
 
 \begin{lstlisting}
-spr:WilliamShakspere owl:sameAs lit:Shakespeare.
+spr:WilliamShakspere owl:sameAs lit:Shakespeare .
 \end{lstlisting}
 
 The meaning of this triple, as always in RDFS-Plus, is expressed by the
@@ -1292,27 +1290,27 @@ WHERE {spr:WilliamShakespeare ?p ?o . }
 Similarly,
 
 \begin{lstlisting}
-CONSTRUCT {?s ?p lit:Shakespeare. }
-WHERE {?s ?p spr:WilliamShakespeare. }
+CONSTRUCT {?s ?p lit:Shakespeare . }
+WHERE {?s ?p spr:WilliamShakespeare . }
 \end{lstlisting}
 
 More generally, \texttt{owl:sameAs} is defined by three rules that can be
 expressed in SPARQL as
 
 \begin{lstlisting}
-CONSTRUCT {?s ?p ?x. }
-WHERE {?s ?p ?y.
+CONSTRUCT {?s ?p ?x . }
+WHERE {?s ?p ?y .
        ?x owl:sameAs ?y .}
 \end{lstlisting}
 
 \begin{lstlisting}
-CONSTRUCT {?x ?p ?o. }
+CONSTRUCT {?x ?p ?o . }
 WHERE {?y ?p ?o .
        ?x owl:sameAs ?y .} 
 \end{lstlisting}
 
 \begin{lstlisting}
-CONSTRUCT {?s ?x ?o. }
+CONSTRUCT {?s ?x ?o . }
 WHERE {?s ?y ?o .
        ?x owl:sameAs ?y .}
 \end{lstlisting}
@@ -1321,14 +1319,14 @@ Also, as we did for \texttt{owl:equivalentClass} and \texttt{owl:equivalentPrope
 assert that \texttt{owl:sameAs} is an \texttt{owl:SymmetricProperty}:
 
 \begin{lstlisting}
-owl:sameAs a owl:SymmetricProperty.
+owl:sameAs a owl:SymmetricProperty .
 \end{lstlisting}
 
 Otherwise, we would need three more rules, with the \texttt{owl:sameAs} triples
 reversed. This allows us to infer that
 
 \begin{lstlisting}
-lit:Shakespeare owl:sameAs spr:WilliamShakspere.
+lit:Shakespeare owl:sameAs spr:WilliamShakspere .
 \end{lstlisting}
 
 so that we can replace any occurrence of \texttt{lit:Shakespeare} with
@@ -1434,7 +1432,7 @@ ID&Model Number&Facility\\
 5&ZX-3&Factory\\
 6&TC-43&Factory\\
 7&B-1430X&Machine Shop\\
-8&SP-1234&Machine hop\\
+8&SP-1234&Machine Shop\\
 9&1180-M&Machine Shop\\
 \hline
 \end{tabular}
@@ -1490,12 +1488,12 @@ cross-reference from one table to the other? The answer is to use a
 series of \texttt{owl:sameAs} triples, as follows:
 
 \begin{lstlisting}
-p:Product1 owl:sameAs mfg:Product4.
-p:Product2 owl:sameAs mfg:Product6.
-p:Product4 owl:sameAs mfg:Product3.
-p:Product5 owl:sameAs mfg:Product1.
-p:Product7 owl:sameAs mfg:Product5.
-p:Product8 owl:sameAs mfg:Product8.
+p:Product1 owl:sameAs mfg:Product4 .
+p:Product2 owl:sameAs mfg:Product6 .
+p:Product4 owl:sameAs mfg:Product3 .
+p:Product5 owl:sameAs mfg:Product1 .
+p:Product7 owl:sameAs mfg:Product5 .
+p:Product8 owl:sameAs mfg:Product8 .
 \end{lstlisting}
 
 Now if we match the following SPARQL graph pattern:

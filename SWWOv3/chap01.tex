@@ -2,294 +2,277 @@
 \label{ch1}
 % \chapterauthor{Sally Smith, Joe Jones}        % For contributed chapters.
 
-This book is about something we call the Semantic Web. From the name, you can probably guess that it is related somehow to the World Wide Web (WWW) and that it has something to do with semantics. Semantics, in turn, has to do with understanding the nature of meaning, but even the word semantics has a number of meanings. In what sense are we using the word semantics? And how can it be applied to the Web?\\
-This book is for a working ontologist. That is, the aim of this book is not to motivate or pitch the Semantic Web but to provide the tools necessary for working with it. Or, perhaps more accurately, the World Wide Web Consortium (W3C) has provided these tools in the forms of standard Semantic Web languages, complete with abstract syntax, model-based semantics, reference implementations, test cases, and so forth. But these are like any tools - there are some basic tools that are all you need to build many useful things, and there are specialized craftsman’s tools that can produce far more specialized outputs. Whichever tools are needed for a particular task, however,  one  still  needs  to  understand  how  to  use  them.  In the hands of someone with no knowledge, they can produce clumsy, ugly, barely functional output, but in the hands of a skilled craftsman, they can produce works of utility, beauty, and durability. It is our aim in this book to describe the craft of building Semantic Web systems. We go beyond only providing a coverage of  the  fundamental  tools  to  also  show  how  they  can  be  used  together  to  create  semantic models, sometimes called \textit{ontologies} or \textit{vocabularies}, that are understandable, useful, durable, and perhaps even beautiful.1
+This book is about something we call the Semantic Web. From the name, you can probably guess that it is related somehow to the World Wide Web (WWW) 
+and that it has something to do with semantics. Semantics, in turn, has to do with understanding the nature of meaning, but even the word 
+semantics has a number of meanings. In what sense are we using the word semantics? And how can it be applied to the Web?\\
+This book is for a working ontologist. That is, the aim of this book is not to motivate or pitch the Semantic Web but to provide the tools 
+necessary for working with it. Or, perhaps more accurately, the World Wide Web Consortium (W3C) has provided these tools in the forms of 
+standard Semantic Web languages, complete with abstract syntax, model-based semantics, reference implementations, test cases, and so forth. But these are 
+like any tools - there are some basic tools that are all you need to build many useful things, and there are specialized craftsman’s 
+tools that can produce far more specialized outputs. Whichever tools are needed for a particular task, however,  one  still  needs  to  
+understand  how  to  use  them.  In the hands of someone with no knowledge, they can produce clumsy, ugly, barely functional output, but 
+in the hands of a skilled craftsman, they can produce works of utility, beauty, and durability. It is our aim in this book to describe 
+the craft of building Semantic Web systems. We go beyond only providing a coverage of  the  fundamental  tools  to  also  show  how  
+they  can  be  used  together  to  create  semantic models, sometimes called \textit{ontologies} or \textit{vocabularies}, that are 
+understandable, useful, durable, and perhaps even beautiful.1
 
 
 \section{What is a web?}
 \label{ch01.sec11.1}
 
-The Web architecture was built by standing on the shoulders of giants. Back in 1945, Vannevar Bush wrote an article entitled \textit{As We May Think} where he identified the problems in managing large collections of documents, and in managing the links we make between these documents. Bush’s proposal was to consider this as a scientific problem, and among the ideas he proposed was the one of externalizing and automating the storage and management of association links we make in our readings. He also illustrates his ideas with an imaginary device he called the \textit{Memex} (‘memory extension”) that would assist us in studying, linking and remembering the documents we work with and the association links we weave between them. Twenty years later, Ted Nelson quotes \textit{As We May Think} and proposes using a computer to implement the idea, using hypertext and hypermedia structure to link parts of documents together. In the late sixties, Douglas Engelbart and the Augment project provided the mouse and new means of interaction and applied them in particular to hypertext edition and browsing. The beginning of the seventies brought us the work of Vinton Cerf and the emergence of the Internet, which connected computers all around the world. By the end of the eighties, Tim Berners-Lee was able to stand on the shoulders of these giants when he proposed a new breakthrough: an architecture for distributing hypermedia on the internet, which we now know as the World Wide Web. The Web provides a hyptertext infrastructure that links documents across the internet, i.e., connecting documents that are not on the same machine. And so the Web was born. The Web architecture includes two important parts: Web clients, the most well-known being the Web browser, and the Web server, that serves documents and data to the clients whenever they require it. For this architecture to work, there has to be three initial essential components. First, addresses that allow us to identify and locate the document on the Web; second, communication protocols that allow a client to connect to a server, send a request and get an answer; and third, representation languages to describe the content of the pages, the documents that are to be transferred. These three components comprise a basic Web architecture, which the Semantic Web standards, which we will describe later in this book, extend in order to publish semantic data on the Web.
+The Web architecture was built by standing on the shoulders of giants. Writing in \emph{The Atlantic} magazine in 1945
+\footnote{Bush, Vannevar, \textit{As We May Think}, The Atlantic, 1945} 
+Vannevar Bush identified the problems in managing large collections of documents the links 
+we make between them. Bush’s proposal was to consider this as a scientific problem, and among the ideas he proposed was the one of 
+externalizing and automating 
+the storage and management of association links we make in our readings. He also illustrated his ideas with an imaginary device he called 
+the \textit{Memex} (‘memory extension”) that would assist us in studying, linking and remembering the documents we work with and the association 
+links we weave between them. Twenty years later, Ted Nelson quoted \textit{As We May Think} and proposed using a computer to implement the idea, 
+using hypertext and hypermedia structures to link parts of documents together. In the late sixties, Douglas Engelbart and the Augment project 
+provided the mouse and new means of interaction and applied them in particular to hypertext editing and browsing. The beginning of the 
+seventies brought the work of Vinton Cerf and the emergence of the Internet, which connected computers all around the world. By the 
+end of the eighties, Tim Berners-Lee was able to stand on the shoulders of these giants when he proposed a new breakthrough: an architecture 
+for distributing hypermedia on the internet, which we now know as the World Wide Web. The Web provides a hyptertext infrastructure that links 
+documents across the internet, i.e., connecting documents that are not on the same machine. And so the Web was born. The Web architecture 
+includes two important parts: Web clients, the most well-known being the Web browser, and  Web servers, that serve documents and data 
+to the clients whenever they require it. For this architecture to work, there has to be three initial essential components. 
+First, addresses that allow us to identify and locate the document on the Web; second, communication protocols that allow 
+a client to connect to a server, send a request and get an answer; and third, representation languages to describe the 
+content of the pages, the documents that are to be transferred. These three components comprise a basic Web architecture, 
+which the Semantic Web standards, which we will describe later in this book, extend in order to publish semantic data on the Web.
 
-The idea of a web of information was once a technical idea accessible only to highly trained, elite information professionals: IT administrators, librarians, information architects, and the like. Since the widespread adoption of the World Wide Web, it is now common to expect just about anyone to be familiar with the idea of a web of information that is shared around the world. Contributions to this web come from every source, and every topic you can think of is covered.
+The idea of a web of information was once a technical idea accessible only to highly trained, elite information professionals: 
+IT administrators, librarians, information architects, and the like. Since the widespread adoption of the World Wide Web, 
+it is now common to expect just about anyone to be familiar with the idea of a 
+web of information that is shared around the world. Contributions to 
+this web come from every source, and every topic you can think of is covered.
 
-Essential to the notion of the Web is the idea of an open community: anyone can contribute their ideas to the whole, for anyone to see. It is this openness that has resulted in the astonishing comprehensiveness of topics covered by the Web. An information ``web'' is an organic entity that grows from the interests and energy of the communities that support it. As such, it is a hodgepodge of different analyses, presentations, and summaries of any topic that suits the fancy of anyone with the energy to publish a web page. Even as a hodgepodge, the Web is pretty useful. Anyone with the patience and savvy to dig through it can find support for just about any inquiry that interests them. But the Web often feels like it is a mile wide but an inch deep. How can we build a more integrated, consistent, deep Web experience?
+Essential to the notion of the Web is the idea of an open community: anyone can contribute their ideas to the whole, 
+for anyone to see. It is this openness that has resulted in the astonishing comprehensiveness of topics covered by the 
+Web. An information ``web'' is an organic entity that grows from the interests and energy of the communities that 
+support it. As such, it is a hodgepodge of different analyses, presentations, and summaries of any topic that 
+suits the fancy of anyone with the energy to publish a web page. Even as a hodgepodge, the Web is pretty useful. 
+Anyone with the patience and savvy to dig through it can find support for just about any inquiry that interests 
+them. But the Web often feels like it is a mile wide but an inch deep. How can we build a more integrated, 
+consistent, deep Web experience?
 
 
-\section{Smart Web, Dumb Web}
+\section{Communicating with Data}
+\label{webdata}
+Suppose you are thinking about heading to your favorite local restaurant, 
+\emph{Copious}, so you ask your automated personal assistant, "what are the hours for
+Copious?"  Your assistant replies that it doesn't have the hours for Copious.  
+So you go to a web page, look them up, and find right there, next to the 
+address and the daily special, the opening. hours.  How could the web master
+at Copious have told your assistant about what was on the web page?   Then you
+wouldn't just be able to find out the opening hours, but also the daily special. 
 
+ 
 Suppose you consult a web page, looking for a major national park, and
 you find a list of hotels that have branches in the vicinity of the
-park. In that list you see that Mongotel, one of the well-known hotel
-chains, has a branch there. Since you have a Mongotel rewards card, you
-decide to book your room there. So you click on the Mongotel web site
-and search for the hotel's location. To your surprise, you can't find a
-Mongotel branch at the national park. What is going on here? ``That's so
-dumb,'' you tell your browsing friends. ``If they list Mongotel on the
-national park web site, shouldn't they list the national park on
-Mongotel's web site?''
+park. You don't find your favorite hotel, Mongotel.  But you go to their 
+website, and find a list of their locations.  Some of them are near the park. 
+Why didn't the park know about that?   How could Mongotel have published its
+locations in a way that the park could have found them? 
 
-Suppose you are planning to attend a conference in a far-off city. The
-conference web site lists the venue where the sessions will take place.
-You go to the web site of your preferred hotel chain and find a few
-hotels in the same vicinity. ``Which hotel in my chain is nearest to the
-conference?'' you wonder. ``And just how far off is it?'' There is no
-shortage of web sites that can compute these distances once you give
-them the addresses of the venue and your own hotel. So you spend some
-time copying and pasting the addresses from one page to the next and
-noting the distances. You think to yourself, ``Why should I be the one
-to copy this information from one page to another? Why do I have to be
-the one to copy and paste all this information into a single map?
+Going one step further, you want to figure out which of your hotel locations is 
+nearest to the park.  You have the address of the park, and the addresses of 
+your hotel locations.  And you have any number of mapping services on the web. 
+One of them shows the park, and some hotels nearby, but they don't have all the Mongotel locations. 
+So you spend some
+time copying and pasting the addresses from the Mongotel page to the map, and you 
+do the same for the park.  You think to yourself, ``Why should I be the one
+to copy this information from one page to another? Whose job is it to keep this
+information up to date?''  Of course, Mongotel would be very happy if the data on 
+the mapping page would be up to date.  What can they do to make this happen? 
 
-Suppose you are investigating our solar system, and you find a
-comprehensive web site about objects in the solar system: Stars (well,
-there's just one of those), planets, moons, asteroids, and comets are
-all described there. Each object has its own web page, with photos and
+
+Suppose you are maintain an amateur astronomy resource, and you have a section about our solar system. 
+You organize news and other information about  objects in the solar system: Stars (well,
+there's just one of those), planets, moons, asteroids, and comets. 
+Each object has its own web page, with photos, 
 essential information (mass, albedo, distance from the sun, shape, size,
 what object it revolves around, period of rotation, period of
-revolution, etc.). At the head of the page is the object category:
-planet, moon, asteroid, comet. Another page includes interesting lists
-of objects: the moons of Jupiter, the named objects in the asteroid
-belt, the planets that revolve around the sun. This last page has the
-nine familiar planets, each linked to its own data page.
+revolution, etc.), and news about recent findings, observations, etc. . 
+You source your information from various places; the reference data comes from the 
+International Astronomical
+Union (IAU), the news comes from a number of feeds.  
 
-One day, you read in the newspaper that the International Astronomical
-Union (IAU) has decided that Pluto, which up until 2006 was considered a
+
+One day, you read in the newspaper that the (IAU) has decided that Pluto, 
+which up until 2006 was considered a
 planet, should be considered a member of a new category called a ``dwarf
-planet''! You rush to the Pluto page and see that indeed, the update has
-been made: Pluto is listed as a dwarf planet! But when you go back to
-the ``Solar Planets'' page, you still see nine planets listed under the
-heading ``Planet.'' Pluto is still there! ``That's dumb.'' Then you say
-to yourself, ``Why didn't someone update the web pages consistently?''
+planet''!   You will need to update your web pages, since not only has the 
+information on some page changed, but so has the way you organize it; in addition 
+to your pages about planets, moons, asteroids, etc., you'll need a new page about 
+``dwarf planets''.    But your page about planets takes its information from the 
+IAU already.  Is there something they could do, so that your planet page would 
+list the correct eight planets, without you having to re-organize anything? 
 
-What do these examples have in common? Each of them has an apparent
-representation of data, whose presentation to the end user (the person
-operating the Web browser) seems ``dumb.'' What do we mean by ``dumb''?
-In this case, ``dumb'' means inconsistent, out of synchronized, and
-disconnected. What would it take to make the Web experience seem
-smarter? Do we need smarter applications or a smarter Web
-infrastructure?
+You have an appointment with your dentist, and you want to look them up.  You remember 
+where the office is (somewhere on East Long street) and 
+the name of the dentist, but you don't remember the name of the clinic.  So you look for dentists
+on Long street.   None of them ring a bell.   When you finally find their web page, you 
+see that they list themselves as "oral surgeons", not dentists.  Who's job is it to 
+know all the ways a dentist might list themselves? 
+
+You are a scientist researching a particular medical condition, whose metabolic process
+is well understood.  From this process, you know a number of compounds that play a role
+in the process.  Researchers around the world have published experimental results about
+organic compounds linked to human metabolism.  Have any experiments been done about 
+any of the compounds you are interested in?  What did they measure?  How can the scientists of 
+the world publish their data so that you can find it? 
+
+Tigerbank lends money to homeowners in the form of mortgages, as does Makobank; some of them
+are at fixed interest rates, and some float according to a published index. A clever 
+financial engineer puts together a deal where one of Tigerbank's fixed loan payments
+are traded for one of Makobanks' floating loan payments.  These deals make sense for people who 
+want to mitigate the different risk profiles of these loans.  Is this sort of swap a good 
+deal or not?   We have to compare the terms of Tigerbank's loan with those of Makobank's loan.  
+How can the banks describe their loans in terms that participants can use to compare them?
 
 
-\subsection{Smart web applications}
+What do these examples have in common?  In each case, someone has knowledge of some thing that 
+they want to share.  It might be about their business (hours, daily special, locations, business category), or 
+scientific data (experimental data about compounds, the classification of a planet), or information 
+about complex instruments that they have built (financial instruments).   It is in the best interests
+of the entities with the data to publicise it to a community of possible consumers, but the 
+data is too idiosyncratic, or too detailed, or just too complex to simply publicize by writing a description
+of it.   In fact, it is so much in their interest to get this data out, that they are willing to 
+put some effort into finding the right people who need their data.  
 
-The Web is full of intelligent applications, with new innovations coming
-every day. Ideas that once seemed futuristic are now commonplace; search
-engines make matches that seem deep and intuitive; commerce sites make
-smart recommendations personalized in uncanny ways to your own
-purchasing patterns; mapping sites include detailed information about
-world geography, and they can plan routes and measure distances. The sky
-is the limit for the technologies a web site can draw on. Every
-information technology under the sun can be used in a web site, and many
-of them are. New sites with new capabilities come on the scene on a
-regular basis.
 
-But what is the role of the Web infrastructure in making these
-applications ``smart''? It is tempting to make the architecture of the
-Web smart enough to encompass all of these technologies and more. The
-smarter the architecture, the smarter the Web's performance, right? But
-it isn't practical, or even possible, for the Web architecture to
-provide specific support for all, or even any, of the technologies that
-we might want to use on the Web. Smart behavior in the Web comes from
-smart applications on the Web, not from the architecture .
+\subsection{Social Data}
 
-So what role does the architecture play in making the Web smart? Is
-there a role at all? We have smart applications on the Web, so why are
-we even talking about enhancing the Web architecture to make a smarter
-Web if the smarts aren't in the architecture
+A special case of the desire to share data is social networking.  Billions of 
+people share data about their lives on a number of social websites, including 
+their personal lives as well as their professional lives.  It is worth their 
+while to share this data, as it provides ways for them to find new friends, keep
+in touch with old friends, find business connections, and many other advantages. 
 
-The reason we are improving the Web architecture is to allow smart
-applications to perform to their potential. Even the most insightful and
-intelligent application is only as smart as the data that is available
-to it. Inconsistent or contradictory input will still result in
-confusing, disconnected, ``dumb'' results, even from very smart
-applications. The challenge for the design of the Semantic Web is not to
-make a web architecture that is as smart as possible; it is to make an
-architecture that is most appropriate to the job of integrating
-information on the Web.
+Social and professional networking is done in a non-distributed way.  Someone 
+who wants to share their professional or personal information signs up for a web 
+service (common ones today include Facebook and LinkedIn.  Others have come and gone,
+and more will probably appear as time goes on), creates an account that they have control of, and 
+they provide data, in the 
+form of daily updates, photos, tags of places they've  been and people they've been with, 
+projects they have started or completed, jobs they have done, etc.  This data is 
+published for their friends and colleagues, and indeed perfect strangers, to 
+search and view. 
 
-The Semantic Web doesn't make data smart because smart data isn't what
-the Semantic Web needs. The Semantic Web just needs to get the right
-data to the right place so the smart applications can do their work. So
-the question to ask is not ``How can we make the Web architecture
-smarter?'' but ``What can the Web architecture provide to improve the
-consistency and availability of Web data?''
+In these cases, the service they signed up for owns the data, and can use it for 
+various purposes.  Most people have experienced the eerie effect of having mentioned
+something in a social network, only to find a related advertisement appear on their
+page the following day. 
 
-\subsection{Connected data is smarter data}
+Advertising is a lucrative but mostly harmless use of this data.  In 2018, it 
+was discovered that data from Facebook for millions of users had been used 
+to influence a number of high-profile elections around the world, including the 
+US presidential election of 2016 and so-called "Brexit" referendum in 
+UK\footnote{https://www.cnbc.com/2018/04/10/facebook-cambridge-analytica-a-timeline-of-the-data-hijacking-scandal.html}.  Many
+users were surprised that this could happen; they shared their data in a centralized
+repository over which they had no control.  
 
-Even in the face of intelligent applications, disconnected data result
-in dumb behavior. But the Web data don't have to be smart; that's the
-job of the applications. So what can we realistically and productively
-expect from the data in our Web applications? In a nutshell, we want
-data that don't
+This example shows the need for a balance of control - yes, I want to share my
+data in the examples of Section~\ref{webdata}, and I want to share it with 
+certain people but not with others (as is the case in this section). How can
+we manage both of these desires?  This is a problem of distributed data; I need
+to keep data to myself if I want to control it, but it has to connect to data
+around the world to satisfy the reasons why I publish it in the first place. 
 
-surprise us with inconsistencies that make us want to say, ``This
-doesn't make sense!'' We don't need a smart Web infrastructure, but we
-need a Web infrastructure that lets us connect data to smart Web
-applications so that the whole Web experience is enhanced. The Web seems
-smarter because smart applications can get the data they need.
 
-In the example of the hotels in the national park, we'd like there to be
-coordination between the two web pages so that an update to the location
-of hotels would be reflected in the list of hotels at any particular
-location. We'd like the two sources to stay synchronized; then we won't
-be surprised at confusing and inconsistent conclusions drawn from
-information taken from different pages of the same site.
+\subsection{Learning from Data}
 
-In the mapping example, we'd like the data from the conference web site
-and the data from the hotels web site to be automatically understandable
-to the mapping web site. It shouldn't take interpretation by a human
-user to move information from one site to the other. The mapping web
-site already has the smarts it needs to find shortest routes (taking
-into account details like toll roads and one-way streets) and to
-estimate the time required to make the trip, but it can only do that if
-it knows the correct starting and endpoints.
+Data Science has become one of the most productive ways to make business predictions,
+and is used across many industries, to make predictions for marketing, demand, 
+evaluation of risk, and many other settings in which it is productive to be 
+able to predict how some person will behave or how well some product will perform. 
 
-We'd like the astronomy web site to update consistently. If we state
-that Pluto is no longer a planet,
+Banking provides some simple examples.  A bank is in the business of making loans, 
+sometimes mortgages for homeowners, or automobile loans, small-business loans etc. 
+As part of the loan application process, the bank learns a good deal about the 
+borrower.  Most banks have been making loans for many decades, and have plenty of data
+about the eventual disposition of these loans (e.g., were they defaulted?  Did they pay off 
+early?  Were they refinanced?) By gathering large amounts of this data, machine learning techniques can 
+predict the eventual disposition of a loan based on information gathered at the outset. 
+This, in turn, allows the bank to be more selective in the loans it makes, allowing it 
+to be more effective in its market. 
 
-the list of planets should reflect that fact as well. This is the sort
-of behavior that gives a reader confidence that what they are reading
-reflects the state of knowledge reported in the web site, regardless of
-how they read it.
+This basic approach has been applied to marketing (identifying more likely sales leads), product development
+(identifying which features will sell best), customer retention (identifying problems before 
+they become too severe to deal with), medicine (identifying diseases based on patterns in 
+images and blood tests), route planning (finding best routes for airplanes), sports (deciding which 
+players to use at what time), and many other high-profile applications. 
 
-None of these things is beyond the reach of current information
-technology. In fact, it is not uncommon for programmers and system
-architects, when they first learn of the Semantic Web, to exclaim
-proudly, ``I implemented something very like that for a project I did a
-few years back. We used.'' Then they go on to explain how they used some
-conventional, established technology such as relational databases, XML
-stores, or object stores to make their data more connected and
-consistent. But what is it that these developers are building?
+In all of these cases, success relied on the availability of meaningful data.  In the case of marketing, sales and 
+manufacturing applications, the data comes from a single source, that is, the sales behavior of the customers 
+of a single company.  In the case of sports, the statistical data for the sport has been normalized
+by sports fans for generations.  The data is already aligned into a single representation. This is an important
+step that allows machine learning algorithms to generalize the data. 
 
-What is it about managing data this way that made it worth their while
-to create a whole subsystem on top of their base technology to deal with
-it? And where are these projects two or more years later? When those
-same developers are asked whether they would rather have built a
-flexible, distributed, connected data model support system themselves
-than have used a standard one that someone else optimized and supported,
-they unanimously chose the latter. Infrastructure is something that one
-would rather buy than build.
+The only example in this list where the data is distributed is medicine, where diagnoses come 
+from hospitals and clinics from around the world.  This is not an accident; in the case of medicine, 
+disease and treatment codes have been in place for decades to align data from multiple sources. 
+
+How can we extend the successful example of machine learning in medicine, to take 
+our machine learning successes from the enterprise level to the industrial level in other industries? 
+We need a way to link together data that is distributed throughout an industry. 
+
+
+
 
 \section{Semantic Data}
 
-In the Mongotel example, there is a list of hotels at the national park
-and another list of locations for hotels. The fact that these lists are
-intended to represent the presence of a hotel at a certain location is
-not explicit anywhere; this makes it difficult to maintain consistency
-between the two representations. In the example of the conference venue,
-the address appears only as text typeset on a page so that human beings
-can interpret it as an address. There is no explicit representation of
-the notion of an address or the parts that make up an address. In the
-case of the astronomy web page, there is no explicit representation of
-the status of an object as a planet. In all of these cases, the data
-describe the presentation of information rather than describe the
-entities in the world.
+In the restaurant example, we had data (opening hours) published so that they 
+can be read by the human eye, but our automated assistant can't read them.  One solution 
+would be to develop sophisticated algorithms that can read web pages and figure out
+the opening hours based on what it sees there.  But the restaurant owner knows the hours, 
+and wants prospective patrons to find them, and for them to be accurate.  Why should 
+a restaurant owner rely on some third party to facilitate communication to their customers?  
 
-Could it be some other way? Can an application organize its data so that
-they provide an integrated description of objects in the world and their
-relationships rather than their presentation? The answer is ``yes,'' and
-indeed it is common good practice in web site design to work this way.
-There are a number of well-known approaches.
+A scientific paper that reports on an experimental finding has a very specific audience;
+other researchers who need to know about that compound and how it reacts in certain circumstances. 
+It behooves both the author and the reader to match these up.  Once again, the author does not
+want to rely on someone else to communicate their value. 
 
-One common way to make Web applications more integrated is to back them
-up with a relational database and generate the web pages from queries
-run against that database. Updates to the site are made by updating the
-contents of the database. All web pages that require information about a
-particular data record will change when that record changes, without any
-further action required by the Web maintainer. The database holds
-information about the entities themselves, while the relationship
-between one page and another (presentation) is encoded in the different
-queries.
+This story repeats at every level; a bank has more control over its own instruments if it 
+can communicate their terms in a clear and unambiguous way (to partners or regulators)
+The IAU's charter is to keep the astronomical community informed about developments in 
+observations and classifications.  Your dentist wants their patients to be able to find them. 
 
-Consider the case of the national parks and hotel. If these pages were
-backed by the same database, the national park page could be built on
-the query ``Find all hotels with location = national park,'' and the
-hotel page could be built on the query ``Find all hotels from chain =
-Mongotel.'' If Mongotel has a location at the national park, it will
-appear on both pages; otherwise, it won't appear at all. Both pages will
-be consistent. The difficulty in the example given is that it is
-organizationally very unlikely that there could be a single database
-driving both of these pages, since one of them is published and
-maintained by the National Park Service and the other is managed by the
-Mongotel chain.
+The unifying theme in all of these examples is a move from a presentation of information 
+for a specific audience, requiring interpretation from a human being to an exchange of data
+between machines.  Instead of relying on human intuition just in the interpretation of the
+data, we meet half-way; have data providers make it easier to consume the data.  We take advantage of 
+the desire to share data, to make it easier to consume. 
 
-The astronomy case is very similar to the hotel case, in that the same
-information (about the classification of various astronomical bodies) is
-accessed from two different places, ensuring consistency of information
-even in the face of diverse presentation. It differs in that it is more
-likely that an astronomy club or university department might maintain a
-database with all the currently known information about the solar
-system.
-
-In these cases, the Web applications can behave more robustly by adding
-an organizing query into the Web application to mediate between a single
-view of the data and the presentation. The data aren't any less dumb
-than before, but at least what's there is centralized, and the
-application or the web pages can be made to organize the data in a way
-that is more consistent for the user to view. It is the web page or
-application that behaves smarter, not the data. While this approach is
-useful for supporting data consistency, it doesn't help much with the
-conference mapping example.
-
-Another approach to making Web applications a bit smarter is to write
-program code in a general- purpose language (e.g., C, Perl, Java, Lisp,
-Python, or XSLT) that keeps data from different places up to date. In
-the hotel example, such a program would update the National Park web
-page whenever a change is made to a corresponding hotel page. A similar
-solution would allow the planet example to be more consistent. Code for
-this purpose is often organized in a relational database application in
-the form of stored procedures; in XML applications, it can be affected
-using a transformational language like XSLT.
-
-These solutions are more cumbersome to implement since they require
-special-purpose code to be written for each linkage of data, but they
-have the advantage over a centralized database that they do not require
-all the publishers of the data to agree on and share a single data
-source. Furthermore, such approaches could provide a solution to the
-conference mapping problem by transforming data from one source to
-another. Just as in the query/presentation solution, this solution does
-not make the data any smarter; it just puts an informed infrastructure
-around the data, whose job it is to keep the various data sources
-consistent.
-
-The common trend in these solutions is to move away from having the
-presentation of the data (for human eyes) be the primary representation
-of the data; that is, they move from having a web site be a collection
-of pages to having a web site be a collection of data, from which the
-web page presentations are generated. The application focuses not on the
-presentation but on the subjects of the presentation. It is in this
-sense that these applications are semantic applications; they explicitly
-represent the relationships that underlie the application and generate
-presentations as needed.
+Instead of thinking of each data source as a single point that is communicating one thing 
+to one person, it is a multi-use part of an interconnected network of data.   Human users and 
+machine applications that want to make use of this data collaborate with data providers, taking 
+advantage of the fact that it is profitable to share your data.
 
 \subsection{A distributed web of data}
 
+
+
+
 The Semantic Web takes this idea one step further, applying it to the
-Web as a whole. The current Web architecture supports a distributed
-network of web pages that can refer to one another with global links
-called Uniform Resource Locators (URLs). As we have seen, sophisticated
-web sites replace this structure locally with a database or XML backend
-that ensures consistency within that page.
+Web as a whole. The Web architecture we are familiar with supports a distributed
+network of hypertext pages that can refer to one another with global links
+called Uniform Resource Locators (URLs). 
 
 The main idea of the Semantic Web is to support a distributed Web at the
 level of the data rather than at the level of the presentation. Instead
-of having one web page point to another, one data item can point to
+of just having one web page point to another, one data item can point to
 another, using the same global references that web pages use -- Uniform
-Resource Identifiers (URIs). The Web infrastructure provides a data
-model whereby information about a single entity can be distributed over
-the Web. This distribution allows the Mongotel example and the
-conference hotel example to work like the astronomy example, even though
-the information is distributed over web sites controlled by more than
-one organization. The single, coherent data model for the application is
-not held inside one application but rather is part of the Web
-infrastructure. When Mongotel publishes information about its hotels and
-their locations, it doesn't just publish a human-readable presentation
+Resource Identifiers (URIs).   When Mongotel publishes information about its hotels and
+their locations, or when Copious publishes its opening hour, they don't
+just publish a human-readable presentation
 of this information but instead a distributable, machine-readable
 description of the data. The data model that this distributed Web of
 Data infrastructure uses to represent this distributed web of data is
-called the Resource Description Framework (RDF) and is the topic of
-Chapter 3.
+called the \emph{Resource Description Framework} (RDF) and is the topic of
+Chapter~\ref{ch3}.  
 
 This single, distributed data model is the first and core contribution
 that the Semantic Web infrastructure brings to a smarter Web. Just as is
@@ -322,7 +305,6 @@ say \textbf{A}nything about \textbf{A}ny topic.''
 In a web of hypertext, the AAA slogan means that anyone can write a page
 saying whatever they please and publish it to the Web infrastructure. In
 the case of the Semantic Web, it means that our
-
 architecture has to allow any individual to express a piece of data
 about some entity in a way that can be combined with data from other
 sources. This requirement sets some of the foundation for the design of
@@ -396,10 +378,10 @@ interest in Semantic Web technology itself. As more and more data are
 available in RDF form, it becomes more useful to write applications that
 utilize this distributed data. Already there are several large, public
 data sources available in RDF, including an RDF image of Wikipedia
-
 called dbpedia, and a surprisingly large number of government datasets.
 Small retailers publish information about their offerings using a
-Semantic Web format called RDFa. Facebook allows content managers to
+Semantic Web format called RDFa, using a shared description framework called Schema.org (Section~\ref{schema.org}). 
+Facebook allows content managers to
 provide structured data using RDFa and a format called the Open Graph
 Protocol. The presence of these sorts of data sources makes it more
 useful to produce data in linked form for the Semantic Web. The Semantic
@@ -503,7 +485,7 @@ on a single ontology--- but that just isn't the way the Web works. The
 Semantic Web isn't about getting everyone to agree, but rather about
 coping in a world where not everyone will agree and achieving some
 degree of interoperability anyway. In the data themselves too we may
-find disagreement for instance the numbers of casualties in a conflict
+find disagreement; for instance the numbers of casualties in a conflict
 may be reported on the Web of data with very different values from the
 involved parties. There will always be multiple ontologies and diverging
 statements, just as there will always be multiple web pages on any given

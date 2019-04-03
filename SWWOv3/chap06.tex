@@ -453,7 +453,7 @@ two triples:
 
 Since the variable \texttt{?what} appears in both triples, the graph pattern is
 joined at that point. We can draw a graph pattern the same way we draw a
-graph. Figure 5.3 shows this graph pattern. There are two triples in the
+graph. Figure~\ref{fig:ch6.3} shows this graph pattern. There are two triples in the
 pattern and two triples in the diagram.
 
 This graph pattern has two question words, so the query engine will find
@@ -591,7 +591,7 @@ WHERE {:JamesDean :playedIn ?movie .
 \hline
 \end{tabular}
 
-Figure~\ref{fig:ch5.4} shows a fragment of the data graph, and the graph pattern,
+Figure~\ref{fig:ch6.4} shows a fragment of the data graph, and the graph pattern,
 with the result for the question word \texttt{?actress} indicated in the third
 `column' of the figure. Notice that Rock Hudson is not a match; while he
 indeed played in \emph{Giant}, there is no match for the third triple,
@@ -1107,7 +1107,7 @@ actors who lived on by adding a FILTER to the query, as follows:
 SELECT ?actor
 WHERE { ?actor :playedIn :Giant ;
                :diedOn ?deathdate . 
-        FILTER (?deathdate  "1961-11-24"^{^{xsd:date) }
+        FILTER (?deathdate  < "1961-11-24"^^xsd:date) }
 \end{lstlisting}
 
 \textbf{\textbf{Answer:}}
