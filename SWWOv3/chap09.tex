@@ -1496,9 +1496,11 @@ p:Product7 owl:sameAs mfg:Product5 .
 p:Product8 owl:sameAs mfg:Product8 .
 \end{lstlisting}
 
-Now if we match the following SPARQL graph pattern:
+Now if we run the following SPARQL query:
 
 \begin{lstlisting}
+SELECT ?location ?facility 
+WHERE
 {?p p:Product_Facility ?facility.
  ?p mfg:Product_Manufacture_Location ?location.}
 \end{lstlisting}
@@ -1510,12 +1512,13 @@ This solution has addressed the challenge for the particular data in the
 example, but the solution relied on the fact that we knew which product
 from one table matched with which product from another table. But
 \texttt{owl:sameAs} only solves part of the problem. In real data situations, in
-which the data in the tables change
+which the data in the tables change  frequently, it is not practical to assert all the \texttt{owl:sameAs} triples by
+hand. In the next section, we will see how
+RDFS-Plus provides a solution to the rest of the challenge.
 
 \begin{table}
-\label{tab:ch9.3}
 \caption{Locations Cross-Referenced with Facilities, Computed via
-Products}
+Products\label{tab:ch9.3}}
 \begin{tabular}{|ll|}
 \hline
 ?location&?facility\\
@@ -1530,9 +1533,7 @@ Cleveland&Machine Shop \\
 \end{tabular}
 \end{table}
 
-frequently, it is not practical to assert all the \texttt{owl:sameAs} triples by
-hand. In the next section, we will see how
-RDFS-Plus provides a solution to the rest of the challenge.
+
 
 \section{Computing Sameness: Functional Properties}
 
@@ -1649,7 +1650,7 @@ WHERE {?p a owl:InverseFunctionalProperty .
        ?b ?p ?x . }
 \end{lstlisting}
 
-For example, if we define a property buriedAt to be sufficiently
+For example, if we define a property \texttt{buriedAt} to be sufficiently
 specific that we cannot have two people buried at the same location,
 then we can declare it to be an \texttt{owl:InverseFunctionalProperty}. If we
 were then to have two triples that assert
@@ -1671,12 +1672,12 @@ by two entities, just as a key field may not be
 duplicated in more than one row. Unlike the case of a relational
 database, RDFS-Plus does not signal an error if two entities are found
 to share a value for an inverse functional property. Instead, RDFS-Plus
-infers that the two entities must be the same. Because of the nonunique
+infers that the two entities must be the same. Because of the non-unique
 naming assumption, we cannot tell that two entities are distinct just by
 looking at their URIs.
 
 Examples of inverse functional properties are fairly commonplace; any
-identifying number (Social Security number, employee number, driver's
+identifying number (Social Security Number, employee number, driver's
 license number, serial number, etc.) is an inverse functional property.
 In some cases, full names are inverse functional properties, though in
 most applications, duplicate names (is it the same John Smith?) are
@@ -1795,8 +1796,16 @@ elaborate notions of identity that include multiple properties as well
 as uncertainty (what about that one freak day when two babies were born
 the same minute and the same second at the same hospital?). This problem
 can often be solved by using combinations of OWL properties that we will
-explore in Section~\ref{mIVP}, although a fully general solution remains a
-topic of research.
+explore in Section~\ref{mIFP}.  
+
+While OWL provides some capabilities for determining whether two individuals are 
+the same, this is not really the job of a semantic web model.  With the 
+availability of statistical models and deep learning models, there is an 
+abundance of approaches to determining whether two references refer to the
+same thing.  The power of the semantic web isn't that it has a better, or even 
+a very good, way to determine this.  The semantic web provides a precise and 
+distributed way to record such a fact, once it has been determined, so that it 
+can be used in other situations. 
 
 \subsection{Combining functional and inverse functional properties}
 

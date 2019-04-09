@@ -377,7 +377,7 @@ the former name.
 FIBO makes a compromise solution to this problem.  It retains the old URI (since 
 other datasets might refer to it), but marks it as ``deprecated''.  Furthermore, it 
 establishes the connection from the deprecated URI to the new one, 
-using \texttt{owl:equivalentClass}.  Finally, any supplemental infomormation
+using \texttt{owl:equivalentClass}.  Finally, any supplemental information
 (definitions, restrictions, inverses, etc.) are moved to the new URI.  In the case of 
 this example, this results in the following triples: 
 
@@ -435,7 +435,7 @@ examples in this book: lit:Playwright.
 
 
 \subsection{Keeping track of classes and individuals}
-
+\label{metamodel}
 One of the greatest challenges when designing a semantic model is
 determining when something should be modeled as a class and when it
 should be modeled as an individual. This issue arises especially when
@@ -471,8 +471,8 @@ natural languages, we don't have to be specific about which
 relationships we mean. This is a drawback of using competency questions
 in natural language: The question ``What are the types of literary
 works?'' could be interpreted as a request for the individuals who are
-members of the class LiteraryWork, or it could be asking for the
-subclasses (types) of the class LiteraryWork. Either way of modeling
+members of the class \texttt{LiteraryWork}, or it could be asking for the
+subclasses (types) of the class \texttt{LiteraryWork}. Either way of modeling
 this could be considered a response to the question.
 
 Although there is no hard and fast rule for determining whether
@@ -523,14 +523,15 @@ More important, in the distributed setting
 of the Semantic Web, we have to be able to determine (by analyzing the inferences that
 the model entails) whether the model maintains consistent answers to possible
 competency questions from multiple sources. We can also determine test
-cases for the model and bases of unit tests that can be rerun every time the model evolves.. This is particularly important when reusing a
+cases for the model and bases of unit tests that can be rerun every time the model evolves. 
+This is particularly important when reusing a
 model. How does the model perform (i.e., what inferences can we draw
 from it?) when it is faced with information that is not explicitly in
 the scope of its design? In the analysis to follow, we will refer
 generally to model tests---ways you can determine if the model satisfies
 its intent.
 
-\section{COMMON MODELING ERRORS}
+\section{Common Modeling Errors}
 
 In light of the AAA slogan (Anybody can say Anything about Any topic),
 we can't say that anything is really a modeling error. In our experience
@@ -642,16 +643,16 @@ None of the inference patterns we have learned for OWL or RDFS applies
 here. In particular, there is no inference of the form
 
 \begin{lstlisting}
-:Playwrights :wrote :ElizabethanPlays.
+:Playwrights :wrote :ElizabethanPlays .
 \end{lstlisting}
 
 Another test criterion that this model might be expected to pass is
 whether it can distinguish between plays and types of plays. We do have
 some plays and types of plays in this model: \emph{The Tempest} is a play, and
-Elizabethan play and modern play are types of plays. The model cannot
+\texttt{Elizabethan play} and \texttt{modern play} are types of plays. The model cannot
 distinguish between these two cases. Any query that returns \emph{The Tempest}
-(as a play) will also return modern plays. Any query that returns
-Elizabethan play (as a type of play) will also return \emph{The Tempest}. The
+(as a play) will also return \texttt{modern plays}. Any query that returns
+\texttt{Elizabethan play} (as a type of play) will also return \emph{The Tempest}. The
 model has not made enough distinctions to be responsive to this
 criterion.
 
@@ -666,14 +667,14 @@ statement, when made about sets, is nonsense. The OWL inference
 semantics bear this out: The statement has no meaning, so no inferences
 can be drawn. \texttt{TheTempest} is modeled here as a class, even though there
 is no way to imagine what its instances might be; it is a play, not a
-set. Plays are written by people (and have opening dates, etc.), sets do
+set. Plays are written by people (and have opening dates, etc.), sets are
 not.
 
 Similar comments can be made about a statement like ``Poets wrote
 poems.'' If triples like:
 
 \begin{lstlisting}
-:Poets :wrote :Poems.
+:Poets :wrote :Poems .
 \end{lstlisting}
 
 aren't meaningful, how should we render the intuition reflected by the

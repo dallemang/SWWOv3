@@ -354,8 +354,8 @@ in class C. So, if My Favorite All Star Team is restricted to all players being 
 \begin{lstlisting}
 MyFavoriteAllStarTeam a BaseballTeam ;
                       a [ owl:Restriction ;
-		          owl:onProperty :hasPlayer ;
-			  owl:allValuesFrom :StarPlayer ] ;
+		                  owl:onProperty :hasPlayer ;
+		             	  owl:allValuesFrom :StarPlayer ] ;
                       :hasPlayer :Kaneda, :Gonzales .
 * :Gonzales a :StarPlayer .
 * :Kaneda a :StarPlayer .
@@ -378,7 +378,7 @@ to be a member of \texttt{AnsweredQuestion}.
 
 
 
-There is a subtle difference between someValuesFrom and \texttt{allValuesFrom}.
+There is a subtle difference between \texttt{someValuesFrom} and \texttt{allValuesFrom}.
 Since
 \texttt{someValuesFrom} is defined as a restriction class such that there is at
 least one member of a class with a particular property, then it implies
@@ -911,13 +911,13 @@ Suppose further that we say
 
 \begin{lstlisting}
 :Jen a :Vegetarian ;
-     :eats :Marzipan .
+     :eats :Hummus .
 \end{lstlisting}
 
 We would like to be able to infer that
 
 \begin{lstlisting}
-:Marzipan a :VegetarianFood .
+:Hummus a :VegetarianFood .
 \end{lstlisting}
 
 but not make the corresponding inference for Maverick's steak until
@@ -980,13 +980,13 @@ we can conclude that
 Combined with the fact that
 
 \begin{lstlisting}
-:Jen :eats :Marzipan .
+:Jen :eats :Hummus .
 \end{lstlisting}
 
 we can conclude that
 
 \begin{lstlisting}
-:Marzipan a:VegetarianFood .
+:Hummus a:VegetarianFood .
 \end{lstlisting}
 
 as desired. How does Maverick fare now? We won't say that he is a
@@ -1257,7 +1257,7 @@ implementation of the pattern is simple---it is a single \texttt{hasValue}
 restriction on some property. The interpretation of it is that we are
 describing the relationship of an individual to a set---this is the set
 of all things that relate to this individual in a certain way. We will
-see the importance of this pattern for metamodeling in Chapter~\ref{ch15}.
+see the importance of this pattern for metamodeling in Section~\ref{mdetamodel}.
 
 \begin{figure}
 \centering
@@ -1268,7 +1268,7 @@ see the importance of this pattern for metamodeling in Chapter~\ref{ch15}.
 
 
 
-\section{CHALLENGE Relationship transfer}
+\subsection{Relationship transfer}
 
 When mapping from one model to another, or even when specifying how one
 part of a model relates to another, it is not uncommon to make a
@@ -1286,14 +1286,16 @@ individuals who are in that group, and that same group G, which is
 related to an \texttt{owl:Class} by the \texttt{foaf:membershipClass} property. We take an
 example from the life of Shakespeare to illustrate this.
 
+
+
 Suppose we define a \texttt{foaf:Group} for \texttt{Shakespeares\_Children}, as follows:
 
 \begin{lstlisting}
-b:Shakespeares_Children a foaf:Group ;
+lit:Shakespeares_Children a foaf:Group ;
               foaf:name "Shakespeare's Children" ;
-              foaf:member b:Susanna, b:Judith, b:Hamnet ;
+              foaf:member lit:Susanna, lit:Judith, lit:Hamnet ;
 	      foaf:membershipClass b:ChildOfShakespeare .
-b:ChildOfShakespeare a owl:Class .
+lit:ChildOfShakespeare a owl:Class .
 \end{lstlisting}
 
 
@@ -1310,9 +1312,9 @@ FOAF specifies that the following rule should hold:
 
 \begin{lstlisting}
 IF
-   b:Shakespeares_Children foaf:member ?x
+   lit:Shakespeares_Children foaf:member ?x
 THEN
-   ?x rdfs:type b:ChildOfShakespeare
+   ?x rdfs:type lit:ChildOfShakespeare
 \end{lstlisting}
 
 Figure~\ref{fig:ch12.11} shows graphically the result of this rule in the case of
@@ -1320,7 +1322,7 @@ Shakespeare's family. The fine lines represent asserted triples, and the
 three bold lines represent the triples that are to be inferred.
 
 
-\begin{challenge} {Relationship Transfer in FOAF}
+\begin{challenge}{Relationship Transfer in FOAF}
 \label{chal:26}
 
 How can we get the inferences shown in Figure\ref{fig:ch12.11} by using only the
@@ -1328,26 +1330,25 @@ constructs from OWL (i.e., without special- purpose rules)?
 
 \solution
 
-The solution parallels the solution for relationship transfer in SKOS,
-but in this case, the relationship we are transferring to is \texttt{rdf:type}.
-We begin as we did in that example---by defining an inverse of
-\texttt{foaf:member}:
+For this solution, we are going to define a restriction on a property that points from a member to the \texttt{foaf:Group} it belongs to.  But \texttt{foaf:member} points the wrong way; from the \texttt{Group} to 
+the \texttt{member}.  So 
+will need to be able to refer to the inverse of \texttt{foaf:mamber}, which we will call \texttt{lit:memberOf}:
 
 \begin{lstlisting}
-b:memberOf owl:inverseOf foaf:member .
+lit:memberOf owl:inverseOf foaf:member .
 \end{lstlisting}
 
 Now we can define \texttt{ChildOfShakespeare} to be (equivalent to) the class of
 all individuals who are
-\texttt{b:memberOf} \texttt{b:Shakespeares\_Children}, using an \texttt{owl:hasValue} restriction:
+\texttt{lit:memberOf} \texttt{lit:Shakespeares\_Children}, using an \texttt{owl:hasValue} restriction:
 
 \begin{lstlisting}
-b:ChildOfShakespeare a owl:Class ;
+lit:ChildOfShakespeare a owl:Class ;
           rdfs:label "Child of Shakespeare" ;
           owl:equivalentClass
              [ a owl:Restriction ;
-               owl:hasValue b:Shakespeares_Children ;
-               owl:onProperty b:memberOf
+               owl:hasValue lit:Shakespeares_Children ;
+               owl:onProperty lit:memberOf
              ] .
 \end{lstlisting}
 
@@ -1355,44 +1356,45 @@ Let's follow the progression of Shakespeare's children through this
 inference. From Figure~\ref{fig:ch12.11}, we begin with three triples:
 
 \begin{lstlisting}
-b:Shakespeares_Children foaf:member b:Hamnet.
-b:Shakespeares_Children foaf:member b:Judith.
-b:Shakespeares_Children foaf:member b:Susanna.
+lit:Shakespeares_Children foaf:member lit:Hamnet.
+lit:Shakespeares_Children foaf:member lit:Judith.
+lit:Shakespeares_Children foaf:member lit:Susanna.
 \end{lstlisting}
 
 By the semantics of \texttt{owl:inverseOf}, we can infer
 
 \begin{lstlisting}
-b:Hamnet b:memberOf b:Shakespeares_Children .
-b:Judith b:memberOf b:Shakespeares_Children .
-b:Susanna b:memberOf b:Shakespeares_Children .
+* lit:Hamnet lit:memberOf lit:Shakespeares_Children .
+* lit:Judith lit:memberOf lit:Shakespeares_Children .
+* lit:Susanna lit:memberOf lit:Shakespeares_Children .
 \end{lstlisting}
 
 Therefore, all three are also members of the restriction defined
 previously, so we can conclude that
 
 \begin{lstlisting}
-* b:Hamnet rdf:type b:ChildOfShakespeare.
-* b:Judith rdf:type b:ChildOfShakespeare.
-* b:Susanna rdf:type b:ChildOfShakespeare.
+* lit:Hamnet rdf:type lit:ChildOfShakespeare.
+* lit:Judith rdf:type lit:ChildOfShakespeare.
+* lit:Susanna rdf:type lit:ChildOfShakespeare.
 \end{lstlisting}
 
 Following similar reasoning, we can also turn this inference around
 backward; if we instead assert that
 
 \begin{lstlisting}
-b:Hamnet rdf:type b:ChildOfShakespeare .
-b:Judith rdf:type b:ChildOfShakespeare .
-b:Susanna rdf:type b:ChildOfShakespeare .
+lit:Hamnet rdf:type lit:ChildOfShakespeare .
+lit:Judith rdf:type lit:ChildOfShakespeare .
+lit:Susanna rdf:type lit:ChildOfShakespeare .
 \end{lstlisting}
 
 we can infer that
 
 \begin{lstlisting}
-* b:Shakespeares_Children foaf:member b:Hamnet .
-* b:Shakespeares_Children foaf:member b:Judith .
-* b:Shakespeares_Children foaf:member b:Susanna .
+* lit:Shakespeares_Children foaf:member lit:Hamnet .
+* lit:Shakespeares_Children foaf:member lit:Judith .
+* lit:Shakespeares_Children foaf:member lit:Susanna .
 \end{lstlisting}
+
 \end{challenge}
 
 \section{Alternative Descriptions of Restrictions}

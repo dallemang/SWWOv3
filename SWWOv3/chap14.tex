@@ -206,12 +206,12 @@ this relationship is defined as
 
 \begin{lstlisting}
 qudt:Unit a owl:Class ;
-   rdfs:subClassOf
-       [ a owl:Restriction ;
-         owl:allValuesFrom qudt:QuantityKind ;
-         owl:onProperty qudt:quantityKind
-       ] .
-qudt:quantityKind a owl:ObjectProperty .
+  rdfs:subClassOf [
+      rdf:type owl:Restriction ;
+      owl:allValuesFrom qudt:QuantityKind ;
+      owl:onProperty qudt:hasQuantityKind ;
+    ] ;
+qudt:hasQuantityKind a owl:ObjectProperty .
 qudt:QuantityKind a owl:Class .
 \end{lstlisting}
 
@@ -220,7 +220,7 @@ As an example of units and quantity, let's have a look at feet and
 length:
 
 \begin{lstlisting}
-vocab-units:Foot a qudt:Unit ;
+unit:Foot a qudt:Unit ;
       qudt:quantityKind vocab-quantities:Length .
 \end{lstlisting}
 
@@ -228,7 +228,7 @@ Following along as in the example of this pattern from Section~\ref{lror}, from
 these triples we can infer that
 
 \begin{lstlisting}
-vocab-quantities:Length a qudt:QuantityKind .
+quantitykind:Length a qudt:QuantityKind .
 \end{lstlisting}
 
 QUDT includes a comprehensive list of units and quantities from many
@@ -237,9 +237,8 @@ informatics, and biology. It organizes its namespaces in a modular
 way---as we saw in this example, resources that describe how units work
 (like the resources \texttt{qudt:QuantityKind} and \texttt{qudt:Unit}) are in the \texttt{qudt:}
 namespace, while particular quantities and units (like
-vocab-\texttt{quantities:Length} and vocab-\texttt{units:Foot}) are in namespaces whose
-names begin with \text{vocab-}. These resources are so named because together
-they form controlled vocabularies; one for quantities and one for units.
+\texttt{quantityknd:Length} and \texttt{unit:FT}) are in specific namespaces
+for quantity kinds and units, respectively. 
 These resources resolve the first function of the QUDT vocabulary, that
 is, they provide unambiguous reference URIs for all the units and
 quantities in QUDT.
@@ -258,42 +257,27 @@ sense to consider a conversion between the two. Seconds and degrees
 Fahrenheit do not measure the same thing; it is not meaningful to
 convert from one to another.
 
-Usually we can tell if two units are commensurate if they measure the
-same quantity kind, but in some cases, certain different quantity kinds
-are in fact commensurate. These are important situations, in that they
-usually reflect a deep connection between different scientific domains.
-For example, the law of Conservation of Energy states that energy is
-preserved in an interaction---but energy can take many forms, including
-thermal energy (heat), potential energy, kinetic energy, and others.
-Measurements of all these kinds are commensurate. QUDT represents this
-situation with a tree structure using a property called
-\texttt{qudt:generalization}. In particular,
-
-\begin{lstlisting}
-vocab-quantities:KineticEnergy qudt:generalization vocab-quantities:EnergyAndWork .
-vocab-quantities:PotentialEnergy qudt:generalization vocab-quantities:EnergyAndWork .
-vocab-quantities:ThermalEnergy qudt:generalization vocab-quantities:EnergyAndWork .
-\end{lstlisting}
-
-This means that we can query for whether two units are commensurate with
+In QUDT, we can tell if two units are commensurate if they measure the same
+kind of quantity.  This is represented in QUDT with a \texttt{QuantityKind}.  
+This means that we can query for whether two units, say feet and meters,  are commensurate with
 the following SPARQL
 query:
 
 \begin{lstlisting}
 ASK WHERE {
-?arg1 qudt:quantityKind ?kind1 .
-?arg2 qudt:quantityKind ?kind2 .
-?kind1 qudt:generalization* ?kind .
-?kind2 qudt:generalization* ?kind .
+     unit:M qudt:hasQuantityKind ?kind .
+     unit:FT qudt:hasQuantityKind ?kind .
+}
 \end{lstlisting}
+
 
 That is, \texttt{?arg1} and \texttt{?arg2} are commensurate, if their associated quantity
 kinds are related to a common ancestor in the \texttt{qudt:generalization} tree.
 Recall that \texttt{qudt:generalization}* will match zero or more repeated
-occurrences of \texttt{qudt:generalization}, so that if \texttt{?kind1} and \texttt{?kind2} are the
-same thing (e.g,. Length), they will match; this means that the query
-will return true for \texttt{?arg1} bound to \texttt{vocab-units:Foot} and \texttt{?arg2} bound to
-\texttt{vocab-units:Meters}. It will also return true for
+occurrences of \texttt{qudt:generalization}, so that if there is a single value for  \texttt{?kind} 
+for both arguments (e.g,. Length), they will match; this means that the query
+will return true for \texttt{?arg1} bound to \texttt{unit:FT} (foot) and \texttt{?arg2} bound to
+\texttt{unit:M} (meter). It will also return true for
 \texttt{vocab-quantities:PotentialEnergy} and \texttt{vocab-quantities:ThermalEnergy},
 because they both have a common generalization,
 \texttt{vocab-quantities:EnergyAndWork}.

@@ -340,11 +340,14 @@ how a term in one vocabulary relates to a term in another.
 SKOS provides a handful of matching properties exactly for this purpose:
 
 \begin{lstlisting}
-skos:exactMatch skos:narrowMatch skos:broadMatch skos:closeMatch
+skos:exactMatch
+skos:narrowMatch 
+skos:broadMatch 
+skos:closeMatch
 \end{lstlisting}
 
 The relationship between these properties and other SKOS properties is
-shown in Figure 10.2. The idea of these mapping relations is that we can
+shown in Figure~\ref{fig:ch10.2}. The idea of these mapping relations is that we can
 express relationships between terms in different
 vocabularies. We have already seen the AGROVOC concept \texttt{c\_7030}
 (``Sheep''). In the United States, the National Agriculture Library
@@ -358,7 +361,7 @@ NAL:38846 skos:exactMatch AGROVOC:c_7030 .
 
 The property \texttt{skos:exactMatch} doesn't have any inference-based semantics.
 To be more precise, there are no triples that we can infer from an
-exactMatch that will help us to understand what it means. It does,
+\texttt{exactMatch} that will help us to understand what it means. It does,
 however, have a conventional meaning, that the two terms can be used
 interchangeably across a wide range of information retrieval
 applications.

@@ -125,7 +125,7 @@ q:SelectedAnswer rdfs:subClassOf
 We now want to define a class of questions that we are ready to ask,
 based on two criteria: First, if they have been enabled by the
 description above and, second, if they are high priority. This is done
-with an intersectionOf contstructor:
+with an \texttt{intersectionOf} contstruction:
 
 \begin{lstlisting}
 q:CandidateQuestion owl:equivalentClass
@@ -169,12 +169,12 @@ clearer.
 Consider, for example, the following bit of dialogue:
 
 \begin{quote}
-\textbf{RIMBAUD:} I saw a James Dean movie last night. 
-\textbf{ROCKY:} Was it \emph{Giant}?
-\textbf{RIMBAUD:} No.
-\textbf{ROCKY:} Was it \emph{East of Eden}?
-\textbf{RIMBAUD}: No.
-\textbf{ROCKY:} James Dean only made three movies; it must have been \emph{Rebel Without a Cause}.
+\textbf{RIMBAUD:} I saw a James Dean movie last night. \\
+\textbf{ROCKY:} Was it \emph{Giant}?\\
+\textbf{RIMBAUD:} No.\\
+\textbf{ROCKY:} Was it \emph{East of Eden}?\\
+\textbf{RIMBAUD}: No.\\
+\textbf{ROCKY:} James Dean only made three movies; it must have been \emph{Rebel Without a Cause}.\\
 \textbf{RIMBAUD}: Yes, it was.
 \end{quote}
 
@@ -302,7 +302,7 @@ There's an old joke about the three major influences on the price of a
 piece of real estate: location, location, and location. The joke is, of
 course, that when you promised to name three influences, any reasonable
 listener expects you to give three \emph{different} influences. Because of the
-nonunique naming assumption in the Semantic Web, we have to be explicit
+non-unique naming assumption in the Semantic Web, we have to be explicit
 about these things and name things that are, in fact, different from one
 another. OWL provides \texttt{owl:differentFrom} for this. Its use is quite
 simple: To assert that one resource is different from another requires a
@@ -321,8 +321,8 @@ number of inferences when used in conjunction with other constructs like
 \begin{challenge}{Process of Elimination}
 
 Use OWL to model the dialogue between Rocky and Rimbaud so that OWL can
-draw the same inference that Rocky did---namely, that Rimbaud saw Rebel
-Without a Cause.
+draw the same inference that Rocky did---namely, that Rimbaud saw \emph{Rebel
+Without a Cause}.
 
 \solution
 
@@ -333,7 +333,7 @@ which one. He can make a guess: Perhaps it was \texttt{Giant}. If he is right, w
 can simply assert that
 
 \begin{lstlisting}
-:RimbaudsMovie owl:sameAs :Giant.
+:RimbaudsMovie owl:sameAs :Giant .
 \end{lstlisting}
 
 But what if (as was the case in the dialogue) he was wrong, and Rimbaud
@@ -601,9 +601,11 @@ only a few movies.
 \label{chal:34}
 Model this situation and conclusion in OWL.
 
+\begin{quote}
 \textbf{RIMBAUD:} How many movies do you own, then?  \\\
 \textbf{ROCKY:} Three. \\
-\textbf{RIMBAUD:} That's all of them; so you must own the one I saw last night, Rebel Without a Cause.
+\textbf{RIMBAUD:} That's all of them; so you must own the one I saw last night, Rebel Without a Cause.\\
+\end{quote}
 
 \begin{figure}
 \centering
@@ -1579,11 +1581,11 @@ that the members of one class are included in another.
 AllStarBaseballPlayer&$\equiv$ playsFor some AllStarBaseballTeam \\
 AllStarBaseballTeam&$\equiv$ BaseballTeam $\cap$ AllStarTeam \\
 AllStarPlayer&$\equiv$ playsFor some AllStarTeam  \\
-AllStarTeam&$\subseteq$ Employs some AllStarPlayer \\ 
+AllStarTeam&$\subseteq$ Employs only AllStarPlayer \\ 
 BaseballPlayer&$\equiv$ playsFor some BaseballTeam  \\
 BaseballTeam&$\subseteq$ Employs some BaseballPlayer \\
 JBallTeam&$\equiv$ PacificLeagueTeam $\cup$ CentralLeagueTeam $\subseteq$ BaseballTeam \\
-CarpPlayer $\equiv$ playsFor hasValue Carp (the Carp is the name of the
+CarpPlayer &$\equiv$ playsFor hasValue Carp (the Carp is the name of the
 baseball team from Hiroshima) \\
 CentralLeagueTeam&$\equiv$ oneOf Carp, Giants, BayStars, Tigers, Dragons, Swallows \\
 PacificLeagueTeam&$\equiv$ oneOf Lions, Hawks, Fighters, BlueWave, Buffaloes, Marines \\
