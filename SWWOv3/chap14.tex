@@ -220,8 +220,8 @@ As an example of units and quantity, let's have a look at feet and
 length:
 
 \begin{lstlisting}
-unit:Foot a qudt:Unit ;
-      qudt:quantityKind vocab-quantities:Length .
+unit:FT a qudt:Unit ;
+      qudt:hasQuantityKind quantitiykind:Length .
 \end{lstlisting}
 
 Following along as in the example of this pattern from Section~\ref{lror}, from
@@ -263,6 +263,7 @@ This means that we can query for whether two units, say feet and meters,  are co
 the following SPARQL
 query:
 
+\query{Finding commensurate units }
 \begin{lstlisting}
 ASK WHERE {
      unit:M qudt:hasQuantityKind ?kind .
@@ -292,15 +293,19 @@ important to know what the base unit is, in order to convert from one
 unit to the other. For example, to convert ten kilometers to miles, we
 can use the query
 
+\query{Converting 10 kilometers to miles}
 \begin{lstlisting}
-SELECT (((((10.0 * ?M1) + ?O1) - ?O2) / ?M2) AS ?value)
+SELECT (((((?val * ?M1) + ?O1) - ?O2) / ?M2) AS ?converted)
 WHERE {
-    unit:Kilometer qudt:conversionMultiplier ?M1 ;
-    qudt:conversionOffset ?O1 .
-    unit:MileInternational qudt:conversionMultiplier ?M2 ;
-    qudt:conversionOffset ?O2 .
+    BIND (10.0 AS ?val)
+    unit:KM qudt:conversionMultiplier ?M1 ;
+              qudt:conversionOffset ?O1 .
+    
+    unit:MI qudt:conversionMultiplier ?M2 ;
+            qudt:conversionOffset ?O2 .
 }
 \end{lstlisting}
+
 
 Answer: \textbf{6.2137119223733395}
 
@@ -328,6 +333,7 @@ parameterize the query, making it effectively into a function
 definition. The generalized query, using variables ?arg1, ?arg2, etc.,
 for the function arguments, looks like
 
+\query{Parameterized conversions}
 \begin{lstlisting}
 SELECT (((((?arg1 * ?M1) + ?O1) - ?O2) / ?M2) AS ?value)
 WHERE {
@@ -338,17 +344,20 @@ WHERE {
 }
 \end{lstlisting}
 
+
 SHACL allows such queries to be given names, which themselves are
 resources in RDF.   When we do this, we refer to the named query 
 as a \emph{function}.  If we give this query the 
 name \texttt{qudtsh:convert}, then
 we could write the 10 kilometer query simply as
 
+\begin{query}
 \begin{lstlisting}
-SELECT (qudtsh:convert(10.0, unit:Kilometer, unit:MileInternational)
+SELECT (qudtsh:convert(10.0, unit:KM, unit:MI)
                    AS ?value)
 WHERE {}
 \end{lstlisting}
+\end{query}
 
 Answer: 6.21
 
@@ -359,12 +368,14 @@ WHERE clause to match at all!
 The conversion of 32 degrees Fahrenheit to Centigrade looks very
 similar:
 
+\query{Convert Fahrenheit to Celsius}
 \begin{lstlisting}
-SELECT (qudtsh:convert(32.0, unit:DegreeFahrenheit,
-unit:DegreeCelsius)
+SELECT (qudtsh:convert(32.0, unit:DEG_F,
+unit:DEG_C)
 AS ?value)
 WHERE {}
 \end{lstlisting}
+
 
 Answer: 0.0
 
@@ -457,6 +468,7 @@ qudtsh:convert (?amt, ?qudtunit, unit:MIN)
 We can compute the cost per minute by dividing \texttt{?price} by this. The final
 query is
 
+\query{Price comparison of two services}
 \begin{lstlisting}
 SELECT ?offering ?currency ?cost_per_min
        ((?price/qudtsh:convert(?duration, ?qunit,
@@ -792,49 +804,32 @@ only resource that identifies chemicals---many other
 resources do this as well. These other resources do not necessarily
 share CHEBI's focus on chemicals of biological interest, but there is
 still considerable overlap. For this reason, CHEBI includes several
-cross-references for each chemical it defines. For example, the
-herbicide glyphosate (better known by its trade name, Roundup) is
-represented in CHEBI as
+cross-references for each chemical it defines. For example, an excerpt of the 
+CHEMI representation of the
+herbicide glyphosate (better known by its trade name, Roundup) looks like this: 
 
 \begin{lstlisting}
-chebi:CHEBI_27744
-    rdfs:label "glyphosate"@en ;
-    oboInOwl:hasDbXref
-       [ a oboInOwl:DbXref ;
-         rdfs:label "ChemIDplus:1071-83-6"
-       ] ;
-    oboInOwl:hasDbXref
-       [ a oboInOwl:DbXref ;
-         rdfs:label "KEGG_COMPOUND:1071-83-6"
-       ] ;
-    oboInOwl:hasDbXref
-       [ a oboInOwl:DbXref ;
-         rdfs:label "Beilstein:2045054"
-       ] ;
-    oboInOwl:hasDbXref
-       [ a oboInOwl:DbXref ;
-         rdfs:label "MSDchem:GPJ"
-       ] ;
-    oboInOwl:hasDbXref
-       [ a oboInOwl:DbXref ;
-         rdfs:label "Gmelin:279222"
-       ] .
+obo:CHEBI_27744  
+    rdfs:label          "glyphosate" .
+    oboInOwl:hasDbXref  "KEGG:C01705" ;
+    oboInOwl:hasDbXref  "CAS:1071-83-6" ;
+    oboInOwl:hasDbXref  "Beilstein:2045054" ;
+    oboInOwl:hasDbXref  "DrugBank:DB04539" ;
+    oboInOwl:hasDbXref  "Gmelin:279222" ;
+    chebi:formula       "C3H8NO5P" ;
+    chebi:mass          "169.07310" ;
+    chebi:smiles        "OC(=O)CNCP(O)(O)=O" .
 \endlstlisting
 
 Glyphosate has identifying number 27744 in CHEBI, which is actually
 represented as the URI \texttt{Chebi:CHEBI\_27744}. Every entity in CHEBI is
-assigned a number like this. While this policy makes the URIs difficult
-to read, it makes them easier to use in a multi-lingual setting or, as
-in this case, in a setting in which multiple names could be preferred by
-different groups. In defining cross- references to other chemical
-identification systems, CHEBI makes ample use of reification (Chapter
-3). Each cross-reference is an individual member of the class
-\texttt{oboInOwl:DbXref}, with a label that indicates the details of the
-reference. In the example, we see references to several other
-authorities, with names given in the references (ChemIDPlus, Kegg,
-etc.). The DbXref is reified to allow other information to accompany the
-cross reference as available, e.g., a pointer to the governing body,
-effective dates, etc. This structure allows CHEBI to act as a sort of
+assigned a number like this, which is used in its URI.  In Section~\ref{ch15Naming}, we
+examine the pros and cons of this sort of naming policy. 
+An important service that CHEBI provides is cross-referencing other identification
+systems.  
+In the example, we see references to several other
+authorities, with names given in the references (CAS, DrugBank, Kegg,
+etc.). This structure allows CHEBI to act as a sort of
 translation service among these other resources, for the chemicals that
 it describes.
 
@@ -845,17 +840,17 @@ A good deal of the complexity of the CHEBI ontology lies in the
 connections between the chemicals. It is typical of OBO ontologies to
 include complex interrelationships between the entities they define.
 CHEBI makes a particularly good pedagogical example of OBO style because
-of its relatively small size (only 20,000 concepts) and the small number
+of its relatively small size (just over 100,000 concepts) and the small number
 of relationships between the chemicals it records.
 
 Using our example chemical glyphosate, the fact that it is an herbicide
 is represented in CHEBI as
 
 \begin{lstlisting}
-chebi:CHEBI_24527
+obo:CHEBI_24527
      a owl:Class ;
      rdfs:label "herbicide"@en .
-chebi:CHEBI_27744
+obo:CHEBI_27744
      a owl:Class ;
      rdfs:label "glyphosate"@en ;
      rdfs:subClassOf
@@ -875,7 +870,7 @@ defined in Chapter\ref{ch11}), where that restriction is on the property
 \texttt{obo:has\_role}, and stipulates that this property takes at least one
 value from (\texttt{owl:someValuesFrom}) the class herbicide. Notice that the
 property \texttt{obo:has\_role} comes from OBO namespace; OBO Foundry defines
-dozens of prop- erties that are useful for describing biological
+dozens of properties that are useful for describing biological
 entities. CHEBI uses less than a dozen of them that have relevance to
 its domain of biochemistry. In addition to \texttt{obo:has\_role} seen in this
 example, CHEBI uses \texttt{obo:has\_part} (for constituent chemicals), and

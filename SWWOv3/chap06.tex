@@ -396,8 +396,9 @@ considerations in the representation:
    :JamesDean :playedIn :RebelWithoutaCause .
 \end{lstlisting}
 
-Now if we ASK a question with SPARQL
 
+Now if we ASK a question with SPARQL
+\query{James Dean Played In}
 \textbf{\textbf{Ask:}} 
 \begin{lstlisting}
 SELECT ?what WHERE {:JamesDean :playedIn ?what}
@@ -474,7 +475,7 @@ end. This is where the details of the SELECT clause come in -- we can
 specify which question words we are interested in. So the complete query
 to find James Dean's directors looks like this:
 
-\textbf{\textbf{Ask:}}
+\query{Who directed James Dean?}
 
 \begin{lstlisting}
 SELECT ?who
@@ -506,7 +507,7 @@ column for each question word and one row for each answer.
 If we decide to keep both question words in the SELECT, we will have
 more columns in the table
 
-\textbf{\textbf{Ask:}}
+\query{Why directed James Dean movies?}
 
 \begin{lstlisting}
 SELECT ?what ?who
@@ -566,7 +567,7 @@ as elaborate as the graphs they match against. For instance, given a
 more complete set of information about James Dean movies we could find
 the actresses who worked with him with a graph pattern:
 
-\textbf{\textbf{Ask:}}
+\query{Actresses who worked with James Dean}
 
 \begin{lstlisting}
 SELECT ?actress ?movie
@@ -621,7 +622,7 @@ information about things that James Dean played in. So we really should
 restrict the value of the question word \texttt{?movie} to be a member of the
 class movie. We can do this by adding one more triple to the pattern:
 
-\textbf{\textbf{Ask:}}
+\query{Movie actresses who worked with James Dean}
 
 \begin{lstlisting}
 SELECT ?actress
@@ -649,6 +650,7 @@ property called \texttt{:directedBy} in this example, a model might call it
 simply \texttt{:director}. In such a case, the query to find the people who
 directed James Dean movies would look like this:
 
+\query{Who was director for James Dean?}
 \begin{lstlisting}
 SELECT ?director
 WHERE {:JamesDean :playedIn ?movie .
@@ -680,14 +682,14 @@ model.
 
 \subsection{Query structure vs. data structure}
 
-In Figure\ref{fig:ch6.4}, we saw how the graph pattern in a query looks a lot like
+In Figure~\ref{fig:ch6.4}, we saw how the graph pattern in a query looks a lot like
 the data graph it matches against. This is true of graph patterns in
 general. The complexity of a question that can be specified with SPARQL
 is limited only by the complexity of the data. We could, for instance,
 ask about actresses who played in a movie with James Dean who themselves
 were in a movie directed by John Ford:
 
-\textbf{\textbf{Ask:}}
+\query{James Dean co-stars directed by John Ford}
 \begin{lstlisting}
 SELECT ?actress ?movie
 WHERE {:JamesDean :playedIn ?movie .
@@ -708,7 +710,7 @@ CarrollBaker\\
 \hline
 \end{tabular}
 
-Figure\ref{fig:ch6.6} shows this query as a graph. In the text version of the
+Figure~\ref{fig:ch6.6} shows this query as a graph. In the text version of the
 query, we often see the same question word appear in multiple triples,
 and some of them even refer to the same kind of thing (\texttt{?movie},
 \texttt{?anotherMovie}). In the graph version, we see that these are the points
@@ -788,6 +790,7 @@ a query very like the original query (differing only in the names of the
 unselected question words) -- but this time, it was generated from a
 pattern in the data.
 
+\query{Generated query for Women who worked with James Dean and John Ford}
 \begin{lstlisting}
 SELECT ?actress
 WHERE {:JamesDean :playedIn ?q1 .
@@ -831,6 +834,7 @@ course, still a Woman in the data graph, but we haven't included that
 fact in our example. So that fact does not get copied into the query.
 Our new query looks like this:
 
+\query{Actors who worked with James Dean and John Ford}
 \begin{lstlisting}
 SELECT ?q3
 WHERE { :JamesDean :playedIn ?q1 .
@@ -893,7 +897,7 @@ A simple exploitation of this is to answer the question, ``What do you
 know about James Dean?'' This can be done with a graph pattern of a
 single triple:
 
-\textbf{\textbf{Ask:}}
+\query{All about James Dean}
 
 \begin{lstlisting}
 SELECT ?property ?value
@@ -927,8 +931,7 @@ You don't have to ask for the values -- you can just ask for the
 properties. This will tell you what sort of information is available,
 without reporting all of the details:
 
-\textbf{\textbf{Ask:}}
-
+\query{What about James Dean?}
 \begin{lstlisting}
 SELECT ?property
 WHERE { :JamesDean ?property ?value }
@@ -959,7 +962,7 @@ This is because there are actually three different matches for the graph
 pattern in the data graph. SPARQL includes the keyword DISTINCT to
 filter out the duplicate results.
 
-\textbf{\textbf{Ask:} }
+\query{Just what about James Dean?}
 
 \begin{lstlisting}
 SELECT DISTINCT ?property
@@ -986,7 +989,7 @@ it possible to reverse-engineer schema information from the data itself.
 For example, we can change the query about properties used to describe
 James Dean to find all properties used to describe any actor.
 
-\textbf{\textbf{Ask:}}
+\query{What about any actor?}
 
 \begin{lstlisting}
 SELECT DISTINCT ?property
@@ -1039,6 +1042,7 @@ WHERE { ?class rdfs:subClassOf :Person }
 If we don't know anything about the data at all, we can find the classes
 used in the data
 
+\query{Find all classes in the data}
 \begin{lstlisting}
 SELECT DISTINCT ?class
 WHERE { ?q0 a ?class }
@@ -1046,6 +1050,7 @@ WHERE { ?q0 a ?class }
 
 Or find all the properties used anywhere in the data
 
+\query{Find all properties in the data}
 \begin{lstlisting}
 SELECT DISTINCT ?property
 WHERE { ?q0 ?property ?q1 }
@@ -1070,7 +1075,7 @@ actors who played in \emph{Giant} lived for more than five years after
 the movie was made. We'll start by finding the date of death of every
 actor in \emph{Giant} with the query:
 
-\textbf{\textbf{Ask:}}
+\query{When did Giants die?}
 
 \begin{lstlisting}
 SELECT ?actor ?deathdate
@@ -1101,7 +1106,7 @@ you can define a Boolean test that determines whether that row will be
 included in the results or not. We can filter out the names of the
 actors who lived on by adding a FILTER to the query, as follows:
 
-\textbf{\textbf{Ask:}}
+\query{Giants who lived five years more}
 
 \begin{lstlisting}
 SELECT ?actor
@@ -1152,7 +1157,7 @@ FILTER, assuming that it has been bound to something. For example, to
 find actors who played in \emph{East of Eden}, who were born in 1930 or
 later, one might write:
 
-\textbf{\textbf{Ask:}}
+
 
 \begin{lstlisting}
 SELECT ?actor
@@ -1167,6 +1172,7 @@ mentioned anywhere in the graph pattern and has no value at all.
 Remembering that variables are just meaningless question words, this
 query is equivalent to
 
+
 \begin{lstlisting}
 SELECT ?actor
 WHERE { ?actor :playedIn :EastOfEden .
@@ -1179,6 +1185,7 @@ graph pattern to indicate what \texttt{?q0} is supposed to mean; there is nothin
 in the original query to indicate what \texttt{?birthdate} is supposed to mean.
 The correct way to write this query is:
 
+\query{Youngsters East of Eden}
 \begin{lstlisting}
 SELECT ?actor
 WHERE { ?actor :playedIn :EastOfEden ;
@@ -1197,6 +1204,7 @@ referenced in the graph pattern.
 A query can have more than one FILTER clause -- to find the people born
 during the 1960s, we can say
 
+\query{Children of the Sixties}
 \begin{lstlisting}
 SELECT ?person
 WHERE { ?person a :Person ;
@@ -1210,6 +1218,7 @@ The meaning of multiple filters is that all tests must hold true, for
 the binding to make it into the result set. Alternatively, you can use
 Boolean operators to combine several constraints in a filter:
 
+\query{Children of the Sixties (alt)}
 \begin{lstlisting}
 SELECT ?person
 WHERE { ?person a :Person ;
@@ -1235,7 +1244,7 @@ set at all.
 
 For example, consider a query we looked at earlier about dates of death:
 
-\textbf{\textbf{Ask:}}
+
 
 \begin{lstlisting}
 SELECT ?actor ?deathdate
@@ -1285,7 +1294,7 @@ graph pattern, which is not required to match for the overall match to
 succeed. The OPTIONAL (sub) pattern can bind variables when it does
 match but will not invalidate the match if it does not.
 
-\textbf{\textbf{Ask:}}
+\query{Biographies of the Giants}
 
 \begin{lstlisting}
 SELECT ?actor ?deathdate
@@ -1355,6 +1364,7 @@ NOT. The result is a query that will match exactly if a specified
 sub-pattern does \emph{not} match. We can see this at work in the
 following query:
 
+\query{Giant Survivors}
 \begin{lstlisting}
 SELECT ?actor
 WHERE { ?actor :playedIn :Giant .
@@ -1370,6 +1380,7 @@ instance, some actors are also producers; we might be interested in just
 those actors who are not members of the class \texttt{:Producer}. This can be
 done easily with FILTER NOT EXISTS:
 
+\query{Actors who are not Producers}
 \begin{lstlisting}
 SELECT ?actor
 WHERE { ?actor a :Actor .
@@ -1401,6 +1412,7 @@ SPARQL includes a keyword ASK for questions of this sort. The keyword
 appears at the very beginning of the query -- instead of the word
 SELECT. For example:
 
+\query{Is Elizabeth Taylor dead?}
 \begin{lstlisting}
 ASK WHERE { :ElizabethTaylor :diedOn ?any }
 \end{lstlisting}
@@ -1411,6 +1423,7 @@ died); in this data set, the result is True. We can combine FILTER NOT
 EXISTS with ASK, and create the query for ``Is Elizabeth Taylor alive?''
 as
 
+\query{Is Elizabeth Taylor alive?}
 \begin{lstlisting}
 ASK WHERE {FILTER NOT EXISTS {:ElizabethTaylor :diedOn ?any } }
 \end{lstlisting}
@@ -1420,6 +1433,7 @@ The answer to this, sadly, is False.
 We can ASK about more complex graph patterns just as easily -- was any
 actor in \emph{Giant} born after  1950?
 
+\query{Giants born after 1950}
 \begin{lstlisting}
 ASK WHERE {?any :playedIn :Giant ;
                 :bornOn ?birthday .
@@ -1496,10 +1510,11 @@ CONSTRUCT keyword introduces a graph pattern to be used as a template in
 constructing a new graph, based on results from the old data graph. For
 our Directors example, we have
 
+\query{Directors are people who direct movies}
 \begin{lstlisting}
 CONSTRUCT {?d rdf:type :Director .
            ?d rdfs:label ?name . }
-WHERE {?any :director ?d .
+WHERE {?any :directedBy ?d .
        ?d rdfs:label ?name . }
 \end{lstlisting}
 
@@ -1511,7 +1526,7 @@ specifies two triples; one is a \texttt{rdf:type} triple, the other a \texttt{rd
 triple. For five directors, ten triples were produced. These ten triples
 are shown in Figure\ref{fig:ch6.8} (b).
 
-\section{USING RESULTS OF CONSTRUCT QUERIES}
+\section{Using Results of CONSTRUCT Queries}
 
 A query language provides a way to ask a question. The question is posed
 to a system that processes the query and replies with an answer. That
@@ -1621,6 +1636,7 @@ WHERE { ?q2 :hasFather ?q1 }
 
 But this wouldn't quite work the way we want; while we do construct
 
+
 \begin{lstlisting}
 :Joe :hasSon :John .
 \end{lstlisting}
@@ -1635,6 +1651,7 @@ which is not the usual interpretation of ``son''.
 
 So, we need to restrict the rule a bit, so that it only applies to men:
 
+\query{A man is his father's son}
 \begin{lstlisting}
 CONSTRUCT ?q1 :hasSon :q2 .
 WHERE { ?q2 a :Man .
@@ -1654,7 +1671,8 @@ So we will conclude that Socrates (as well as Ted, John, Joe, and
 Sargent) are mortal. But Maria and 
 Eunice are off the hook -- we'll draw no conclusion about them.
 
-The definition of ``uncle'' is easy to do in SPARQL
+The definition of ``uncle'' is easy to do in SPARQL, but there are some 
+things to watch out for.  For example, we might be tempted to defined it as follows: 
 
 \begin{lstlisting}
 CONSTRUCT { ?q1 :hasUncle ?q2 }
@@ -1691,6 +1709,7 @@ One way to deal with this would be to write a system of rules -- some
 dealing with completeness of concepts like mother, father, sister, and
 brother, and another for uncle:
 
+\query{Rules about family relations}
 \begin{lstlisting}
 CONSTRUCT {?q1 :hasSibling ?q2 } WHERE {?q1 :hasBrother ?q2 }
 CONSTRUCT {?q1 :hasSibling ?q2 } WHERE {?q1 :hasSister ?q2 }
@@ -1700,6 +1719,7 @@ CONSTRUCT {?q1 :hasParent ?q2 WHERE {?q1 :hasMother ?q2 }
 
 Now we can define uncle in terms of siblings and parents:
 
+\query{Who's your uncle?}
 \begin{lstlisting}
 CONSTRUCT { ?q1 :hasUncle ?q2 }
 WHERE { ?q2 :hasSibling ?parent .
@@ -1716,7 +1736,7 @@ and can conclude both relationships:
 \end{lstlisting}
 
 (A complete model of family relationships will include quite a few data
-completeness rules about siblings and parents. In Chapter~\ref{ch8}, we'll see a
+completeness rules about siblings and parents. In Section~\ref{shacl-rules}, we'll see a
 more systematic way to organize a set of rules about these things.)
 
 If we know how much business a customer has done with us, we can write a
@@ -1731,6 +1751,7 @@ SPARQL to sort out our preferred customers.
 
 The query
 
+\query{Preffered Customers}
 \begin{lstlisting}
 CONSTRUCT { ?c a :PreferredCustomer }
 WHERE {?c :totalBusiness ?tb .
@@ -1814,6 +1835,7 @@ using SPARQL?
 We can do this by specifying a few rules as SPARQL constructs to map
 these things into the form we want.
 
+\query{Generalizing the parent relation}
 \begin{lstlisting}
 CONSTRUCT {?s :hasParent ?o} WHERE {?s :hasMother ?o} 
 CONSTRUCT {?s :hasParent ?o} WHERE {?s :hasFather ?o} 
@@ -1824,6 +1846,7 @@ CONSTRUCT {?s :hasParent ?o} WHERE {?o :hasDaughter ?s}
 These queries match all the various forms of hasSon, hasDaughter,
 hasMother, and hasFather and map them all into appropriate triples using
 hasParent. The resulting triples are
+
 
 \begin{lstlisting}
 :Caroline :hasParent :John .
@@ -1843,6 +1866,7 @@ Figure\ref{fig:ch6.9}.
 We can extend this example to compute the gender of the family members,
 by adding another triple to each query:
 
+\query{Generalizing the parent relation with gender}
 \begin{lstlisting}
 CONSTRUCT {?s :hasParent ?o .
            ?o a :Woman .}
@@ -1862,11 +1886,11 @@ WHERE {?o :hasDaughter ?s}
 \section{Transitive queries (SPARQL 1.1)}
 
 Hierarchical data can pose very particular problems when it comes to
-querying. We can see this using the example of the family tree in Figure
-5.9. Suppose we want to query for all members of Joe's family. We can
+querying. We can see this using the example of the family tree inFigure\ref{fig:ch6.9}.
+Suppose we want to query for all members of Joe's family. We can
 query for his children with a simple graph pattern:
 
-\textbf{\textbf{Ask:}}
+\query{Joe's children}
 
 \begin{lstlisting}
 SELECT ?member
@@ -1889,7 +1913,7 @@ Ted\\
 If we want his grandchildren, we can build a slightly more complicated
 query:
 
-\textbf{\textbf{Ask:}}
+\query{Joe's grandchildren}
 
 \begin{lstlisting}
 SELECT ?member
@@ -1915,7 +1939,7 @@ generations intervene? SPARQL 1.1 includes a transitivity operator for
 just this purpose. If we include a ``*'' after a property name, then the
 triple matches any number of chained occurrences of the same property.
 
-\textbf{\textbf{Ask:}}
+\query{Joe and his descendants}
 
 \begin{lstlisting}
 SELECT ?member
@@ -1945,7 +1969,7 @@ Notice that Joe himself is matched -- even chains of zero triples will
 match. If we want to insist that there is at least one triple in the
 chain (Joe's progeny, not including himself), we can use a + instead:
 
-\textbf{\textbf{Ask:}}
+\query{Joe's descendants}
 
 \begin{lstlisting}
 SELECT ?member
@@ -1985,39 +2009,41 @@ relational database, where common practice involves separating out
 information based on the role an entity plays in an application.
 
 The Linked Movie DataBase\footnote{http://linkedmdb.org/} (LinkedMDB) is an open data source containing
-data about movies. The LinkedMDB is based on a relational database
+data about movies. The LinkedMDB is originally based on a relational database
 containing information about movies, actors, directors, etc. The
 underlying database includes information about what movies directors
 made as well as what movies actors played in. This information is
 represented in two separate tables -- a director table and an actor
 table. When converted to triples, this database structure results in two
-classes in the published SPARQL endpoint with corresponding names --
+classes in the published RDF dataset with corresponding names --
 director and actor.
 
 Members of the classes in the linkedMDB are given numeric URIs -- here
-is a very small excerpt of data from that endpoint:
+is a very small excerpt of data from that dataset:
 
 \begin{lstlisting}
-actor:29753
-     rdf:type linkedmdb:actor ;
-     linkedmdb:actor_name "Clint Eastwood" .
+actor:15256 
+        rdf:type          film:actor ;
+        film:actor_name   "Clint Eastwood" .
 
-film:38599
-     rdf:type linkedmdb:film ; 
-     dc:title "Unforgiven" ; 
-     linkedmdb:actor actor:29753 ; 
-     linkedmdb:director director:8533 .
+film:37379
+       rdf:type           film:film ;
+       dcterms:title      "Unforgiven" ;
+       film:actor         actor:15256 ;
+       film:director      director:4614 .
 
-director:8533
-     rdf:type linkedmdb:director ;
-     linkedmdb:director_name "Clint Eastwood" .
+director:4614  
+        film:director_name "Clint Eastwood" ;
+        rdf:type           film:director ;
+        foaf:made          film:37379 .
+
 \end{lstlisting}
 
-In this fragment, there is a movie whose \texttt{dc:title} is ``Unforgiven'' (the
-namespace dc stands for ``Dublin Core,'' a metadata standard used by
+In this fragment, there is a movie whose \texttt{dcterms:title} is ``Unforgiven'' (the
+namespace dcterms stands for ``DCMI Metadata Terms,'' a metadata standard used by
 many libraries worldwide that includes standard terms for titles,
-authors, publication dates, etc.), stars an actor (number 29753) whose
-name is ``Clint Eastwood,'' and was directed by a director (number 8533)
+authors, publication dates, etc.), stars an actor (number 15256) whose
+name is ``Clint Eastwood,'' and was directed by a director (number 4614)
 whose name is ``Clint Eastwood.'' Is the fact that both of these people
 are named ``Clint Eastwood'' enough for us to conclude that they are the
 same person?
@@ -2026,8 +2052,9 @@ Fortunately, there is another triple for each of these resources in the
 LinkedMBD dataset:
 
 \begin{lstlisting}
-actor:29753 foaf:page freebase:9202a8c04000641f8000000000056de6 .
-director:8533 foaf:page freebase:9202a8c04000641f8000000000056de6 .
+actor:15256   foaf:page  <http://www.freebase.com/view/topic/en/clint_eastwood> .
+director:4614 foaf:page  <http://www.freebase.com/view/topic/en/clint_eastwood> .
+
 \end{lstlisting}
 
 Freebase was a linked data resource that (among other things) provided an
@@ -2050,6 +2077,7 @@ the same. But what can we do with that information?
 We can use SPARQL to detect identities of this sort and record it as a
 new triple.
 
+\query{Matching directors and actors}
 \begin{lstlisting}
 CONSTRUCT {?a skos:exactMatch ?b }
 WHERE {?a foaf:page ?page .
@@ -2058,15 +2086,15 @@ WHERE {?a foaf:page ?page .
 
 You can understand this query, even without knowing anything else about
 the resources in it -- \texttt{foaf:page} and \texttt{skos:exactMatch} (though these will
-be discussed in Chapters~\ref{ch9} and \ref{ch10}). This query simply says that any two
+be discussed in Sections~\ref{foaf} and Chapter~\ref{ch11}). This query simply says that any two
 resources with the same \texttt{foaf:page} are \texttt{skos:exactMatch} to one another. On
 this data set, we get the following triples:
 
 \begin{lstlisting}
-actor:29753 skos:exactMatch director:8533 . 
-director:8533 skos:exactMatch actor:29753 . 
-director:8533 skos:exactMatch director:8533 . 
-actor:29753 skos:exactMatch actor:29753 .
+actor:15256 skos:exactMatch director:4614 .
+director:4614 skos:exactMatch actor:15256 .
+actor:15256 skos:exactMatch actor:15256 .
+director:4614 skos:exactMatch director:4614 .
 \end{lstlisting}
 
 These triples indeed encode the identity match that we observed -- that
@@ -2076,8 +2104,8 @@ actor to the director, and another time relating the director to the
 actor. Furthermore, we have two rather trivial results, that every actor
 is an exact match to itself (and the same for directors). These extra
 results appear because SPARQL finds every match for the graph pattern in
-the data; and all four bindings of \texttt{?a} and \texttt{?b} to director:8533 and
-actor:29753 satisfy the pattern (they have the same values for \texttt{:page}).
+the data; and all four bindings of \texttt{?a} and \texttt{?b} to director:4614 and
+actor:15256 satisfy the pattern (they have the same values for \texttt{:page}).
 These extra triples don't really cause any harm -- after all, it seems
 correct to say that something is an exact match to itself -- but at the
 same time, they are somewhat superfluous. In an earlier example, we were
@@ -2091,6 +2119,7 @@ since we aren't interested in statements that say that an actor is an
 exact match for himself, we can eliminate these with a filter for
 matching the same values:
 
+\query{Matching Directors vs Actors}
 \begin{lstlisting}
 CONSTRUCT { ?a skos:exactMatch ?b }
 WHERE { ?a foaf:page ?page . 
@@ -2103,8 +2132,8 @@ to `true' just if \texttt{?a} and \texttt{?b} are not the same. This results in 
 following triples:
 
 \begin{lstlisting}
-actor:29753 skos:exactMatch director:8533 . 
-director:8533 skos:exactMatch actor:29753 .
+actor:15256  skos:exactMatch  director:4614 .
+director:4614  skos:exactMatch  actor:15256 .
 \end{lstlisting}
 
 This is an improvement. And if we didn't know that \texttt{skos:exactMatch} is a
@@ -2118,6 +2147,7 @@ there are many ways to compare values. We can convert a URI to an XML,
 then compare the strings. We can use this trick to reduce our results to
 a single triple:
 
+\query{Matching Directors to Actors 1-1}
 \begin{lstlisting}
 CONSTRUCT {?a skos:exactMatch ?b }
 WHERE {?a foaf:page ?page .
@@ -2131,7 +2161,7 @@ object in alphabetical order; this means that of the two triples in the
 previous result, only the second one is kept:
 
 \begin{lstlisting}
-director:8533 skos:exactMatch actor:29753 .
+director:4614  skos:exactMatch  actor:15256 .
 \end{lstlisting}
 
 In general, there could be many ways to determine that two resources are
@@ -2148,6 +2178,7 @@ information about date and place of birth. If it is reasonable to assume
 in the dataset that two people who share the same name, place, and date
 of birth are indeed the same persons, then the query
 
+\query{Match on birthplace, date, and name}
 \begin{lstlisting}
 CONSTRUCT {?a skos:exactMatch ?b }
 WHERE {?a :name ?name ;
@@ -2171,9 +2202,9 @@ same person, we are in a position to answer the question, ``Which
 directors played in movies they directed?'' We can answer it with the
 following query:
 
-\textbf{\textbf{Ask:}}
+\query{Self-directing Actors}
 \begin{lstlisting}
-SELECT ?director
+SELECT DISTINCT ?director
 WHERE { ?dir foaf:made ?m ;
              linkedmdb:director_name ?director ;
              skos:exactMatch ?player . 
@@ -2191,6 +2222,9 @@ WHERE { ?dir foaf:made ?m ;
 \hline
 \end{tabular}
 \end{challenge}
+
+Of course, there are many other answers satisfying this condition in the full 
+linkedMDB dataset; we limited the output to a singleton here for simplicity. 
 
 \begin{challenge}
 \textbf{USING SPARQL TO COPY AN EXCERPT OF A DATABASE}
@@ -2223,27 +2257,29 @@ set that contains information about the film \emph{Unforgiven}. We want
 to include the actors who played in it, its director, producer, and any
 other information about it.
 
-In the LinkedMDB, Unforgiven is given the resource name film:38599. How
+In the LinkedMDB, Unforgiven is given the resource name film:37379. How
 can we select all the information in the LinkedMDB about Unforgiven?
 
 Depending on just what we mean by ``all'' the information, we can start
 with a simple query:
 
+\query{Subset based on Unforgiven (Subject)}
 \begin{lstlisting}
-CONSTRUCT {film:38599 ?p ?o . } WHERE {film:38599 ?p ?o . }
+CONSTRUCT {film:37379 ?p ?o . } WHERE {film:37379 ?p ?o . }
 \end{lstlisting}
 
 This apparently trivial query selects all the triples from the data set
-with film:38599 as the subject. From the full LinkedMDB, it returns a
+with film:37379 as the subject. From the full LinkedMDB, it returns a
 few dozen results, including the triples:
 
 \begin{lstlisting}
-film:38599 rdf:type linkedmdb:film . 
-film:38599 dc:title "Unforgiven" .
-film:38599 linkedmdb:actor actor:29753 . 
-film:38599 linkedmdb:actor actor:30285 .
-film:38599 linkedmdb:director director:8533 . 
-film:38599 linkedmdb:editor editor:2920 .
+film:37379  
+        rdf:type          film:film ;
+        dcterms:title     "Unforgiven" ;
+        film:actor        actor:25769 ;
+        film:actor        actor:17281 ;
+        film:director     director:4614 ;
+        film:writer       writer:8240 .
 \end{lstlisting}
 
 This is a good start for getting ``all'' the information about
@@ -2253,15 +2289,16 @@ directed and starred in. But there could be more information in the data
 set that is relevant to this movie -- for instance, there is the triple
 
 \begin{lstlisting}
-director:8522 foaf:made film:38599 .
+director:4614 foaf:made film:37379 .
 \end{lstlisting}
 
 This triple doesn't appear in the results of the query, since in this
-case, film:38599 is the object of the triple, not the subject. We can
+case, film:37379 is the object of the triple, not the subject. We can
 use a very similar query to fetch these triples:
 
+\query{Subset based on Unforgiven (Object)}
 \begin{lstlisting}
-CONSTRUCT {?s ?p film:38599. } WHERE {?s ?p film:38599 . }
+CONSTRUCT {?s ?p film:37379. } WHERE {?s ?p film:37379 . }
 \end{lstlisting}
 
 This will fetch all the triples in which \emph{Unforgiven} appears as
@@ -2270,14 +2307,15 @@ comprehensive notion of what it could mean to fetch ``all'' the
 information about a particular resource.
 
 But even these triples might not seem like quite enough to tell us all
-about \emph{Unforgiven}; for example, who is actor:30285? In addition to
+about \emph{Unforgiven}; for example, who is actor:25769? In addition to
 the information about the movie itself, we might want to also identify
 information about related entities. A more elaborate graph pattern can
 do this as well:
 
+\query{Larger subset based on Unforgiven}
 \begin{lstlisting}
 CONSTRUCT { ?s ?p ?o }
-WHERE { film:38599 ?p1 ?s . }
+WHERE { film:37379 ?p1 ?s . }
         ?s ?p ?o . }
 \end{lstlisting}
 
@@ -2295,19 +2333,19 @@ pattern copies all triples whose subjects are related to Unforgiven.
 For example, since
 
 \begin{lstlisting}
-film:38599 linkedmdb:actor actor:30285 .
+film:37379 linkedmdb:actor actor:25769 .
 \end{lstlisting}
 
 is in the data set, this query will find all the triples starting with
-actor:30285, including
+actor:25769, including
 
 \begin{lstlisting}
-actor:30285 linkedmdb:actor_name "Richard Harris" .
+actor:25769 film:actor_name "Richard Harris" .
 \end{lstlisting}
 
 If we merge together the results of all of these queries, we can create
 a comprehensive cache of all information regarding Unforgiven. This
-method was used to create most of the sample files for the examples in
+method was used to create many of the sample files for the examples in
 this chapter.
 \end{challenge}
 
@@ -2318,7 +2356,7 @@ this chapter.
 Suppose we want to know the movies that James Dean played in, and the
 dates they were released:
 
-\textbf{\textbf{Ask:}}
+\query{James Dean and the dates his movies were released}
 
 \begin{lstlisting}
 SELECT ?movie ?date
@@ -2351,7 +2389,7 @@ which the results are returned. The following two examples show how this
 works, ordering by 
 ?date and \texttt{?movie} (title), respectively:
 
-\textbf{\textbf{Ask:}}
+\query{James Dean movies in release order}
 
 \begin{lstlisting}
 SELECT ?title ?date
@@ -2373,7 +2411,7 @@ Giant&1956\\
 \hline
 \end{tabular}
 
-\textbf{\textbf{Ask:}}
+\query{James Dean movies in alphabetical order}
 
 \begin{lstlisting}
 SELECT ?title ?date
@@ -2411,7 +2449,7 @@ to the specified limit.
 So to find the earliest James Dean movie, we can ORDER BY ?date and
 specify a LIMIT of 1:
 
-\textbf{\textbf{Ask:}}
+\query{James Dean's first movie}
 
 \begin{lstlisting}
 SELECT ?title
@@ -2436,7 +2474,7 @@ All three stars (James Dean, Natalie Wood, and Sal Mineo) of \emph{Rebel
 without a Cause} died young under tragic circumstances. Which one died
 first?
 
-\textbf{\textbf{Ask:}}
+\query{Tragic Rebel Actors (first)}
 
 \begin{lstlisting}
 SELECT ?first
@@ -2462,7 +2500,7 @@ By default, SPARQL orders results in ascending order. We can reverse the
 ordering, and find the star who lived the longest with the keyword DESC
 (for ``descending'')
 
-\textbf{\textbf{Ask:}}
+\query{Tragic Rebel Actors (last)}
 
 \begin{lstlisting}
 SELECT ?last
@@ -2492,6 +2530,7 @@ computing a result for all matches for the pattern.
 
 For example, we could find out how many movies James Dean has played in:
 
+\query{How many James Dean Movies?}
 \begin{lstlisting}
 SELECT (COUNT (?movie) AS ?howmany)
 WHERE { :JamesDean ?playedIn ?movie . }
@@ -2543,6 +2582,7 @@ As triples, each row is represented as four triples, with an arbitrary
 URI for the row. Each row is a member of a single class, \texttt{:Sale}. So the
 first row looks like the triples:
 
+\query{Sales records}
 \begin{lstlisting}
 :row1 a :Sale ;
       :company :ACME ;
@@ -2553,7 +2593,7 @@ first row looks like the triples:
 Using this representation in triples, we can find our total sales using
 a SUM aggregator:
 
-\textbf{\textbf{Ask:}}
+\query{Total sales amounts}
 
 \begin{lstlisting}
 SELECT (SUM (?val) AS ?total)
@@ -2577,7 +2617,7 @@ much business did we do in a given year? SPARQL allows us to organize
 the query in these ways, using the notion of GROUP BY. For instance, we
 can find the amount of business for each year by grouping by years:
 
-\textbf{\textbf{Ask:}}
+\query{Total sales amounts by year}
 
 \begin{lstlisting}
 SELECT ?year (SUM (?val) AS ?total)
@@ -2612,7 +2652,7 @@ for inclusion in the SELECT clause.
 
 We can sort by more than one variable at a time:
 
-\textbf{\textbf{Ask:}}
+\query{Total sales amounts by company per year}
 
 \begin{lstlisting}
 SELECT ?year ?company (SUM (?val) AS ?total)
@@ -2643,7 +2683,7 @@ particular year. If we'd like to find out customers that did more than
 \$5000 of business in some year, we can show only some of these results,
 using the keyword HAVING to choose particular results:
 
-\textbf{\textbf{Ask:}}
+\query{Top companies by sales amounts}
 
 \begin{lstlisting}
 SELECT ?year ?company (SUM (?val) AS ?total)
@@ -2690,7 +2730,7 @@ companies increased their sales from 2009 to 2010, while others
 decreased. We can use subqueries to find out which ones increased their
 sales during that time:
 
-\textbf{\textbf{Ask:}}
+\query{Comparative sales year to year}
 
 \begin{lstlisting}
 SELECT ?company
@@ -2743,6 +2783,7 @@ Suppose we wanted to use this result as part of a CONSTRUCT query --
 where would we put the aggregation specification? This can be handled
 uniformly with a subquery, as in the following example:
 
+\query{Preferred Customers}
 \begin{lstlisting}
 CONSTRUCT { ?company a :PreferredCustomer.
             ?company :totalSales ?total . }
@@ -2788,11 +2829,10 @@ combined together.
 
 A simple example would be to find out all the actors who played either
 in \emph{Rebel without a Cause} or
-
 \emph{Giant}. Each of these is a simple query; we can get all the
 answers by making a UNION of the two queries:
 
-\textbf{\textbf{Ask:}}
+\query{Actors in Rebel or Giant}
 
 \begin{lstlisting}
 SELECT ?actor
@@ -2840,6 +2880,7 @@ UNION, we can specify explicitly that the triples are to be combined. We
 can take the graph pattern for each of the triples, and combine them all
 with the UNION operator, thus:
 
+\query{Combining types of parenthood}
 \begin{lstlisting}
 CONSTRUCT {?s :hasParent ?o}
 WHERE{ {?s :hasMother ?o}
@@ -2927,7 +2968,7 @@ names, but we need to do a computation to get the full name. There is a
 function for concatenate in SPARQL - it is called CONCAT. We
 can use this to compute the full names:
 
-\textbf{\textbf{Ask:}}
+\query{Full names of Authors}
 
 \begin{lstlisting}
 SELECT ?fullname
@@ -2961,7 +3002,7 @@ names that are like the authors of this book -- perhaps one whose name
 is made up of the first names of the book's authors. We can fetch those
 first names easily enough:
 
-\textbf{\textbf{Ask:}}
+\query{Combined first names of Authors}
 
 \begin{lstlisting}
 SELECT ?n1 ?n2
@@ -2995,7 +3036,7 @@ example. At the same time, we'll get rid of the situations where both
 variables match the same name by filtering them out. This leaves us
 with:
 
-\textbf{\textbf{Ask:}}
+\query{Combined first names as a search probe}
 
 \begin{lstlisting}
 SELECT ?probe
@@ -3030,7 +3071,7 @@ database. We want to find an actor who has one of these as his name. If
 we consider an actor to be someone who acts in a movie, we can find such
 an actor by matching a triple for the predicate \texttt{:playsIn}.
 
-\textbf{\textbf{Ask:}}
+\query{Actors with names like the Authors}
 
 \begin{lstlisting}
 SELECT DISTINCT ?who
@@ -3092,7 +3133,7 @@ about the movies that James Dean played in. As a simple query, we could
 find out whether there are any entries in dbpedia that have labels
 matching the names of actors who played in the movie \emph{Giant}:
 
-\textbf{\textbf{Ask:}}
+\query{Federating with dbpedia.org}
 
 \begin{lstlisting}
 SELECT ?entry
@@ -3135,7 +3176,7 @@ interesting -- it just found the dbpedia reference for something
 if we would ask dbpedia to tell us something we don't already know --
 for instance, the birth name of these actors:
 
-\textbf{\textbf{Ask:}}
+\query{Birth names of actors in Giant}
 
 \begin{lstlisting}
 SELECT DISTINCT ?name ?realname
@@ -3180,8 +3221,8 @@ following triples:
 
 then we could change the query to be 
 
+\query{Birth names of actors in Giant (exact match)}
 \begin{lstlisting}
-Then we could change the query to be
 SELECT DISTINCT ?name ?realname
 WHERE {?actor :playedIn :Giant .
        ?actor skos:exactMatch ?db .
