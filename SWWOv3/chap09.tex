@@ -136,9 +136,9 @@ utility in modeling, based on how it can interact with other modeling
 constructs. In the next two challenges, we'll see how some earlier
 challenges can be extended using inverses.
 
-\begin{challenge}{continued from \protect\ref{chal:2}: Using SPARQL to Transform Hierarchical Data}
+\begin{challenge}{continued from Challenge\protect\ref{chal:2}: Using SPARQL to Transform Hierarchical Data}
 
-In Chapter\ref{ch6} we saw a Challenge problem to use SPARQL to transform
+In Chapter~\ref{ch6} we saw a Challenge problem to use SPARQL to transform
 hierarchical data. The original data was expressed using a variety of
 properties like \texttt{hasSon}, \texttt{hasMother}, \texttt{hasDaughter}, and \texttt{hasFather}. The
 response to the challenge involved a series of SPARQL queries to
@@ -226,9 +226,9 @@ patron the book was \texttt{signedTo} (i.e., the domain and range are reversed).
 
 \begin{challenge}{Merging inverse properties}
 
-How can we merge signedTo and borrows in a way analogous to how we
-merged borrows and
-checkedOut, given that signedTo and borrows don't share good domains and
+How can we merge \texttt{signedTo} and \texttt{borrows} in a way analogous to how we
+merged \texttt{borrows} and
+\texttt{checkedOut}, given that \texttt{signedTo} and \texttt{borrows} don't share good domains and
 ranges?
 
 \solution
@@ -242,17 +242,17 @@ merge. We define a new property---say, \texttt{signedOut}---as the inverse of
 :signedTo owl:inverseOf :signedOut.
 \end{lstlisting}
 
-Now we can use the original Property Union pattern to merge signedOut
-and borrows into the single
-hasPossession property:
+Now we can use the original Property Union pattern to merge \texttt{signedOut}
+and \texttt{borrows} into the single
+\texttt{hasPossession} property:
 
 \begin{lstlisting}
 :signedOut rdfs:subPropertyOf :hasPossession .
 :borrows rdfs:subPropertyOf :hasPossession .
 \end{lstlisting}
 
-So if we have some data expressed using signedTo, along with data
-expressed with borrows, as follows:
+So if we have some data expressed using \texttt{signedTo}, along with data
+expressed with \texttt{borrows}, as follows:
 
 \begin{lstlisting}
 :Amit :borrows :MobyDick .
@@ -261,20 +261,20 @@ expressed with borrows, as follows:
 :WutheringHeights :signedTo :Yoshi .
 \end{lstlisting}
 
-then with the rule for \texttt{inverseOf}, we have the additional triples
+then with the rule for \texttt{inverseOf}, we can infer the additional triples
 
 \begin{lstlisting}
-:Jim :signedOut :LeavesOfGrass.
-:Yoshi :signedOut :WutheringHeights.
+* :Jim :signedOut :LeavesOfGrass.
+* :Yoshi :signedOut :WutheringHeights.
 \end{lstlisting}
 
-and with subPropertyOf, we have
+and with \texttt{subPropertyOf}, we have
 
 \begin{lstlisting}
-:Amit :hasPossession :MobyDick.
-:Marie :hasPossession :Orlando.
-:Jim :hasPossession :LeavesOfGrass.
-:Yoshi :hasPossession :WutheringHeights.
+* :Amit :hasPossession :MobyDick.
+* :Marie :hasPossession :Orlando.
+* :Jim :hasPossession :LeavesOfGrass.
+* :Yoshi :hasPossession :WutheringHeights.
 \end{lstlisting}
 
 as desired.
@@ -294,7 +294,7 @@ arbitrary. Another solution that also uses \texttt{owl:inverseOf} and
 
 These statements use the same rules for \texttt{owl:inverseOf} and
 \texttt{rdfs:subPropertyOf} but in a different order, resulting in the same
-hasPossession triples. Which solution is better in what situations? How
+\texttt{hasPossession} triples. Which solution is better in what situations? How
 can we tell which to use?
 
 
@@ -308,15 +308,15 @@ can we tell which to use?
 
 
 If all we were concerned with was making sure that the inferences about
-hasPossession will be supported, then there would be no reason to prefer
+\texttt{hasPossession} will be supported, then there would be no reason to prefer
 one solution over the other. But modeling in the Semantic Web is not
 just about supporting desired inferences but also about supporting
 reuse. What if someone else
 wants to use this model in a slightly different way? A future query is
-just as likely to be interested in hasPossession as possessedBy.
-Furthermore, we might in the future wish to combine has Possession (or
-possessedBy) with another property. For this reason, one might choose to
-use both solutions together by using both inverseOf and subPropertyOf in
+just as likely to be interested in \texttt{hasPossession} as \texttt{possessedBy}.
+Furthermore, we might in the future wish to combine \texttt{hasPossession} (or
+\texttt{possessedBy}) with another property. For this reason, one might choose to
+use both solutions together by using both \texttt{inverseOf} and \texttt{subPropertyOf} in
 a systematic way---that is, by specifying inverses for every property,
 regardless of the subPropertyOf level. In this case, this results in
 
@@ -330,9 +330,9 @@ regardless of the subPropertyOf level. In this case, this results in
 :possessedBy owl:inverseOf :hasPossession.
 \end{lstlisting}
 
-The systematicity of this structure can be more readily seen in Figure
-8.2. The attentive reader might have one more concern about the
-systematicity of Figure 8.2---in particular, the selection of which
+The systematicity of this structure can be more readily seen in Figure~\ref{Figch9.2}. 
+The attentive reader might have one more concern about the
+systematicity of Figure~\ref{Figch9.2}---in particular, the selection of which
 properties are the subject of \texttt{owl:inverseOf} and which are the object (in
 the diagram, which ones go on the left or on the right of the diagram)
 is arbitrary. Shouldn't there be three more \texttt{owl:inverseOf} triples,

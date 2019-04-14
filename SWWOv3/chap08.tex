@@ -1580,12 +1580,13 @@ can leave natural language comments about a model for future readers to
 see. Since RDFS is implemented entirely in RDF, the comment feature is
 also implemented in RDF. To make a comment on some part of a model,
 simply assert a triple using the property \texttt{rdfs:comment} as a predicate.
-A good practice is also to indicate the natural language used to support internationalization of data, applications and interfaces, as follows:
+A good practice is also to indicate the natural language used to support 
+internationalization of data, applications and interfaces, as follows:
 
 \begin{lstlisting}
 sales:nextDeparture rdfs:comment
    "This indicates the next planned departure date for a salesperson."@en ,
-   "Ceci indique la prochaine date de d(@\'e@)part pr(@\'e@)vue pour un vendeur."@fr .
+   "Ceci indique la prochaine date de d(*@\'e@*)part pr(*@\'e@*)vue pour un vendeur."@fr .
 \end{lstlisting}
 
 \section{SUMMARY}

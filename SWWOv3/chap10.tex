@@ -419,53 +419,35 @@ about alleged violations of Title VIII of the Fair Housing Act. The act
 protects various minorities against certain kinds of discrimination in
 housing.
 
-The FHEO data (Data.gov data set \#1329) are available in many formats,
-including RDF. The information in this data set looks a lot like it came
-from a spreadsheet (which is not surprising, as it was originally
-released in Excel and only later converted to RDF); there are about
-40,000 entries that look like this:
+The FHEO data (https://catalog.data.gov/dataset/fheo-filed-cases) are available 
+as a zipped Excel spreadsheet. This can be converted (as described in Challenge~\ref{chal:1}) to RDF data. 
+There are over
+100,000 entries that look like this:
 
 \begin{lstlisting}
-:entry1
-     a dgtwc:DataEntry ;
-     :case_number "02-06-0270-8" ;
-     :color "0" ;
-     :disability "1" ;
-     :familial_status "0" ;
-     :filed_cases "1" ;
-     :filing_date "2/13/2006" ;
-     :national_origin "0" ;
-     :national_origin_hispanic "0" ;
-     :race "0" ;
-     :race_asian "0" ;
-     :race_asian_and_white "0" ;
-     :race_black_and_white "0" ;
-     :race_black_or_african_american "0" ;
-     :race_hawaiian_or_pacific_islander "0" ;
-     :race_native_american "0" ;
-     :race_native_american_and_black "0" ;
-     :race_native_american_and_white "0" ;
-     :race_other_multi_racial "0" ;
-     :race_white "0" ;
-     :religion "0" ;
-     :retaliation "0" ;
-     :sex "0" ;
-     :violation_county "Kings County" ;
-     :violation_state "New York" .
+:FHEO_filed_case-0
+        rdf:type  :FHEO_filed_case ;
+        :case_number  "06-06-0310-8" ;
+        :filing_date  "2006-01-01"^^xsd:date ;
+        :number_of_filed_cases  1 ;
+        :number_of_filed_cases_with_a_black_or_african_american_race_basis  1 ;
+        :number_of_filed_cases_with_a_disability_basis  1 ;
+        :number_of_filed_cases_with_a_familial_status_basis  1 ;
+        :number_of_filed_cases_with_a_race_basis  1 ;
+        :violation_county  "Lafayette" ;
+        :violation_state  "Louisiana" .
 \end{lstlisting}
 
-(We note that there is an ongoing discussion on the design of US
-government URIs and the representations for RDF conversions, the details
-above were based on the conversion status as of late 2010.) Note that
+Note that
 there are several triples all with the same subject (in this case,
-\texttt{:entry1}), and with the same predicates about the basis, filing date, and
+\texttt{:FHEO_filed_case-0}), and with  predicates about the basis, filing date, and
 location of the discrimination complaint. The filing basis (e.g., race,
-religion, color, etc.) is expressed with the values ``0'' (to indicate a
-factor that is not a basis for the complaint) and ``1'' (to indicate a
-factor that is a basis for the complaint). This somewhat idiosyncratic
+religion, color, etc.) is expressed with the value ``1'' to indicate a
+factor that is a basis for the complaint; for factors that were not implicated
+as a basis for the complaint, no value is recorded. This somewhat idiosyncratic
 way to express the basis for the complaint is not uncommon in the data
 wilderness; for example, it may have resulted from a data entry process
-in which a user could put a checkmark next to the basis for a report.
+in which a user could put a check mark next to the basis for a report.
 
 \begin{challenge}{How can RDFS help us organize and process FHEO data?}
 
@@ -497,38 +479,39 @@ FHEO:Sex rdfs:subClassOf FHEO:Complaint .
 FHEO:White rdfs:subClassOf FHEO:Complaint .
 \end{lstlisting}
 
-We can now express the status of :entry1 as a case of disability
+We can now express the status of \texttt{:FHEO_filed_case-0} as a case of disability
 discrimination with the single triple.
 
 \begin{lstlisting}
-:entry1 a FHEO:Disability .
+:FHEO_filed_case-0 a FHEO:Disability .
 \end{lstlisting}
 
-Since FHEO\texttt{:Disability} is a subclass of FHEO\texttt{:Complaint}, we can infer from
-the type propagation rule that :entry1 is also a FHEO\texttt{:Complaint}.
+Since \texttt{FHEO:Disability} is a subclass of \texttt{FHEO:Complaint}, we can infer from
+the type propagation rule that :entry1 is also a \texttt{FHEO:Complaint}.
 
 Building a model of this sort lets us describe our complaints in a
 concise form, but it doesn't change our data---the data are still in the
 form of ``1'' and ``0.'' How can we transform our data, so that all the
 entries with a ``1'' for the \texttt{property:disability} become members of the
-class :Disability, and those with a ``1'' entry for the property :race
-become members of the class :Race, etc.? Each of these is easy to
+class \texttt{:Disability}, and those with a ``1'' entry for the property \texttt{:race}
+become members of the class \texttt{:Race}, etc.? Each of these is easy to
 accomplish with a SPARQL CONSTRUCT of the form.
 
+\query{Classify cases by tags}
 \begin{lstlisting}
 CONSTRUCT {?e a :Disability}
-WHERE {?e a dgtwc:DataEntry ;
-          :disability "1" . }
+WHERE {?e a :FHEO_filed_case ;
+          :number_of_filed_cases_with_a_disability_basis "1" . }
 \end{lstlisting}
 
 We can define nineteen of these queries, one per legally identified
 discrimination factor. This will construct the triple
 
 \begin{lstlisting}
-:entry1 a FHEO:Disability .
+:FHEO_filed_case-0 a FHEO:Disability .
 \end{lstlisting}
 
-as desired.
+and others for the other classes, as desired.
 \end{challenge}
 
 SPARQL used in this way constitutes an inference method, just as RDFS
@@ -565,7 +548,7 @@ ASK
     FILTER NOT EXISTS {?a a FHEO:Race}}
 \end{lstlisting}
 
-When we evaluate this query over the RDF version of data set 1329, we
+When we evaluate this query over the RDF version of this data set, we
 get the answer \textit{false}; that is, every case of Asian bias is also a case
 of racial bias. We can express a relationship like this in RDFS (thereby
 expressing our opinion that this holds not just for the data we have
@@ -576,13 +559,13 @@ FHEO:Asian rdfs:subClassOf FHEO:Race .
 \end{lstlisting}
 
 Similar comments apply to many of the relationships in this data. We can
-express them all in, as summarized in Figure 9.1.
+express them all in, as summarized in Figure~\ref{fig:ch10.1}.
 
 \begin{figure}
 \centering
 \includegraphics[width=5in]{media/ch10/f10-01.png}
 \caption{Relationships between types of FHEO complaint, sorted by discrimination basis.}
-\label{fig:ch7.1}
+\label{fig:ch10.1}
 \end{figure}
 
 
@@ -616,15 +599,12 @@ comparison is done by finding all the complaints that are members of the
 subclass, regardless of what else they might be members of (\texttt{?suball}),
 and also all complaints that are members of the subclass but not members
 of the parent class (\texttt{?subonly}). Finally, it counts up the number of
-matches, sorted by \texttt{?class} and \texttt{?parent}. The result is given in Table 9.1.
+matches, sorted by \texttt{?class} and \texttt{?parent}. The result is given in Table~\ref{tab:ch10.1}
 The results show that all the subclass relationships indeed hold in the
 current data.
 
 \subsection{Merging data with RDF and SPARQL}
 
-Data set \#1329 includes more data about each complaint than just its
-type; it also includes information about the location of the complaint.
-The data aren't very precise---they only show it down to the level
 
 
 \begin{table}
@@ -634,127 +614,125 @@ the FHEO model against current data}
 \hline
 Total&Mismatch&Class&Parent\\
 \hline
-3283&0&FHEO:Hispanic&FHEO:NationalOrigin\\
-290&0&FHEO:Asian&FHEO:Race\\
-33&0&FHEO:AsianAndWhite&FHEO:Race\\
-11516&0&FHEO:Black&FHEO:Race\\
-617&0&FHEO:BlackAndWhite&FHEO:Race\\
-24&0&FHEO:HPI&FHEO:Race\\
-216&0&FHEO:NA&FHEO:Race\\
-62&0&FHEO:NABlack&FHEO:Race\\
-37&0&FHEO:NAWhite&FHEO:Race\\
-205&0&FHEO:Other&FHEO:Race\\
-1148&0&FHEO:White&FHEO:Race\\
+56&0&FHEO:AsianAndWhite&FHEO:Race\\
+7932&0&FHEO:Hispanic&FHEO:NationalOrigin\\
+483&0&FHEO:Other&FHEO:Race\\
+59&0&FHEO:HPI&FHEO:Race\\
+148&0&FHEO:NABlack&FHEO:Race\\
+698&0&FHEO:Asian&FHEO:Race\\
+2674&0&FHEO:White&FHEO:Race\\
+472&0&FHEO:NA&FHEO:Race\\
+89&0&FHEO:NAWhite&FHEO:Race\\
+26842&0&FHEO:Black&FHEO:Race\\
+1273&0&FHEO:BlackAndWhite&FHEO:Race\\
+
 \hline
 \end{tabular}
 \label{tab:ch10.1}
 \end{table}
 
+This data set includes more data about each complaint than just its
+type; it also includes information about the location of the complaint.
+The data aren't very precise---they only show it down to the level
 of one of the many hundreds of counties found in US states. But we can
 take advantage of linking this information to other data to find out
-where the events took place. The data is in the form
+where the events took place. The incident location data are in the form
 
 \begin{lstlisting}
-FHEOFiling:entry13459 a FHEO:FamilialStatus ; 
-                      FHEO:violation_county "Los Angeles County" ; 
-                      FHEO:violation_state "California" .
+FHEO:filed_ca-100006
+        rdf:type  FHEO:Disability ;
+        FHEO:violation_county  "Franklin" ;
+        FHEO:violation_state  "Ohio" .
 \end{lstlisting}
 
-Suppose we have another data source that cross-references county names
+Now suppose we have another data source that cross-references county names
 with their location (given by latitude and longitude, by street address,
 etc.). This sort of data is available from various address services
 (several of which will provide it in forms that can be displayed on
-Google map). To demonstrate how this works, we will use a data set at
-\url{http://www.workingontologist.org/Examples/chapter9/counties}.
-These data include information in the form
+Google map). To demonstrate how this works, we will use a data set
+that  includes information in the form
 
 \begin{lstlisting}
-US:Los_Angeles_CountyCalifornia a US:County ;
-                        rdfs:label "Los Angeles County, California" ;
-                        geo:lat "34.3871821"^{}^{}xsd:float ;
-                        geo:long "-228.1122679"^{}^{}xsd:float .
+cc:Franklin_County__Ohio	
+    rdfs:label "Franklin" ;
+    cc:inState "Ohio" ;
+	geo:lat "39.970001220703125"^^xsd:float ;
+	geo:long "-83.01000213623046875"^^xsd:float .
 \end{lstlisting}
 
 We would like to be able to cross-reference our FHEO data with these
 data, to find out where the alleged incidents occurred. Once again, we
 can do this with SPARQL CONSTRUCT.
 
-These two data sets (almost) align at the name of the county. The county
-geographical data are indexed by the full name of the county, including
-the name of the state (separated by a comma). The FHEO data include
-names of counties and names of states. We just need to adjust these two
-so that we can compare them.
+We can cross-refernce the violation record with the county record by 
+making sure that the county names and states match for these two sources, with the following
+query:
 
-We already saw in Chapter~\ref{ch6} how we can concatenate strings together in a
-SPARQL query. We can get the combined name of the county and state from
-a complaint with the query
-
+\query{Matching counties with reports}
 \begin{lstlisting}
-SELECT (fn:concat (?county, ", ", ?state) AS ?countyname)
+SELECT *
 WHERE {
-        ?complaint FHEOFiling:violation_county ?county .
-        ?complaint FHEOFiling:violation_state ?state .
+    ?complaint a ?type ;
+               FHEO:violation_county ?county_name ;
+               FHEO:violation_state ?state .
+    ?county  rdfs:label  ?county_name ;
+             cc:inState ?state .
+    }
+\end{lstlisting}
+
+We can get extra information from each record.  From the county record, 
+we can get the geo coordinates of the county.  From the incident record, we can get 
+its type, as above:
+
+\query{Incidents at location}
+\begin{lstlisting}
+SELECT ?typel ?county_name ?lat ?long 
+WHERE {    
+    ?type rdfs:subClassOf+ FHEO:Complaint ;
+        rdfs:label ?typel .
+    ?complaint a ?type ;
+               col:violation_county ?county_name ;
+               col:violation_state ?state .
+    ?county  rdfs:label  ?county_name ;
+             cc:inState ?state ;
+             wgs:lat ?lat ; wgs:long ?long .
 }
 \end{lstlisting}
 
-If we use this query as a subquery, we can use its results to guide the
-search for a county by
-\texttt{?countyname}.
-
-\begin{lstlisting}
-SELECT ?county ?complaint ?lat ?long
-WHERE {
-       {SELECT (fn:concat (?county, ", ", ?state) AS ?countyname)
-        WHERE {
-               ?d FHEO:violation_county ?county .
-               ?d FHEO:violation_state ?state .
-              }
-       }
-       ?county rdfs:label ?countyname ;
-               a US:County ;
-               geo:lat ?lat ;
-               geo:long ?long .
-      }
-\end{lstlisting}
+This query determines the type of the record, but only among the subtypes
+of \texttt{FHEO:Complaint}, as shown in Figure~\ref{fig:ch10.1}.
 
 This query gives us a cross-reference between complaints and the
 counties they occurred in. But the reason we did this cross-reference
 was so that we could get some geographical data from the second
-datasource, that wasn't in the first one; we get that information from
+data source, that wasn't in the first one; we get that information from
 the last two triples in the graph pattern.
 
-We can take this example further, by sorting the results according to
-various criteria. For example, we might want to know how many complaints
-associated with a particular basis occurred in each county. The basis
-for a complaint is now just a class that it belongs to---so we can get
-that by finding the type of the complaint. We restrict the type to types
-of complaint.
+We can take this further, by counting the complaints per type per location, 
+and filtering for only the most egregious situations, in which we had 
+over 300 reports for the same location.  
 
+\query{Counting complaint types by location}
 \begin{lstlisting}
-SELECT ?type (COUNT (?complaint) AS ?severity) ?countyname ?lat ?long
-WHERE {
-       {SELECT ?type ?complaint (fn:concat (?county, ", ", ?state)
-                                 AS ?countyname)
-        WHERE {
-               ?type rdfs:subClassOf+ FHEO:Complaint .
-               ?complaint a ?type ;
-                          FHEO:violation_county ?county ;
-                          FHEO:violation_state ?state .
-              }
-      }
-      ?c rdfs:label ?countyname ;
-         a US:County ;
-         geo:lat ?lat ;
-         geo:long ?long .
+SELECT ?typel (COUNT (?complaint) AS ?severity) ?county_name ?lat ?long
+WHERE {    
+    ?type rdfs:subClassOf+ FHEO:Complaint ;
+        rdfs:label ?typel .
+    ?complaint a ?type ;
+               col:violation_county ?county_name ;
+               col:violation_state ?state .
+    ?county  rdfs:label  ?county_name ;
+             cc:inState ?state ;
+             wgs:lat ?lat ; wgs:long ?long .
 }
-GROUP BY ?type ?countyname ?lat ?long
+GROUP BY ?type ?typel ?county_name ?lat ?long
 HAVING (?severity > 300)
 \end{lstlisting}
 
 This query combines many of the features of SPARQL from Chapter~\ref{ch6}.
 Starting with the match of a complaint to a county, we also find the
 type of the complaint (limited only to types that are subclasses of
-\texttt{FHEO:Complaint}). Then, for each type/county name pair, we count the
+\texttt{FHEO:Complaint}). Then, grouping by each type/county name/location, we count the
 number of distinct complaints (as \texttt{?severity}). Finally, we sort by
 severity, keeping those results having more than 300 complaints. The
 results are shown in Table~\ref{tab:ch10.2}.
@@ -765,19 +743,22 @@ intensity for each basis and severity, then we can put these data on a
 map as shown in Figure~\ref{fig:10.2}.
 
 \begin{table}
-\caption{Results of query counting number of complaints per type and county}
+\caption{Firtst 10 Results of query counting number of complaints per type and county}
 \label{tab:ch10.2}
 \begin{tabular}{|lllll|}
 \hline
 Type&Severity&Countyname&Lat&Long\\
 \hline
-Disability&322&New York County, New York&40.7834345&-73.9662495\\
-Disability&579&Los Angeles County, California&34.3871821&-118.1122679\\
-Disability&317&Maricopa County, Arizona&33.2917968&-112.4291464\\
-Familial Status&378&Los Angeles County, California&34.3871821&-118.1122679\\
-Race&431&Los Angeles County, California&34.3871821&-118.1122679\\
-Race&322&Cook County, Illinois&41.7376587&-87.6975540\\
-Race&339&Tarrant County, Texas&32.7732044&-97.3516558\\
+pRace&376&Cuyahoga&41.54000091552734375&-81.660003662109375\\
+Black&340&Cuyahoga&41.54000091552734375&-81.660003662109375\\
+Disability&468&Palm Beach&26.70999908447265625&-80.0500030517578125\\
+Race&379&Jackson&39.009998321533203125&-94.339996337890625\\
+NationalOrigin&353&Dallas&32.770000457763671875&-96.779998779296875\\
+Black&342&Jackson&39.009998321533203125&-94.339996337890625\\
+Disability&501&Bexar&29.450000762939453125&-98.51999664306640625\\
+Disability&332&Jackson&39.009998321533203125&-94.339996337890625\\
+Disability&358&Cuyahoga&41.54000091552734375&-81.660003662109375\\
+Black&451&Harris&29.8600006103515625&-95.3899993896484375\\
 \hline
 \end{tabular}
 \end{table}
