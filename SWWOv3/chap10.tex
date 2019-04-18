@@ -251,7 +251,6 @@ cost less than \$100'' with SPARQL as follows:
 \query{Services under \$100}
 \begin{lstlisting}
 SELECT ?service 
-FROM  file:plush.ttl
 WHERE {
     plush:BeautyBar schema:makesOffer ?offer . 
     ?offer schema:priceSpecification ?amount .
@@ -507,7 +506,7 @@ There are over
 
 Note that
 there are several triples all with the same subject (in this case,
-\texttt{:FHEO_filed_case-0}), and with  predicates about the basis, filing date, and
+\texttt{:FHEO\_filed\_case-0}), and with  predicates about the basis, filing date, and
 location of the discrimination complaint. The filing basis (e.g., race,
 religion, color, etc.) is expressed with the value ``1'' to indicate a
 factor that is a basis for the complaint; for factors that were not implicated
@@ -546,7 +545,7 @@ FHEO:Sex rdfs:subClassOf FHEO:Complaint .
 FHEO:White rdfs:subClassOf FHEO:Complaint .
 \end{lstlisting}
 
-We can now express the status of \texttt{:FHEO_filed_case-0} as a case of disability
+We can now express the status of \texttt{:FHEO\_filed\_case-0} as a case of disability
 discrimination with the single triple.
 
 \begin{lstlisting}

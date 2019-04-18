@@ -1408,70 +1408,92 @@ the the example of transitive superproperties from Section~\ref{chal:17}.
 In that example, we have a family tree of ancestors:
 
 \begin{lstlisting}
-:Alexia :hasAncestor :WillemAlexander.
-:WillemAlexander :hasAncestor :Beatrix.
-:Alexia :hasAncestor :Beatrix.
-:WillemAlexander :hasAncestor :Wilhelmina.
-:Alexia :hasAncestor :Wilhelmina.
+:WillemAlexander :haParent :Beatrix.
+:Beatrix :hasParent :Wilhelmina .
+:hasParent rdfs:subPropertyOf :hasAncestor .
+:hasAncestor a owl:TransitiveProperty . 
 \end{lstlisting}
 
 Now, let's use the Class Instance Mirror pattern for each of the parents in 
 this to describe the descendants of each parent:
 
 \begin{lstlisting}
-anc:DescendantOfWillem a owl:Class ;
+:DescendantOfWillemAlexander a owl:Class ;
     owl:equivalentClass [ a owl:Restriction ;
                           owl:onProperty anc:hasAncestor ;
-                          owl:hasValue anc:WillemAlexander
+                          owl:hasValue :WillemAlexander
                         ] .
 
-anc:DescendantOfBeatrix a owl:Class ;
+:DescendantOfBeatrix a owl:Class ;
      owl:equivalentClass [ a owl:Restriction ;
                            owl:onProperty anc:hasAncestor ;
-                           owl:hasValue anc:Beatrix
+                           owl:hasValue :Beatrix
                          ] .
 
-anc:DescendantOfWilhelmina a owl:Class ;
+:DescendantOfWilhelmina a owl:Class ;
         owl:equivalentClass [ a owl:Restriction ;
-                              owl:onProperty anc:hasAncestor ;
-                              owl:hasValue anc:Wilhelmina
+                              owl:onProperty :hasAncestor ;
+                              owl:hasValue :Wilhelmina
                             ] .
 \end{lstlisting}
 
-What inferences can we draw?  Evidently, each child is a member of
-the corresponding descendant class for their parent: 
+Now we learn that Willem Alexander has a new addition to his family:
 
 \begin{lstlisting}
-* anc:Alexia a anc:DescendantOfWillemAlexander .
-* anc:WillemAlexander a anc:DescendantOfBeatrix .
-* anc:Beatrix a anc:DescendantOfWilhelmina .
+:Alexia  a  :DescendentOfWillemAlexander .
+\end{lstlisting}
+
+What inferences can we draw?  Evidently, Alexia is a descendant of WillemAlexander
+(since she's a member of his descendant class):
+
+\begin{lstlisting}
+* anc:Alexia :hasAncestor :WillemAlexander .
 \end{lstlisting}
 
 But furthermore, since \texttt{anc:hasAncestor} is a \texttt{owl:TransitiveProperty}, 
-we already know, for example, that 
+we infer
 
 \begin{lstlisting}
-* anc:Alexia a anc:DescendantOfBeatrix .
-* anc:Alexia a anc:DescendantOfWilhelmina .
+* anc:Alexia :hasAncestor :Beatrix, :Wilhelmina .
 \end{lstlisting}
 
-But we can generalize this; since any child of Willem Alexander  would also be a child 
-of Beatrix and of Wilhelmina, we can conclude
+But that means that she is a member of their descendant classes as well: 
+
+\begin{lstlisting}
+ anc:Alexia a :DescendantOfBeatrix, :DescendantOfWilhelmina .
+\end{lstlisting}
+
+But we can generalize this reasoning to hold for any member of WillemAlexanders' descendant class. 
+Any such person will have  Willem Alexander as an ancestor, and hence Beatrix and Wilhelmina, 
+and therefore a member of \texttt{anc:DescendantOfBeatrix} and 
+\texttt{anc:DescendantOfWilhelmina} as well.  This means that we have proven that
 
 \begin{lstlisting}
 * anc:DescendantOfWillem rdfs:subClassOf anc:DescendantOfBeatrix .
 * anc:DescendantOfBeatrix rdfs:subClassOf anc:DescendantOfWilhelmina .
 \end{lstlisting}
 
-This situation is shown in figure
+This situation is shown in Figure~\ref{fig:ch12.12}.  
 
 \begin{figure}
     \centering
-    \includegraphics{}
+    \includegraphics{SWWOv3/media/ch12/Figure ch12.12.png}
     \caption{Inferences from a recursive application of the Class-Individual Mirror pattern}
     \label{fig:ch12.12}
 \end{figure}
 
+What are the ramifications of using the Class-Individual Mirror pattern in this way? 
+In many modeling situations, there is some controversy about whether something should be 
+modeled as a class or as an individual.  Do we want to refer to it as a set of other individuals, 
+or do we want to refer to it as a thing in its own right?  Is a species a set of specimens, or
+is it a description of its members as a phenotype or genotype?  Is a genre a set of literary 
+works, or a topic you can write about?  Is a Dewey Decimal header a set of books, or an entry
+in a classification system?  The Class-Individual Mirror pattern shows how both of these 
+situations can be modeled, using OWL to specify how they are to be kept in sync.  Additions 
+to the individual side (like the addition of Alexia to Willem's family) are reflected on the 
+class side.  The whole argument works in reverse; if we assert that Willem's descendants are 
+also Beatrix's descendants, then Alexia will have Beatrix as an ancestor as well.  The Class-Individual 
+Mirror pattern keeps the two worlds in sync. 
 
 \section{Alternative Descriptions of Restrictions}
 
