@@ -273,6 +273,7 @@ the preceding one are sometimes mistaken for class diagrams.
 \end{sidebar}
 
 \subsection{Typing data by usage---rdfs:domain and rdfs:range}
+\label{section:domainrange}
 
 We have seen how inferences around \texttt{rdfs:subPropertyOf} can be used to
 describe how two properties relate to each other. But when we describe
@@ -1523,14 +1524,27 @@ will show these two dates, but no further inference can be made. In
 particular, no inferences will be made about considering the QEII as a
 member of the sales force or Johannes as a sailing vessel.
 
-What can we take from this example into our general Semantic Web
-modeling practice? Even with
-a small number of primitives, RDFS provides considerable subtlety for
-modeling relationships between different data sources. But with this
-power comes the ability to make subtle and misleading errors. The way to
-understand the meaning of modeling connections is by tracing the
-inferences. The ramifications of any modeling mapping can be worked
-through by following the simple inference rules of RDFS.
+This behavior of RDFS is not an idiosyncrasy of how it was defined, it is
+a direct result of the fact that on the Semantic Web, we are representing distributed
+data, and that includes distributed metadata.  Each stakeholder is telling us 
+something about one of their properties (in this example, \texttt{ship:nextDeparture} and
+\texttt{sales:nextDeparture}).  We need to be able to draw conclusions from 
+each of these things in their own context.  But when we combine them (as 
+we did, when we asserted that they were sub properties of one another), now we 
+have to accept both definitions together.  This isn't an arbitrary decision on 
+the part of the RDF design; it is simply a ramification of treating the statements
+from each contributor equally.  If we believe what the Sales domain says, and we believe
+what the Ship domain says, and if we believe our mapping, then the domain must 
+be the intersection of the stated domains.   When we resolve this situation (e.g., by
+making a new property, \texttt{cal:nextDeparture} that encompasses both of these properties
+we are being specific about the relationship between them.  This is what we have to
+do, to be able to use both data sources together. 
+
+This is the art of modeling in the Semantic Web; to state specifically and in sufficient 
+detail how two or more data sets (or metadata sets) are related.  The inference model
+behind languages like RDFS and OWL provide the precision we need to build this kind of model. 
+
+
 
 \section{Nonmodeling Properties in RDFS}
 

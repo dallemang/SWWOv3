@@ -554,6 +554,7 @@ we will also indicate good practices that can replace the antipattern,
 depending on a variety of possible desired intents for the model.
 
 \subsection{Classism (antipattern)}
+\label{ch15:classism}
 
 A common reaction to the difficult distinction between classes and
 instances is simply to define everything as a class. This solution is
@@ -791,6 +792,134 @@ poems'' may have some ambiguity in natural language, but the
 representation in OWL is much more specific. The modeler has to decide
 just what they mean by a statement like ``Poets wrote poems,'' but OWL
 allows these distinctions to be represented in a clear way.
+
+\subsection{Class punning (antipattern)}
+
+With the introduction of version 2.0 of OWL, a new option was allowed in the 
+language called \emph{punning}.  In the design of OWL 2.0, it was determined that 
+it is not a logical fallacy to use the same identifier as both a class and 
+an individual, hence the name \emph{punning}.  While this is allowed in OWL 2.0, 
+we still consider it poor engineering practice, and suggest not using it.  The
+Class-Individual Mirror pattern (Challenge~\ref{ch:Autoclass}) is a much more precise way
+to accomplish the same goal. 
+
+Let's take a simple example, of a endangered species of Eagle, and the known 
+individuals of that species.  Suppose we call the species \texttt{epa:Eagle}, and 
+we know of three specimens in the wild.  They have been given names by the 
+park ranger:
+
+\begin{lstlisting}
+epa:Eddie a epa:Eagle .
+epa:Edna a epa:Eagle .
+epa:Elmo a epa:Eagle . 
+\end{lstlisting}
+
+Suppose we want to say more about Eagles.  For example, we know that Eagles have 
+wings, and we have heard that the EPA has declared that the Eagle is an endangered species.
+Let's model these things with punning:
+
+\begin{lstlisting}
+epa:Eagle 
+      epa:hasPart epa: Wing ;
+      a epa:EndangeredSpecies  .
+\end{lstlisting}
+
+This is allowed in OWL, via punning.  Why is this a poor practice? 
+
+These two statements seem pretty similar; we know that Eagles have wings 
+(we might go so far as to say that they have exactly two wings), and
+the Eagle is an endangered species. But these
+two statements are very different; when we say Eagles have wings, we mean that 
+each individual eagle has wings, so in particular, Eddie has wings.  But 
+what does the OWL inference model say about this?  What can you conclude about Eddie,
+given that he is a member of a class that \texttt{hasPart} \textt{Wings}? 
+Nothing at all; there is no inference rule that 
+tells us anything about Eddie
+
+What we really
+wanted to say was 
+
+\begin{lstlisting}
+epa:Eagle 
+   rdfs:subClassOf [a owl:Restriction ;
+                    owl:onProperty epa:hasPart ;
+                    owl:someValuesFrmo epa:Wings ]
+\end{lstlisting}
+
+That is, if something is an Eagle, then it has parts that are wings. 
+
+How about the statement about being a subclass of \texttt{EndangeredSpecies}?  
+The inference model says nothing about this, which is what we want.  After all, 
+just because the species is endangered means nothing about any particular 
+Eagle.  
+
+One of these statements, about \texttt{hasPart}, is a fallacy (in fact, a partiuclarly
+egregious version 
+of the \emph{Classism} antipattern from Section~\ref{ch15:classism}), 
+while the other (\texttt{EndangeredSpecies}
+is a technically correct use of punning.  We can replace the fallacious use with a 
+correct pattern.  What can we do instead? 
+
+First off, let's start with the class EndangeredSpecies, and have 
+Eagle be a member of it.  Let's call it \texttt{EagleSpecies} to distinguish it from other 
+things that might be called Eagle. 
+
+\begin{lstlisting}
+epa:EagleSpecies a epa:EndangeredSpecies .
+\end{lstlisting}
+
+Now, what is the relationship of Eddie et al. to \texttt{EagleSpecies}?  We can be
+quite specific about this relationship, and call it \texttt{epa:hasSpecies}, so that:
+
+\begin{lstlisting}
+epa:Eddie epa:hasSpecies epa:EagleSpecies .
+epa:Edna epa:hasSpecies epa:EagleSpecies .
+epa:Elmo epa:hasSpecies epa:EagleSpecies . 
+\end{lstlisting}
+
+But still, we can't do everything the punning model can do.  After all, it 
+could well be convenient to refer to the class of all things that have \texttt{EagleSpecies} 
+as its species  (e.g., so that we could say that it is a subclass or superclass of
+something else, or use it in a \emph{Relationship Transfer} pattern as described in 
+Section~\ref{ch12:Transfer}).  But we can accomplish this with a simple application of the 
+Class-Individual Mirror pattern;
+the class of things that have species Eagle can be defined simply in OWL:
+
+\begin{lstlisting}
+epa:Eagle a owl:Class ;
+     owl:equivalentClass [a owl:Restriction ;
+                          owl:onPropery epa:hasSpecies ;
+                          owl:hasValue epa:EagleSpecies ]
+\end{lstlisting}
+
+Evidently, we can now infer that
+
+\begin{lstlisting}
+* epa:Eddie a epa:Eagle  .
+* epa:Edna a epa:Eagle .
+* epa:Elmo a epa:Eagle . 
+\end{lstlisting}
+
+If we want to point out that Eagles are Birds, we can do that, and infer that Eddie
+and his family are birds:
+
+\begin{lstlisting}
+epa:Eagle rdfs:subClassOf epa:Bird .
+* epa:Eddie a epa:Bird  .
+* epa:Edna a epa:Bird .
+* epa:Elmo a epa:Bird . 
+\end{lstlisting}
+
+We still have a class of all eagles, we can say that eagles are endangered, and 
+we know quite specifically the relationship that a particular eagle (like Eddie) has
+to that species, without the need to commit a category error.  The Class-Individual mirror
+pattern is a far more explicit way to express these relationships. 
+
+
+
+
+
+
 
 \subsection{Exclusivity (antipattern)}
 

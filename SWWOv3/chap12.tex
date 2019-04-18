@@ -1094,6 +1094,7 @@ solution would use a model in OWL and an inference engine to solve the
 same problem.
 
 \begin{challenge}{Autoclassification in OWL}
+\label{ch:Autoclass}
 
 Build a model in OWL so we can infer the type information for each
 individual, based on the value in the ``Product\ Line'' 
@@ -1220,7 +1221,7 @@ the desktop---so we model this with a restriction on the property
 runsOn, that it has the value Desktop. This is shown in the top of the
 figure. This is a typical pattern for relating a set of things to an
 individual; we defined the set of things that run on the desktop to the
-individual desktop using a single hasValue restriction.
+individual desktop using a single \texttt{hasValue} restriction.
 
 In the bottom of the figure, we use this pattern again, but this time we
 relate the set of applications that comply
@@ -1257,7 +1258,7 @@ implementation of the pattern is simple---it is a single \texttt{hasValue}
 restriction on some property. The interpretation of it is that we are
 describing the relationship of an individual to a set---this is the set
 of all things that relate to this individual in a certain way. We will
-see the importance of this pattern for metamodeling in Section~\ref{mdetamodel}.
+see the importance of this pattern for metamodeling in Section~\ref{metamodel}.
 
 \begin{figure}
 \centering
@@ -1269,6 +1270,7 @@ see the importance of this pattern for metamodeling in Section~\ref{mdetamodel}.
 
 
 \subsection{Relationship transfer}
+\label{ch12:Transfer} 
 
 When mapping from one model to another, or even when specifying how one
 part of a model relates to another, it is not uncommon to make a
@@ -1396,6 +1398,80 @@ we can infer that
 \end{lstlisting}
 
 \end{challenge}
+
+
+
+We can use the Class-Individual Mirror Pattern in a repeated setting, to 
+describe inferences over tree structured data.  Expanding on the pattern 
+where we have a class for the children of a famous person, let's go back 
+the the example of transitive superproperties from Section~\ref{chal:17}.
+In that example, we have a family tree of ancestors:
+
+\begin{lstlisting}
+:Alexia :hasAncestor :WillemAlexander.
+:WillemAlexander :hasAncestor :Beatrix.
+:Alexia :hasAncestor :Beatrix.
+:WillemAlexander :hasAncestor :Wilhelmina.
+:Alexia :hasAncestor :Wilhelmina.
+\end{lstlisting}
+
+Now, let's use the Class Instance Mirror pattern for each of the parents in 
+this to describe the descendants of each parent:
+
+\begin{lstlisting}
+anc:DescendantOfWillem a owl:Class ;
+    owl:equivalentClass [ a owl:Restriction ;
+                          owl:onProperty anc:hasAncestor ;
+                          owl:hasValue anc:WillemAlexander
+                        ] .
+
+anc:DescendantOfBeatrix a owl:Class ;
+     owl:equivalentClass [ a owl:Restriction ;
+                           owl:onProperty anc:hasAncestor ;
+                           owl:hasValue anc:Beatrix
+                         ] .
+
+anc:DescendantOfWilhelmina a owl:Class ;
+        owl:equivalentClass [ a owl:Restriction ;
+                              owl:onProperty anc:hasAncestor ;
+                              owl:hasValue anc:Wilhelmina
+                            ] .
+\end{lstlisting}
+
+What inferences can we draw?  Evidently, each child is a member of
+the corresponding descendant class for their parent: 
+
+\begin{lstlisting}
+* anc:Alexia a anc:DescendantOfWillemAlexander .
+* anc:WillemAlexander a anc:DescendantOfBeatrix .
+* anc:Beatrix a anc:DescendantOfWilhelmina .
+\end{lstlisting}
+
+But furthermore, since \texttt{anc:hasAncestor} is a \texttt{owl:TransitiveProperty}, 
+we already know, for example, that 
+
+\begin{lstlisting}
+* anc:Alexia a anc:DescendantOfBeatrix .
+* anc:Alexia a anc:DescendantOfWilhelmina .
+\end{lstlisting}
+
+But we can generalize this; since any child of Willem Alexander  would also be a child 
+of Beatrix and of Wilhelmina, we can conclude
+
+\begin{lstlisting}
+* anc:DescendantOfWillem rdfs:subClassOf anc:DescendantOfBeatrix .
+* anc:DescendantOfBeatrix rdfs:subClassOf anc:DescendantOfWilhelmina .
+\end{lstlisting}
+
+This situation is shown in figure
+
+\begin{figure}
+    \centering
+    \includegraphics{}
+    \caption{Inferences from a recursive application of the Class-Individual Mirror pattern}
+    \label{fig:ch12.12}
+\end{figure}
+
 
 \section{Alternative Descriptions of Restrictions}
 

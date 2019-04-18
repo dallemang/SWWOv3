@@ -380,9 +380,7 @@ shop:Oxfords rdfs:subClassOf shop:Shirts.
 shop:Tshirts rdfs:subClassOf shop:Shirts. 
 shop:ChamoisHenley rdf:type shop:Henleys.
 shop:ClassicOxford rdf:type shop:Oxfords. 
-shop:ClassicOxford rdf:type shop:Shirts. 
 shop:BikerT rdf:type shop:Tshirts.
-shop:BikerT rdf:type shop:MensWear.
 \end{lstlisting}
 
 These triples are shown graphically in Figure~\ref{fig:ch7.2}.
@@ -400,9 +398,9 @@ will draw the following inferences (for the purpose of these examples, an asteri
 \begin{lstlisting}
 *shop:ChamoisHenley rdf:type shop:Shirts .
 *shop:ChamoisHenley rdf:type shop:MensWear .
-*hop:ClassicOxford rdf:type shop:Shirts .
+*shop:ClassicOxford rdf:type shop:Shirts .
 *shop:ClassicOxford rdf:type shop:MensWear .
-*hop:BikerT rdf:type shop:Shirts .
+*shop:BikerT rdf:type shop:Shirts .
 *shop:BikerT rdf:type shop:MensWear .
 \end{lstlisting}
 

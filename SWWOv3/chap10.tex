@@ -3,7 +3,7 @@
 
 We have seen a number of examples of the use of RDFS-Plus modeling for
 merging information from multiple sources in a dynamic and flexible way.
-In this chapter, we describe three  example uses of the RDFS-Plus
+In this chapter, we describe four  example uses of the RDFS-Plus
 constructs. All of these applications of RDFS-Plus have attracted
 considerable user communities in their respective fields. They
 also make essential use of the constructs in RDFS-Plus, though often in
@@ -11,9 +11,11 @@ quite different ways. These are real modeling applications built by
 groups who originally had no technology commitment to RDF, RDFS or OWL
 (though both were conceived as RDF applications).
 
-In all three of these examples, a model, expressed in RDFS, is used to describe
+In the first three of these examples, a model, expressed in RDFS, is used to describe
 data that is distributed on the web.  In each case, one or more applications
-make use of this data to provide valuable services to some user communities. 
+make use of this data to provide valuable services to some user communities.  
+The fourth case is an example that uses RDFS-Plus to represent linkages between datasets
+on the web. 
 
 
 
@@ -45,6 +47,9 @@ project requirements. As the project evolved, there was a need to
 describe the relationships between various resources in a formal way;
 this led it to RDFS and then on to RDFS-Plus.
 
+The fourth example, \emph{BridgeDb}\footnote{Scientific lenses to support multiple views over linked chemistry data. Batchelor C, Brenninkmeijer C, Chichester C, Davies M, Digles D, Dunlop I, Evelo CT, Gaulton A, Goble C, Gray AJG, Groth P, Harland L, Karapetyan K, Loizou A, Overington JP, Pettifer S, Steele J, Stevens R, Tkachenko V, Waagmeester A, Williams A, Willighagen EL. In The Semantic Web – ISWC 2014, Lecture Notes in Computer Science Volume 8796, 2014, 98-113.}, is a dataset that links other data
+sets for chemistry research, especially for molecular biology. 
+
 
 In this chapter, we describe each of these efforts and show the use they
 make of the RDFS-Plus constructs we introduced in previous chapters.
@@ -61,8 +66,12 @@ advanced data application like rich snippets and enhanced search engine optimiza
 But these applications can't do their job without some sort of shared vocabulary 
 for that data.  Schema.org provides a central location for this shared vocabulary. 
 
-Millions of sites use the ontologies of Schema.org to markup their pages and improve search and user experience in general across applications. Although the mark up of Web pages may have been motivated by the impact it has on the major search engines, it also makes the embedded data available to anyone and to any Web application. The fact that standard syntaxes like RDFa, Microdata or JSON-LD and schemas are supported by major search engines has made the mark up of Web pages with structured data  widespread.  Since the W3C has standardized on these
-syntaxes, anyone can parse them, making this data resuable by anyone in their own application. 
+Millions of sites use the ontologies of Schema.org to markup their pages and improve search and user experience 
+in general across applications. Although the mark up of Web pages may have been motivated by the impact it 
+has on the major search engines, it also makes the embedded data available to anyone and to any Web application. 
+The fact that standard syntaxes like RDFa, Microdata or JSON-LD and schemas are supported by major search 
+engines has made the mark up of Web pages with structured data  widespread.  Since the W3C has standardized on these
+syntaxes, anyone can parse them, making this data reusable by anyone in their own application. 
 
 
 The class hierarchy of Schema.org includes things that you can describe in 
@@ -72,9 +81,11 @@ Commonly used classes include: Persons, Events, Organizations, Places, Creative 
 Let's start with a simple example, of how we would mark up a product page about 
 a Men's tie so that we can support a rich snippet such as the one shown in Figure~\ref{fig:ch4.RS}(a).
 
-The namespace prefix for Schema.org is just \texttt{https://schema.org/}; here, we will 
-use the prefix \texttt{schema:} for that.  To get started,  Schema.org defines a class called a \texttt{schema:Product}.  For any class in Schema.org, you can see the 
-documentation for that class through follow-your-nose; if you type \texttt{http://schema.org/Product} into your web browser, you will get a page outlining
+The namespace for Schema.org is just \texttt{https://schema.org/}. Here, we will 
+use the prefix \texttt{schema:} for that. To get started, Schema.org defines a class called 
+a \texttt{schema:Product}.  For any class in Schema.org, you can see the 
+documentation for that class through follow-your-nose; if you type 
+\texttt{http://schema.org/Product} into your web browser, you will get a page outlining
 the properties that can be used with a Product and some example markup that uses them. 
 For the purpose of this example, lets call this tie texttt{bnb:Buffalo}.  Then 
 the simplest triples we can have for this product say that it is a product and its 
@@ -108,12 +119,6 @@ with this information.  In the case of the rich snippet in Figure~\ref{fig:ch4.R
 means displaying it right under the name in the search results.  The reviews and ratings 
 managed in a similar way. 
 
-The core vocabulary of Schema.org currently consists of 598 Types and 862 Properties that 
-have been collaboratively defined and maintained through an open community process on the 
-Web.  The community was originallly formed as a W3C Community group that manages the 
-issues 
-and proposals. 
-
 The ontology of Schema.org is always growing.  In 2012, the Good Relations ontology
 was integrated into Schema.org.  This integration provides more detailed descriptions of 
 products, services and offerings.  We'll show an example of how Schema.org 
@@ -137,9 +142,9 @@ including a massage:
 
 \begin{lstlisting}
 plush:BeautyBar a schema:DaySpa ;
-               schema:makesOffer plush:Offer1 ;
-               schema:makesOffer plush:Offer2 ;
-               schema:makesOffer plush:Offer3 ;
+                schema:makesOffer plush:Offer1 ;
+                schema:makesOffer plush:Offer2 ;
+                schema:makesOffer plush:Offer3 ;
 plush:Offer1 rdfs:label "Hour and a half massage" .
   ...
 \end{lstlisting}
@@ -156,15 +161,13 @@ example of reification from Chapter~\ref{ch3}, and Schema.org
 solves it by defining a
 class called a \texttt{UnitPriceSpecification} for the full description of a
 price. We'll see how Plush uses this to describe the price of their
-manicure, building on the examle above:
+manicure, building on the example above:
 
 \begin{lstlisting}
-plush:Offer1
-  rdf:type schema:Offer ;
+plush:Offer1 a schema:Offer ;
   schema:priceSpecification plush:PriceSpec1 ;
   rdfs:label "Hour and a half massage" .
-plush:PriceSpec1
-  rdf:type schema:UnitPriceSpecification ;
+plush:PriceSpec1 a schema:UnitPriceSpecification ;
   schema:price "80.0" ;
   schema:priceCurrency "USD" .
 \end{lstlisting}
@@ -191,11 +194,10 @@ name suggests, it refers to a type and a quantity as a single node.
 So an hour and a half long  massage looks like this:
 
 \begin{lstlisting}
-plush:Massage1_5
-  a schema:TypeAndQuantityNode ;
-  schema:amountOfThisGood "1.5" ;
-  schema:unitCode unit:HR ;  
-  schema:typeOfGood plush:Massage .
+plush:Massage1_5 a schema:TypeAndQuantityNode ;
+    schema:amountOfThisGood "1.5" ;
+    schema:unitCode unit:HR ;  
+    schema:typeOfGood plush:Massage .
 \end{lstlisting}
 
 The idea of "an hour and a half" is done by specifying units (unsing \texttt{schema:unitCode} and the amount in those units (using \texttt{schema:amountOfThisGood}.  The units are specified by referring 
@@ -205,7 +207,7 @@ Section~\ref{QUDT}.
 
 Finally, we can bring it all together as an offering, which includes a massage
 that lasts for an hour and a half, with a price of \$80.  The data is shown in 
-Turtle in Figure~\ref{fig:ch10.plushdata}, and as a graph in Figure~\ref{ch10.02}.
+Turtle in Figure~\ref{fig:ch10.plushdata}, and as a graph in Figure~\ref{fig:ch10.02}.
 
 \begin{figure}
 \begin{lstlisting}
@@ -229,7 +231,7 @@ plush:Massage1_5
 plush:Massage a schema:Service ;
   rdfs:label "Relaxing Massage" .
 \end{lstlisting}
-    \caption{Caption}
+    \caption{full example of an offer for an hour and a half massage at the Plush Beauty Bar for \$80}
     \label{fig:ch10.plushdata}
 \end{figure}
 
@@ -276,7 +278,7 @@ but Schema.org makes it possible to use it to do this sort of filtering.
 
 
 At the time of this writing, Schema.org contains roughly 600 classes and nearly 
-900 properties.  These numbers grow quickly, because Schema.org is being
+900 properties.  These numbers continue to grow, because Schema.org is being
 maintained through an open community collaboration process. 
 
 The class definitions in Schema.org are represented as \texttt{rdfs:Class}.  
@@ -321,7 +323,7 @@ we expect to use for it using \texttt{rdfs:domain}, and the expected
 type of the value for that property using \texttt{rdfs:range}.  However, as we 
 saw in Section~\ref{multidomain}, the interpretation of having multiple 
 \texttt{domain} (respectively \texttt{range}) declarations in RDFS is that 
-we effectily express the \texttt{interesection} of the domains.  But for 
+we effectively express the \texttt{intersection} of the domains.  But for 
 Schema.org, the desired effect is that it should be possible to express the 
 \texttt{union} of multiple domains.  We saw in Section~\ref{sunion} that it is 
 possible to represent something like a union in RDFS, but this involves
@@ -351,8 +353,73 @@ schema:unitCode
 In Schema.org, this means that the property \texttt{unitCode} can be used for any 
 \texttt{TypeAndQuantityNode} and also for any \texttt{UnitPriceSpecification}.
 
-A full anaysis of the semantics of Schema.org is beyond this discussion.  The topic has been treated in 
+A full analysis of the semantics of Schema.org is beyond this discussion.  The topic has been treated in 
 great detail in the literature. \footnote{https://link.springer.com/chapter/10.1007/978-3-319-11964-9\_17}
+
+\subsection{Schema.org semantics}
+
+Schema.org made the decision to create its own modeling language, using \texttt{schema:domainIncludes} and 
+\texttt{schema:rangeIncludes} instead of using the closely related constructs from RDFS of \texttt{rdfs:domain} 
+and \texttt{rdfs:range}.  What are the ramifications of this decision? 
+
+RDFS was designed with distribution of metadata in mind.  We'll illustrate this with an example.  In Finance, the 
+word "principal" has two very different meanings; one refers to a debt, and is the amount of money owed.  
+So when you take out a mortgage or a loan, the amount you borrow is called the "principal".  But more
+generally, in a contract setting, there are some parties to the contract that are known as the "principals";
+these are the main parties in the contract (while there may be many other non-principals named in the contract
+as well).  There is some possibility for confusion between these terms.  
+
+In the Semantic Web, we use URIs to denote our properties as well as anything else; suppose we have two data sets 
+that use a property called \texttt{hasPrincipal}, and we want to know how each one is used.  Let's call them
+\texttt{s1:hasPrincipal} and \texttt{s2:hasPrincipal}, for the usage from source 1 and 2 respectively.   Of course, 
+we could have documentation in English that gives some indication of how to use each one, but that is notoriously
+ambiguous and not readable by machine.  
+
+But suppose that the data sources were to provide some machine readable modeling information about these properties, 
+like this:
+
+\begin{lstlisting}
+s1:hasPrincipal rdfs:range fibo:MonetaryAmount .
+s2:hasPrincipal rdfs:range fibo:ContractParty .
+\end{lstlisting}
+
+The namespace \texttt{fibo:} refers to a standard ontology about Finance, which we will describe in more detail
+in Section~\ref{section:fibo}. For now, all we need to know is that FIBO provides a reference for terminology
+for finance.   
+
+Evidently, from these statements, we would like to conclude that \texttt{s1:hasPrincipal} refers to the amount of money 
+in a debt, since we know that whenever that property is used in a dataset from \texttt{s1}, it will refer to a value that 
+is a monetary amount.  This conclusion, that the value will \emph{always} be a member of the class \texttt{fibo:MonetaryAmount}, 
+is the definition of \texttt{rdfs:range}, as given in Section~\ref{section:domainrange}.  Similar comments apply
+to \texttt{s2:hasPrincipal}, by asserting these metadata statements, along with the semantics of RDFS, sources \texttt{s1}
+and \texttt{s2} have communicated to people who will want to re-use their data (that is, us) how they use the 
+data.  They have communicated this clearly and unambiguously.  These statements still hold in face of the Open World Assumption;
+even if we learn more about \texttt{s1:hasPrincipal}, we still know that any value of this property will be a \texttt{fibo:MonetaryAmount}. 
+
+Now suppose that \texttt{s1} and \texttt{s2} had modeled these properties using  \texttt{schema:rangeIncludes} thus:
+
+\begin{lstlisting}
+s1:hasPrincipal schema:rangeIncludes fibo:MonetaryAmount .
+s2:hasPrincipal schema:rangeIncludes fibo:ContractParty .
+\end{lstlisting}
+
+Now what can we conclude?  As before, we'd like to conclude that \texttt{s1:hasPrincipal} refers to the amount of money 
+in a debt (as opposed to the principal participant in a contract).  Can we infer this?  \texttt{schema:domainIncludes} tells 
+us that in this data set, any time we use the property \texttt{s1:hasPrincipal}, the value for that property is either
+a \texttt{fibo:MonetaryAmount} or something else, which might be specified somewhere else in their model, 
+or even elsewhere on the web, if their model is also distributed.  We can't actually
+conclude anything from this statement; it might be a \texttt{fibo:MonetaryAmount}, it might be a \texttt{fibo:ContractParty}, it 
+might be something we haven't talked about at all, like a \texttt{schema:Offer}.  There is no conclusion we can draw at this
+point. 
+
+From a distributed metadata point of view, which is how RDFS was defined, it is clear that \texttt{rdfs:range} is more informative.
+But from a master data modeling point of view, where we expect all of our metadata to be accessible in one place, \texttt{schema:rangeIncludes} 
+is much more practical.  It does not require that the modelers make an unambiguous statement that will remain true even 
+in the face of the open world assumption.   As a modeler, I can just gather up all the valid uses I know for a property,
+and add each one as using \texttt{schema:rangeIncludes}.  As a user of metadata from \texttt{s1}, if I can know that I have seen everything 
+there is to know about \texttt{s1:hasPrincipal}, then I can draw conclusions from \texttt{schema:rangeIncludes}.  In this example,
+knowing that there are no more defining triples for \texttt{s1:hasPrincipal},  I can conclude that the principal 
+in question is a \texttt{fibo:MonetaryAmount}
 
 \subsection{Schema.org Summary}
 
@@ -370,9 +437,9 @@ Schema.org was designed with web developers in mind, so if you are maintaining
 a web site, it is straightforward to mark it up using Schema.org. 
 Once you have modeled your data in Schema.org (following the examples
 in this chapter), you can embed them into web pages
-using any of the formats RDFa, Microdata, (Section~\ref{webembed} or 
+using any of the formats RDFa, Microdata, (Section~\ref{webembed}) or 
 JSON-LD (Section~\ref{ch3.JSON}), then you can check what it means to Schema.org
-by using the Google Strucutured Testing Tool \footnote{https://search.google.com/structured-data/testing-tool} or the W3C RDFa distiller \footnote{https://www.w3.org/2012/pyRdfa/} .
+by using the Google Structured Data Testing Tool \footnote{https://search.google.com/structured-data/testing-tool} or the W3C RDFa distiller \footnote{https://www.w3.org/2012/pyRdfa/} .
 
 
 
@@ -771,7 +838,7 @@ classes for the new data sets, and letting SPARQL do the rest. This
 approach is being used on US government data sets every day, providing
 insight into the otherwise unmanageable data.
 
-\section{data.gov Summary}
+\subsection{data.gov Summary}
 
 The example mashup using data.gov shown here really represents only the
 tip of the iceberg of what has been done, and continues to be done, with
@@ -1458,6 +1525,72 @@ information; even at its inception, its connection to these other
 systems was built-in to its model, in a machine- readable, queryable
 way. OGP, from the outset, is part of a network of descriptive metadata
 for entities in social networks.
+
+
+\section{BridgeDb}
+
+As we saw in Chapter~\ref{ch09}, RDFS-Plus can be used to manage identity 
+across various data sets.  We saw the use of \texttt{owl:InverseFunctionalProperty}
+as a way to specify key identifiers so that we can infer sameness within a 
+dataset or even across datasets.  However, such a simple structure as 
+\texttt{owl:InverseFunctionalProperty} is not sufficient for most notions of identity
+in the data wilderness.  We often have to rely on heuristics, novel combinations
+of properties, or even machine learning techniques to determine whether two 
+entities are the same or not. 
+
+
+In many cases, there isn't even a clear notion of what it means to be ``the same''.  
+In molecular biology, two chemicals can be similar in many ways; these similarities 
+determine how they will behave in many chemical reactions.  Chemicals with identical
+formulas can behave differently in certain metabolic pathways, depending on the 
+structure of the molecule.  This, in turn, can result in very different behaviors
+phamacologically.  A high-profile example of this is Thalidomide, which appears in 
+two forms, with identical chemical formulas.  A molecule of one form is the mirror-image
+of the molecule in the other form.  One of these images (called \emph{stereoisomers}) 
+is therapeutic (for symptoms of morning sickness).  The other causes severe birth
+defects.  From a chemistry point of view, the two are the same; from a pharmacological 
+point of view, they are different.  
+
+The determination that two chemicals are the same in some way isn't just a matter of 
+matching a few fields in a data record; in some cases, it can be actually be a research
+project to determine all of the forms a chemical can take.  
+
+The Semantic Web doesn't provide any specific methods for doing this sort of research, but,
+as we saw as early as Chapter~\ref{ch01}, it provides a standardized way for someone 
+who has done this research to publish their results.  This is idea behind BridgeDb.
+
+In chemistry, and specifically the parts of chemistry that underlie molecular biology, genetics
+and metabolomics, there are already a large number of databases that contain information 
+about chemicals, genes and metabolism.  Each of these has its own identification system,
+tuned to its own needs; we will examine one of these in detail in Section~\ref{section:Bio}.  
+In order to do comprehensive biological research, as is required for drug discovery and 
+other biological research, information from many of these databases has to be cross-referenced
+in a precise an accurate way.  The correspondences between these data sets is well-known, 
+but until recently, not available in one resource.  This was the motivation for \emph{BridgeDb}. 
+
+The core of the data behind BridgeDb are the \emph{link sets}, which provide information linking
+particular entities in one database to entities in another.  The link sets are organized based on 
+which original data sets they link, and what types of entities they link.  The link sets are made available 
+through APIs, data downloads, and through web pages that allow users to query for matching 
+entities.  There are dozens of matching relationships available for how genes, compounds, proteins and 
+other entities of biological interest could match together.  Figure~\ref{Fig:ch10.3} shows a small excerpt
+from the sub property try used by BridgeDb. 
+
+\begin{figure}
+    \centering
+    \includegraphics[width=5in]{media/ch10/Figurech10.3.png}
+    \caption{Some ways that biological entities can be related in BridgeDb}
+    \label{Fig:ch10.3}
+\end{figure}
+
+BridgeDb is a fabulously useful resource, because whenever anyone wants to use one of the
+source databases, there is some opportunity to use data from one of the others.  By having a 
+stand-alone resource for mapping these data sets, any research that determines such 
+a match is available to every user of each database.  The links between the data sets are 
+as useful (or in some cases, even more so) than the datasets themselves. 
+
+
+
 
 \subsection{Fundamental concepts}
 

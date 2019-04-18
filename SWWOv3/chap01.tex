@@ -219,6 +219,9 @@ our machine learning successes from the enterprise level to the industrial level
 We need a way to link together data that is distributed throughout an industry. 
 
 
+\section{Distributed data}
+
+
 
 
 \section{Semantic Data}
@@ -236,9 +239,9 @@ It behooves both the author and the reader to match these up.  Once again, the a
 want to rely on someone else to communicate their value. 
 
 This story repeats at every level; a bank has more control over its own instruments if it 
-can communicate their terms in a clear and unambiguous way (to partners or regulators)
+can communicate their terms in a clear and unambiguous way (to partners, clients or regulators)
 The IAU's charter is to keep the astronomical community informed about developments in 
-observations and classifications.  Your dentist wants their patients to be able to find them. 
+observations and classifications.  Dentists want their patients to be able to find their clinics. 
 
 The unifying theme in all of these examples is a move from a presentation of information 
 for a specific audience, requiring interpretation from a human being to an exchange of data
@@ -269,17 +272,39 @@ Resource Identifiers (URIs).   When Mongotel publishes information about its hot
 their locations, or when Copious publishes its opening hour, they don't
 just publish a human-readable presentation
 of this information but instead a distributable, machine-readable
-description of the data. The data model that this distributed Web of
-Data infrastructure uses to represent this distributed web of data is
+description of the data. 
+
+The Semantic Web faces the problem of distributed data head-on.  Just as 
+the hypertext web changed how we think about availability of documents, 
+the Semantic Web is a radical way of thinking about data.  At first blush,
+distributed data seems easy; just put databases all over the web (data on the web).
+But in order for this to act as a distributed \emph{web of data},  we have 
+to understand the dynamics of sharing data among multiple stakeholders across
+a diverse world.   Different sources can agree or disagree, and data  can be 
+combined from different sources to gain more insight about a single topic. 
+
+Even within a single company, data can be considered as a distributed resource. Multiple
+data bases, from different business units, or from parts of the business that 
+were acquired through merger or corporate buy-out, can be just as disparate as 
+sources from across the web.  Distributed data means that the data comes from 
+multiple stakeholders, and we need to understand how to bring the data together
+in a meaningful way.
+
+Broadly speaking, data makes a statement that relates one thing to another, in some 
+way.  Copious (one thing) opens (a way to relate to something else) at 5:00pm (another
+thing, this time a value).  They serve (another way to relate to something) Chicken 
+and Waffles (this time, a dish), which itself is made up (another way to relate) of
+some other things (chicken, Waffles, and a few others not in its name, like 
+maple syrup).  Any of these things can be represented at any source in a distributed web of data. 
+The data model that the Semantic Web
+uses to represent this distributed web of data is
 called the \emph{Resource Description Framework} (RDF) and is the topic of
 Chapter~\ref{ch3}.  
 
-This single, distributed data model is the first and core contribution
-that the Semantic Web infrastructure brings to a smarter Web. Just as is
-the case with data-backed Web applications, the Semantic Web
-infrastructure allows the data to drive the presentation so that various
-web pages (presentations) can provide views into a consistent body of
-information. In this way, the Semantic Web helps data not be so dumb.
+
+
+ 
+
 
 \subsection{Features of a Semantic Web}
 
@@ -291,7 +316,10 @@ Semantic Web. These ramifications have driven many of the design
 decisions for the Semantic Web Standards and have a strong influence on
 the craft of producing quality Semantic Web applications.
 
-\subsection{Give me a voice .}
+
+
+
+\subsubsection{Give me a voice .}
 
 On the World Wide Web, publication is by and large in the hands of the
 content producer. People can build their own web page and say whatever
@@ -322,7 +350,7 @@ can be maddening for someone trying to make sense of information on the
 Web, this freedom of expression on the Web is what allowed it to take
 off as a bottom-up, grassroots phenomenon.
 
-\subsection{... So l may speak!}
+\subsubsection{... So l may speak!}
 
 In the early days of the hypertext Web, it was common for skeptics,
 hearing for the first time about the possibilities of a worldwide
@@ -411,7 +439,7 @@ data cloud}
 \end{figure}
 
 
-\subsection{What about the round-worlders?}
+\subsubsection{What about the round-worlders?}
 
 The network effect has already proven to be an effective and empowering
 way to muster the effort needed to create a massive information network
@@ -492,7 +520,7 @@ statements, just as there will always be multiple web pages on any given
 topic. The Web is innovative because it allows all these multiple
 viewpoints to coexist.
 
-\subsection{To each their own}
+\subsubsection{To each their own}
 
 How can the Web architecture support this sort of variation of opinion?
 That is, how can two people say different things, about the same topic?
@@ -544,7 +572,7 @@ unique names might be nice, but it may be impossible. Some other
 organization than the IAU, for example, might decide they are unwilling
 to accept the new nomenclature.
 
-\subsection{There's always one more}
+\subsubsection{There's always one more}
 \label{openworld}
 
 In a distributed network of information, as a rule we cannot assume at
@@ -612,7 +640,7 @@ the Closed World Assumption is appropriate.   The Semantic Web standards have pr
 working with the Closed World Assumption when it is appropriate. 
 
 
-\subsection{The nonunique name of the semantic Web}
+\subsubsection{The nonunique name of the semantic Web}
 
 One problem the first time you discover linked data on the Web and
 semantic Web is that this evolution of the Web is perceived and

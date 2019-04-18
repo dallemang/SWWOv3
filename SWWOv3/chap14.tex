@@ -519,10 +519,10 @@ conversions) for computations over these data. Schema.org allows our
 descriptions to refer to external sources (in this case, QUDT) to define
 its details, making it easy to connect the two offerings. 
 
-\subsection{DIMENSION CHECKING IN QUDT}
+\subsection{Dimension Checking in QUDT}
 
 There are a lot of services that an engineer or scientist could ask of a
-system of units; many of these go by the name dimensional analysis.
+system of units; many of these go by the name \emph{dimensional analysis}.
 Whole books have been written on the subject; we can barely scratch the
 surface of this topic here (therefore, see the Further Reading section
 at the conclusion of the book). We will illustrate enough of the QUDT
@@ -577,7 +577,7 @@ formula are identical.
 
 \begin{figure}
 \centering
-\includegraphics[width=5in]{media/ch14/f14-04.png}
+\includegraphics[width=5in]{SWWOv3/media/ch14/Figurech14.1.png}
 \caption{Dimensional structure in QUDT to support analysis of $F=ma$ (time
 dimension)}
 \label{fig:ch14.04}
@@ -589,9 +589,8 @@ dimension)}
 
 
 QUDT supports dimensional analysis by representing over 200 dimensions,
-cross-referenced with corresponding quantities. Figure~\ref{fig:ch14.04} shows the
-structure in QUDT needed to support this sort of analysis. We will go
-through each piece in turn.
+cross-referenced with corresponding quantities, each organized in a 
+form analagous to what you see in Figure~\ref{fig;ch14.04}.
 
 First, there is the \emph{System of Quantities}. QUDT includes eight different
 systems of quantities, including the standard international (``metric'')
@@ -601,8 +600,8 @@ yards, miles, pounds, etc.). A system of quantities defines the
 dimensions that can be measured in that system. Each system typically
 has dozens of dimensions associated with it. In the figure, we see three
 dimensions associated with the SI system of quantities---one for mass
-(\texttt{Dimension\_SI\_M}), one for length over time twice (\texttt{Dimension\_SI\_LT-2})
-and one for length times mass over time twice (\texttt{Dimension\_SI\_LMT-2}).
+(\texttt{DIM\_SI-M}), one for length over time twice (\texttt{DIM\_SI-ms-2})
+and one for length times mass over time twice (\texttt{DIM\_SI-mkgs-2}).
 The naming convention for these dimensions includes the name of the
 system (SI) followed by the dimensions in the order length, mass, time,
 each followed by a number indicating the exponent for that dimension.
@@ -611,126 +610,165 @@ humans to read the dimension names.
 
 Since the names are only there for humans to read, if we want to query
 for the dimension vector for any of these, we need to represent their
-dimensional vectors in triples. This is shown in Figure\ref{fig:ch14.05} for
-\texttt{Dimension\_SI\_LMT-2}; for each of the three basis vectors, there is a
-one-dimensional vector. The magnitude of the vector is given by the
-property \texttt{vectorMagnitude} (its value is a floating point number, since
-fractional exponents are possible for certain units). The base quantity
-itself (mass, length, time) is given by the property \texttt{baseElement}.
+dimensional vectors in triples.  QUDT represents these in many ways for 
+different use cases, but for this example, we'll just use the simplest 
+one, as shown in Figure~\ref{fig;ch14.04}.  Each base dimension (Length, Mass and Time) has a particular
+property associated with it, which indicates the coefficient.  The names for 
+these properties are very specific and descriptive; for example, the property that indicates
+the exponent for mass in a particular dimension is called \texttt{qudt:dimensionExponentForMass}. Similar properties 
+are used to indicate exponents for other dimensions. 
 
-
-\begin{figure}
-\centering
-\includegraphics[width=5in]{media/ch14/f14-05.png}
-\caption{QUDT dimensional breakdown of $ml/{t^2}$}
-\label{fig:ch14.05}
-\end{figure}
-
-We can see all of this come together in Figure~\ref{fig:ch14.05} for the time
-dimension; we have our three
-quantities, \texttt{Mass}, \texttt{LinearAcceleration} and \texttt{Force}. 
-Each of these is
-referenced by a particular dimension expression -- $m$ for mass, $l/{t^2}$ for
-linear acceleration, and $ml/{t^2}$ for force. Each of these, in turn, is
-related to several base vectors. The figure shows the vector for time,
-with coefficient zero for mass (since the vector for mass has a zero in
-the time place), coefficient -2 for linear acceleration
-(since the vector for linear acceleration has a -2 in the time place),
-and also a coefficient -2 for force (since the vector for force also has
-a -2 in the time place). From the information in Figure~\ref{fig:ch14.04}, 
+From the information in Figure~\ref{fig:ch14.04}, 
 we are in
-a position to verify (for the time dimension, anyway) that the formula $F = ma$ 
-is correct from a dimensional point of view, by noticing that the
-time coefficient for mass (0) plus that for linear acceleration (-2)
+a position to verify  that the formula $F = ma$ 
+is correct from a dimensional point of view, by noticing that for each base 
+dimension, Mass, Length and Time, 
+the coefficient for the quantities in the formula add up; the coefficent for mass (0) plus that for linear acceleration (-2)
 equals the coefficient for force (-2); $0 + (-2) = -2$.
 
-How can we write a SPARQL query to verify this calculation? First, let's
-have a look at some of the information from Figure~\ref{fig:ch14.04} rendered
-verbatim in Turtle:
+How can we write a SPARQL query to verify this calculation?  Let's start by 
+looking at just one dimension, say Time.  We need to get the coefficient for each
+term in the formula for the Time dimension:
 
+\query{Time dimension for each term}
 \begin{lstlisting}
-quantity:SystemOfQuantities_SI qudt:systemDimension dim:Dimension_SI_M .
-dim:Dimension_SI_M qudt:referenceQuantity quantity:Mass .
-dim:Dimension_SI_M qudt:dimensionVector dim:Vector_T0 .
-dim:Vector_T0 qudt:vectorMagnitude "0.0"^{}^{}xsd:float .
-dim:Vector_T0 qudt:basisElement quantity:Time .
-\end{lstlisting}
-
-We can use these triples to form a query that will tell us the magnitude
-of the time dimension for the quantity mass by putting in variables at
-the appropriate places:
-
-\begin{lstlisting}
-SELECT ?MassMagnitude
-WHERE {
-    quantity:SystemOfQuantities_SI qudt:systemDimension ?dim .
-    ?dim qudt:referenceQuantity quantity:Mass .
-    ?dim qudt:dimensionVector ?vector .
-    ?vector qudt:vectorMagnitude ?MassMagnitude .
-    ?vector qudt:basisElement quantity:Time .
-}
-\end{lstlisting}
-
-Answer: 0.0
-
-We can verify the correctness of the dimensionality of $F = ma$ by
-repeating this pattern three times, once each for mass, acceleration and
-force. If we filter with the formula 
-(?MassMagnitude + ?AccMagnitude != ?ForceMagnitude), we will eliminate those 
-dimensions
-for which the vectors
-don't add up.
-
-If we replace \texttt{quantity:Time} with another 
-variable (\texttt{?base}), we can repeat
-this calculation for every vector base. We will need to list out those
-bases; QUDT provides this list as the class \texttt{qudt:VectorBase}. Finally,
-the dimension analysis matches exactly if there is no dimension for
-which it fails. We accomplish this in SPARQL by putting the check for a
-failure into a subquery, and then checking for no failures using the
-SPARQL keyword NOT EXISTS. If there does not exist a failure, then the
-query returns true. The complete query that checks the dimensions 
-of $F = ma$ is shown here. It returns true, since the dimensions do check out.
-
-\begin{lstlisting}
-ASK WHERE
-{
-NOT EXISTS { SELECT *
+SELECT ?term ?val
 WHERE { 
-  ?base a qudt:VectorBase .
-  quantity:SystemOfQuantities_SI  qudt:systemDimension ?dim1 .
-  ?dim1 qudt:referenceQuantity quantity:Mass .
-  ?dim1 qudt:dimensionVector ?vector1 .
-  ?vector1 qudt:vectorMagnitude ?MassMagnitude .
-  ?vector1 qudt:basisElement ?base .
-  quantity:SystemOfQuantities_SI qudt:systemDimension ?dim2 .
-  ?dim2 qudt:referenceQuantity quantity:LinearAcceleration .
-  ?dim2 qudt:dimensionVector ?vector2 .
-  ?vector2 qudt:vectorMagnitude ?AccMagnitude .
-  ?vector2 qudt:basisElement ?base.
-  quantity:SystemOfQuantities_SI qudt:systemDimension ?dim3 .
-  ?dim3 qudt:referenceQuantity quantity:Force .
-  ?dim3 qudt:dimensionVector ?vector3 .
-  ?vector3 qudt:vectorMagnitude ?ForceMagnitude .
-  ?vector3 qudt:basisElement ?base.
-  FILTER (?MassMagnitude + ?AccMagnitude != ?ForceMagnitude)
-} } }
+     VALUES ?term {qudt:DIM_SI-M
+                   qudt:DIM_SI-ms-2 
+                   qudt:DIM_SI-mkgs-2 
+                  }
+        ?term qudt:dimensionExponentForTime ?val .
+    } 
+\end{lstlisting}
+
+Notice that we used the \texttt{VALUES} construct from Section~\ref{sparqlvalues} to 
+list the terms in the formula.  
+
+So far, we have not indicated which side of the equal sign they
+are, so we can't sensibly add them up.  We want to add up all the 
+values on one side of the equation and subtract the values from the other;
+so we need to do two things.  First, to indicate which side each term is on,
+then multiply the values on one side by $-1$ before we add them up to 
+compare to zero.   
+
+We can use the more extended form of VALUES to indicate which side of the 
+formula they are on, and use a BIND statement (with an IF function) to 
+multiply just one set of them by $-1$.  Then we want to add them up to 
+see what the total exponent is. 
+
+\query{Balanced sum of Time exponents}
+\begin{lstlisting}
+SELECT (SUM(?val) AS ?formtotal)
+WHERE { 
+     VALUES (?term ?side) {(qudt:DIM_SI-M :left)
+                           (qudt:DIM_SI-ms-2  :left)
+                           (qudt:DIM_SI-mkgs-2 :right)
+                  }
+        ?term qudt:dimensionExponentForTime ?exp .
+        BIND (IF (?side=:right, -1*?exp, ?exp) AS ?val)
+    } 
+\end{lstlisting}
+
+Now, we want to do this for every dimension.  In the Semantic Web, properties
+are just as important as classes; we can represent the dimensions in the 
+analysis by the three properties that represent the exponents for the three 
+dimensions we are working with.  
+
+We can use VALUES again, separately from the first, so that we get all combinations 
+of dimensions and terms.  We have to GROUP BY the dimension, so that we only add up
+exponents in a single dimension. 
+
+\query{Total exponents in each dimension}
+\begin{lstlisting}
+SELECT ?dim (SUM (?exp) AS ?formtotal)
+WHERE {VALUES ?dim {qudt:dimensionExponentForLength 
+                 qudt:dimensionExponentForTime 
+                 qudt:dimensionExponentForMass}
+     VALUES (?term1 ?side) {(qudt:DIM_SI-M :left)
+                            (qudt:DIM_SI-ms-2 :left)
+                            (qudt:DIM_SI-mkgs-2 :right)
+                           }
+        ?term1 ?dim ?val .
+        BIND (IF (?side=:right, -1*?val, ?val) AS ?exp)
+    } GROUP BY  ?dim 
+\end{lstlisting}
+
+The output here is zero for each dimension:
+
+\begin{tabular}{|ll|}
+\hline
+dim&formtotal\\
+\hline
+qudt:dimensionExponentForMass&0\\
+qudt:dimensionExponentForLength&0\\
+qudt:dimensionExponentForTime&0\\
+\hline
+\end{tabular}
+
+We'd really like to have an ASK query that returns TRUE if the 
+formula balances, and FALSE otherwise.  How do we complete this query so that 
+that happens? 
+
+First, we can find all the 'correct' dimensions (for which the balanced sum of 
+exponents is zero) by adding "HAVING" at the end of the query; if we say \texttt{HAVING (?formtotal=0)} we
+select those that work.  But a good formula is one for which \emph{every} dimension
+is balanced; a single unbalanced dimension spoils the formula.  So we look for \emph{unbalanced} 
+dimensions, and change the SELECT to ASK, like so:
+
+\query{Is there an unbalanced dimension?}
+\begin{lstlisting}
+ASK
+WHERE { 
+   SELECT ?dim (SUM (?exp) AS ?formtotal)
+    WHERE 
+    {VALUES ?dim {qudt:dimensionExponentForLength 
+                 qudt:dimensionExponentForTime 
+                 qudt:dimensionExponentForMass}
+     VALUES (?term1 ?side) {(qudt:DIM_SI-M :left)
+                            (qudt:DIM_SI-ms-2 :left)
+                            (qudt:DIM_SI-mkgs-2 :right)
+                           }
+        ?term1 ?dim ?val .
+        BIND (IF (?side=:right, -1*?val, ?val) AS ?exp)
+    } GROUP BY  ?dim HAVING (?formtotal!=0)}
+\end{lstlisting}
+
+This returns FALSE if there is no unbalanced dimension, and TRUE if there is one. 
+This is just the opposite of what we want; we can negate this by using
+FILTER NOT EXISTS, as we saw in Section~\ref{negation}:
+
+
+
+\query{Verifying a formual with Dimensional Analysis}
+\begin{lstlisting}
+ASK  
+WHERE { FILTER NOT EXISTS {
+   SELECT ?dim (SUM (?exp) AS ?formtotal)
+    WHERE 
+    {VALUES ?dim {qudt:dimensionExponentForLength 
+                 qudt:dimensionExponentForTime 
+                 qudt:dimensionExponentForMass}
+     VALUES (?term ?side) {(qudt:DIM_SI-M :left)
+                            (qudt:DIM_SI-ms-2 :left)
+                            (qudt:DIM_SI-mkgs-2 :right)
+                           }
+        ?term ?dim ?val .
+        BIND (IF (?side=:right, -1*?val, ?val) AS ?exp)
+    } GROUP BY  ?dim HAVING (?formtotal!=0)}}
 \end{lstlisting}
 
 The real test of a query like this is to try it on formulas that do not
-check out. Indeed, if we replace e.g,. \texttt{Mass} 
-with \texttt{Time} or \texttt{Force} with
-\texttt{Energy} in this query, the result is false, since those dimensions do not
+check out. Indeed, if we replace DIM\_SI-ms-2 with DIM\_SI-ms-1 the result 
+is FALSE, since those dimensions do not
 add up.
 
-While it is easy enough to build up a query like this from identical
-pieces, reading and maintaining them can become unwieldy. Since large
-parts of the query are repetitive, this is a great opportunity to define
-the repeating parts as SHACL functions. It is beyond the scope of this
-book to work out all the dimensional analysis queries using SHACL---but
-the same approach used to generate this query has been used to create
-SHACL functions for checking the dimensionality of formulas. Details of
-this approach can be found at http://qudt.org/.
+This query can be generalized to other formulas by changing the terms on 
+the left and right (the bindings for \texttt{?term} and \texttt{?side}), and can
+be made to use more dimensions by adding them in to the values for \texttt{?dim}.
+
+
+
 
 \subsection{Summary}
 
@@ -749,6 +787,7 @@ about the conventional units used throughout history and around the
 world.
 
 \section{Biological Ontologies}
+\label{section:Bio}
 
 Ontologies in one form or another have been a mainstay of biological and
 life sciences for decades (one could even say for centuries). In recent
@@ -1083,6 +1122,7 @@ property \texttt{skos:broader} is shown here as ``has broader.''
 \end{challenge}
 
 \section{FIBO - the Financial Industry Business Ontology}
+\label{section:fibo}
 
 FIBO is a massive undertaking to produce an ontology for describing financial instruments.  It is impossible to cover all aspects of FIBO 
 in just a single chapter; more comprehensive details are available in the FIBO Primer

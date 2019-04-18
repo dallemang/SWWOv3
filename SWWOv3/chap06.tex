@@ -1325,6 +1325,7 @@ SPARQL result set does not have any particular value for the variable
 chosen to display that in the answer with ``(no binding).''
 
 \subsection{Negation (SPARQL 1.1)}
+\label{negation}
 
 We have already seen how graph patterns provide a flexible way to
 describe desired results from a data graph. But sometimes it is
@@ -2897,7 +2898,8 @@ The result of this query is the same as the combined results of the
 queries in the Challenge, i.e., the set of hasParent relationships shown
 in Figure~\ref{fig:ch6.9}.
 
-\subsection{ASSIGNMENTS (SPARQL 1.1)}
+\subsection{Assignments (SPARQL 1.1)}
+\label{assignments}
 
 Suppose we want to query the full names of the authors of the book
 ``Semantic Web for the Working Ontologist.'' We can easily find first
@@ -3101,7 +3103,45 @@ movies:JamesDean\\
 Indeed, there is an actor in the database whose full name is made up of
 the concatenation of the first names of authors of this book.
 
-\subsection{FEDERATING SPARQL QUERIES}
+\subsection{Data in queries}
+\label{sparqlvalues}
+
+Normally, we expect a query to get its data from a data source.  Sometimes it 
+is convenient to include small bits of data right in the query itself.  For example, we 
+could have a small data set that incudes the names of the authors of this book, as we did in 
+Section~\ref{assignments}.  Alternatively, we could just list those names 
+as part of the query itself, since there aren't many data and we can just as easily
+list them: 
+
+
+
+
+\query{Including author names in the query}
+\begin{lstlisting}
+SELECT * 
+WHERE  {
+    VALUES (?firstname ?lastname) {("James" "Hendler")
+    ("Dean" "Allemang")
+    ("Fabien" "Gandon")}
+    BIND (CONCAT (?firstname, " ", ?lastname) AS ?fullname)
+}
+\end{lstlisting}
+
+\textbf{\textbf{Answer:}}
+
+\begin{tabular}{|lll|}
+\hline
+?firstname&?lastname&?fullname\\
+\hline
+James&Hendler&James Hendler\\
+Dean&Allemang&Dean Allemang\\
+Fabien&Gandon&Fabien Gandon\\
+\hline
+\end{tabular}
+
+
+
+\subsection{Federating SPARQL Queries}
 
 In the previous example, we assumed that all the triples about books and
 authors, and the triples about movies were available in a single graph.
@@ -3134,7 +3174,6 @@ find out whether there are any entries in dbpedia that have labels
 matching the names of actors who played in the movie \emph{Giant}:
 
 \query{Federating with dbpedia.org}
-
 \begin{lstlisting}
 SELECT ?entry
 WHERE {?actor :playedIn :Giant .

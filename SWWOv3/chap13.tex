@@ -208,7 +208,7 @@ ss:SolarPlanet rdf:type owl:Class;
                   ss:Neptune).
 \end{lstlisting}
 
-The class \texttt{SoflarPlanet} is related via the property \texttt{owl:oneOf} to a list of
+The class \texttt{SolarPlanet} is related via the property \texttt{owl:oneOf} to a list of
 the members of the class. Informally, the meaning of this is that the
 class \texttt{SolarPlanet} contains these eight individuals and no others.
 \texttt{owl:oneOf} places a limit on the AAA slogan. When we say that a class is
@@ -525,6 +525,7 @@ challenge problems based on the James Dean example.
 
 \begin{challenge}{Counting to three in OWL}
 \label{chal:count3}
+
 Rocky and Rimbaud continue their conversation.
 
 \begin{quote}
@@ -670,6 +671,8 @@ In our James Dean example, we can make use of qualified cardinality to
 say that while a movie can have any number of stars, a James Dean movie
 must have exactly one star who is James Dean. This is accomplished with
 a slight generalization of the form for cardinality:
+
+# Elaborate on this example so we don't have a singleton class; that's boring!
 
 \begin{lstlisting}
 :JamesDeanMovie rdfs:subClassOf
@@ -1612,7 +1615,7 @@ We can infer a number of subclass relationships from the definitions of
 the model in Table Table~\ref{tab:ch13.1} and the subclass inferencing patterns we have
 seen.
 
-\begin{itemize}
+\begin{enumerate}
 \item Since \texttt{AllStarBaseballTeam} is the intersection of \texttt{BaseballTeam} and
 \texttt{AllStarTeam}, then \texttt{AllStarBaseballTeam} is a subclass of \texttt{BaseballTeam} and
 \texttt{AllStarTeam}.
@@ -1624,7 +1627,7 @@ on the same property, \texttt{playsFor}, referencing \texttt{AllStarBaseballTeam
 subclass of \texttt{AllfStarTeam} can be propagated, so we can infer that
 \texttt{AllStarBaseballPlayer} is a subclass of \texttt{AllStarPlayer}. Similar reasoning
 allows us to infer that \texttt{AllfStarBaseballPlayer} is a subclass of
-\texttt{BaseballPlayer}.
+\texttt{BaseballPlayer}. \label{tbox}
 
 \item  Since \texttt{JBallTeam} is the union of \texttt{PafcificLeagueTeam} and
 \texttt{CentralLeagueTeam}, we can
@@ -1651,7 +1654,19 @@ that some person \texttt{playsFor} each \texttt{AllStarTeam}. But the range of \
 \texttt{Team}, so \texttt{AllStarTeam} must be a \texttt{Team}, as well.
 
 
-\end{itemize}
+\end{enumerate}
+
+Bullet number~\ref{tbox} merits particular attention.  From the names, it seems obvious that any 
+\texttt{AllStarBaseballPlayer} is also  an  \texttt{AllStarPlayer}; but can we prove this?  
+Since any \texttt{AllStarBaseballPlayer} plays on an \texttt{AllStarBaseballTeam} which is 
+therefore an \texttt{AllStarTeam}, then indeed they are an \texttt{AllStarPlayer}, since
+that's what that means.  This conclusion seems simple enough; but notice; we come to this conclusion
+without seeing the record of even a single player.  This is not a conclusion that has come from 
+examining lots of data, it is a conclusion that came from examining no data at all, and only 
+examining the precise, logical definitions of the terms.  This power is unique to OWL models, 
+that we can draw elaborate conclusions from the descriptions of our classes. 
+
+
 
 
 \begin{figure}
@@ -1663,7 +1678,7 @@ that some person \texttt{playsFor} each \texttt{AllStarTeam}. But the range of \
 
 
 
-We can see the inferred class structure in Figure 12.10. Notice that
+We can see the inferred class structure in Figure~\ref{fig:ch13.09}. Notice that
 every class is involved in some class inferencing pattern so that in
 contrast to the asserted model, the inferred model has considerable
 depth to its class tree.
