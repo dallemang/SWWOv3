@@ -103,7 +103,7 @@ to refer to the elements of the particular example questionnaire.
 
 \begin{figure}
 \centering
-\includegraphics[width=5in]{media/ch12/f12-01.eps}
+\includegraphics[width=5in]{SWWOv3/media/ch12/figure12-1.png}
 \caption{Question, answer, and the properties that describe them.}
 \label{fig:ch12.01}
 \end{figure}
@@ -154,7 +154,10 @@ d:TVSreception a q:Answer ;
 
 \begin{figure}
 \centering
-\includegraphics[width=5in]{media/ch12/f12-02.eps}
+(a)
+\includegraphics[width=5in]{SWWOv3/media/ch12/figure12-2a.png}
+(b)
+\includegraphics[width=5in]{SWWOv3/media/ch12/figure12-2b.png}
 \caption{Some particular questions and their answers.}
 \label{fig:ch12.02}
 \end{figure}
@@ -365,7 +368,7 @@ MyFavoriteAllStarTeam a BaseballTeam ;
 
 \begin{figure}
 \centering
-\includegraphics[width=5in]{media/ch12/f12-03.eps}
+\includegraphics[width=5in]{SWWOv3/media/ch12/figure12-3.png}
 \caption{Definition of \texttt{q:AnsweredQuestion} and the resulting inferences for
 \texttt{d:WhatProblem}. Since \texttt{d:WhatProblem} has something (\texttt{d:STV}) of type
 \texttt{q:Answer} on property \texttt{q:hasSelectedOption}, it is inferred (dotted line)
@@ -551,7 +554,7 @@ information needed for inferences is expressed in RDF triples.
 
 \begin{figure}
 \centering
-\includegraphics[width=5in]{media/ch12/f12-04.eps}
+\includegraphics[width=5in]{SWWOv3/media/ch12/figure12-4.png}
 \caption{\texttt{d:STV} \texttt{enablesCandidate} \texttt{TVSymptom}, but it is also a member of a
 restriction on the property \texttt{enablesCandidate}, stipulating that all
 values must come from the class \texttt{q:EnabledQuestion}. We can therefore
@@ -564,7 +567,7 @@ infer that \texttt{d:TVSymptom} has type \texttt{q:EnabledQuestion}.
 
 \begin{figure}
 \centering
-\includegraphics[width=5in]{media/ch12/f12-05.eps}
+\includegraphics[width=5in]{SWWOv3/media/ch12/figure12-5.png}
 \caption{Questions and the answers that enable them.}
 \label{fig:ch12.05}
 \end{figure}
@@ -650,7 +653,12 @@ A graphic version of these questions can be seen in Figure~\ref{fig:ch12.06}.
 \end{example}
 \begin{figure}
 \centering
-\includegraphics[width=5in]{media/ch12/f12-06.eps}
+(a)
+\includegraphics[width=5in]{SWWOv3/media/ch12/figure12-6a.png}
+(b)
+\includegraphics[width=5in]{SWWOv3/media/ch12/figure12-6b.png}
+(c)
+\includegraphics[width=5in]{SWWOv3/media/ch12/figure12-6c.png}
 \caption{Questions about neighbors have two prerequisite questions.}
 \label{fig:ch12.06}
 \end{figure}
@@ -684,7 +692,7 @@ that
 
 \begin{figure}
 \centering
-\includegraphics[width=5in]{media/ch12/f12-07.eps}
+\includegraphics[width=5in]{SWWOv3/media/ch12/figure12-7.png}
 \caption{Some questions and their prerequisites.}
 \label{fig:ch12.07}
 \end{figure}
@@ -838,7 +846,7 @@ d:TVsymptom q:hasPriority q:High.
 
 \begin{figure}
 \centering
-\includegraphics[width=5in]{media/ch12/f12-08.eps}
+\includegraphics[width=5in]{SWWOv3/media/ch12/figure12-8.png}
 \caption{Definition of a HighPriorityItem as anything that has value High for the
 hasPriority property.
 }
@@ -1007,7 +1015,7 @@ the table as values. We saw sample data in Table~\ref{tab:ch3.12}, which we repe
 on  as Table~\ref{tab:ch12.1}. Some sample triples from these data are shown
 in Table~\ref{tab:ch12.2}.
 
-Each row from the original table appears in Table~\ref{tab;ch12.1} as an individual
+Each row from the original table appears in Table~\ref{tab:ch12.1} as an individual
 in the RDF version. Each of these individuals has the same
 type---namely, \texttt{mfg:Product}---from the name of the table. These data
 include only a limited number of possible values for the
@@ -1029,7 +1037,7 @@ mfg:Product9 rdf:type ns:SafetyValve .
 
 \begin{figure}
 \centering
-\includegraphics[width=5in]{media/ch12/f12-09.eps}
+\includegraphics[width=5in]{SWWOv3/media/ch12/figure12-9.png}
 \caption{Definition of a vegetarian as a restriction on what the person eats.}
 \label{fig:ch12.09}
 \end{figure}
@@ -1262,7 +1270,7 @@ see the importance of this pattern for metamodeling in Section~\ref{metamodel}.
 
 \begin{figure}
 \centering
-\includegraphics[width=5in]{media/ch12/f12-10.eps}
+\includegraphics[width=5in]{SWWOv3/media/ch12/figure12-10.png}
 \caption{The Americans with Disabilities Act of 1990 as expressed in RDFS and OWL.}
 \label{fig:ch12.10}
 \end{figure}
@@ -1303,7 +1311,7 @@ lit:ChildOfShakespeare a owl:Class .
 
 \begin{figure}
 \centering
-\includegraphics[width=5in]{media/ch12/f12-11.eps}
+\includegraphics[width=5in]{SWWOv3/media/ch12/figure12-11.png}
 \caption{Inferences based on membershipClass in FOAF. FOAF specifies that the
 following rule should hold.}
 \label{fig:ch12.11}
@@ -1477,7 +1485,7 @@ This situation is shown in Figure~\ref{fig:ch12.12}.
 
 \begin{figure}
     \centering
-    \includegraphics{SWWOv3/media/ch12/Figure ch12.12.png}
+    \includegraphics{SWWOv3/media/ch12/figure12-12.png}
     \caption{Inferences from a recursive application of the Class-Individual Mirror pattern}
     \label{fig:ch12.12}
 \end{figure}

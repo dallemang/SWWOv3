@@ -31,6 +31,7 @@ main reasons why cardinality inferencing in OWL is quite conservative in
 the conclusions it can draw.
 
 \section{UNIONS AND INTERSECTIONS}
+\label{unions}
 
 We begin with the basic logical combinations, which are familiar from
 set theory. OWL provides a facility for defining new classes as unions
@@ -368,7 +369,7 @@ We can see these assertions and the inference in Figure~\ref{fig:ch13.01}.
 
 \begin{figure}
 \centering
-\includegraphics[width=5in]{media/ch13/f13-01.eps}
+\includegraphics[width=5in]{SWWOv3/media/ch13/figure13-1.png}
 \caption{Rimbauld's movie is neither Giant nor East of Eden, so we infer that it
 is Rebel Without a Cause.}
 \label{fig:ch13.01}
@@ -444,7 +445,7 @@ list of distinct elements.
 
 \begin{figure}
 \centering
-\includegraphics[width=5in]{media/ch13/f13-02.eps}
+\includegraphics[width=5in]{SWWOv3/media/ch13/figure13-2.png}
 \caption{Using \texttt{owl:AllDifferent} and \texttt{owl:distinctMembers} to indicate that the
 three James Dean movies are distinct. The movies are referred to in an
 RDF list.
@@ -610,7 +611,7 @@ Model this situation and conclusion in OWL.
 
 \begin{figure}
 \centering
-\includegraphics[width=5in]{media/ch13/f13-04.eps}
+\includegraphics[width=5in]{SWWOv3/media/ch13/figure13-4.png}
 \caption{Rocky owns three movies, and he owns only James Dean movies, so he must
 own each of them.}
 \label{fig:ch13.04}
@@ -658,7 +659,7 @@ Qualified cardinalities may seem like a needless modeling detail, and,
 in fact, a large number of
 models get by quite fine without them. But models that want to take
 advantage of detailed cardinality information often find themselves in
-need of such detailed modeling. This happens especially when modeling
+need of this capability. This happens especially when modeling
 the structure of complex objects.
 
 For example, when modeling an automobile, it might be useful to say that
@@ -666,38 +667,58 @@ a properly equipped automobile includes five tires, four of which must
 be regular road-worthy tires and a fifth that is a designated spare tire
 which might not have all the properties of a regular tire. Structural
 models of this sort often make extensive use of qualified cardinalities.
+Models of financial instruments provide more examples; a loan is a contract
+with two parties, one of which is a lender and one of which is a borrower. 
+
 
 In our James Dean example, we can make use of qualified cardinality to
-say that while a movie can have any number of stars, a James Dean movie
-must have exactly one star who is James Dean. This is accomplished with
-a slight generalization of the form for cardinality:
-
-# Elaborate on this example so we don't have a singleton class; that's boring!
+say that while a movie can have any number of stars, we are interested 
+in the particular case of the movies that also star academy award winning
+actors.  So suppose we have classes for Academy Award Winning actors:
 
 \begin{lstlisting}
-:JamesDeanMovie rdfs:subClassOf
-    [ a owl:Restriction ;
-      owl:onClass :JDPerson ;
-      owl:onProperty :stars ;
-      owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ] .
-:JDPerson a owl:Class ;
-          owl:oneOf (:JamesDean) .
+:BestActor a owl:Class .
+:BestSupportingActor  a owl:Class .
+:OscarWinningActor owl:unionOf (:BestActor :BestSupportingActor) .
 \end{lstlisting}
 
-JDPerson is the singleton class that includes only James Dean; the
+We can define the sets of movies that star academy award
+winners using qualified cardinality.  Suppose we say that to be a star-studded movie, 
+we require that there are at least two Oscar winning actors in a movie:
+
+
+\begin{lstlisting}
+:StarStuddenMovie owl:intersectionOf (
+    :Movie 
+    [ a owl:Restriction ;
+      owl:onClass :OscarWinningActor ;
+      owl:onProperty :stars ;
+      owl:minQualifiedCardinality "2"^^xsd:nonNegativeInteger ] 
+    )
+\end{lstlisting}
+
+A
 qualified cardinality restriction looks just like a cardinality
-restriction, but includes the reference (via \texttt{owl:onClass}) to
-\texttt{JDPerson}. The same conditions from non-unique naming and the open world
+restriction, but includes a reference (via \texttt{owl:onClass}) to
+\texttt{OscarWinningActor}. The same conditions from non-unique naming and the open world
 assumption hold for qualified cardinalities as for any others; in this
 example, we could infer that
 
 \begin{lstlisting}
-:EastOfEden :stars :JamesDean .
+:EastOfEden a :StarStuddedMovie .
 \end{lstlisting}
 
-This is because \texttt{EastOfEden} is a James Dean movie, and hence stars
-exactly one member of the class \texttt{JDPerson}. There is only one member of
-that class, so \texttt{EastOfEden} must star him. The qualified cardinality
+because Burl Ives and Jo Van Fleet have won best supporting actor awards, and they 
+co-starred in \emph{East of Eden}.  But because of the non-unique naming assumption,
+we also need to know that
+
+\begin{lstlisting}
+:BurlIves owl:differentFrom :JoVanFleet . 
+\end{lstlisting}
+
+so that our qualified cardinality can count up to two. 
+
+The qualified cardinality
 restrictions include all of the variants of normal cardinality
 restrictions, that is, \texttt{owl:maxQualifiedCardinality} and
 \texttt{owl:minQualifiedCardinality}.
@@ -739,9 +760,9 @@ explicitly specifies the set of individuals who own no movies.
 
 
 These four special cases of cardinality are closely related.
-\texttt{minCardinality 1} and \texttt{maxCardinality 0} form a partition of \texttt{minCardinality}
-0; that is, \texttt{minCardinality} 1 and \texttt{maxCardinality} 0 are disjoint from one
-another, they are both subclasses of \texttt{minCardinality} 0, and together
+\texttt{minCardinality 1} and \texttt{maxCardinality 0} form a partition of \texttt{minCardinality
+0}; that is, \texttt{minCardinality 1} and \texttt{maxCardinality 0} are disjoint from one
+another, they are both subclasses of \texttt{minCardinality 0}, and together
 (\texttt{minCardinality 1 union maxCardinality 0}) they make up all of
 \texttt{minCardinality 0} (which is equivalent to \texttt{owl:Thing}, the class of all
 individuals).
@@ -792,7 +813,7 @@ That is, a \texttt{MinorLeaguePlayer} is a Player who is not a \texttt{MajorLeag
 Thus, members of \texttt{bb:MinorLeaguePlayer} include only members of the class
 \texttt{bb:Player} but does not include players that are included in
 \texttt{bb:MajorLeaguePlayer}. This is much closer to the natural meaning
-suggested by the name. This definition makes use of a bnode to specify
+suggested by the name. This definition makes use of a blank node  to specify
 an anonymous class. There is no need to name the class that is the
 complement of \texttt{bb:MajorLeaguePlayer}, so it is specified anonymously using
 the bnode notation \texttt{{[} a owl:Class \ldots{} {]}}.
@@ -892,7 +913,7 @@ These assertions and conclusion can be seen in Figure\ref{fig:ch13.05}.
 
 \begin{figure}
 \centering
-\includegraphics[width=5in]{media/ch13/f13-05.eps}
+\includegraphics[width=5in]{SWWOv3/media/ch13/figure13-5.png}
 \caption{Paul owns every James Dean movie, and he owns some others, so he owns at
 least four movies.
 }
@@ -1007,9 +1028,9 @@ and
 
 \begin{figure}
 \centering
-\includegraphics[width=5in]{media/ch13/f13-06.eps}
+\includegraphics[width=5in]{SWWOv3/media/ch13/figure13-6.png}
 \caption{Paul owns three James Dean movies (Figure~\ref{fig:ch13.05}), plus one each from
-other actors, making seven (or more) in total.}
+other actors, making seven (or more) in total.  Not all of the disjoint axioms are shown in this figure, for simplicity, though they are logically required for the conclusion.}
 \label{fig:ch13.06}
 \end{figure}
 
@@ -1331,7 +1352,7 @@ since the model contains a contradiction.
 
 \begin{figure}
 \centering
-\includegraphics[width=5in]{media/ch13/f13-07.eps}
+\includegraphics[width=5in]{SWWOv3/media/ch13/figure13-7.png}
 \caption{All of Rocky's films are James Dean films, but some of them are Judy
 Garland films.
 }
@@ -1437,7 +1458,7 @@ class is unsatisfiable.
 
 \begin{figure}
 \centering
-\includegraphics[width=5in]{media/ch13/f13-08.eps}
+\includegraphics[width=5in]{SWWOv3/media/ch13/figure13-8.png}
 \caption{JDJG is the intersection of people who only own James Dean movies and
 people who own Judy Garland movies.}
 \label{fig:ch13.08}
@@ -1671,7 +1692,7 @@ that we can draw elaborate conclusions from the descriptions of our classes.
 
 \begin{figure}
 \centering
-\includegraphics[width=5in]{media/ch13/f13-09.eps}
+\includegraphics[width=5in]{SWWOv3/media/ch13/figure13-9.png}
 \caption{Class tree for the baseball ontology, as asserted.}
 \label{fig:ch13.09}
 \end{figure}
@@ -1685,7 +1706,7 @@ depth to its class tree.
 
 \begin{figure}
 \centering
-\includegraphics[width=5in]{media/ch13/f13-10.eps}
+\includegraphics[width=5in]{SWWOv3/media/ch13/figure13-10.png}
 \caption{Inferred structure of the baseball model.}
 \label{fig:ch13.10}
 \end{figure}

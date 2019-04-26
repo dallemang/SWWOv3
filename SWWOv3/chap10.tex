@@ -109,7 +109,7 @@ bnb:Buffalo a schema:Product ;
     schema:name "Buffalo Plaid Tie - Blade and Blue"@en ;
     schema:offers [ a schema:Offer ;
             schema:availability schema:InStock ;
-            schema:price "$ 49"@en ;
+            schema:price "49" ;
             schema:priceCurrency "USD"@en ] .
 \end{lstlisting}
 
@@ -211,20 +211,16 @@ Turtle in Figure~\ref{fig:ch10.plushdata}, and as a graph in Figure~\ref{fig:ch1
 
 \begin{figure}
 \begin{lstlisting}
-plush:BeautyBar
-  a schema:DaySpa ;
+plush:BeautyBar a schema:DaySpa ;
   schema:makesOffer plush:Offer1 .
-plush:Offer1
-  rdf:type schema:Offer ;
+plush:Offer1 a schema:Offer ;
   schema:priceSpecification plush:PriceSpec1 ;
   schema:includesObject plush:Massage1_5 ;
   rdfs:label "Hour and a half massage" .
-plush:PriceSpec1
-  rdf:type schema:UnitPriceSpecification ;
+plush:PriceSpec1 a schema:UnitPriceSpecification ;
   schema:price "80.0" ;
   schema:priceCurrency "USD" .
-plush:Massage1_5
-  a schema:TypeAndQuantityNode ;
+plush:Massage1_5 a schema:TypeAndQuantityNode ;
   schema:amountOfThisGood "1.5" ;
   schema:unitCode unit:HR ;  
   schema:typeOfGood plush:Massage .
@@ -237,7 +233,7 @@ plush:Massage a schema:Service ;
 
 \begin{figure}
 \centering
-\includegraphics[width=5in]{media/ch14/f14-02.png}
+\includegraphics[width=5in]{SWWOv3/figure10-plushdata.png}
 \caption{Information about Plush's massage offering, shown in graph form.}
 \label{fig:ch10.02}
 \end{figure}
@@ -629,7 +625,7 @@ express them all in, as summarized in Figure~\ref{fig:ch10.1}.
 
 \begin{figure}
 \centering
-\includegraphics[width=5in]{media/ch10/f10-01.png}
+\includegraphics[width=5in]{SWWOv3/media/ch10/figure10-4.png}
 \caption{Relationships between types of FHEO complaint, sorted by discrimination basis.}
 \label{fig:ch10.1}
 \end{figure}
@@ -809,7 +805,7 @@ intensity for each basis and severity, then we can put these data on a
 map as shown in Figure~\ref{fig:10.2}.
 
 \begin{table}
-\caption{Firtst 10 Results of query counting number of complaints per type and county}
+\caption{First 10 Results of query counting number of complaints per type and county}
 \label{tab:ch10.2}
 \begin{tabular}{|lllll|}
 \hline
@@ -856,8 +852,8 @@ pre-Semantic Web technologies.
 
 \begin{figure}
 \centering
-\includegraphics[width=5in]{media/ch10/f10-02.png}
-\caption{Map display of the data in Table 9.2.}
+\includegraphics[width=5in]{SWWOv3/media/ch10/figure10-5.png}
+\caption{Map display of the data in Table~\ref{tab:ch10.2}}
 \label{fig:ch10.2}
 \end{figure}
 
@@ -1528,7 +1524,7 @@ for entities in social networks.
 
 \section{BridgeDb}
 
-As we saw in Chapter~\ref{ch09}, RDFS-Plus can be used to manage identity 
+As we saw in Chapter~\ref{ch9}, RDFS-Plus can be used to manage identity 
 across various data sets.  We saw the use of \texttt{owl:InverseFunctionalProperty}
 as a way to specify key identifiers so that we can infer sameness within a 
 dataset or even across datasets.  However, such a simple structure as 
@@ -1577,7 +1573,7 @@ from the sub property try used by BridgeDb.
 
 \begin{figure}
     \centering
-    \includegraphics[width=5in]{media/ch10/Figurech10.3.png}
+    \includegraphics[width=5in]{SWWOv3/media/ch10/figure10-6.png}
     \caption{Some ways that biological entities can be related in BridgeDb}
     \label{Fig:ch10.3}
 \end{figure}
