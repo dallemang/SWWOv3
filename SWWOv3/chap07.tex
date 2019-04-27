@@ -387,7 +387,7 @@ These triples are shown graphically in Figure~\ref{fig:ch7.2}.
 
 \begin{figure}
 \centering
-\includegraphics[width=5in]{media/ch7/f07-02.eps}
+\includegraphics[width=5in]{SWWOv3/media/ch7/figure7-2.png}
 \caption{Asserted triples in the catalog model.}
 \label{fig:ch7.2}
 \end{figure}
@@ -406,7 +406,7 @@ will draw the following inferences (for the purpose of these examples, an asteri
 
 \begin{figure}
 \centering
-\includegraphics[width=5in]{media/ch7/f07-03.eps}
+\includegraphics[width=5in]{SWWOv3/media/ch7/figure7-3.png}
 \caption{All triples in the catalog model. Inferred triples are shown as dashed
 lines.}
 \label{fig:ch7.3}
@@ -562,7 +562,7 @@ that we cannot know, in advance, what we will find on the web, therefore, we mus
 But there are some situations in which we are not interpreting data, we instead are acting on some expectations about the
 data in the wild.  Our expectations about data might come from regulatory control (an application for a loan must
 include certain information about the borrower), or our own business policies (we require certain information about a
-prospective borrower before we will consider a loan), or just plain common sense (a borrow's date of birth cannot be in
+prospective borrower before we will consider a loan), or just plain common sense (a borrower's date of birth cannot be in
 the future).
 
 Expectations in the Semantic Web can take three broad forms:
@@ -587,7 +587,7 @@ We can think of our expectations for a data description as a specification of th
 
 Beyond the shape of a data description, our expectations can also place constraints on values.  The age of an adult must be greater than 18 (or 21, depending on the intent of the data shape in question);  a social security number must be of the form XXX-XX-XXXX.
 
-These intuitions are the motivation behing the name of the expectation modeling language of the Semantic Web, \emph{SHACL}, Shapes Constraint Language.  SHACL provides a mechanism for specifying the expected shape of a data description and constraints on its validity.
+These intuitions are the motivation behind the name of the expectation modeling language of the Semantic Web, \emph{SHACL}, Shapes Constraint Language.  SHACL provides a mechanism for specifying the expected shape of a data description and constraints on its validity.
 
 We'll illustrate all three uses of SHACL with a single example, shown in Figure~\ref{fig:ch7.account}.
 
@@ -629,7 +629,7 @@ We'll illustrate all three uses of SHACL with a single example, shown in Figure~
   \label{fig:ch7.account}
 \end{figure}
 
-The first thing to notice about Figure~\ref{fig:ch7.account} is that it is expressed in RDF.  This is typical of the langauges of the Semantic Web; every language is expressed in RDF, so that the models in that language can be distirbuted across the web as linked data sets in their own right (see Chapter~\ref{ch5}. 
+The first thing to notice about Figure~\ref{fig:ch7.account} is that it is expressed in RDF.  This is typical of the languages of the Semantic Web; every language is expressed in RDF, so that the models in that language can be distributed across the web as linked data sets in their own right (see Chapter~\ref{ch5}. 
 
 The second thing to notice is the large number of resources whose names
 begin with \texttt{sh:}.  As we see in line 1, this is a prefix abbreviation for
@@ -699,7 +699,7 @@ active:Account_3
   account:lastName "Zetta" .
   \end{lstlisting}
 \label{fig:ch7.data}
-\caption{Data to be vaidated by Figure~\protect\ref{fig:ch7.account}.}
+\caption{Data to be validated by Figure~\protect\ref{fig:ch7.account}.}
 \end{figure}
 
 First off, each descriptions in Figure~\ref{fig:ch7.data} has a single string value for
