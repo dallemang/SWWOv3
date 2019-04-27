@@ -272,16 +272,16 @@ ASK WHERE {
 \end{lstlisting}
 
 
-That is, \texttt{?arg1} and \texttt{?arg2} are commensurate, if their associated quantity
-kinds are related to a common ancestor in the \texttt{qudt:generalization} tree.
-Recall that \texttt{qudt:generalization}* will match zero or more repeated
-occurrences of \texttt{qudt:generalization}, so that if there is a single value for  \texttt{?kind} 
-for both arguments (e.g,. Length), they will match; this means that the query
-will return true for \texttt{?arg1} bound to \texttt{unit:FT} (foot) and \texttt{?arg2} bound to
-\texttt{unit:M} (meter). It will also return true for
-\texttt{vocab-quantities:PotentialEnergy} and \texttt{vocab-quantities:ThermalEnergy},
-because they both have a common generalization,
-\texttt{vocab-quantities:EnergyAndWork}.
+%That is, \texttt{?arg1} and \texttt{?arg2} are commensurate, if their associated quantity
+%kinds are related to a common ancestor in the \texttt{qudt:generalization} tree.
+%Recall that \texttt{qudt:generalization}* will match zero or more repeated
+%ccurrences of \texttt{qudt:generalization}, so that if there is a single value for  \texttt{?kind} 
+%for both arguments (e.g,. Length), they will match; this means that the query
+%will return true for \texttt{?arg1} bound to \texttt{unit:FT} (foot) and \texttt{?arg2} bound to
+%\texttt{unit:M} (meter). It will also return true for
+%\texttt{vocab-quantities:PotentialEnergy} and \texttt{vocab-quantities:ThermalEnergy},
+%because they both have a common generalization,
+%\texttt{vocab-quantities:EnergyAndWork}.
 
 Once we have determined that two units are commensurate, we can set
 about converting measurements in one unit to the other. Each unit
@@ -345,7 +345,7 @@ WHERE {
 \end{lstlisting}
 
 
-SHACL allows such queries to be given names, which themselves are
+SHACL extensions \footnote{https://www.w3.org/TR/shacl-af/} allow such queries to be given names, which themselves are
 resources in RDF.   When we do this, we refer to the named query 
 as a \emph{function}.  If we give this query the 
 name \texttt{qudtsh:convert}, then
@@ -394,23 +394,23 @@ its own offer---a
 fifteen-minute chair massage, for the busy person-on-the-go:
 
 \begin{lstlisting}
-plush:StyleCafe
+style:StyleCafe
   a schema:DaySpa ;
-  schema:makesOffer plush:Offer10 .
-plush:Offer10
+  schema:makesOffer style:Offer10 .
+style:Offer10
   rdf:type schema:Offer ;
-  schema:priceSpecification plush:PriceSpec10 ;
-  schema:includesObject plush:ChairMassage ;
+  schema:priceSpecification style:PriceSpec10 ;
+  schema:includesObject style:ChairMassage ;
   rdfs:label "Chair massage" .
-plush:PriceSpec10
+style:PriceSpec10
   rdf:type schema:UnitPriceSpecification ;
   schema:price "15.0" ;
   schema:priceCurrency "USD" .
-plush:ChairMassage
+style:ChairMassage
   a schema:TypeAndQuantityNode ;
   schema:amountOfThisGood "15" ;
   schema:unitCode unit:MIN ;  
-  schema:typeOfGood plush:Massage .
+  schema:typeOfGood style:Massage .
 \end{lstlisting}
 
 
@@ -467,8 +467,6 @@ query is
 \query{Price comparison of two services}
 \begin{lstlisting}
 SELECT ?offering ?currency ?cost_per_min
-       ((?price/qudtsh:convert(?duration, ?qunit,
-                                 unit:MIN))AS ?cost_per_min )
 WHERE {
 ?spa a schema:DaySpa ;
   schema:makesOffer ?offer .
@@ -483,6 +481,8 @@ WHERE {
   schema:amountOfThisGood ?duration ;
   schema:unitCode ?qunit ;  
   schema:typeOfGood plush:Massage .
+BIND ((?price/qudtsh:convert(?duration, ?qunit,
+                             unit:MIN)) AS ?cost_per_min )
     }
 ORDER BY ( ?cost_per_min )
 \end{lstlisting}
@@ -738,9 +738,7 @@ ASK
 WHERE { FILTER NOT EXISTS {
    SELECT ?dim (SUM (?exp) AS ?formtotal)
     WHERE 
-    {VALUES ?dim {qudt:dimensionExponentForLength 
-                 qudt:dimensionExponentForTime 
-                 qudt:dimensionExponentForMass}
+     ?dim rdfs:subPropertyOf qudt:dimensionExponent .
      VALUES (?term ?side) {(qudt:DIM_SI-M :left)
                             (qudt:DIM_SI-ms-2 :left)
                             (qudt:DIM_SI-mkgs-2 :right)
@@ -850,7 +848,7 @@ obo:CHEBI_27744
     chebi:formula       "C3H8NO5P" ;
     chebi:mass          "169.07310" ;
     chebi:smiles        "OC(=O)CNCP(O)(O)=O" .
-\endlstlisting
+\end{lstlisting}
 
 Glyphosate has identifying number 27744 in CHEBI, which is actually
 represented as the URI \texttt{Chebi:CHEBI\_27744}. Every entity in CHEBI is
@@ -1182,25 +1180,44 @@ them out just once for each prefix.
 FIBO's main use case is data interoperability.  The financial institutions already manage structured data for their reference
 data, instruments, positions, ratings, etc.  FIBO's jobs is to facilitate the exchange and comparison of this structured data. 
 The challenge is that each data source is governed by a different organization, who will make different decisions about how to 
-structure the data.  FIBO's challenge is to have a model that can be mapped to each of these, in advance of having seen the details 
-of any of them.   At first blush, this might seem impossible; each of the data sources, not only from different parts of an organization, but 
-from different organizations (e.g., banks, regulators, investors, credit card companies, tax agencies, etc.)  How can one model 
+structure the data.  FIBO's approach to this challenge is to have a model 
+that can be mapped to each of these, in advance of having seen the details 
+of any of them.   At first blush, this might seem impossible; each of the 
+data sources, not only from different parts of an organization, but 
+from different organizations (e.g., banks, regulators, investors, c
+redit card companies, tax agencies, etc.) are structured in different ways, 
+and 
+have been designed to emphasize different use cases, applications and
+user groups. 
+How can one model 
 possibly map to all of these things?
 
-To see how FIBO meets, this challenge, we need to understand the ways in which data sets from a variety of sources might differ.  
-The first way is simply variation in naming.    We saw several examples of this in Section~\ref{section:Equivalence}, where one
-data set referred to an \emph{Analyst} whereas another dataset referred to the same set as a \emph{Researcher}, and in one library 
-the patrons \emph{check out} the books whereas in another, they \emph{borrow} them.  
+To see how FIBO meets this challenge, we need to understand the ways in 
+which data sets from a variety of sources might differ.  
+The first way is simply variation in naming.    
+We saw several examples of this in Section~\ref{section:Equivalence}, where one
+data set referred to an \emph{Analyst} whereas another 
+dataset referred to the same thing as a \emph{Researcher}, and in one 
+library 
+the patrons \emph{check out} the books whereas in another, 
+they \emph{borrow} them.  
 
-The second way that data sets from various sources might differ is more subtle, and we will call it \emph{factoring}.  
+The second way that data sets from various sources might differ 
+is more subtle, and we will call it \emph{factoring}.  
 Even if we were to use the same names for all
-the properties of the entities we describe, we could organize them differently.  For example, we could say that a credit card has
-an address, or we could alternatively say that a credit card is held by a person (or company), and they have an address.  We could go further 
-to say that a credit card has a billing zip code.  Or maybe the holder of the card has a billing address that has a zip code. 
-An ontology like FIBO has to serve many masters, and be able to accommodate mapping to a wide variety of data sets. 
+the properties of the entities we describe, we could organize 
+them differently.  For example, we could say that a credit card has
+an address, or we could alternatively say that a credit card is 
+held by a person (or company), and they have an address.  We could go further 
+to say that a credit card has a billing zip code.  Or maybe the holder of 
+the card has a billing address that has a zip code. 
+An ontology like FIBO has to serve many masters, 
+and be able to accommodate mapping to a wide variety of data sets. 
 
 \begin{challenge}{Time periods}
-Suppose we have a model that describes a period of time, with a start and an end.  We might model it like this: 
+
+Suppose we have a model that describes a period of time, 
+with a start and an end.  We might model it like this: 
 
 \begin{lstlisting}
 :Period
@@ -1239,9 +1256,13 @@ fibo-fnd-dt-fd:DatePeriod
       owl:onProperty fibo-fnd-dt-fd:hasStartDate ] .
 \end{lstlisting}
 
-In the challenge, the relationship between the class \texttt{Period} and the properties \texttt{hasStart} and \texttt{hasEnd} are 
-given in RDFS, whereas in FIBO they are given in OWL.  But the correspondence is direct; the meaning of \texttt{hasStart} is the same as 
-the meaning for \texttt{fibo-fnd-dt-fd:hasStartDate}.  We can express this relationship in OWL as 
+In the challenge, the relationship between the class \texttt{Period} 
+and the properties \texttt{hasStart} and \texttt{hasEnd} are 
+given in RDFS, whereas in FIBO they are given in OWL.  
+But the correspondence is direct; the meaning of \texttt{hasStart} 
+is the same as 
+the meaning for \texttt{fibo-fnd-dt-fd:hasStartDate}.  We can 
+express this relationship in OWL as 
 
 \begin{lstlisting}
 fibo-fnd-dt-fd:hasStartDate owl:equivalentProperty :hasStart .
@@ -1251,20 +1272,28 @@ fibo-fnd-dt-fd:hasEndDate owl:equivalentProperty :hasEnd .
 
 
 \begin{challenge}{Legal Entity Identifiers}
-A common problem in the regulation of financial instruments is the identification of legal entities.  As a simple example, 
-imagine that a stock broker firm owns an interest in many other companies.  A government regulation might say that they are 
+
+A common problem in the regulation of financial instruments 
+is the identification of legal entities.  As a simple example, 
+imagine that a stock brokerage firm owns an interest in many other 
+companies.  A government regulation might say that they are 
 forbidden from trading 
-stocks in companies that they themselves own a significant share.  How can we tell if this is the case?  We have to be able to 
-identify the company that issued the stock that the brokerage is trading, and then look up to what extent the brokerage itself
+stocks in companies that they themselves own a significant share.  
+How can we tell if this is the case?  We have to be able to 
+identify the company that issued the stock that the brokerage 
+is trading, and then look up to what extent the brokerage itself
 owns part of the company. 
 
 \solution
 
-The finance industry approaches this problem by maintaining an identifier, called a \emph{Legal Entity Identifier} (or \emph{LEI} for short)
+The finance industry approaches this problem by maintaining an 
+identifier, called a \emph{Legal Entity Identifier} (or \emph{LEI} for short)
 for companies in the world.  This identifier is a unique sequence of 
-letters and digits and is quite long; for the examples in this book we will pretend that we have some short LEIs. 
+letters and digits and is quite long; for the examples in this 
+example we will pretend that we have some short LEIs. 
 
-One could imagine a simple data set that lists companies an their LEIs, modeled as in Figure~\ref{fig.ch14.simpleLEI}
+One could imagine a simple data set that lists companies and 
+their LEIs, modeled as in Figure~\ref{fig.ch14.simpleLEI}
 
 \begin{figure}
 \begin{lstlisting}
@@ -1280,12 +1309,16 @@ plush:BeautyBar :hasLEI "1234ABC" .
 \end{figure}
 
 
-This is the sort of simple data representation you might expect in a spreadsheet or even in a Schema.org markup.  It allows you 
+This is the sort of simple data representation you might expect 
+in a spreadsheet or even in a Schema.org markup.  It allows you 
 to look up an entity by its LEI. 
 
-Now, let's imagine that instead of being a small company who has registered an LEI and wants to inform its investors 
-of it, we are looking at the data set that manages the LEIs in the world.  LEIs are managed by the 
-\emph{Global LEI Foundation} (\emph{GLEIF} for short).  They have a more elaborate representation of LEIs, as shown in 
+Now, let's imagine that instead of being a small company who has 
+registered an LEI and wants to inform its investors 
+of it, we are looking at the data set that manages the LEIs in the 
+world.  LEIs are managed by the 
+\emph{Global LEI Foundation} (\emph{GLEIF} for short).  
+They have a more elaborate representation of LEIs, as shown in 
 Figure~ref{fig:ch14.gleifLEI} \footnote{the GLEIF uses OWL to represent the structure of an LEI, as published at www.gleif.org}
 
 \begin{figure}
@@ -1319,16 +1352,23 @@ lei:L1234ABC a gleif-base: LegalEntityIdentifier ;
     \label{fig:ch14.gleifLEI}
 \end{figure}
 
-One could well ask, why does the GLEIF have such a complex model for its identifiers, when clearly a much simpler one will do? 
-The reason for this is that the GLEIF needs to know a lot more about its identifiers than just the entity identified and the number.
-Since the GLEIF is managing the numbers, it also needs to know things about the number itself; its status (is it active or inactive?), 
-the payment status of the registration (it does cost a small fee to register an LEI), which agency registered the LEI (there are 
-a number of \emph{LOU}s, or \emph{Local Operating Units} for LEIs, each of which has the authority to issue LEIs, etc.  In short, from the GLEIF
-perspective, the LEI is the central entity; the operating entity (the \texttt{LegalEntity}) is secondary. 
+One could well ask, why does the GLEIF have such a complex model 
+for its identifiers, when clearly a much simpler one will do? 
+The reason for this is that the GLEIF needs to know a lot more 
+about its identifiers than just the entity identified and the number.
+Since the GLEIF is managing the numbers, it also needs to know 
+things about the number itself; its status (is it active or inactive?), 
+the payment status of the registration (it does cost a small 
+fee to register an LEI), which agency registered the LEI (there are 
+a number of \emph{LOU}s, or \emph{Local Operating Units} 
+for LEIs, each of which has the authority to issue LEIs, etc. ) In short, 
+from the GLEIF
+perspective, the LEI is the central entity; the registered entity (i.e., the \texttt{LegalEntity}) is secondary. 
 \end{challenge}
 
 
-Where does FIBO come in to this?    FIBO can map fairly directly to the GLEIF model.  A relevant fragment of FIBO is given in 
+Where does FIBO come in to this?    FIBO can map fairly directly 
+to the GLEIF model.  A relevant fragment of FIBO is given in 
 Figure~\ref{fig:ch14.fibolei}
 
 \begin{figure}
@@ -1361,12 +1401,17 @@ plush:L1234ABC a fibo-be-le-lei:LegalEntityIdentifier ;
     \label{fig:ch14.fibolei}
 \end{figure}
 
-FIBO is already closely aligned to the model used by the GLEIF, but it has some differences.   First off, in FIBO, an LEI identifies 
-any \texttt{LegalPerson}; a \texttt{LEIRegisteredEntity} is just a special case of Legal Person.  Why is this important?   Because it 
+FIBO is already closely aligned to the model used by the 
+GLEIF, but it has some differences.   First off, in FIBO, an LEI identifies 
+any \texttt{LegalPerson}; a \texttt{LEIRegisteredEntity} is just a 
+special case of Legal Person.  Why is this important?   Because it 
 allows us to 
-say more about Plush.  For example, suppose that Plush is organized as a stock corporation, but all the stock is held by family members of the 
-founders of Plush.  Details of this sort are of no interest to the GLEIF, but are certainly of interest when it comes to trading shares of 
-stock in Plush.  FIBO provides quite a hierarchy of such legal corporate structures, a fragment of which is shown in Figure~\ref{fig:ch14.fibocorp}.
+say more about Plush.  For example, suppose that Plush is organized 
+as a stock corporation, but all the stock is held by family members of the 
+founders of Plush.  Details of this sort are of no interest to 
+the GLEIF, but are certainly of interest when it comes to trading shares of 
+stock in Plush.  FIBO provides quite a hierarchy of such legal 
+corporate structures, a fragment of which is shown in Figure~\ref{fig:ch14.fibocorp}.
 
 \begin{figure}
 fibo-be-corp-corp:PrivatelyHeldCompany
@@ -1384,25 +1429,44 @@ plush:BeautyBar a fibo-be-corp-corp:PrivatelyHeldCompany .
     \label{fig:ch14.fibocorp}
 \end{figure}
 
-This simple example shows the tightrope walk that FIBO faces; on the one hand, it has to answer questions like, "Does Plush have an LEI?  What is it?"
-while managing the variation needed to satisfy regulators when someone asks, "can I buy stock in Plush Beauty Bar?"  A simpler model could answer
-either of these questions, and indeed, simpler models are deployed on a regular basis to do so.  But when we want to integrate systems using those
-simpler models, we need a model that encompasses all of the variation of both models.  This is the main driving design rationale behind FIBO. 
+This simple example shows the tightrope walk that FIBO faces; 
+on the one hand, it has to answer questions like, "Does Plush 
+have an LEI?  What is it?"
+while managing the variation needed to satisfy regulators 
+when someone asks, "can I buy stock in Plush Beauty Bar?"  
+A simpler model could answer
+either of these questions, and indeed, simpler models are 
+deployed on a regular basis to do so.  But when we want to 
+integrate systems using those
+simpler models, we need a model that encompasses all of the variation
+of both models.  This is the main driving design rationale behind FIBO. 
 
 \subsection{FIBO Summary}
 
-FIBO has been designed to be a sort of ontological interlingua for data sets in the financial industry.  The examples here of Legal 
-Entity Identification were chosen to be as simple as possible while illustrating the design challenges faced by such an ontology. 
-A cursory examination of an ontology like FIBO could prompt the reader to wonder why there are so many pieces; for example, why is there 
-a distinction between a \texttt{LEIRegisteredEntity} and a \texttt{LegalEntity}?  What are the details of that distinction, and when should 
+FIBO has been designed to be a sort of ontological interlingua for 
+data sets in the financial industry.  The examples here of Legal 
+Entity Identification were chosen to be as simple as possible 
+while illustrating the design challenges faced by such an ontology. 
+A cursory examination of an ontology like FIBO could prompt 
+the reader to wonder why there are so many pieces; for example, 
+why is there 
+a distinction between a \texttt{LEIRegisteredEntity} and a
+\texttt{LegalEntity}?  What are the details of that distinction, and when
+should 
 I use one or the other? 
 
-It is difficult to understand the design of an ontology like FIBO from the viewpoint of use cases.  The main use case of FIBO is interoperability 
-between data sets, and especially between data sets that we have not yet encountered.  This means that FIBO has to \emph{anticipate} the structure of 
-datasets in the finance industry, and provide abstractions that will match what is natural for all of them.  In our simple example, one data
-set (having to do with regulation of stock purchases) is interested in the ways in which a corporation is funded (stock, bonds, public, private, etc.),
-whereas another data set (the GLEIF's own management) is interested in how to identify a corporation, without paying attention to its funding model
-or status.  FIBO does not have the luxury of choosing one of these modes; its job is to anticipate both of them, and to build a consistent 
+It is difficult to understand the design of an ontology like FIBO from the
+viewpoint of use cases.  The main use case of FIBO is interoperability 
+between data sets, and especially between data sets that we have not yet
+encountered.  This means that FIBO has to \emph{anticipate} the structure of 
+datasets in the finance industry, and provide abstractions that will match what
+is natural for all of them.  In our simple example, one data
+set (having to do with regulation of stock purchases) is interested in the ways
+in which a corporation is funded (stock, bonds, public, private, etc.),
+whereas another data set (the GLEIF's own management) is interested in how to
+identify a corporation, without paying attention to its funding model
+or status.  FIBO does not have the luxury of choosing one of these modes; its
+job is to anticipate both of them, and to build a consistent 
 model that incorporates them.
 
 
