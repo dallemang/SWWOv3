@@ -1125,7 +1125,7 @@ FIBO assists in the following ways:
     \item Provide a means for financial institutions to report information in an interoperable way, so that regulators can 
     consume data from multiple providers and make sense of the aggregate, 
     \item Encourage financial institutions to improve the quality of their own data management so that they have 
-    a better understanding of the standing of the instruments they participate in, and 
+    more visibility into the standing of the instruments they participate in, and 
     \item Provide a starting point for institutions that want to manage all of the firm's information in an enterprise-wide knowledge graph. 
 \end{enumerate}
 
@@ -1133,19 +1133,20 @@ FIBO assists in the following ways:
 
 Like Schema.org, FIBO is continually under development, responding to newly perceived needs by members of the 
 finance industry.  At the time of this writing, FIBO includes over four thousand classes and nearly 2500 properties. As 
-it is applied to more and more areas, these numbers change. They don't always increase; it is possible for FIBO development to 
-merge classes or properties so that the number will actually decrease as FIBO is applied to more areas. 
+FIBO development continues, these numbers change. They don't always increase; it is possible for FIBO development to 
+merge classes or properties so that the number will actually decrease as FIBO matures. 
 
-These classes are organized into nearly 400 ontologies, taking the notion of ontology modularity to an extreme.  
+These classes are organized into over 300 ontologies, taking the notion of ontology modularity to an extreme.  
 For this reason, FIBO is organized into eleven \emph{domains} \footnote{FIBO Domains are not to be confused with \texttt{rdfs:domain}}
 These domains are Foundations (FND), Business Entities (BE), Financial Business and Commerce (FBC), Loans (LOAN), Securities (SEC), 
 Indices and Indicators (IND), Market Data (MD), Business Process (BP), Collective Investment Vehicles (CIV), Derivatives (DER) and 
-Corporate Actions and Events (CAE).   Each of these domains has a short (2- to 4-letter) mnemonic. 
+Corporate Actions and Events (CAE).   Each of these domains has a short (2- to 4-letter) mnemonic.   With the exception of FND, which provides concepts that are useful across several industries, each domain covers a specific aspect of the
+financial industry.
 
 Naming so many ontologies can be a challenge.  FIBO meets this challenge by organizing each domain 
 into \emph{sub-domains} and \emph{modules}. 
 As we saw in Chapter~\ref{ch5}, HTTP URIs are expressive enough to represent arbitrary amounts of structure in names; 
-FIBO takes advantage of this by reflecting the domains (and below domains, subdomains and modules as needed) in the URI 
+FIBO takes advantage of this by reflecting the domains (and below domains, modules  and subdomains as needed) in the URI 
 of each ontology.  For example, in the domain Business Entities, there is a module called \emph{Legal Entities}.  Inside that 
 module, there are several ontologies, one of which is called \texttt{LegalPersons}.  The HTTP URI for this ontology
 is made up of its complete heritage in FIBO, thus:
@@ -1157,7 +1158,8 @@ https://spec.edmcouncil.org/fibo/ontology/BE/LegalEntities/LegalPersons/
 FIBO implements the Follow-Your-Nose pattern (Section~\ref{dereferencing-http-uri}), so this HTTP URI resolves to 
 a web resource that describes the ontology (try it in a web browser!). 
 
-Each resource (i.e., Class or Property) in FIBO is given an HTTP URI relative to the ontology that defines it.  In the LegalPersons 
+Each resource (i.e., Class, Property, Ontology or Individual) in FIBO is given an HTTP URI relative to the 
+ontology that defines it.  In the \texttt{LegalPersons}
 ontology, there is a class called \texttt{BusinessEntity} whose HTTP URI is 
 
 \begin{lstlisting}
@@ -1166,7 +1168,7 @@ https://spec.edmcouncil.org/fibo/ontology/BE/LegalEntities/LegalPersons/Business
 
 FIBO contains too many domains, subdomains, modules and ontologies to list all of them here. An index of all of them
 is maintained by the EDMCouncil in a form called 
-the \emph{fibopedia}\footnote{https://spec.edmcouncil.org/fibo/fibopedia/master/2018Q4/FIBOpedia.html}.  
+the \emph{fibopedia}\footnote{https://spec.edmcouncil.org/fibo/fibopedia/master/latest/FIBOpedia.html}.  
 
 Since FIBO has hundreds of ontologies, it also has hundreds of namespace prefixes.  These are managed in a systematic way,
 that corresponds to the systematic structure of the HTTP URIs themselves.  Not only does each FIBO domain have a short mnemonic, so 
@@ -1178,8 +1180,9 @@ them out just once for each prefix.
 \subsection{FIBO and data mapping}
 
 FIBO's main use case is data interoperability.  The financial institutions already manage structured data for their reference
-data, instruments, positions, ratings, etc.  FIBO's jobs is to facilitate the exchange and comparison of this structured data. 
-The challenge is that each data source is governed by a different organization, who will make different decisions about how to 
+data, instruments, positions, ratings, etc.  FIBO's job is to facilitate the exchange and comparison of this structured data. 
+The challenge is that each data source is governed by a different organization, 
+which will make different decisions about how to 
 structure the data.  FIBO's approach to this challenge is to have a model 
 that can be mapped to each of these, in advance of having seen the details 
 of any of them.   At first blush, this might seem impossible; each of the 
@@ -1278,7 +1281,7 @@ is the identification of legal entities.  As a simple example,
 imagine that a stock brokerage firm owns an interest in many other 
 companies.  A government regulation might say that they are 
 forbidden from trading 
-stocks in companies that they themselves own a significant share.  
+stocks in companies in which  they themselves own a significant share.  
 How can we tell if this is the case?  We have to be able to 
 identify the company that issued the stock that the brokerage 
 is trading, and then look up to what extent the brokerage itself
@@ -1293,7 +1296,7 @@ letters and digits and is quite long; for the examples in this
 example we will pretend that we have some short LEIs. 
 
 One could imagine a simple data set that lists companies and 
-their LEIs, modeled as in Figure~\ref{fig.ch14.simpleLEI}
+their LEIs, modeled as in Figure~\ref{fig:ch14.simpleLEI}
 
 \begin{figure}
 \begin{lstlisting}
@@ -1313,13 +1316,13 @@ This is the sort of simple data representation you might expect
 in a spreadsheet or even in a Schema.org markup.  It allows you 
 to look up an entity by its LEI. 
 
-Now, let's imagine that instead of being a small company who has 
+Now, let's imagine that instead of being a small company that  has 
 registered an LEI and wants to inform its investors 
 of it, we are looking at the data set that manages the LEIs in the 
 world.  LEIs are managed by the 
 \emph{Global LEI Foundation} (\emph{GLEIF} for short).  
 They have a more elaborate representation of LEIs, as shown in 
-Figure~ref{fig:ch14.gleifLEI} \footnote{the GLEIF uses OWL to represent the structure of an LEI, as published at www.gleif.org}
+Figure~\ref{fig:ch14.gleifLEI} \footnote{the GLEIF uses OWL to represent the structure of an LEI, as published at www.gleif.org}
 
 \begin{figure}
  \begin{lstlisting}

@@ -62,7 +62,10 @@ for data publication that will allow us to weave a web of data:
   name the things it describes. But by using HTTP URIs we can also
   provide a default mechanism to obtain descriptions: HTTP URIs are
   names (URIs) supporting lookup (HTTP access). This allow us to
-  look up the name of the things they identify.
+  look up the name of the things they identify.\footnote{For added security,
+  most web sites today use a more secure version of the HTTP protocol, called HTTPS. 
+  For the purposes of this book, when we refer to a "HTTP URI", we include URIS
+  that use the HTTP protocol.}
 \item
 \label{ruleFYN}
   When an agent accesses an HTTP URI, the server must provide descriptive
@@ -1605,7 +1608,7 @@ To weave a Web of linked data you must follow three rules: (1) use HTTP
 URIs to name everything (2) provide descriptive information in
 appropriate formats about the resources identified by these URIs every
 time they are accessed, and (3) include, in these descriptions, links to
-HTTP URIs of other things. We have seen how to mint the URIs and how
+HTT URIs of other things. We have seen how to mint the URIs and how
 HTTP can be used to negotiate the best answer when dereferencing a URI.
 We showed examples of linked data resources on the Web today, and how they form
 a Linked Data Cloud. 
