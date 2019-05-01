@@ -387,18 +387,18 @@ URIs work very well for expressing identity on the World Wide Web, but
 they are typically a bit of a pain to write out in detail when
 expressing models, especially in print. So for the examples in this
 book, we use a simplified version of a URI abbreviation scheme called
-\emph{QNames} (standing for \emph{Compact URI}). In its simplest form, a
-URI expressed as a QName has two parts: a namespace and an identifier,
-written with a colon between. So the QName representation for the
+\emph{CURIEs} (standing for \emph{Compact URI}). In its simplest form, a
+URI expressed as a CURIE has two parts: a namespace and an identifier,
+written with a colon between. So the CURIE representation for the
 identifier \emph{England} in the namespace \emph{geo} is simply \texttt{geo:England}.
 The RDF standard syntaxes include elaborate rules that allow programmers
 to map namespaces to other URI representations (such as the familiar
 \emph{http://} notation). For the examples in this book, we will use the
-simple QName form for all URIs. It is important, however, to note that
-QNames are \emph{not} global identifiers on the Web; only fully
+simple CURIE form for all URIs. It is important, however, to note that
+CURIEs are \emph{not} global identifiers on the Web; only fully
 qualified URIs (e.g.
 \emph{http://www.WorkingOntologist.org/Examples/Chapter3/Shakespeare\#Shakespeare})
-are global Web names. Thus, any representation of a QName must, in
+are global Web names. Thus, any representation of a CURIE must, in
 principle, be accompanied by a declaration of the namespace
 correspondence.
 
@@ -425,7 +425,7 @@ speaking, these names correspond to fully qualified URIs---for example,
 
 
 For the purposes of explaining modeling on the Semantic Web, the
-detailed URIs behind the QNames are not important, so for the most part,
+detailed URIs behind the CURIEs are not important, so for the most part,
 we will omit these bindings from now on. In many examples, we will take
 this notion of abbreviation one step further; in the cases when we use a
 single namespace throughout one example, we will assume there is a
@@ -449,7 +449,7 @@ lit:Shakespeare&lit:wrote&lit:Hamlet\\
 lit:Shakespeare&lit:wrote&lit:Othello\\
 \hline
 \end{tabular}
-\caption{Plays of Shakespeare with QNames}
+\caption{Plays of Shakespeare with CURIEs}
 \label{tab:ch3.6}
 \end{table}
 
@@ -469,11 +469,11 @@ geo:ChannelIslands&geo:partOf&geo:UK \\
 geo:IsleOfMan&geo:partOf&geo:UK \\
 \hline
 \end{tabular}
-\caption{Geographical names with QNames}
+\caption{Geographical names with CURIEs}
 \label{tab:ch3.7}
 \end{table}
 
-Using QNames, our triple sets now look as shown in Tables~\ref{tab:ch3.6} and \ref{tab:ch3.7}.
+Using CURIEs, our triple sets now look as shown in Tables~\ref{tab:ch3.6} and \ref{tab:ch3.7}.
 Compare Table~\ref{tab:ch3.6} with Table~\ref{tab:ch3.4}, and compare Table~\ref{tab:ch3.7} with Table~\ref{tab:ch3.5}.
 But it isn't always that simple; some triples will have to use
 identifiers with different namespaces, as in the example in Table~\ref{tab:ch3.8},
@@ -483,7 +483,7 @@ In Table~\ref{tab:ch3.8}, we introduced a new namespace, \emph{bio:}, without
 specifying the actual URI to which it corresponds. For this model to
 participate on the Web, this information must be filled in. But from the
 point of view of modeling, this detail is unimportant. For the rest of
-this book, we will assume that the prefixes of all QNames are defined,
+this book, we will assume that the prefixes of all CURIEs are defined,
 even if that definition has not been specified explicitly in print.
 
 \subsection{Standard namespaces}
@@ -527,7 +527,7 @@ technologies, including \emph{xsd:} for XML schema definition;
 \emph{xmlns:} for XML namespaces; and so on. The Semantic Web is handled
 in exactly the same way, with namespace definitions for the major layers
 of the Semantic Web. Following standard practice with the W3C, we will
-use QNames to refer to these terms, using the following definitions for
+use CURIEs to refer to these terms, using the following definitions for
 the standard namespaces.
 
 \emph{rdf}: Indicates identifiers used in RDF. The set of identifiers defined
@@ -748,7 +748,7 @@ triples, as shown in Table~\ref{tab:ch3.13}.
 
 The triples in the table are a bit different from the triples we have
 seen so far. Although the subject and  
-predicate of these triples are RDF resources (complete with QName
+predicate of these triples are RDF resources (complete with CURIE
 namespaces!), the objects are not resources but literal data---that is,
 strings, integers, and so forth. This should come as no surprise, since,
 after all, RDF is a data representation system. RDF borrows from XML all
@@ -1071,14 +1071,14 @@ and exporting.
 In this book, we use a more compact serialization of RDF called
 \emph{Turtle} which is itself a subset of a syntax called \emph{N3}. Turtle
 combines the apparent display of triples from N-Triples with the
-terseness of QNames. We will introduce Turtle in this section and
+terseness of CURIEs. We will introduce Turtle in this section and
 describe just the subset required for the current examples. We will
 describe more of the language as needed for later examples. For a full
 description of Turtle, see the W3C Recommendation. \footnote{https://www.w3.org/TR/turtle/}
 
-Since Turtle uses QNames, there must be a binding between the (local)
-QNames and the (global) URIs. Hence, Turtle begins with a preamble in
-which these bindings are defined; for example, we can define the QNames
+Since Turtle uses CURIEs, there must be a binding between the (local)
+CURIEs and the (global) URIs. Hence, Turtle begins with a preamble in
+which these bindings are defined; for example, we can define the CURIEs
 needed in the Challenge example with the following preamble:
 
 \begin{lstlisting}
@@ -1086,8 +1086,8 @@ needed in the Challenge example with the following preamble:
 @prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns> 
 \end{lstlisting}
 
-Once the local QNames have been defined, Turtle provides a  simple
-way to express a triple by listing three resources, using QName
+Once the local CURIEs have been defined, Turtle provides a  simple
+way to express a triple by listing three resources, using CURIE
 abbreviations, in subject/predicate/object order, followed by a period,
 such as the following:
 
@@ -1202,7 +1202,7 @@ RDF/XML syntax are beyond the scope of this discussion and can be found in the W
 \end{lstlisting}
 
 The same information is contained in the RDF/XML form as in the Turtle,
-including the declarations of the QNames for \emph{mfg:} and \emph{rdf:}. RDF/XML
+including the declarations of the CURIEs for \emph{mfg:} and \emph{rdf:}. RDF/XML
 includes a number of rules for determining the fully qualified URI of a
 resource mentioned in an RDF/XML document. These details are quite
 involved and will not be used for the examples in this book.
@@ -1404,7 +1404,7 @@ serialize triples in the context of one or more named graphs?   The W3C provides
 extensions of the serializations for triples for use with named graphs.  The simplest is
 called \emph{N-Quads}. 
 
-Like N-Triples, N-Quads uses no QNames and no prefixes.  A triple is written in the form of a 
+Like N-Triples, N-Quads uses no CURIEs and no prefixes.  A triple is written in the form of a 
 quad, that is, with Subject, Predicate, Object and Graph, in that order.  So, to extend our example from 
 N-Triples, if we were to say that Product1 is a Product in graph \texttt{http://www.WorkingOntologist.org/Examples/Chapter3/Manufacture}, we would simply write
 
@@ -1505,7 +1505,7 @@ the URL (Uniform Resource Locator), which is the global name on the Web.
 Namespaces allow different agents to use the same word in different
 ways.
 
-\emph{\textbf{QName}}---An abbreviated version of a URI, it is made up of a
+\emph{\textbf{CURIE}}---An abbreviated version of a URI, it is made up of a
 namespace identifier and a name, separated by a colon.
 
 \emph{\textbf{rdf:type}}---The relationship between an instance and its type.

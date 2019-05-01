@@ -449,19 +449,19 @@ This will cause two problems:
 \item Even if there is no  name duplication in our data, one of the animals (say, Mytsie) might be adopted and given a new name (``Missy'').  If this happens, do we have to create a new URI?   Or do we say that the URI at \texttt{<http://example.com/vac/Mytsie>} now has name ``Missy''?
 \end{itemize}
 
-In Chapter~\ref{ch3}, we saw how URIs can be abbreviated using namespaces and QNames (Qualified names). 
+In Chapter~\ref{ch3}, we saw how URIs can be abbreviated using namespaces and CURIEs (Qualified names). 
 If we define the prefix \texttt{vac} to be the namespace
-\texttt{http://www.example.org/vac/}, then the QName for Mytsie's vaccination would evidently   be
-\texttt{vac:775304}.   However, there is a constraint on QNames \footnote{Extensible Markup Language
+\texttt{http://www.example.org/vac/}, then the CURIE for Mytsie's vaccination would evidently   be
+\texttt{vac:775304}.   However, there is a constraint on CURIEs \footnote{Extensible Markup Language
  (XML) 1.0 (Fifth Edition) https://www.w3.org/TR/xml/} that says that the name after the 
  prefix cannot start with a digit (1, 2,
-3\ldots{}) or with basic combining characters (e.g. a comma).  So the proposed QName \texttt{vac:775304} is not valid.  Since QNames are useful in many contexts, it is good practice to append an alphabetic character at the beginning of the identifier.  So instead of using the URIs in Table~\ref{tab:ch5.id}, we use URIs like those in Table~\ref{tab:ch5.vid}
+3\ldots{}) or with basic combining characters (e.g. a comma).  So the proposed CURIE \texttt{vac:775304} is not valid.  Since CURIEs are useful in many contexts, it is good practice to append an alphabetic character at the beginning of the identifier.  So instead of using the URIs in Table~\ref{tab:ch5.id}, we use URIs like those in Table~\ref{tab:ch5.vid}
 
 \begin{table}
     \centering
     \begin{tabular}{|l l|}
     \hline
-    URI&QName \\
+    URI&CURIE \\
     \hline\hline
 http://www.example.com/vac/V366863&vac:V366863 \\
 http://www.example.com/vac/V851903&vac:V851903 \\
@@ -517,7 +517,7 @@ https://tools.ietf.org/pdf/rfc3986
 These schemes have the advantage that they are stable; we can use the same URI
 for the HTML presentation of the latest RFC version, even as new versions are published.  It has the disadvantage that I cannot refer to RDF 3968 itself, only to particular documents about it.  This violates one of our guidelines for URI formation, that a URI should not include implementation-specific information about a document. We'll see later in this chapter how to use Content Negotiation to address this issue. 
 
-These schemes follow the QName suggestion that the final part of the URI begin with an alphabetic character (in this case, it is always 'r'), but they suffer from the drawback that each of them will have a different prefix, since they don't share a common prefix.  If we were to make these into QNames, we woud need a separate prefix for \texttt{https://tools.ietf.org/rfc/}, \texttt{https://tools.ietf.org/pdf/} and  \texttt{https://tools.ietf.org/txt/}. 
+These schemes follow the CURIE suggestion that the final part of the URI begin with an alphabetic character (in this case, it is always 'r'), but they suffer from the drawback that each of them will have a different prefix, since they don't share a common prefix.  If we were to make these into CURIEs, we woud need a separate prefix for \texttt{https://tools.ietf.org/rfc/}, \texttt{https://tools.ietf.org/pdf/} and  \texttt{https://tools.ietf.org/txt/}. 
 
 \subsubsection{URIs for ISO DOIs}
 
@@ -551,7 +551,7 @@ identified by the DOI.
 
 The advantage of these URIs is that they are stable; ISO makes sure that for a particular 
 resource, the DOI will not change.  They have the drawback that they cannot be formed into 
-QNames, since the final component begins with a number. 
+CURIEs, since the final component begins with a number. 
 
 
 
@@ -1178,9 +1178,9 @@ machines}
 
 Now let us fully play the game of linked data. In (Figure~\ref{fig:ch5.8}) you can
 find a triple (line 8) saying that the Eiffel Tower is of type
-wikidata:Q41176 which is a QName using the namesace prefix \texttt{wikidata:}, which is defined 
+wikidata:Q41176 which is a CURIE using the namesace prefix \texttt{wikidata:}, which is defined 
 on line 6. At this stage we don't know what this
-means, but we can follow our nose by expanding the QName (i.e., 
+means, but we can follow our nose by expanding the CURIE (i.e., 
 replacing the prefix with its defined  namespace) to obtain an HTTP URI that we
 can access:
 

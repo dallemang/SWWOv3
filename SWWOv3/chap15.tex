@@ -224,7 +224,7 @@ out of the way, there is still the question of how we should choose the \emph{lo
 for our URIs. 
 
 The local name for a URI is the part of the name after the final slash (for slash URIs) or 
-after the hash (for hash URIs).  This is the name that appears in the QName for the URI. 
+after the hash (for hash URIs).  This is the name that appears in the CURIE for the URI. 
 For example, the local name for \texttt{skos:broader}  (Section~\ref{ch11.semrel}) is 
 \emph{broader}; the local name for \texttt{wikidata:Q41176} (Section~\ref{dbpedia})is 
 \emph{Q41176}. 
@@ -315,11 +315,11 @@ sophisticated  tool that
 is able to deal with preferred labels and various languages, how should it display the
 fact that one resource is the AGROVOC version of Livestock and the other is
 the NAL version of Livestock?  If we had meaningful local names, then this
-problem would have been solved already by the QNames:  
+problem would have been solved already by the CURIEs:  
 \texttt{agrovoc:Livestock} vs. \texttt{NAL:Livestock}.  If we just use labels, 
 we have to ask about the relationship between "livestock" and "livestock"; this only makes sense
 if we expand it out to say: the relationship between "livestock" (in the AGROVOC sense) vs "livestock" 
-(in the NAL sense).  QNames are a much more precise and compact way to do this, but they only make
+(in the NAL sense).  CURIEs are a much more precise and compact way to do this, but they only make
 sense in the context of meaningful URIs. 
 
 \subsubsection{Disadvantages of Meaningful Names}
