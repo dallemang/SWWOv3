@@ -36,7 +36,7 @@ or IRIs (Internationalized resource identifiers), to identify and then describe 
 
 We can put data on the web simply by making a spreadsheet or even a PDF available on
 a web page somewhere.    A Web of data, in contrast, consists of data from around the world that is linked together so that it can be found, browsed,
-crawled, integrated, etc. In a Web of data, the core idea is \emph{linked data}, i.e. datasets (and data elements in them)  linked across the
+crawled, integrated, etc. In a Web of data, the core idea is \emph{linked data}, i.e. data sets (and data elements in them)  linked across the
 World Wide Web in the same way Web pages, Web sites and anchored texts
 are linked across the World on the Web. Instead of just
 using HTML to write Web pages that include links to other pages, the Web of
@@ -85,10 +85,10 @@ information consumer can access others.
 By applying these  rules to the Web of data, we make it interconnected in the same way.  
 when we use an HTTP URI   for our data elements (rule \ref{ruleURI}), 
 we make it possible for anyone on the web to reference them. Once someone
-(re-)uses one of our HTTP URIs , their dataset and ours
+(re-)uses one of our HTTP URIs , their data set and ours
 are interconnected.  When we include links in our data to 
 other data sets (rule \ref{ruleLink}) and  describe our own 
-datasets (rule \ref{ruleFYN}), we make 
+data sets (rule \ref{ruleFYN}), we make 
 the interconnected data \emph{discoverable}, that is, 
 someone coming to one data set can discover another
 without having to search for it. 
@@ -145,7 +145,7 @@ Many of the data sources for these examples play a central role in the Web of da
 have a closer look at them later. 
 
 The reliance on URIs is key to distributed data, to the Web\-based
-architecture and to the integration of datasets coming from different
+architecture and to the integration of data sets coming from different
 sources and produced by different means.
 
 URIs  allow us to make  vocabulary and  resource
@@ -158,8 +158,8 @@ identification mechanism to ensure they are processing the right data,
 in the right way and they use the dereferencing mechanism to obtain more
 data on demand.
 
-When URIs are used and reused across RDF graphs and datasets, they
-provide junction points that allow us to merge the datasets regardless
+When URIs are used and reused across RDF graphs and data sets, they
+provide junction points that allow us to merge the data sets regardless
 of their provenance, potentially forming a  giant global graph. This
 extensible nature of RDF graphs provides a way to weave a World-Wide Web
 of data.
@@ -167,7 +167,7 @@ of data.
 \subsection{Things, Representations and Identifiers}
 \label{usehttp}
 When we use URLs for Web resources alongside URIs for things, we can
-leave our datasets open to some confusion. For example, if we use the
+leave our data sets open to some confusion. For example, if we use the
 same URI for a cat and for a document about that cat, as soon as we
 start attaching descriptions to that URI we need to know precisely what
 we are talking about. For instance, if we attach a property to that URI
@@ -521,7 +521,7 @@ These schemes follow the CURIE suggestion that the final part of the URI begin w
 As a second example, we can consider a family of identifiers
 standardized by 
 The International Organization for Standardization (ISO) maintains a standard family 
-of identifiers (ISO~26324) to uniquely identify objects including books, articles, datasets,
+of identifiers (ISO~26324) to uniquely identify objects including books, articles, data sets,
 videos, etc. This family of identifiers is called \emph{digital object
 identifier} (DOI) and is used to identify and reference digital
 resources in a sustainable manner. For instance, ISO assigned to the article entitled
@@ -917,7 +917,7 @@ initial access and the second one after the redirection) and the
 fragmentation of the data that requires multiple calls when one wants to
 retrieve a collection of them.
 
-To summarize, fragments can be used for small datasets where grouping
+To summarize, fragments can be used for small data sets where grouping
 makes sense (unity of content, linked, same life cycle), a classical
 example of that are vocabularies, schemas or ontologies. This option is
 also simpler as it can be implemented, for instance, just by
@@ -925,7 +925,7 @@ hosting a file on a Web server. The redirection by HTTP 303 is more
 technical but allows more control over the data served.
 
 Finally, nothing prevents you from using and mixing these two options
-even inside the same dataset. A classical way to do that is to add an
+even inside the same data set. A classical way to do that is to add an
 artificial fragment (e.g. \#me, \#this) to combine the modularity of 
 slash URIs with the simplicity  of  hash URIs. For example, we can have a full
 path with slashes to generate identifiers allowing us to be modular in
@@ -1214,7 +1214,7 @@ together, we can see that this mysterious resource called \texttt{wikidata:Q4117
 which  was found among the types of the Eiffel Tower listed in DBpedia, represents the
 category of \texttt{Buildings} as represented in  Wikidata.   
 In order to get the big picture of the Eiffel Tower, 
-including the fact that it is a building, we combine information from two datasets: DBpedia and Wikidata. 
+including the fact that it is a building, we combine information from two data sets: DBpedia and Wikidata. 
 In this way, we have
 witnessed a link across two data sources on the Web of data.
 
@@ -1252,7 +1252,7 @@ exchanging and extending descriptions on the Web. The use of HTTP URIs
 provides a standard way to obtain and augment data about any 
 identifier. In fact, an RDF triple contains up to three HTTP URIs
 (subject, predicate and object), and each can be used to follow our
-noses and discover new data. Any HTTP URI used in an RDF dataset
+noses and discover new data. Any HTTP URI used in an RDF data set
 can be looked up for more information.
 
 In this sense,   any RDF data set already contains links, since
@@ -1261,24 +1261,24 @@ But this sense of linkage isn't enough to weave a Web of data.  After all,
 If each data source were to only use  URIs from  its own domain, then
 that source would be an isolated island,  and there would be no
 Web of data.  To
-weave a Web of linked data we need links across datasets,  which means the
-subjects or objects of the triples of one dataset have to reuse
-URIs from some other datasets.  As a good practice, the more such links, the better, 
+weave a Web of linked data we need links across data sets,  which means the
+subjects or objects of the triples of one data set have to reuse
+URIs from some other data sets.  As a good practice, the more such links, the better, 
 since it means we have a more densely interconnected web of data, which in turn, supports
 improved discovery,  crawling, integration, browsing,
 aggregation, etc. of multiple data sources
 
 External links can be established in many different ways.
 \begin{enumerate}
-    \item A new dataset can create its own URIs for common entities.  This is 
-    the most likely scenario for datasets that have been created on their own, without
+    \item A new data set can create its own URIs for common entities.  This is 
+    the most likely scenario for data sets that have been created on their own, without
     expectation that they will be part of a Web of data.  In this case, links
-    are established later on by identifying the fact that some URI in the new datasets
-    actually refers to an entity that already has a URI in another dataset.  
+    are established later on by identifying the fact that some URI in the new data sets
+    actually refers to an entity that already has a URI in another data set.  
     
-    \item{A designer of a new dataset can make an effort to re-use URIs that have already been established by 
-    existing datasets.  This method requires a bit more effort up front, since the designer of the new 
-    dataset has to determine which URI corresponds to the thing they are describing. This up-front 
+    \item{A designer of a new data set can make an effort to re-use URIs that have already been established by 
+    existing data sets.  This method requires a bit more effort up front, since the designer of the new 
+    data set has to determine which URI corresponds to the thing they are describing. This up-front 
     work can pay off in the long run,  since
     there is no need to establish later on whether two entities really are intended to refer to the same thing. 
     In this case, the data designer has already made that clear.  
@@ -1345,7 +1345,7 @@ Preparing, publishing and (re)using linked data has a lot in common with
 this process. Each data source is massaged and prepared separately by
 its owner. Each data provider has their own
 constraints in terms of data selection (sensitivity, anonymity, etc.),
-dataset features (velocity, volume, etc.) and data infrastructure
+data set features (velocity, volume, etc.) and data infrastructure
 (legacy software, maintenance cost, etc.). Each source will therefore
 cook its linked data separately (stage 1). Then anyone can use and link
 to these published data and process them to produce new data: aggregated
@@ -1397,13 +1397,13 @@ $\star\star\star\star\star$ All of the above and links to other Linked Open Data
 Web}\label{yet-another-cloud-for-the-web}}
 
 The term ``linked open data cloud'' or ``LOD Cloud'' does not refer to
-the cloud paradigm of computer science but to of linked datasets
+the cloud paradigm of computer science but to of linked data sets
 obtained by applying the linked data principles. This cloud is a graph
-formed by nodes representing open datasets and edges indicating that the
-data of two datasets are linked  the sense of Section~\ref{linking-rdf-data}, i.e. if one dataset reuses some
+formed by nodes representing open data sets and edges indicating that the
+data of two data sets are linked  the sense of Section~\ref{linking-rdf-data}, i.e. if one data set reuses some
 identifiers from the other to identify the same resources (e.g.
 persons, places, etc.). This cloud comprises only a small part the Web
-of Data, made up of datasets that have registered at the Linked Open Data
+of Data, made up of data sets that have registered at the Linked Open Data
 Hub Web site at https://old.datahub.io/organization/lodcloud, 
 which collects and curates their descriptions before
 compiling them into the Linking Open Data cloud diagram as shown in
@@ -1417,8 +1417,8 @@ figure~\ref{fig:ch5.14}.
 \cite{lodcloudnet}
 
 The 2017 edition of the diagram shown above shows a LOD cloud
-aggregating 150 billion triples from nearly 3000 datasets. Each node
-(circle) corresponds to a dataset, some of them very large in their own
+aggregating 150 billion triples from nearly 3000 data sets. Each node
+(circle) corresponds to a data set, some of them very large in their own
 right. The different colors show different domains of application (e.g.
 life sciences, publication, government, geography).
 
@@ -1431,7 +1431,7 @@ central, historic or atypical.  We've seen most of these before:
   of data and identifiers in
   the linked open data cloud. It is one of the pioneering sources and
   its encyclopedic nature makes it well-suited as a source of reference
-  for other datasets.
+  for other data sets.
 
 \item
   \emph{Wikidata}, also described in Section~\ref{dbpedia}, is a close relative of DBpedia.  In contrast to
@@ -1449,7 +1449,7 @@ central, historic or atypical.  We've seen most of these before:
 
 \item
   \emph{UniProt} stands for Universal Protein Resource and is an international
-  initiative to build and publish a comprehensive dataset of protein
+  initiative to build and publish a comprehensive data set of protein
   sequences and annotations.
 \end{itemize}
 

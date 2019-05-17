@@ -962,7 +962,7 @@ rdfs:label\\
 \end{tabular}
 
 This query effectively asks for metadata about James Dean -- it is
-asking, ``what are the sorts of things this dataset knows about James
+asking, ``what are the sorts of things this data set knows about James
 Dean?''
 
 Notice that the result \texttt{:playedIn} appears three times in the answers.
@@ -1461,7 +1461,7 @@ flexible form -- an answer could take the form of an RDF graph. This is
 the idea behind CONSTRUCT -- we use the expressive power of RDF in the
 answer to a query, as well as in the match pattern of the query.
 
-Suppose we wanted to find out all the movie directors in our dataset.
+Suppose we wanted to find out all the movie directors in our data set.
 One way to find this out would be to write a query that finds out all
 the people that movies were directed by:
 
@@ -1563,7 +1563,7 @@ the query was run against,
 \item Store the constructed triples as a separate graph, for processing
 further triples,
 
-\item Store the constructed triples into a new dataset (in another database)
+\item Store the constructed triples into a new data set (in another database)
 for publication,
 
 \item Serialize the results in some standard form and save them to a file.
@@ -1705,7 +1705,7 @@ Since
 :Maria :hasMother :Eunice .
 \end{lstlisting}
 
-are both in the dataset. 
+are both in the data set. 
 
 But this is both too permissive and too restrictive; for example, we
 won't conclude that
@@ -1817,7 +1817,7 @@ from the previous example (plus a few more):
 :Ted :hasSon :Patrick .
 \end{lstlisting}
 
-We could speculate about how a dataset could get to be in such an
+We could speculate about how a data set could get to be in such an
 inconsistent state -- with some family relationships relating children
 to their parents, while others relate parents to their children. The
 data might originally come from multiple sources or have been entered
@@ -2186,7 +2186,7 @@ individuals can be used. The same strategy using SPARQL CONSTRUCT can be
 used to determine these matches and to record them using
 \texttt{skos:exactMatch}. For example, suppose that the data set included
 information about date and place of birth. If it is reasonable to assume
-in the dataset that two people who share the same name, place, and date
+in the data set that two people who share the same name, place, and date
 of birth are indeed the same persons, then the query
 
 \query{Match on birthplace, date, and name}
@@ -2235,7 +2235,7 @@ WHERE { ?dir foaf:made ?m ;
 \end{challenge}
 
 Of course, there are many other answers satisfying this condition in the full 
-linkedMDB dataset; we limited the output to a singleton here for simplicity. 
+linkedMDB data set; we limited the output to a singleton here for simplicity. 
 
 \begin{challenge}
 \textbf{USING SPARQL TO COPY AN EXCERPT OF A DATABASE}
