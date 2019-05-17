@@ -44,9 +44,7 @@ data uses RDF to write data descriptions that include links to other data
 descriptions.
 
 Tim Berners-Lee introduced best practices for linked data in his
-personal notes on Linked Data Design Issues in 2006\footnote{Linked
-  Data, Tim Berners-Lee, 2006-07-27,
-  https://www.w3.org/DesignIssues/LinkedData.html}, stating the
+personal notes on Linked Data Design Issues in 2006\cite{linkeddatadesign}, stating the
 architectural principles and explaining the thinking behind the linked data
 specifications.   In this chapter, we will explain in detail his three rules 
 for data publication that will allow us to weave a web of data:
@@ -217,8 +215,7 @@ that URI, i.e. my cat Mytsie.
 
 This approach to linked data, in which we use an HTTP URI as an identifier, and 
 rely on HTTP-based dereferencing of that URI to provide more information about the resource, 
-is summarized in a web design pattern called \emph{Follow Your Nose} \footnote{Linked Data Patterns, by Leigh Dodds and Ian Davis,
-http://patterns.dataincubator.org/book/follow-your-nose.html}.
+is summarized in a web design pattern called \emph{Follow Your Nose} \cite{dodds2012linked}. .
 According to the  Follow Your Nose pattern,  it is the responsibility of the data publisher
 to make sure that the HTTP URIs indeed resolve to web resources that provide
 appropriate information. Just as Ariadne provided Theseus a thread to let him
@@ -257,8 +254,8 @@ as soon as we start publishing URIs they are reused and referenced and
 therefore introduce dependencies and create legacy systems.
 
 The generic form of a URI is describe in their standard
-document\footnote{URIs are standardized in RFCs from IETF : RFC 3986
-  https://tools.ietf.org/html/rfc3986} like this where values between
+document (URIs are standardized in RFCs from IETF : RFC 3986
+  \cite{masinter2005uniform}) like this where values between
 square brackets are optional parts one can use in minting a URI (eg.
 Indicating a port on a server).
 
@@ -330,14 +327,14 @@ method for generating enough distinct URIs for everything we want to describe in
 The problem of coming up with appropriate identifiers in a large data set is not 
 specific to the Semantic Web, and there is no perfect answer. In the context of HTTP URIs for the Semantic Web,
 Pros
-and Cons have been discussed in several places\footnote{Cool URIS:
-  \url{http://www.w3.org/TR/cooluris/} and Issue 57:
-  \url{http://www.w3.org/2001/tag/awwsw/issue57/latest/}}.  We will
+and Cons have been discussed in several places (
+  \cite{Cooluris},
+  \cite{URIDoc}).  We will
 summarize here some of the things to consider when minting your HTTP
 URIs. 
 
 
-Inspired by the title of an article by Tim Berners-Lee, \emph{Cool URIs don't change}, \footnote{Cool URIs don't change, Tim Berners-Lee, 1998.  http://www.w3.org/Provider/Style/URI.}, a popular proposal for 
+Inspired by the title of an article by Tim Berners-Lee, \emph{Cool URIs don't change}, \cite{dontchange}, a popular proposal for 
 minting URIs for the semantic Web is called \emph{Cool URIs}
 
 As suggested by the eponymous article, a key aspect of cool URIs is that they don't change: you want to ensure
@@ -452,8 +449,7 @@ This will cause two problems:
 In Chapter~\ref{ch3}, we saw how URIs can be abbreviated using namespaces and CURIEs (Qualified names). 
 If we define the prefix \texttt{vac} to be the namespace
 \texttt{http://www.example.org/vac/}, then the CURIE for Mytsie's vaccination would evidently   be
-\texttt{vac:775304}.   However, there is a constraint on CURIEs \footnote{Extensible Markup Language
- (XML) 1.0 (Fifth Edition) https://www.w3.org/TR/xml/} that says that the name after the 
+\texttt{vac:775304}.   However, there is a constraint on CURIEs \cite{Bray:08:EML} that says that the name after the 
  prefix cannot start with a digit (1, 2,
 3\ldots{}) or with basic combining characters (e.g. a comma).  So the proposed CURIE \texttt{vac:775304} is not valid.  Since CURIEs are useful in many contexts, it is good practice to append an alphabetic character at the beginning of the identifier.  So instead of using the URIs in Table~\ref{tab:ch5.id}, we use URIs like those in Table~\ref{tab:ch5.vid}
 
@@ -656,8 +652,7 @@ in terms of which human language they prefer, e.g.,  English, Chinese or French)
 software may have specific preferences as well  in terms of the format an application may prefer (e.g., 
 data in JSON-LD vs. CSV).
 
-Using the HTTP protocol\footnote{Hypertext Transfer Protocol -\/-
-HTTP/1.1, RFC 2616, https://tools.ietf.org/html/rfc2616} a Web client
+Using the HTTP protocol (\cite{leach1999hypertext}), a Web client
 can negotiate the content of a response to an HTTP URI look up: whether
 you are interested in a Web of hypertext because your application is
 displaying the results directly to humans or you are interested in a data packet 
@@ -669,11 +664,9 @@ The Content Negotiation mechanism, sometime called \emph{conneg} for short, is p
 HTTP standard. The HTTP protocol allows Web clients to set headers in
 the requests they send in order to specify their preferences in
 particular in terms of format. These headers rely on several standards
-to allow you to specify formats (media types or MIME types\footnote{Media
-  Type Specifications and Registration Procedures, RFC 6838
-  \url{https://tools.ietf.org/html/rfc6838}}), natural languages (ISO
-language codes\footnote{Language codes - ISO 639,
-  \url{https://www.iso.org/iso-639-language-codes.html}}), etc.
+to allow you to specify formats (media types or MIME types \cite{klensin2013media}), 
+natural languages (ISO
+language codes \cite{iso_language_639}), etc.
 
 Using these preferences, the server may decide to adapt its response or
 re-route the request to best serve the client. It is the responsibility
@@ -1032,7 +1025,7 @@ machines}
 The Universal Protein Resource (\emph{UniProt} for short) is a service whose mission is to 
 provide the scientific community 
 with a comprehensive, high-quality and freely accessible resource of protein sequence and 
-functional information \footnote{https://www.uniprot.org/}. 
+functional information \cite{10.1093/nar/gky1049}. 
 Among its services, UniProt  provides RDF descriptions of protein sequence and
 function. For example, if you are a biologist interested in the ``Cell surface
 glycoprotein MUC18'', there is a URI for that:
@@ -1103,7 +1096,7 @@ RDF/XML version for automated use}
 \label{dbpedia}
 
 \emph{DBpedia} is a crowd-sourced community effort to extract structured
-content from the information created in various Wikimedia projects\footnote{https://wiki.dbpedia.org/about}. 
+content from the information created in various Wikimedia projects\cite{Auer:2007:DNW:1785162.1785216}. 
 This includes the famous Wikipedia encyclop{\ae}ia.  This initiatives extracts
 and publishes structured data from the pages of Wikipedia
 and other Wikimedia projects, and therefore covers a wide variety of
@@ -1312,7 +1305,7 @@ but in this case, the URIs refer to class names and property names (which might 
 if the data were originally represented in a relational data store).  
 When two or more data sets re-use the same schema, it is easier to federate the data sets.  
 
-As an example, the Financial Industry Business Ontology (FIBO)\footnote{https://spec.edmcouncil.org/} provides 
+As an example, the Financial Industry Business Ontology (FIBO)\cite{fibospec} provides 
 schema information for financial instruments.  In particular, it provides a class called \texttt{LoanDrawdown}, which 
 for those of us who are not experts in finance, is the sort of loan you pay off bit by bit, like an auto loan or a home 
 mortgage. 
@@ -1325,7 +1318,7 @@ your data covers, there are literally hundreds of possible schema published on t
 To find the schema of your dreams, like for anything on the Web, there
 are Web applications providing directories and search engine
 functionality. One of them is called LOV for Linked Open
-Vocabularies\footnote{\url{http://lov.okfn.org/}} where you can find the
+Vocabularies \cite{vandenbussche2017linked} where you can find the
 most well-known vocabularies and their links (Figure~\ref{fig:ch5.12})
 
 \begin{figure}
@@ -1411,7 +1404,8 @@ data of two datasets are linked  the sense of Section~\ref{linking-rdf-data}, i.
 identifiers from the other to identify the same resources (e.g.
 persons, places, etc.). This cloud comprises only a small part the Web
 of Data, made up of datasets that have registered at the Linked Open Data
-Hub Web site\footnote{https://old.datahub.io/organization/lodcloud}, which collects and curates their descriptions before
+Hub Web site at https://old.datahub.io/organization/lodcloud, 
+which collects and curates their descriptions before
 compiling them into the Linking Open Data cloud diagram as shown in
 figure~\ref{fig:ch5.14}.
 
@@ -1420,9 +1414,7 @@ figure~\ref{fig:ch5.14}.
 \label{fig:ch5.14}
 \caption{Linking Open Data cloud diagrams\protect\footnotemark\ ten years apart from 2007 (left) and 2017 (right)}
 \end{figure}
-\footnotetext{Andrejs Abele, John
-  P. McCrae, Paul Buitelaar, Anja Jentzsch and Richard Cyganiak.
-  http://lod-cloud.net/}
+\cite{lodcloudnet}
 
 The 2017 edition of the diagram shown above shows a LOD cloud
 aggregating 150 billion triples from nearly 3000 datasets. Each node

@@ -1150,7 +1150,7 @@ A note about syntax; the FILTER is a Boolean test, not a graph pattern,
 so it isn't written like a graph pattern in braces; instead, it is
 written in parentheses. The tests that are available in the FILTER
 clause are taken from similar tests available in XQuery, and are
-outlined in detail in the SPARQL standard. \footnote{http://www.w3.org/TR/sparql11-query/} In general, arithmetic and
+outlined in detail in the SPARQL standard. \cite{Harris:13:SQL} In general, arithmetic and
 comparisons on all XML data types (integers, floats, strings, dates,
 etc.) are allowed, as well as the functions from the XPATH standard,  like REGEX (regular
 expression matching for strings), and Boolean functions for AND, OR, and
@@ -2020,18 +2020,18 @@ This is especially common when the data source is implemented as a
 relational database, where common practice involves separating out
 information based on the role an entity plays in an application.
 
-The Linked Movie DataBase\footnote{http://linkedmdb.org/} (LinkedMDB) is an open data source containing
+The Linked Movie DataBase (LinkedMDB, \cite{lmdatabase}) is an open data source containing
 data about movies. The LinkedMDB is originally based on a relational database
 containing information about movies, actors, directors, etc. The
 underlying database includes information about what movies directors
 made as well as what movies actors played in. This information is
 represented in two separate tables -- a director table and an actor
 table. When converted to triples, this database structure results in two
-classes in the published RDF dataset with corresponding names --
+classes in the published RDF data set with corresponding names --
 director and actor.
 
 Members of the classes in the linkedMDB are given numeric URIs -- here
-is a very small excerpt of data from that dataset:
+is a very small excerpt of data from that data set:
 
 \begin{lstlisting}
 actor:15256 
@@ -2052,7 +2052,7 @@ director:4614
 \end{lstlisting}
 
 In this fragment, there is a movie whose \texttt{dcterms:title} is ``Unforgiven'' (the
-namespace dcterms stands for ``DCMI Metadata Terms,'' a metadata standard used by
+namespace \texttt{dcterms} stands for ``DCMI Metadata Terms,'' a metadata standard used by
 many libraries worldwide that includes standard terms for titles,
 authors, publication dates, etc.), stars an actor (number 15256) whose
 name is ``Clint Eastwood,'' and was directed by a director (number 4614)
@@ -2061,12 +2061,11 @@ are named ``Clint Eastwood'' enough for us to conclude that they are the
 same person?
 
 Fortunately, there is another triple for each of these resources in the
-LinkedMBD dataset:
+LinkedMBD data set:
 
 \begin{lstlisting}
 actor:15256   foaf:page  <http://www.freebase.com/view/topic/en/clint_eastwood> .
 director:4614 foaf:page  <http://www.freebase.com/view/topic/en/clint_eastwood> .
-
 \end{lstlisting}
 
 Freebase was a linked data resource that (among other things) provided an
@@ -2111,7 +2110,7 @@ director:4614 skos:exactMatch director:4614 .
 
 These triples indeed encode the identity match that we observed -- that
 the director of \emph{Unforgiven} also played in it. But it brings along
-some extra baggage -- the exactMatch appears twice, once relating the
+some extra baggage -- the \texttt{exactMatch} appears twice, once relating the
 actor to the director, and another time relating the director to the
 actor. Furthermore, we have two rather trivial results, that every actor
 is an exact match to itself (and the same for directors). These extra

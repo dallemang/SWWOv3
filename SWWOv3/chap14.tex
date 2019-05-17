@@ -9,7 +9,7 @@ Web. In selecting ontologies for this chapter, we had to leave some
 favorite projects behind.
 
 We ended up with three examples. These examples were chosen for this
-chapter because of their advanced use modeling features beyond
+chapter because of their advanced use of modeling features beyond
 RDFS-Plus, and how widespread their impact has been.
 
 
@@ -34,9 +34,9 @@ The third is the \emph{Financial Industry Business Ontology} (\emph{FIBO} for sh
 This is an ongoing effort by the Enterprise Data Management Council (EDMC) to 
 build a reference ontology for the purpose of exchanging information about 
 financial instruments.  It was inspired by
-BCBS 239\footnote{https://www.bis.org/publ/bcbs239.pdf}, a white paper by the Based Commission 
+BCBS 239\cite{basel2013principles}, a white paper by the Based Commission 
 on Banking Supervision, that outlined root causes for the financial crisis of
-20018.  FIBO provides detailed logical definitions of financial instruments
+2008.  FIBO provides detailed logical definitions of financial instruments
 for many purposes.  Its design is a good example of modeling for a very wide
 audience of stakeholders. 
 
@@ -111,7 +111,7 @@ of triples is the union of all triples in all imported files.
 
 
 
-\section{Quantities, Units, and Dimensions}
+\section{Quantities, Units, Dimensions and Types}
 \label{QUDT}
 
 As part of the Constellation Program, NASA developed an ontology 
@@ -199,7 +199,7 @@ length.
 QUDT uses the \emph{Local Restriction of Range} pattern described in Section~\ref{lror}; that is, it uses
 \texttt{owl:allValuesFrom} to restrict the possible values for a property. The
 relationship between \texttt{qudt:Unit} and \texttt{qudt:QuantityKind} is called
-\texttt{qudt:quantityKind} (note the naming convention; \texttt{qudt:quantityKind} begins
+\texttt{qudt:hasQuantityKind} (note the naming convention; \texttt{qudt:hasQuantityKind} begins
 with a lower-case letter, and hence is a property; \texttt{qudt:QuantityKind}
 begins with an upper-case letter and is a class). The restriction on
 this relationship is defined as
@@ -221,7 +221,7 @@ length:
 
 \begin{lstlisting}
 unit:FT a qudt:Unit ;
-      qudt:hasQuantityKind quantitiykind:Length .
+      qudt:hasQuantityKind hasQuantitykind:Length .
 \end{lstlisting}
 
 Following along as in the example of this pattern from Section~\ref{lror}, from
@@ -231,17 +231,17 @@ these triples we can infer that
 quantitykind:Length a qudt:QuantityKind .
 \end{lstlisting}
 
-QUDT includes a comprehensive list of units and quantities from many
+QUDT includes a comprehensive list of units and quantity kinds from many
 fields of science, including mechanics, thermodynamics, chemistry,
 informatics, and biology. It organizes its namespaces in a modular
 way---as we saw in this example, resources that describe how units work
 (like the resources \texttt{qudt:QuantityKind} and \texttt{qudt:Unit}) are in the \texttt{qudt:}
 namespace, while particular quantities and units (like
-\texttt{quantityknd:Length} and \texttt{unit:FT}) are in specific namespaces
+\texttt{quantitykind:Length} and \texttt{unit:FT}) are in specific namespaces
 for quantity kinds and units, respectively. 
 These resources resolve the first function of the QUDT vocabulary, that
 is, they provide unambiguous reference URIs for all the units and
-quantities in QUDT.
+quantity kinds in QUDT.
 
 \subsection{Converting Units with QUDT}
 
@@ -345,7 +345,8 @@ WHERE {
 \end{lstlisting}
 
 
-SHACL extensions \footnote{https://www.w3.org/TR/shacl-af/} allow such queries to be given names, which themselves are
+SHACL extensions \cite{Steyskal:17:SAF} allow such queries to be given names, 
+which themselves are
 resources in RDF.   When we do this, we refer to the named query 
 as a \emph{function}.  If we give this query the 
 name \texttt{qudtsh:convert}, then
@@ -521,12 +522,12 @@ at the conclusion of the book). We will illustrate enough of the QUDT
 ontology to show how it can support certain basic operations in
 dimensional analysis.
 
-The basic idea of dimensional analysis is that a quantity has a
+The basic idea of dimensional analysis is that a quantity kind has a
 signature that tells how it relates to
-basic quantities like length, time, and mass. QUDT defines eight base
-quantities of this sort, but in this exposition, we will focus on these
-three. A compound quantity has a signature in these basic quantities.
-For example, the compound quantity velocity is defined as a ratio
+basic dimensions like length, time, and mass. QUDT defines eight base
+dimensions of this sort, but in this exposition, we will focus on these
+three. A compound quantity kind has a signature in these basic dimensions.
+For example, the compound quantity kind \emph{velocity} is defined as a ratio
 between distance and time; this means that its signature in terms of
 length, time, and mass is length/time. The signature can be written as a
 vector, with one vector component for each base unit, and the magnitude
@@ -580,21 +581,21 @@ dimension)}
 
 
 
-QUDT supports dimensional analysis by representing over 200 dimensions,
-cross-referenced with corresponding quantities, each organized in a 
+QUDT supports dimensional analysis by representing over 200 dimension vectors,
+cross-referenced with corresponding quantity kinds, each organized in a 
 form analagous to what you see in Figure~\ref{fig:ch14.04}.
 
-First, there is the \emph{System of Quantities}. QUDT includes eight different
-systems of quantities, including the standard international (``metric'')
+First, there is the \emph{System of Quantities}, or, more precisely, \emph{System of Quantity Kinds} . QUDT includes eight different
+systems of quantity kinds, including the standard international (``metric'')
 system (SI, shown in the figure) as well as several variants of the CGS
 (centimeter-gram-second) and the US Customary system (with inches,
-yards, miles, pounds, etc.). A system of quantities defines the
+yards, miles, pounds, etc.). A system of quantity kinds defines the
 dimensions that can be measured in that system. Each system typically
-has dozens of dimensions associated with it. In the figure, we see three
-dimensions associated with the SI system of quantities---one for mass
+has dozens of dimension vectors associated with it. In the figure, we see three
+dimension vectors associated with the SI system of quantities---one for mass
 (\texttt{DIM\_SI-M}), one for length over time twice (\texttt{DIM\_SI-ms-2})
 and one for length times mass over time twice (\texttt{DIM\_SI-mkgs-2}).
-The naming convention for these dimensions includes the name of the
+The naming convention for these dimension vectors includes the name of the
 system (SI) followed by the dimensions in the order length, mass, time,
 each followed by a number indicating the exponent for that dimension.
 These names are not used by any query mechanism---they are only used for
@@ -615,7 +616,7 @@ we are in
 a position to verify  that the formula $F = ma$ 
 is correct from a dimensional point of view, by noticing that for each base 
 dimension, Mass, Length and Time, 
-the coefficient for the quantities in the formula add up; the coefficent for mass (0) plus that for linear acceleration (-2)
+the coefficient for the quantity vectors in the formula add up; the coefficent for mass (0) plus that for linear acceleration (-2)
 equals the coefficient for force (-2); $0 + (-2) = -2$.
 
 How can we write a SPARQL query to verify this calculation?  Let's start by 
@@ -763,15 +764,15 @@ be made to use more dimensions by adding them in to the values for \texttt{?dim}
 \subsection{Summary}
 
 QUDT is an elaborate ontology, but not a very large one. It includes a
-few dozen classes and several hundred units, quantities, and vectors.
+few dozen classes and several hundred units, quantities, kinds, and vectors.
 But it expresses subtle distinctions that are important for providing
 services with units. It accomplishes the three major goals we laid out
 at
 the beginning of this section; it provides a global reference (URI) for
 comprehensive systems of units, it provides a means for converting from
 any unit to any commensurate unit, and it provides enough information to
-perform dimensional analysis on any of over 200 units that it defines.
-It accomplishes this with a careful separation of entities---quantities,
+perform dimensional analysis on any of over 200 units and over 850 quantity kinds that it defines.
+It accomplishes this with a careful separation of entities---quantity kinds,
 units and dimensions, as well as a comprehensive catalog of information
 about the conventional units used throughout history and around the
 world.
@@ -1115,8 +1116,8 @@ property \texttt{skos:broader} is shown here as ``has broader.''
 \label{section:fibo}
 
 FIBO is a massive undertaking to produce an ontology for describing financial instruments.  It is impossible to cover all aspects of FIBO 
-in just a single chapter; more comprehensive details are available in the FIBO Primer
-\footnote{https://spec.edmcouncil.org/fibo/doc/FIBO\_Primer.pdf}.   The industrial
+in just a single chapter; more comprehensive details are available in the FIBO Primer,
+\cite{fiboprimer}.   The industrial
 motivation for FIBO is to make information about financial instruments more transparent at all levels. 
 Specifically, 
 FIBO assists in the following ways:
@@ -1124,8 +1125,9 @@ FIBO assists in the following ways:
 \begin{enumerate}
     \item Provide a means for financial institutions to report information in an interoperable way, so that regulators can 
     consume data from multiple providers and make sense of the aggregate, 
+    \item Increase consistency in communication within and between financial institutions, 
     \item Encourage financial institutions to improve the quality of their own data management so that they have 
-    more visibility into the standing of the instruments they participate in, and 
+    more visibility into their own internal exposure, based on the instruments they participate in, and 
     \item Provide a starting point for institutions that want to manage all of the firm's information in an enterprise-wide knowledge graph. 
 \end{enumerate}
 
@@ -1139,8 +1141,7 @@ merge classes or properties so that the number will actually decrease as FIBO ma
 These classes are organized into over 300 ontologies, taking the notion of ontology modularity to an extreme.  
 For this reason, FIBO is organized into eleven \emph{domains} \footnote{FIBO Domains are not to be confused with \texttt{rdfs:domain}}
 These domains are Foundations (FND), Business Entities (BE), Financial Business and Commerce (FBC), Loans (LOAN), Securities (SEC), 
-Indices and Indicators (IND), Market Data (MD), Business Process (BP), Collective Investment Vehicles (CIV), Derivatives (DER) and 
-Corporate Actions and Events (CAE).   Each of these domains has a short (2- to 4-letter) mnemonic.   With the exception of FND, which provides concepts that are useful across several industries, each domain covers a specific aspect of the
+Indices and Indicators (IND), and  Derivatives (DER).  Each of these domains has a short (2- to 4-letter) mnemonic.   With the exception of FND, which provides concepts that are useful across several industries, each domain covers a specific aspect of the
 financial industry.
 
 Naming so many ontologies can be a challenge.  FIBO meets this challenge by organizing each domain 
@@ -1158,17 +1159,18 @@ https://spec.edmcouncil.org/fibo/ontology/BE/LegalEntities/LegalPersons/
 FIBO implements the Follow-Your-Nose pattern (Section~\ref{dereferencing-http-uri}), so this HTTP URI resolves to 
 a web resource that describes the ontology (try it in a web browser!). 
 
-Each resource (i.e., Class, Property, Ontology or Individual) in FIBO is given an HTTP URI relative to the 
-ontology that defines it.  In the \texttt{LegalPersons}
-ontology, there is a class called \texttt{BusinessEntity} whose HTTP URI is 
+In FIBO, the definition of a resource can be distributed across a number of ontologies.  Each resource 
+(i.e., Class, Property, Ontology or Individual) has a single ontology that is considered the ontology
+that defines it.  The HTTP URI of the resource reflects the HTTP URI of its defining ontology.  For example,  the \texttt{LegalPersons}
+ontology defines  a class called \texttt{BusinessEntity} whose HTTP URI is 
 
 \begin{lstlisting}
 https://spec.edmcouncil.org/fibo/ontology/BE/LegalEntities/LegalPersons/BusinessEntity
 \end{lstlisting}
 
 FIBO contains too many domains, subdomains, modules and ontologies to list all of them here. An index of all of them
-is maintained by the EDMCouncil in a form called 
-the \emph{fibopedia}\footnote{https://spec.edmcouncil.org/fibo/fibopedia/master/latest/FIBOpedia.html}.  
+is maintained by the EDM Council in a form called 
+the \emph{fibopedia}\cite{fibopedia}.  
 
 Since FIBO has hundreds of ontologies, it also has hundreds of namespace prefixes.  These are managed in a systematic way,
 that corresponds to the systematic structure of the HTTP URIs themselves.  Not only does each FIBO domain have a short mnemonic, so 
@@ -1184,14 +1186,14 @@ data, instruments, positions, ratings, etc.  FIBO's job is to facilitate the exc
 The challenge is that each data source is governed by a different organization, 
 which will make different decisions about how to 
 structure the data.  FIBO's approach to this challenge is to have a model 
-that can be mapped to each of these, in advance of having seen the details 
+to which each of these data sources can be mapped,  in advance of having seen the details 
 of any of them.   At first blush, this might seem impossible; each of the 
 data sources, not only from different parts of an organization, but 
-from different organizations (e.g., banks, regulators, investors, c
-redit card companies, tax agencies, etc.) are structured in different ways, 
+from different organizations (e.g., banks, regulators, investors, credit card companies, 
+tax agencies, etc.) is structured in a different way, 
 and 
-have been designed to emphasize different use cases, applications and
-user groups. 
+has been designed to emphasize a different use case, applications or
+user group. 
 How can one model 
 possibly map to all of these things?
 
@@ -1215,7 +1217,7 @@ held by a person (or company), and they have an address.  We could go further
 to say that a credit card has a billing zip code.  Or maybe the holder of 
 the card has a billing address that has a zip code. 
 An ontology like FIBO has to serve many masters, 
-and be able to accommodate mapping to a wide variety of data sets. 
+and be able to accommodate mapping to and from a wide variety of data sets. 
 
 \begin{challenge}{Time periods}
 
@@ -1318,36 +1320,36 @@ to look up an entity by its LEI.
 
 Now, let's imagine that instead of being a small company that  has 
 registered an LEI and wants to inform its investors 
-of it, we are looking at the data set that manages the LEIs in the 
+of it, we are looking at the data set that contains all of the LEIs in the 
 world.  LEIs are managed by the 
 \emph{Global LEI Foundation} (\emph{GLEIF} for short).  
 They have a more elaborate representation of LEIs, as shown in 
-Figure~\ref{fig:ch14.gleifLEI} \footnote{the GLEIF uses OWL to represent the structure of an LEI, as published at www.gleif.org}
+Figure~\ref{fig:ch14.gleifLEI} \footnote{the GLEIF uses OWL to represent LEI registration, as published at 
+www.gleif.org}
 
 \begin{figure}
  \begin{lstlisting}
- gleif-base:LegalEntityIdentifier a owl:Class ;
-            rdfs:subClassOf gleif-base:Identifier ;
-            rdfs:subClassOf [
-                a owl:Restriction ;
-                owl:onClass gleif-L1:RegisteredEntity ;
-                owl:onProperty gleif-base:identifies ;
-                owl:qualifiedCardinality 1 ] .
-                
+ gleif-L1:LegalEntityIdentifiera owl:Class ;
+	rdfs:subClassOf
+		[ a owl:Restriction ;
+ 		  owl:onProperty gleif-base:identifies ;
+ 		  owl:onClass gleif-L1:RegisteredEntity ;
+ 		  owl:qualifiedCardinality 1 ] .
+
 gleif-base:Identifier a owl:Class ;
-            rdfs:subClassOf [
-                a owl:Restriction ;
-                owl:onDataRange xsd:string ;
-                owl:onProperty gleif-base:hasTag ;
-                owl:qualifiedCardinality 1 ] ;
-                
-gleif-L1:RegisteredEntity a owl:Class ;
+	rdfs:subClassOf
+		[ a owl:Restriction ;
+ 		  owl:onProperty gleif-base:hasTag ;
+ 		  owl:onDataRange xsd:string ;
+ 		  owl:qualifiedCardinality 1 ] ,
+		[ a owl:Restriction ;
+ 		  owl:onProperty gleif-base:identifies ;
+ 		  owl:cardinality 1 ] .
 
-gleif-L1:LegalEntity a owl:Class ;
-          rdfs:subClassOf gleif-L1:RegisteredEntity .
+gleif-L1:RegisteredEntity a owl:Class .
 
-plush:BeautyBar a gleif:L1:LegalEntity .
-lei:L1234ABC a gleif-base: LegalEntityIdentifier ;
+plush:BeautyBar a gleif-L1:RegisteredEntity .
+lei:L1234ABC a gleif-L1:LegalEntityIdentifier ;
              gleif-base:hasTag "1234ABC" ;
              gleif-base:identifies plush:BeautyBar . 
  \end{lstlisting}
@@ -1359,14 +1361,17 @@ One could well ask, why does the GLEIF have such a complex model
 for its identifiers, when clearly a much simpler one will do? 
 The reason for this is that the GLEIF needs to know a lot more 
 about its identifiers than just the entity identified and the number.
-Since the GLEIF is managing the numbers, it also needs to know 
-things about the number itself; its status (is it active or inactive?), 
-the payment status of the registration (it does cost a small 
-fee to register an LEI), which agency registered the LEI (there are 
-a number of \emph{LOU}s, or \emph{Local Operating Units} 
-for LEIs, each of which has the authority to issue LEIs, etc. ) In short, 
+Since the GLEIF is managing the numbers, the model it uses also needs to be able to represent 
+things about the number itself.  The GLEIF works with a number of
+\emph{LOU}s, or \emph{Local Operating Units}, which are the entities that
+have authority to issue LEIs.  From the GLEIF perspective, a model 
+of the LEI has to be able to represent things about the LEI, in particular,  
+which LOU it is registered with, which in turn, records other information such 
+as payment for the registration (it costs a small fee to register an LEI and to 
+renew it annually).  In short, 
 from the GLEIF
-perspective, the LEI is the central entity; the registered entity (i.e., the \texttt{LegalEntity}) is secondary. 
+perspective, the LEI itself plays a central role in the business, and needs to be
+modeled separately from the entity it identifies. 
 \end{challenge}
 
 
@@ -1386,7 +1391,12 @@ fibo-be-le-lei:LegalEntityIdentifier
       owl:qualifiedCardinality 1 ] .
    
 fibo-be-le-lei:LEIRegisteredEntity
-  rdfs:subClassOf fibo-be-le-lp:LegalPerson .   
+  rdfs:subClassOf fibo-be-le-lp:LegalPerson ;
+  owl:equivalentClass [
+      rdf:type owl:Restriction ;
+      owl:onProperty fibo-fnd-aap-agt:isIdentifiedBy ;
+      owl:someValuesFrom fibo-be-le-lei:LegalEntityIdentifier ;
+    ] .
   
 fibo-fnd-arr-id:Identifier
   rdf:type owl:Class ;
@@ -1397,46 +1407,30 @@ fibo-fnd-arr-id:Identifier
 
 plush:BeautyBar a fibo-be-le-lei:LEIRegisteredEntity .
 plush:L1234ABC a fibo-be-le-lei:LegalEntityIdentifier ;
-             fibo-fnd-rel-rel:hasTag "1234ABC" ;
-             fibo-fnd-aap-agt:identifies plush:BeautyBar . 
+               fibo-fnd-rel-rel:hasTag "1234ABC" ;
+               fibo-fnd-aap-agt:identifies plush:BeautyBar . 
 \end{lstlisting}
     \caption{FIBO representation of Legal Entity Identifiers, Plush Beauty Bar as an example}
     \label{fig:ch14.fibolei}
 \end{figure}
 
 FIBO is already closely aligned to the model used by the 
-GLEIF, but it has some differences.   First off, in FIBO, an LEI identifies 
-any \texttt{LegalPerson}; a \texttt{LEIRegisteredEntity} is just a 
-special case of Legal Person.  Why is this important?   Because it 
-allows us to 
-say more about Plush.  For example, suppose that Plush is organized 
-as a stock corporation, but all the stock is held by family members of the 
-founders of Plush.  Details of this sort are of no interest to 
-the GLEIF, but are certainly of interest when it comes to trading shares of 
-stock in Plush.  FIBO provides quite a hierarchy of such legal 
-corporate structures, a fragment of which is shown in Figure~\ref{fig:ch14.fibocorp}.
+GLEIF, but it has some differences.  This example shows one such difference. {the relevant parts of 
+FIBO and GLEIF have been simplified for the purpose of this example, but the conclusions hold in the full 
+models as well}
+In the GLEIF model, the Beauty Bar is a Registered Entity, and no more inferences can be 
+drawn from that fact (since \texttt{gleif-L1:RegisteredEntity} isn't a subclass of anything).  But in FIBO, 
+the Beauty Bar is a \texttt{fibo-be-le-lei:LEIRegisteredEntity}, which, in turn, is a 
+\texttt{fibo-be-le-lp:LegalPerson}.  In particular, in FIBO, a Legal Person has a liability capacity, that is
+it can be sued at law.  The GLEIF model disagrees; there are some registered entities (in particular,
+Branches and Funds) that are not legal persons, and therefore can not necessarily be sued.
 
-\begin{figure}
-fibo-be-corp-corp:PrivatelyHeldCompany
-  rdfs:subClassOf fibo-be-le-cb:StockCorporation .
-fibo-be-le-cb:StockCorporation
-  rdfs:subClassOf fibo-be-le-cb:Corporation .
-fibo-be-le-cb:Corporation
-  rdfs:subClassOf fibo-be-le-lp:LegalEntity .
-fibo-be-le-lp:LegalEntity
-  rdfs:subClassOf fibo-be-le-lp:LegalPerson .
-  
-plush:BeautyBar a fibo-be-corp-corp:PrivatelyHeldCompany .
-
-    \caption{Heritage of Privately Held Company in FIBO}
-    \label{fig:ch14.fibocorp}
-\end{figure}
 
 This simple example shows the tightrope walk that FIBO faces; 
 on the one hand, it has to answer questions like, "Does Plush 
 have an LEI?  What is it?"
 while managing the variation needed to satisfy regulators 
-when someone asks, "can I buy stock in Plush Beauty Bar?"  
+when someone asks, "Can the Plush Beauty Bar be sued at law?"  
 A simpler model could answer
 either of these questions, and indeed, simpler models are 
 deployed on a regular basis to do so.  But when we want to 
@@ -1459,13 +1453,13 @@ should
 I use one or the other? 
 
 It is difficult to understand the design of an ontology like FIBO from the
-viewpoint of use cases.  The main use case of FIBO is interoperability 
+viewpoint of use cases alone.  The main use case of FIBO is interoperability 
 between data sets, and especially between data sets that we have not yet
 encountered.  This means that FIBO has to \emph{anticipate} the structure of 
 datasets in the finance industry, and provide abstractions that will match what
 is natural for all of them.  In our simple example, one data
-set (having to do with regulation of stock purchases) is interested in the ways
-in which a corporation is funded (stock, bonds, public, private, etc.),
+set (having to do with legal responsibility) is interested in the legal responsibility 
+of an organization,
 whereas another data set (the GLEIF's own management) is interested in how to
 identify a corporation, without paying attention to its funding model
 or status.  FIBO does not have the luxury of choosing one of these modes; its

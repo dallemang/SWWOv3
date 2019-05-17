@@ -28,7 +28,7 @@ applications.
 The second application is part of a major US government effort called
 Data.gov (\url{http://data.gov}). Data.gov is an effort made by the US
 government to publish public information. There are hundreds of
-thousands of datasets in Data.gov, of which hundreds are made available
+thousands of data sets in Data.gov, of which hundreds are made available
 in RDF, with many more being converted all the time. Data.gov is a great
 example of the data wilderness; the published data sets
 come from a wide variety of source formats and collection methodologies,
@@ -42,12 +42,12 @@ that describe people, the links between them, and the things they create
 and do. It is based on RDF, but it originally made no commitment to RDFS
 or OWL.
 FOAF was originally based on RDF because of the inherently distributed
-and weblike nature of the 
+and web-like nature of the 
 project requirements. As the project evolved, there was a need to
 describe the relationships between various resources in a formal way;
 this led it to RDFS and then on to RDFS-Plus.
 
-The fourth example, \emph{BridgeDb}\footnote{Scientific lenses to support multiple views over linked chemistry data. Batchelor C, Brenninkmeijer C, Chichester C, Davies M, Digles D, Dunlop I, Evelo CT, Gaulton A, Goble C, Gray AJG, Groth P, Harland L, Karapetyan K, Loizou A, Overington JP, Pettifer S, Steele J, Stevens R, Tkachenko V, Waagmeester A, Williams A, Willighagen EL. In The Semantic Web – ISWC 2014, Lecture Notes in Computer Science Volume 8796, 2014, 98-113.}, is a dataset that links other data
+The fourth example, \emph{BridgeDb}\cite{batchelor2014scientific}, is a data set that links other data
 sets for chemistry research, especially for molecular biology. 
 
 
@@ -87,7 +87,7 @@ a \texttt{schema:Product}.  For any class in Schema.org, you can see the
 documentation for that class through follow-your-nose; if you type 
 \texttt{http://schema.org/Product} into your web browser, you will get a page outlining
 the properties that can be used with a Product and some example markup that uses them. 
-For the purpose of this example, lets call this tie texttt{bnb:Buffalo}.  Then 
+For the purpose of this example, lets call this tie \texttt{bnb:Buffalo}.  Then 
 the simplest triples we can have for this product say that it is a product and its 
 name:
 
@@ -349,7 +349,7 @@ In Schema.org, this means that the property \texttt{unitCode} can be used for an
 \texttt{TypeAndQuantityNode} and also for any \texttt{UnitPriceSpecification}.
 
 A full analysis of the semantics of Schema.org is beyond this discussion.  The topic has been treated in 
-great detail in the literature. \footnote{https://link.springer.com/chapter/10.1007/978-3-319-11964-9\_17}
+great detail in the literature. \cite{patel2014analyzing}
 
 \subsection{Schema.org semantics}
 
@@ -383,7 +383,7 @@ in Section~\ref{section:fibo}. For now, all we need to know is that FIBO provide
 for finance.   
 
 Evidently, from these statements, we would like to conclude that \texttt{s1:hasPrincipal} refers to the amount of money 
-in a debt, since we know that whenever that property is used in a dataset from \texttt{s1}, it will refer to a value that 
+in a debt, since we know that whenever that property is used in a data set from \texttt{s1}, it will refer to a value that 
 is a monetary amount.  This conclusion, that the value will \emph{always} be a member of the class \texttt{fibo:MonetaryAmount}, 
 is the definition of \texttt{rdfs:range}, as given in Section~\ref{section:domainrange}.  Similar comments apply
 to \texttt{s2:hasPrincipal}, by asserting these metadata statements, along with the semantics of RDFS, sources \texttt{s1}
@@ -434,11 +434,7 @@ Once you have modeled your data in Schema.org (following the examples
 in this chapter), you can embed them into web pages
 using any of the formats RDFa, Microdata, (Section~\ref{webembed}) or 
 JSON-LD (Section~\ref{ch3.JSON}), then you can check what it means to Schema.org
-by using the Google Structured Data Testing Tool \footnote{https://search.google.com/structured-data/testing-tool} or the W3C RDFa distiller \footnote{https://www.w3.org/2012/pyRdfa/} .
-
-
-
-
+by using the Google Structured Data Testing Tool at ://search.google.com/structured-data/testing-tool or the W3C RDFa distiller at https://www.w3.org/2012/pyRdfa/ .
 
 
 \section{Open Government Data}

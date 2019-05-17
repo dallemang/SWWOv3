@@ -88,8 +88,8 @@ This simple example leaves open a number of issues; how do we know what our expe
 for future application of our models will be?  How do we write down and manage
 the requirements we have for these models?  These questions can be addressed to some 
 extent with the use of  \emph{motivating scenarios} and \emph{competency
-questions}. %FAB: ideally here we should add a reference to: 
-\footnote{M. Uschold and Gruninger M. Ontologies: Principles, methods and applications. Knowledge Engineering Review, Vol. 11:2, 93-136, 1996. Also available as AIAI-TR-191 from AIAI, The University of Edinburgh}
+questions} \cite{uschold1996ontologies}. %FAB: ideally here we should add a reference to: 
+
 
 Scenarios in software engineering are information-rich stories that  capture problems and 
 wishes for a system to be designed, and they are used as the starting point to a software 
@@ -832,9 +832,9 @@ the Eagle is an endangered species. But these
 two statements are very different; when we say Eagles have wings, we mean that 
 each individual eagle has wings, so in particular, Eddie has wings.  But 
 what does the OWL inference model say about this?  What can you conclude about Eddie,
-given that he is a member of a class that \texttt{hasPart} \textt{Wings}? 
+given that he is a member of a class that \texttt{hasPart} \texttt{Wings}? 
 Nothing at all; there is no inference rule that 
-tells us anything about Eddie
+tells us anything about Eddie. 
 
 What we really
 wanted to say was 
@@ -853,16 +853,16 @@ The inference model says nothing about this, which is what we want.  After all,
 just because the species is endangered means nothing about any particular 
 Eagle.  
 
-One of these statements, about \texttt{hasPart}, is a fallacy (in fact, a partiuclarly
+One of these statements, the one about \texttt{hasPart}, is a fallacy (in fact, a particularly
 egregious version 
 of the \emph{Classism} antipattern from Section~\ref{ch15:classism}), 
-while the other (\texttt{EndangeredSpecies}
-is a technically correct use of punning.  We can replace the fallacious use with a 
-correct pattern.  What can we do instead? 
+while the other, the one about \texttt{EndangeredSpecies},
+is a technically correct use of punning.  We would like to replace the fallacious use with a 
+correct pattern.  How can we do this? 
 
-First off, let's start with the class EndangeredSpecies, and have 
-Eagle be a member of it.  Let's call it \texttt{EagleSpecies} to distinguish it from other 
-things that might be called Eagle. 
+First off, let's start with the class \texttt{EndangeredSpecies}, and have 
+Eagle be a member of it.  But let's call it \texttt{EagleSpecies} to distinguish it from other 
+things that might be called "Eagle". 
 
 \begin{lstlisting}
 epa:EagleSpecies a epa:EndangeredSpecies .
