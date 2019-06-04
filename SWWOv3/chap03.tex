@@ -372,6 +372,11 @@ Web, the fact that a URI can potentially be dereferenced allows the
 models to participate in a global Web infrastructure as we will see in
 chapter~\ref{ch5}
 
+The URI can be generalized further as an Internationalized Resource Identifier, 
+or IRI.  The IRI is a generalization of the URI that uses all the character representations
+for languages on the web, so an IRI can include characters with accents or indeed chacters from 
+any language that has a standard web encoding. 
+
 RDF applies the notion of the URI to resolve the identity problem in
 graph merging. The application is quite simple: A node from one graph is
 merged with a node from another graph exactly if they have the same
@@ -952,7 +957,7 @@ specific about what exactly we mean by a \emph{graph}.
 
 Informally, a graph is a diagram with nodes and edges.  In RDF, this
 corresponds directly to a set of triples.  When the same URI is used in
-many triples (as in, for example, Figure~\ref{fig:ch3.7}, the drawing
+many triples (as in, for example, Figure~\ref{fig:ch3.7}), the drawing
 of the graph is be highly connected.
 
 From a more formal point of view in RDF, a graph is simply a set of
@@ -977,7 +982,7 @@ Why would we want to name a graph?  There are a few basic use cases:
     extract RDF data from spreadsheets.  We can extract RDF data from other sources as well, 
     and indeed, we can create data natively as RDF.  In the next section, we'll see how 
     to write down RDF data into a plain text file.  When we load this data into an RDF data store, we might want to keep data from different sources separate.  A convenient way to do this is to put all the data from one source into a single named graph.  The name of the graph (as a URI) can even give information as to where we can find that source.
-    \item \emph{Reification} In Section~\ref{ch5.reification}, we saw the need for higher-order relationships, in which we want to make statements about statements.  Named graphs provide another way to accompplish this.  We put a set of triples about which we want to make some statement into a named graph, and make the statement about that graph.
+    \item \emph{Reification} In Section~\ref{ch5.reification}, we saw the need for higher-order relationships, in which we want to make statements about statements.  Named graphs provide another way to accomplish this.  We put a set of triples about which we want to make some statement into a named graph, and make the statement about that graph.
     \item \emph{Context} Sometimes when we have a set of triples, we would like to consider them in some context; for example, earlier we considered the fact \emph{Kenneth Brannagh played Hamlet in the movie}.  In this example, \emph{in the movie} (where by \emph{the movie} we are referring specifically to \texttt{https://www.imdb.com/title/tt0116477/}) represents a context for the assertion \emph{Kenneth Brannagh played Hamlet}. 
 \end{itemize}
 
@@ -1014,7 +1019,7 @@ detail in Chapter~\ref{ch5}.
 Named graphs are a simple extension to the RDF formalism, and really don't change any of the basics; 
 RDF still links one named resource to another, where each name is global in scope (i.e., on the web). 
 Named graphs simply allow us to manage sets of these links, and to name them as well.  Sometimes when
-we are using named graphs, we refer to emph{quads} instead of triples; this is because it is possible
+we are using named graphs, we refer to \emph{quads} instead of triples; this is because it is possible
 to represent a triple and its graph as a four-tuple (as shown in the table above).  The name of the 
 fourth entry in the quad is usually called the graph (as it is here), but is sometimes referred to as 
 the \emph{context}, anticipating a particular use for the named graph. 
@@ -1033,8 +1038,8 @@ on the Web. In response to this need, there are multiple ways of
 expressing RDF in textual form.
 
 One might wonder why we have so many different ways to express RDF, and how they 
-differ.  It is useful to compare different serlizations to different ways to write
-the same language; in English and other Eurpean langauges, the same sentence can be printed
+differ.  It is useful to compare different serializations to different ways to write
+the same language; in English and other European languages, the same sentence can be printed
 or written in cursive script.  These don't look at all alike, and there are good reasons
 for why we might use one instead of the other in any particular situation.   But we can copy 
 a message from cursive to print without any loss of content.  The same is true with the serializations; 
@@ -1211,9 +1216,9 @@ involved and will not be used for the examples in this book.
 \label{ch3.JSON}
 
 A more modern way to pass data from one component to another in a Web
-application is using \emph{JSON}, the Javascript Object Notation (JSON). In
+application is using \emph{JSON}, the Javascript Object Notation cite{bray2014javascript}. In
 order to make linked data in RDF more available to applications that use
-JSON, the W3C has recommended JSON-LD, JSON for Linked Data. There is a
+JSON, the W3C has recommended JSON-LD, JSON for Linked Data \cite{Kellogg:14:J}. There is a
 direct correspondence between JSON-LD and RDF triples, making JSON-LD
 another serialization format for RDF.
 
@@ -1266,7 +1271,7 @@ Optionally, each object can have a \texttt{@type} declaration, which corresponds
 to the \texttt{rdf:type} predicate in triples. In this case, the value is
 expected to be another resource, and is interpreted as such.
 
-JSONLD has a provision for referring to other objects as well, by using
+JSON-LD has a provision for referring to other objects as well, by using
 a JSON Object syntax, specifying the identity of a referred object with
 \texttt{@id}. So, if we were to say that \texttt{Product1} is a part of \texttt{Product2}, we could
 say
@@ -1280,7 +1285,7 @@ say
 }    
 \end{lstlisting}
 
-JSONLD provides a valuable way to exchange graph data from one
+JSON-LD provides a valuable way to exchange graph data from one
 application to another, while staying entirely in a conventional
 Javascript environment. Its consistency with RDF allows these
 applications to smoothly integrate into a web of distributed data.

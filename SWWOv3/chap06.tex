@@ -44,7 +44,7 @@ questions like:
 
 You might tell it some more things, too, like:
 
-\textbf{Tell:} James Dean played in \emph{East of Eden}. 
+\textbf{Tell:} James Dean played in \emph{East of Eden}. \\
 \textbf{Tell:} James Dean played in \emph{Rebel without a Cause}.
 
 Then if you ask:
@@ -421,32 +421,33 @@ word.
 Suppose we follow the data along further. Each of these movies is
 directed by someone. Some of them might be directed by more than one
 person, as shown in Figure 5.2. Who were the directors that
+James Dean worked with? We can query this by asking who directed the
+movies that James Dean played in. The graph pattern for this query has
+two triples:
 
 \begin{figure}
 \centering
 \includegraphics[width=5in]{SWWOv3/media/ch6/figure6-1a.png}
 \includegraphics[width=5in]{SWWOv3/media/ch6/figure6-1b.png}
-\label{fig:ch06.1}
 \caption{James Dean data in a graph, and a query to fetch it.}
+\label{fig:ch06.1}
 \end{figure}
 
 \begin{figure}
 \centering
 \includegraphics[width=5in]{SWWOv3/media/ch6/figure6-2.png}
-\label{fig:ch6.2}
 \caption{James Dean's movies and their directors.}
+\label{fig:ch6.2}
 \end{figure}
 
 \begin{figure}
 \centering
 \includegraphics[width=5in]{SWWOv3/media/ch6/figure6-3.png}
-\label{fig:ch6.3}
 \caption{Graphic version of a query to find James Dean's directors.}
+\label{fig:ch6.3}
 \end{figure}
 
-James Dean worked with? We can query this by asking who directed the
-movies that James Dean played in. The graph pattern for this query has
-two triples:
+
 
 \begin{lstlisting}
 :JamesDean :playedIn ?what .
@@ -606,8 +607,8 @@ indeed played in \emph{Giant}, there is no match for the third triple,
 \centering
 \includegraphics[width=5in]{SWWOv3/media/ch6/figure6-4a.png}
 \includegraphics[width=5in]{SWWOv3/media/ch6/figure6-4b.png}
-\label{fig:ch6.4}
 \caption{Information about James Dean's co-stars, and a query to fetch some of it.}
+\label{fig:ch6.4}
 \end{figure}
 
 Remember that \texttt{?actress} is just a question word like \texttt{?who}, renamed to be
@@ -634,7 +635,7 @@ WHERE {:JamesDean :playedIn ?movie .
        ?actress rdf:type :Woman  }
 \end{lstlisting}
 
-This query pattern is shown graphically in Figure\ref{fig:ch6.5}. Triples like
+This query pattern is shown graphically in Figure~\ref{fig:ch6.5}. Triples like
 
 \begin{lstlisting}
 ?movie rdf:type :Movie .
@@ -721,7 +722,7 @@ that James Dean and \texttt{?actress} played in the same movie, because both
 triples use the same question word (\texttt{?movie}) for that movie. Similarly,
 that \texttt{?actress} is the same one who played in \texttt{?anotherMovie}, because there
 the same question word \texttt{?actress} appears in those two triples. All these
-relationships are visibly apparent in Figure\ref{fig:ch6.6}, where we see that
+relationships are visibly apparent in Figure~\ref{fig:ch6.6}, where we see that
 \texttt{?movie} is the connection between James Dean and \texttt{?actress}, \texttt{?actress} is
 the connection between \texttt{?movie} and \texttt{?anotherMovie}, and \texttt{?anotherMovie} is
 the connection between \texttt{?actress} and John Ford.
@@ -730,7 +731,7 @@ If we look at the information supporting the answer ``Natalie Wood,'' we
 see that the data graph looks just like the graph pattern -- this should
 come as no surprise, since that is how the pattern works. But we can use
 this feature to our advantage when writing queries. One way to write a
-complex query like the one in Figure\ref{fig:ch6.6} is to walk through the question
+complex query like the one in Figure~\ref{fig:ch6.6} is to walk through the question
 we want to answer, writing down triples as we go until we have the full query. But another way is to start with the
 data. Suppose we have an example of what we want to search for, for
 example, we know that Natalie Wood played in The Searchers, which was
@@ -744,8 +745,8 @@ between graphs and patterns to construct the pattern from the example.
 \includegraphics[width=5in]{SWWOv3/media/ch6/figure6-6a.png}
 (b)
 \includegraphics[width=5in]{SWWOv3/media/ch6/figure6-6b.png}
-\label{fig:ch6.6}
 \caption{Data about James Dean and Natalie Wood, and a query to fetch that data.}
+\label{fig:ch6.6}
 \end{figure}
 
 
@@ -754,7 +755,7 @@ for triple, we already know a lot about the graph pattern we want to
 create. The only thing we need to specify is which values from the
 example we want to keep as literal values in the pattern, and which ones
 we want to replace with
-question words. In Figure\ref{fig:ch6.7}(a) the boxed x on certain resources (James
+question words. In Figure~\ref{fig:ch6.7}(a) the boxed x on certain resources (James
 Dean, John Ford, and Woman) indicates those that will stay as they are;
 all other resources (Natalie Wood, The Searchers, \emph{Rebel without a
 Cause}) will be replaced with question words. We have to decide what
@@ -763,7 +764,7 @@ far as the SPARQL query engine is concerned, the names of the question
 words aren't important, so we can call them whatever we like as long as
 we make sure to use the same question word when we need the same value
 to be used in the answer. For this example, we'll call them \texttt{?q1}, \texttt{?q2},
-etc. Figure\ref{fig:ch6.7}(b) shows the query pattern graphically.
+etc. Figure~\ref{fig:ch6.7}(b) shows the query pattern graphically.
 
 \begin{figure}
 \centering
@@ -771,8 +772,8 @@ etc. Figure\ref{fig:ch6.7}(b) shows the query pattern graphically.
 \includegraphics[width=5in]{SWWOv3/media/ch6/figure6-7a.png}
 (b)
 \includegraphics[width=5in]{SWWOv3/media/ch6/figure6-7b.png}
-\label{fig:ch6.7}
 \caption{Creating a graph pattern from a data graph. Resources marked with X appear as themselves in the query.}
+\label{fig:ch6.7}
 \end{figure}
 
 
@@ -781,7 +782,7 @@ pattern in Turtle. Each arrow in the graph becomes a triple. If a
 particular entity (either a literal resource or a question word)
 participates in more than one triple in the graph, then it will appear
 more than one time in the Turtle rendering of the pattern. The graph
-diagram in Figure\ref{fig:ch6.7}(b) has five connecting arrows; the corresponding
+diagram in Figure~\ref{fig:ch6.7}(b) has five connecting arrows; the corresponding
 query will have the same number of triples:
 
 \begin{lstlisting}
@@ -921,7 +922,7 @@ WHERE { :JamesDean ?property ?value }
 bornOn&1931-02-\\
 diedOn&1955-09-30\\
 playedIn&RebelWithoutaCause\\
-layedIn&EastOfEden\\
+playedIn&EastOfEden\\
 playedIn&\emph{Giant}\\
 rdf:type&Man\\
 rdfs:label&James Dean\\
@@ -1527,13 +1528,13 @@ WHERE {?any :directedBy ?d .
        ?d rdfs:label ?name . }
 \end{lstlisting}
 
-Figure\ref{fig:ch6.8} (a) shows some data triples, while Figure\ref{fig:ch6.8} (b) the triples
+Figure~\ref{fig:ch6.8} (a) shows some data triples, while Figure~\ref{fig:ch6.8} (b) the triples
 that will be constructed by this query. The data include several people
 and movies directed by them. The query matches for each of these, as
 well as an \texttt{rdfs:label} (not shown). For each director, the CONSTRUCT
 specifies two triples; one is a \texttt{rdf:type} triple, the other a \texttt{rdfs:label}
 triple. For five directors, ten triples were produced. These ten triples
-are shown in Figure\ref{fig:ch6.8} (b).
+are shown in Figure~\ref{fig:ch6.8} (b).
 
 \section{Using Results of CONSTRUCT Queries}
 
@@ -1591,6 +1592,9 @@ information about a variety of subjects.
 A SPARQL endpoint is the most web-friendly way to provide access to RDF
 data. The endpoint is identified with a URL and provides flexible access
 to its data set. It is common to speak of ``wrapping''
+some data set with a SPARQL endpoint -- that is, providing a service
+that responds to the SPARQL 
+protocol, providing access to that data set.
 
 \begin{figure}
 \centering
@@ -1598,13 +1602,11 @@ to its data set. It is common to speak of ``wrapping''
 \includegraphics[width=5in]{SWWOv3/media/ch6/figure6-8a.png}
 (b)
 \includegraphics[width=5in]{SWWOv3/media/ch6/figure6-8b.png}
-\label{fig:ch6.8}
 \caption{Constructing a model about directors from a query about movies.}
+\label{fig:ch6.8}
 \end{figure}
 
-some data set with a SPARQL endpoint -- that is, providing a service
-that responds to the SPARQL 
-protocol, providing access to that data set.
+
 
 \section{SPARQL Rules -- Using SPARQL as a Rule Language}
 
@@ -1827,7 +1829,7 @@ the data wilderness; the data you find are organized in an inconsistent
 way.
 
 Now suppose we are interested in building a family tree that looks
-something like Figure\ref{fig:ch6.9}, in which we see children and grandchildren,
+something like Figure~\ref{fig:ch6.9}, in which we see children and grandchildren,
 regardless of gender, all in a single display. The tree is defined in a
 uniform way -- Eunice has parent Joe, Maria has parent Eunice (and
 Sargent), Caroline has parent John, etc.
@@ -1835,8 +1837,8 @@ Sargent), Caroline has parent John, etc.
 \begin{figure}
 \centering
 \includegraphics[width=5in]{SWWOv3/media/ch6/figure6-9.png}
-\label{fig:ch6.9}
 \caption{Family tree shown in a uniform manner.}
+\label{fig:ch6.9}
 \end{figure}
 
 All this information is available in the data set, if you abstract away
@@ -1873,7 +1875,7 @@ hasParent. The resulting triples are
 
 These provide a uniform representation of the family tree and are
 amenable for producing a display like that in 
-Figure\ref{fig:ch6.9}.
+Figure~\ref{fig:ch6.9}.
 
 We can extend this example to compute the gender of the family members,
 by adding another triple to each query:
@@ -1898,7 +1900,7 @@ WHERE {?o :hasDaughter ?s}
 \section{Transitive queries (SPARQL 1.1)}
 
 Hierarchical data can pose very particular problems when it comes to
-querying. We can see this using the example of the family tree inFigure\ref{fig:ch6.9}.
+querying. We can see this using the example of the family tree in Figure~\ref{fig:ch6.9}.
 Suppose we want to query for all members of Joe's family. We can
 query for his children with a simple graph pattern:
 
@@ -1971,7 +1973,6 @@ John\\
 Caroline\\
 Robert\\
 Ted\\
-\\
 Patrick\\
 \hline
 \end{tabular}
@@ -2000,7 +2001,6 @@ John\\
 Caroline\\
 Robert\\
 Ted\\
-\\
 Patrick\\
 \hline
 \end{tabular}
@@ -2052,7 +2052,7 @@ director:4614
 \end{lstlisting}
 
 In this fragment, there is a movie whose \texttt{dcterms:title} is ``Unforgiven'' (the
-namespace \texttt{dcterms} stands for ``DCMI Metadata Terms,'' a metadata standard used by
+name-space \texttt{dcterms} stands for ``DCMI Metadata Terms,'' a metadata standard used by
 many libraries worldwide that includes standard terms for titles,
 authors, publication dates, etc.), stars an actor (number 15256) whose
 name is ``Clint Eastwood,'' and was directed by a director (number 4614)
@@ -2882,7 +2882,7 @@ UNION can be used in the context of CONSTRUCT as well. In a challenge
 earlier in this chapter, we used SPARQL to transform hierarchical
 information, by mapping several related relationships (mother, father,
 son, daughter) onto a single hierarchy (parent); the resulting triples
-were shown in Figure\ref{fig:ch6.9}. This involved four CONSTRUCT queries, with an
+were shown in Figure~\ref{fig:ch6.9}. This involved four CONSTRUCT queries, with an
 implicit understanding that all the triples resulting from each query
 would be merged. This is a perfectly fine assumption, if the queries are
 run in the context of a program that indeed combines all the results
@@ -3221,7 +3221,6 @@ is available as a result for the full query.
 The query we made to the dbpedia service in this example wasn't very
 interesting -- it just found the dbpedia reference for something
 (someone) we already know about. It would be more interesting
-
 if we would ask dbpedia to tell us something we don't already know --
 for instance, the birth name of these actors:
 

@@ -48,7 +48,7 @@ advance the common collection of knowledge.
 
 How can a model help us find our way through the mess that is the Web?
 How do these three features help? The first feature, human
-communication, allows people to collaborate on their under- standing. If
+communication, allows people to collaborate on their understanding. If
 someone else has faced the same challenge that you face today, perhaps
 you can learn from their experience and apply it to yours. There are a
 number of examples of this in the Web today, of newsgroups, mailing
@@ -94,7 +94,6 @@ they know.
 
 Astrologers and the IAU agree on the planethood of Mercury, Venus,
 Earth, Mars, Jupiter, Saturn,
-
 Uranus, and Neptune. The IAU also agrees with astrologers that Pluto is
 a planet, but it disagrees by calling it a dwarf planet. Astrologers (or
 classical astronomers) do not accept the concept of dwarf planets, so
@@ -111,7 +110,6 @@ human capacity to interpret signs to give them meaning. This means that
 communication models can be written in a wide variety of forms,
 including plain language or ad hoc images. A model can be explained by
 one person, amended by another, interpreted
-
 by a third person, and so on. Models written in natural language have
 been used in all manner of intellectual life, including science,
 religion, government, and mathematics.
@@ -207,6 +205,10 @@ meaning of a symbol outside the context of the provider and consumer of
 the symbol, the communication power of that symbol degrades as it is
 used in more and more contexts.
 
+When tags are used incompatibly, it is a challenge to both humans and machines to differentiate there meaning.  For example, the twitter hashtag ``\#rpi'' is currently used for a university in the US, a British currency concept, the Spanish term for someone who has passed away, and a shorthand for the Raspberry Pi computer. 
+While these would seem very different, when coupled with technology like search engines or social networks, the term becomes a challenge to differentiate - a tweet like
+``\#rpi is up'' could refer to the university leading in a sports event, the British economy doing well, or someone having attached the small computer to a tree in their backyard (Lest you think this is far-fetched,  this was a real tweet which was indeed about someone putting their Raspberry Pi into a tree-house).
+
 Formality of a model isn't a black-and-white judgment; there can be
 degrees of formality. This is clear in legal systems, where it is common
 to have several layers of legislation, each one giving objective context
@@ -297,7 +299,7 @@ which very specific rules for calculation and symbol manipulation govern
 the structure of a mathematical model and the valid ways in which one
 item can refer to another. Explanations come in the form of proofs, in
 which steps from premises (stated in some formalism) to conclusions are
-made according to strict rules of trans- formation for the formalism.
+made according to strict rules of transformation for the formalism.
 Formal models are used in many human intellectual endeavors, wherever
 precision and objectivity are required.
 
@@ -326,12 +328,10 @@ modeling formalisms. Because they are formalisms, modeling in the
 Semantic Web need not become a process of layering interpretation on
 interpretation. Also, because they are formalisms, it is possible to
 couch explanations in the Semantic
-
 Web in the form of proofs and to use that proof mechanism to make
 predictions. This aspect of Semantic
-
 Web models goes by the name \emph{inference} and it will be discussed in
-detail in Chapter 7.
+detail in Chapter~\ref{ch7}.
 
 \section{Mediating Variability}
 
@@ -394,7 +394,6 @@ useful in only a small number of very specific situations. The design of
 a software component inherently involves a model of the commonality and
 variability in the environment in which it is expected to be deployed.
 In response
-
 to this challenge, software methodology has developed the art of object
 modeling (in the context of Object-Oriented Programming, or OOP) as a
 means of organizing commonality and variability in software components.
@@ -549,9 +548,9 @@ cooperation, and collaboration. If the infrastructure of the Web is to
 help us to find our way through the wild stage of information sharing,
 an informal notion of how things fit together, or should fit together,
 will not suffice. It is easy enough to say that we have an intuition
-that states there is something special about prefSymbol that makes it
-different from madeOf or signifies. If we can inform our infra-
-structure about this distinction in a sufficiently formal way, then it
+that states there is something special about \texttt{prefSymbol} that makes it
+different from \texttt{madeOf} or \texttt{signifies}. If we can inform our 
+infrastructure about this distinction in a sufficiently formal way, then it
 can, for instance, detect discrepancies of this sort and, in some cases,
 even resolve them.
 
@@ -653,7 +652,9 @@ started in 1997 and it has been a recommendation from the W3C since
 based on the intuition that we expect data to be in a certain form, or \emph{shape}.
 SHACL allows a modeler to represent the expected shape of a data description. These shapes can be
 used to validate data or to present a form to a human user to fill out to supply data.
-Unlike the other Semantic Web modeling languages, which are designed based on the Open World Assumption, SHACL works with the Closed World Assumption; if data is not included in   a description, then it is considered to be missing. 
+Unlike the other Semantic Web modeling languages, which are designed based on the Open 
+World Assumption, SHACL works with the Closed World Assumption; if data is not 
+included in  a description, then it is considered to be missing. 
 SHACL is one of the newest modeling languages in the semantic web stack, and became a
 W3C Recommendation in 2017. 
 
@@ -681,6 +682,12 @@ expressivity of logic to the Semantic Web. It allows modelers to express
 detailed constraints between classes, entities, and properties. OWL was
 adopted as a recommendation by the W3C in 2004, with a second version
 adopted in 2009.
+
+The W3C provides a number of standards built on this stack to manage
+provenance, services, data catalogs, OLAP, and a variety of other things, many 
+of which we will treat in later chapters.  But the languages listed here
+are the foundational modeling languages that the others build on, 
+and are the main topic of this book. 
 
 \section{SUMMARY}
 

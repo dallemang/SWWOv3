@@ -5,8 +5,17 @@
 This book is about something we call the Semantic Web. From the name, you can probably guess that it is related somehow to the World Wide Web (WWW) 
 and that it has something to do with semantics. Semantics, in turn, has to do with understanding the nature of meaning, but even the word 
 semantics has a number of meanings. In what sense are we using the word semantics? And how can it be applied to the Web?\\
-This book is for a working ontologist. That is, the aim of this book is not to motivate or pitch the Semantic Web but to provide the tools 
-necessary for working with it. Or, perhaps more accurately, the World Wide Web Consortium (W3C) has provided these tools in the forms of 
+
+
+
+This book is for a working ontologist. An ontologist might do their work as part of an 
+Enterprise Knoweldge Graph, a data lake, global linked data, graph data, or any of a 
+number of other technological approaches that share the idea that data is more powerful
+when it comes together in a meaningful way. 
+The aim of this book is not to motivate or pitch the Semantic Web
+but to provide the tools 
+necessary for working with it. Or, perhaps more accurately, the World
+Wide Web Consortium (W3C) has provided these tools in the forms of 
 standard Semantic Web languages, complete with abstract syntax, model-based semantics, reference implementations, test cases, and so forth. But these are 
 like any tools - there are some basic tools that are all you need to build many useful things, and there are specialized craftsman’s 
 tools that can produce far more specialized outputs. Whichever tools are needed for a particular task, however,  one  still  needs  to  
@@ -30,15 +39,17 @@ the \textit{Memex} (‘memory extension”) that would assist us in studying, li
 links we weave between them. Twenty years later, Ted Nelson quoted \textit{As We May Think} and proposed using a computer to implement the idea, 
 using hypertext and hypermedia structures to link parts of documents together. In the late sixties, Douglas Engelbart and the Augment project 
 provided the mouse and new means of interaction and applied them in particular to hypertext editing and browsing. The beginning of the 
-seventies brought the work of Vinton Cerf and the emergence of the Internet, which connected computers all around the world. By the 
+seventies brought the work of Vinton Cerf and the emergence of the Internet, which connected computers all around the world. 
+
+By the 
 end of the eighties, Tim Berners-Lee was able to stand on the shoulders of these giants when he proposed a new breakthrough: an architecture 
 for distributing hypermedia on the internet, which we now know as the World Wide Web. The Web provides a hyptertext infrastructure that links 
 documents across the internet, i.e., connecting documents that are not on the same machine. And so the Web was born. The Web architecture 
 includes two important parts: Web clients, the most well-known being the Web browser, and  Web servers, that serve documents and data 
-to the clients whenever they require it. For this architecture to work, there has to be three initial essential components. 
+to the clients whenever they require it. For this architecture to work, there have to be three initial essential components. 
 First, addresses that allow us to identify and locate the document on the Web; second, communication protocols that allow 
 a client to connect to a server, send a request and get an answer; and third, representation languages to describe the 
-content of the pages, the documents that are to be transferred. These three components comprise a basic Web architecture, 
+content of the pages, the documents that are to be transferred. These three components comprise a basic Web architecture as described in  \cite{Jacobs:04:AWW}.
 which the Semantic Web standards, which we will describe later in this book, extend in order to publish semantic data on the Web.
 
 The idea of a web of information was once a technical idea accessible only to highly trained, elite information professionals: 
@@ -73,7 +84,7 @@ you find a list of hotels that have branches in the vicinity of the
 park. You don't find your favorite hotel, Mongotel.  But you go to their 
 website, and find a list of their locations.  Some of them are near the park. 
 Why didn't the park know about that?   How could Mongotel have published its
-locations in a way that the park could have found them? 
+locations in a way that the park's website could have found them? 
 
 Going one step further, you want to figure out which of your hotel locations is 
 nearest to the park.  You have the address of the park, and the addresses of 
@@ -136,10 +147,12 @@ What do these examples have in common?  In each case, someone has knowledge of s
 they want to share.  It might be about their business (hours, daily special, locations, business category), or 
 scientific data (experimental data about compounds, the classification of a planet), or information 
 about complex instruments that they have built (financial instruments).   It is in the best interests
-of the entities with the data to publicise it to a community of possible consumers, but the 
+of the entities with the data to publicise it to a community of possible consumers, and make it available 
+via many channels; the web page itself, but also via search engines, personal assistants, mash-ups, 
+review sites, maps, etc.  But the 
 data is too idiosyncratic, or too detailed, or just too complex to simply publicize by writing a description
 of it.   In fact, it is so much in their interest to get this data out, that they are willing to 
-put some effort into finding the right people who need their data.  
+put some effort into finding the right people who need their data and how they can use it. 
 
 
 \subsection{Social Data}
@@ -152,12 +165,12 @@ in touch with old friends, find business connections, and many other advantages.
 
 Social and professional networking is done in a non-distributed way.  Someone 
 who wants to share their professional or personal information signs up for a web 
-service (common ones today include Facebook and LinkedIn.  Others have come and gone,
+service (common ones today include Facebook,  LinkedIn, Instagram, and WeChat.  Others have come and gone,
 and more will probably appear as time goes on), creates an account that they have control of, and 
 they provide data, in the 
 form of daily updates, photos, tags of places they've  been and people they've been with, 
 projects they have started or completed, jobs they have done, etc.  This data is 
-published for their friends and colleagues, and indeed perfect strangers, to 
+published for their friends and colleagues, and indeed in some cases for perfect strangers, to 
 search and view. 
 
 In these cases, the service they signed up for owns the data, and can use it for 
@@ -223,8 +236,8 @@ We need a way to link together data that is distributed throughout an industry.
 
 
 
-In the restaurant example, we had data (opening hours) published so that they 
-can be read by the human eye, but our automated assistant can't read them.  One solution 
+In the restaurant example, we had data (opening hours, daily special, holiday closings) published so that they 
+can be read by the human eye, but our automated assistant couldn't read them.  One solution 
 would be to develop sophisticated algorithms that can read web pages and figure out
 the opening hours based on what it sees there.  But the restaurant owner knows the hours, 
 and wants prospective patrons to find them, and for them to be accurate.  Why should 
@@ -241,7 +254,7 @@ The IAU's charter is to keep the astronomical community informed about developme
 observations and classifications.  Dentists want their patients to be able to find their clinics. 
 
 The unifying theme in all of these examples is a move from a presentation of information 
-for a specific audience, requiring interpretation from a human being to an exchange of data
+for a specific audience, requiring interpretation from a human being, to an exchange of data
 between machines.  Instead of relying on human intuition just in the interpretation of the
 data, we meet half-way; have data providers make it easier to consume the data.  We take advantage of 
 the desire to share data, to make it easier to consume. 
@@ -259,12 +272,14 @@ advantage of the fact that it is profitable to share your data.
 The Semantic Web takes this idea one step further, applying it to the
 Web as a whole. The Web architecture we are familiar with supports a distributed
 network of hypertext pages that can refer to one another with global links
-called Uniform Resource Locators (URLs). 
+called Uniform Resource Locators (URLs).  The web architecture generalizes this notion
+to a Uniform Resource Identifier (URI), allowing it to be used in contexts beyond the 
+hypertext web. 
 
 The main idea of the Semantic Web is to support a distributed Web at the
 level of the data rather than at the level of the presentation. Instead
 of just having one web page point to another, one data item can point to
-another, using the same global references that web pages use -- Uniform
+another, using the same global reference mechanism that the web uses -- Uniform
 Resource Identifiers (URIs).   When Mongotel publishes information about its hotels and
 their locations, or when Copious publishes its opening hour, they don't
 just publish a human-readable presentation
@@ -388,7 +403,7 @@ it became more and more attractive, and more people joined in, on both
 sides. This is the basis of the network effect: The more people who are
 playing now, the more attractive it is for new people to start playing.
 Another feature of the Web that made it and its evolutions possible is
-fact it is ``auto documented'' i.e. the documentation for building,
+fact it is \emph{auto documented} i.e. the documentation for building,
 using and contributing to the Web is on the Web itself and when an
 evolution like the semantic Web comes around, it too can be documented
 on the Web to support the network effect.
@@ -434,6 +449,20 @@ Publication.
 data cloud}
     \label{fig:ch1.1}
 \end{figure}
+
+
+Another effort built on these same standards is referred to as \emph{knowledge graphs}. 
+This name refers to a wide range of information sharing approaches, but 
+the term gained popularity around 2012 when Google announced that it was 
+using something it called a Knowledge Graph to make searches more intelligent. 
+Google felt that the use of the name \emph{Knowledge Graph}, instead of 
+something that seemed more esoteric like \emph{Semantic Web}, 
+would make it easier for people to understand the 
+basic concept.  That is rather than a Web of Semantics they would prefer to 
+call it a Graph of Knowledge.   The name has caught on, and is now used 
+in industrial settings to refer to the use of Semantic Web technology and approaches
+in an enterprise setting.  The basics of the technology are the same; the
+standards we outline in this book apply equally well to the Semantic Web, linked data, or knowledge graphs.
 
 
 \subsubsection{What about the round-worlders?}
@@ -498,7 +527,8 @@ of Pluto as a planet:
 
 
 While some of the reasons for disagreement might be, well, disagreeable
-(wouldn't it be nice if we could stop people from lying?), in practice
+(wouldn't it be nice if we could stop people from lying?), from a technical 
+perspective, 
 there isn't any way to tell them apart. The infrastructure of the Web
 has to be able to cope with the fact that information on the Web will
 disagree from time to time and that this is not a temporary condition.
@@ -506,15 +536,18 @@ It is in the very nature of the Web that there be variations and
 disagreement.
 
 The Semantic Web is often mistaken for an effort to make everyone agree
-on a single ontology--- but that just isn't the way the Web works. The
+on a single ontology, that is, to make everyone agree on a single set of terms  
+--- but that just isn't the way the Web works. The
 Semantic Web isn't about getting everyone to agree, but rather about
 coping in a world where not everyone will agree and achieving some
 degree of interoperability anyway. In the data themselves too we may
-find disagreement; for instance the numbers of casualties in a conflict
+find disagreement; for instance, the numbers of casualties in a conflict
 may be reported on the Web of data with very different values from the
 involved parties. There will always be multiple ontologies and diverging
 statements, just as there will always be multiple web pages on any given
-topic. The Web is innovative because it allows all these multiple
+topic.  One of the features of the web that has made it so successful, and so
+different from anything that came before it, is that it, from the start, has 
+always allowed  all these multiple
 viewpoints to coexist.
 
 \subsubsection{To each their own}
@@ -663,10 +696,8 @@ are introducing here can also be used in private spaces (intranets,
 intrawebs, extranets, etc.). In an enterprise, we often refer to a
 ``Knowledge Graph'', which is specific to that enterprise, but can
 include any information that the enterprise needs to track (including
-information about other enterprises that it does business with). The
-name ``giant global graph'' puts into perspective the billions of links
-between data distributed on the Web and which, joined through URIs,
-produce a giant graph. The name ``semantic web'' emphasizes the ability
+information about other enterprises that it does business with). 
+The name ``semantic web'' emphasizes the ability
 we now have for exchanging our data models, schemas, vocabularies, in
 addition to data sets, and the associated semantics in order to enrich
 the range of automatic processing that can be performed on them as we

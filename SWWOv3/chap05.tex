@@ -44,9 +44,9 @@ data uses RDF to write data descriptions that include links to other data
 descriptions.
 
 Tim Berners-Lee introduced best practices for linked data in his
-personal notes on Linked Data Design Issues in 2006\cite{linkeddatadesign}, stating the
+personal notes on Linked Data Design Issues \cite{linkeddatadesign}, stating the
 architectural principles and explaining the thinking behind the linked data
-specifications.   In this chapter, we will explain in detail his three rules 
+specifications.  These ideas were extended and documented in \cite{heath2011linked}.  In this chapter, we will explain in detail his three rules 
 for data publication that will allow us to weave a web of data:
 
 
@@ -144,10 +144,9 @@ are some examples:
 Many of the data sources for these examples play a central role in the Web of data, and we'll 
 have a closer look at them later. 
 
-The reliance on URIs is key to distributed data, to the Web\-based
+The reliance on URIs is key to distributed data,  to the Web-based
 architecture and to the integration of data sets coming from different
 sources and produced by different means.
-
 URIs  allow us to make  vocabulary and  resource
 identification unambiguous by providing a global identification
 mechanism for the terms and subjects of our descriptions. URIs also have a 
@@ -206,12 +205,12 @@ dereferenced.
 We don't use the term URL (Uniform Resource \textbf{Locator}) for these identifiers, to emphasize the 
 point that the thing  being
 represented may not itself be on the Web at this address, or even at on the Web at all. For example, I
-may want to specify an HTTP URI for my cat Mytsie. No matter how hard I
+may want to specify an HTTP URI for my cat, Mytsie. No matter how hard I
 try, Mytsie herself will never be located on the Web, so I cannot give
 her a URL \emph{per se}. But this adorable cat can be identified on the
-Web by an HTTP URI and if you ever go to that address you will be
+Web by an HTTP URI, and if you ever go to that address you will be
 provided with a description (maybe even a photo or two) on the Web about the resource represented by
-that URI, i.e. my cat Mytsie.
+that URI, i.e.  Mytsie.
 
 This approach to linked data, in which we use an HTTP URI as an identifier, and 
 rely on HTTP-based dereferencing of that URI to provide more information about the resource, 
@@ -372,7 +371,7 @@ providing information about the vaccination records for our pets, as shown in Ta
 911236&cat&Twinkie&2016 \\
 897991&dog&Champ&2019 \\
 032579&dog&Zeke&2020 \\
-31450&cat&Nix&2019 \\
+31450&cat&Lila&2019 \\
 87580&dog&Fido&2021 \\
 \hline
     \end{tabular}
@@ -401,7 +400,7 @@ http://www.example.com/vac/399378/dog/Maddie/2022 \\
 http://www.example.com/vac/911236/cat/Twinkie/2016 \\
 http://www.example.com/vac/897991/dog/Champ/2019 \\
 http://www.example.com/vac/032579/dog/Zeke/2020 \\
-http://www.example.com/vac/31450/cat/Nix/2019 \\
+http://www.example.com/vac/31450/cat/Lila/2019 \\
 http://www.example.com/vac/87580/dog/Fido/2021 \\
 \hline
     \end{tabular}
@@ -410,7 +409,7 @@ http://www.example.com/vac/87580/dog/Fido/2021 \\
 \end{table}
 
 Since the original data includes an \textbf{ID} field, we can rest assured that this 
-will uniquely identify a vaccination, so we can use it for the URI, as in Table~\ref{ch5.id}
+will uniquely identify a vaccination, so we can use it for the URI, as in Table~\ref{tab:ch5.id}
 
 \begin{table}
     \centering
@@ -451,7 +450,7 @@ If we define the prefix \texttt{vac} to be the namespace
 \texttt{http://www.example.org/vac/}, then the CURIE for Mytsie's vaccination would evidently   be
 \texttt{vac:775304}.   However, there is a constraint on CURIEs \cite{Bray:08:EML} that says that the name after the 
  prefix cannot start with a digit (1, 2,
-3\ldots{}) or with basic combining characters (e.g. a comma).  So the proposed CURIE \texttt{vac:775304} is not valid.  Since CURIEs are useful in many contexts, it is good practice to append an alphabetic character at the beginning of the identifier.  So instead of using the URIs in Table~\ref{tab:ch5.id}, we use URIs like those in Table~\ref{tab:ch5.vid}
+3\ldots{}) or with basic combining characters (e.g. a comma).  So the proposed CURIE \texttt{vac:775304} is not valid.  Since CURIEs are useful in many contexts, it is good practice to append an alphabetic character at the beginning of the identifier.  So instead of using the URIs in Table~\ref{tab:ch5.id}, we use URIs like those in Table~\ref{tab:ch5.vac}
 
 \begin{table}
     \centering
@@ -472,8 +471,8 @@ http://www.example.com/vac/V31450&vac:V31450 \\
 http://www.example.com/vac/V87580&vac:V87580 \\
 \hline
     \end{tabular}
-    \caption{Coining URIs using the ID field, with an alphabetic character ("V") pre-pended to satisfy  }
-    \label{tab:ch5.id}
+    \caption{Coining URIs using the ID field, with an alphabetic character ("V") pre-pended to each numeric ID }
+    \label{tab:ch5.vac}
 \end{table}
 
 \subsection{Minting URIs in the Wild}
@@ -565,7 +564,7 @@ CURIEs, since the final component begins with a number.
 Figure~\ref{fig:ch5.2} shows the basics of the architecture of the web as three pillars; the domain name service, content negotiation, and redirection.  We now take a deep dive into how this architecture influences the way we as  publishers and consumers of data interact with the Web of data. 
 
 \hypertarget{king-of-my-domain}{%
-\subsection{King of My Domain}\label{king-of-my-domain}}
+\subsection{Ruler of My Domain}\label{king-of-my-domain}}
 
 We'll start with Domain Name Resolution, or DNS for short  figure~\ref{fig:ch5.2}(A). 
 
@@ -579,7 +578,7 @@ into the internet address (IP address e.g. 128.93.162.87) of the machine
 or service in charge of answering for that domain.  Although the host
 machine could be identified in the HTTP URIs by its IP address directly
 (e.g. http:// 128.93.162.87/ is a valid HTTP URI), there are two advantages to 
-using a name service to provide domain names instead of IP addresses.  First, We humans prefer
+using a name service to provide domain names instead of IP addresses.  First, we humans prefer
 domain names that are easier to read and memorize (e.g.
 http://ns.inria.fr).   More importantly for a stable web of data, the use of domain names 
 provide stable URIs, allowing a data provider to change a server's
@@ -596,7 +595,7 @@ makes sure that if anyone in the world resolves a particular HTTP URI, they
 will all get to the same place.   This provides us a world-wide reference mechanism.  We 
 might not want to say the same things about Mytsie the cat 
 (e.g., I might want to say that she 
-is calico, an another source might want to record her weight from week to week).  
+is calico, and another source might want to record her weight from week to week).  
 Different sources might even disagree; someone else might claim that she is tortoiseshell, 
 not calico.  In a world-wide distributed web of data, we can't expect everyone to agree on 
 their statements
@@ -856,7 +855,7 @@ The use of a fragment has two advantages:
 For example, in one source at the address:
 
 \begin{lstlisting}
-http://fabien.gandon.me/my/objects/cars
+http://workingontologist.org/fabien/objects/cars
 \end{lstlisting}
 
 
@@ -864,9 +863,9 @@ I can describe several things:
 
 
 \begin{lstlisting}
-http://fabien.gandon.me/my/objects/cars#bmw1
-http://fabien.gandon.me/my/objects/cars#smart1
-http://fabien.gandon.me/my/objects/cars#tesla1
+http://workingontologist.org/fabien/objects/cars#bmw1
+http://workingontologist.org/fabien/objects/cars#smart1
+http://workingontologist.org/fabien/objects/cars#tesla1
 \end{lstlisting}
 \ldots{} 
 
@@ -880,7 +879,7 @@ The alternative is to use only slash URIs (i.e. the symbol /)
 to generate identifiers. For instance:
 
 \begin{lstlisting}
-http://fabien.gandon.me/my/objects/cars/bmw1
+http://workingontologist.org/fabien/objects/cars/bmw1
 \end{lstlisting}
 
 
@@ -936,7 +935,7 @@ identifiers and avoid a redirection. In this way, we can have our
 cake and eat it too:
 
 \begin{lstlisting}
-http://fabien.gandon.me/my/objects/cars/tesla1#this
+http://workingontologist.org/fabien/objects/cars/tesla1#this
 \end{lstlisting}
 
 \hypertarget{see-it-for-yourself}{%
@@ -950,41 +949,33 @@ any particular example will work in the future.   We'll provide a number of exam
 in the hopes that at least some of them will continue for a while.  This has the added benefit 
 that it allows us to demonstrate a wide range of uses of linked data on the web. 
 
-\subsection{Documentary pages at the BBC}
+\subsection{Bibliography at DBLP}
 
-Our first example is from an unfortunately discontinued version of the
-BBC Web Site. In order to experience by yourself the existence of the
-same content as documents and as structured data in that previous
-version you could use a trick of the BBC Web site that has been
-pioneering the deployment of linked data standards and practices for
-many years. On some of the URIs of their site you could add the
-extension ``.rdf'' at the end to access the RDF version of the
-information you are browsing.
+DBLP is a service that manages bibliographic information for publications
+in computer science around the world \cite{DBLP:conf/spire/Ley02}.  Each 
+publication that is documented in DBLP is also available as data in RDF. 
+There is a link on each page to access the RDF data in any of several 
+formats.  Keeping with the conventions of this book, we will show the
+RDF data in Turtle format, even though that is not one of the download formats 
+available directly from DBLP. 
 
-For instance, the Wildlife documentary catalog on the Web site of BBC
-was structured and augmented by both internal and public linked data. In
-particular the categories, links, descriptions and additional pointers
-of the animals to organize the Wildlife portal of their site relied
-directly on linked data. If you consider the ``great white shark'' it
-was identified by the following URI:
+For example, the Second Edition of \emph{Semantic Web for the Working Ontologist} is 
+indexed in DBLP, and is given the identification index number 0028543.  Information about
+the publication is available both in human-readable HTML form, as shown in Figure~\ref{fig:ch5.3}, 
+which is available at the URL \url{https://dblp.org/rec/html/books/daglib/0028543}, and in machine-readable form
+in RDF, which is available from the URL \url{https://dblp.org/rec/rdf/books/daglib/0028543}. 
+The triples for this part of the data sets are given in Turtle format in Figure~\ref{fig:ch5.4}.
 
-\begin{lstlisting}
-http://www.bbc.co.uk/nature/life/Great_white_shark
-\end{lstlisting}
 
 \begin{figure}
     \centering
      \includegraphics[width=5.0in]{media/ch5/figure-05-03.jpg}
-    \caption{Great white shark at BBC: extract of the HTML rendering for
-humans}
+    \caption{HTML rendering for humans of the bibliography for the Second Edition of Semantic Web for the Working Ontologist}
     \label{fig:ch5.3}
 \end{figure}
 
 
-When accessed by a Web browser for a human the response contains an HTML
-page to be displayed (Figure~\ref{fig:ch5.3}) but when accessed by a machine the
-response was a redirection to the RDF version of that description
-(Figure~\ref{fig:ch5.4}) that could be found here:
+
 
 
 \begin{lstlisting}
@@ -993,32 +984,29 @@ http://www.bbc.co.uk/nature/life/Great_white_shark.rdf
 
 \begin{figure}
 \begin{lstlisting}
-<?xml version="1.0" encoding="utf-8"?><rdf:RDF
-    xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#" 
-    xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" 
-    xmlns:owl="http://www.w3.org/2002/07/owl#" 
-    xmlns:foaf="http://xmlns.com/foaf/0.1/" 
-    xmlns:dc="http://purl.org/dc/terms/" 
-    xmlns:dctypes="http://purl.org/dc/dcmitype/" 
-    xmlns:skos="http://www.w3.org/2004/02/skos/core#"
-    xmlns:xsd="http://www.w3.org/2001/XMLSchema#" 
-    xmlns:po="http://purl.org/ontology/po/" 
-    xmlns:wo="http://purl.org/ontology/wo/">
-    		<rdf:Description rdf:about="/nature/species/Great_white_shark">
-		<foaf:primaryTopic rdf:resource="/nature/species/Great_white_shark#species"/>
-		<rdfs:seeAlso rdf:resource="/nature/species"/>
-	</rdf:Description>
-		<wo:Species rdf:about="/nature/life/Great_white_shark#species">
-				<rdfs:label>Great white shark</rdfs:label>
-				<wo:name rdf:resource="http://www.bbc.co.uk/nature/species/Great_white_shark#name"/>
-	<foaf:depiction rdf:resource="http://ichef.bbci.co.uk/naturelibrary/images/ic/640x360/g/gr/great_white_shark/great_white_shark_1.jpg"/>
-	<dc:description>Great white sharks are at the very top of the marine food chain. Feared as man-eaters, they are only responsible for about 5-10 attacks
+<https://dblp.org/rec/books/daglib/0028543>
+ rdf:type dblp:Publication ;
+ owl:sameAs <urn:isbn:978-0-12-385965-5> ;
+ dblp:title "Semantic Web for the Working Ontologist - Effective Modeling in RDFS and OWL, Second Edition." ;
+ dblp:bibtexType bibtex:Book ;
+ dblp:publicationType dblp:Book ;
+ dblp:authoredBy <https://dblp.org/pers/a/Allemang:Dean> ;
+ dblp:authoredBy <https://dblp.org/pers/h/Hendler:James_A=> ;
+ dblp:primaryElectronicEdition <http://www.elsevierdirect.com/product.jsp?isbn=9780123859655> ;
+ dblp:pageNumbers "I-XIII, 1-354" ;
+ dblp:yearOfPublication "2011" ;
+ dblp:publishedBy "Morgan Kaufmann" ;
+ dblp:isbn13 "978-0-12-385965-5" .
 \end{lstlisting}
-    \caption{Great white shark at BBC: extract of the RDF/XML version for
-machines}
+    \caption{Machine readable version of the bibliography for the Second Edition of Semantic Web for the Working Ontologist}
     \label{fig:ch5.4}
 \end{figure}
 
+DBLP is a simple example of how the same data can be served in different forms for different
+purposes; the human-readable HTML is difficult for a machine to read because of typesetting and styling
+which make it easier and more attractive for human readers, whereas RDF triples are difficult for
+humans to read because of their reliance on cross-referencing and unique identifiers that make them
+easier for a machine to process. 
 
 \subsection{Publishing Protein Sequences}
 
@@ -1055,10 +1043,10 @@ page suitable for display in a browser (see Figure~\ref{fig:ch5.5}).
 
 On the other hand, when  that same HTTP URI is accessed by a 
 machine,  the
-response is a redirection to the RDF version of that description:
+response is a redirection to an RDF version of that description:
 
 \begin{lstlisting}
-https://www.uniprot.org/uniprot/P43121.rdf
+https://www.uniprot.org/uniprot/P43121.ttl
 \end{lstlisting}
 
 This redirected URI resolves to an RDF document, an excerpt of which can be seen in 
@@ -1067,28 +1055,21 @@ Figure~\ref{fig:ch5.6}.
 
 \begin{figure}
 \begin{lstlisting}
-<rdf:RDF (...)>
-  <rdf:Description rdf:about="http://purl.uniprot.org/uniprot/P43121">
-    <rdf:type rdf:resource="http://purl.uniprot.org/core/Protein"/>
-    <reviewed rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">true</reviewed>
-    <created rdf:datatype="http://www.w3.org/2001/XMLSchema#date">1995-11-01</created>
-    <modified rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2018-06-20</modified>
-    <version rdf:datatype="http://www.w3.org/2001/XMLSchema#int">165</version>
-    <mnemonic>MUC18_HUMAN</mnemonic>
-    <oldMnemonic>MU18_HUMAN</oldMnemonic>
-    <replaces rdf:resource="http://purl.uniprot.org/uniprot/O95812"/>
-    <replaces rdf:resource="http://purl.uniprot.org/uniprot/Q59E86"/>
-    <replaces rdf:resource="http://purl.uniprot.org/uniprot/Q6PHR3"/>
-    <replaces rdf:resource="http://purl.uniprot.org/uniprot/Q6ZTR2"/>
-    <citation rdf:resource="http://purl.uniprot.org/citations/2602381" 
-              rdf:ID="_P43121-citation-2602381"/>
-    <citation rdf:resource="http://purl.uniprot.org/citations/8378324" 
-              rdf:ID="_P43121-citation-8378324"/>
-    <citation rdf:resource="http://purl.uniprot.org/citations/11709656" 
-              rdf:ID="_P43121-citation-11709656"/>
+:P43121 rdf:type up:Protein ;
+  up:reviewed true ;
+  up:created "1995-11-01" ;
+  up:modified "2019-05-08" ;
+  up:version 173 ;
+  up:mnemonic "MUC18_HUMAN" ;
+  up:oldMnemonic "MU18_HUMAN" ;
+  up:replaces <O95812> ,
+    <Q59E86> ,
+    <Q6PHR3> ,
+    <Q6ZTR2> ;
+  up:citation citation:2602381 .
 \end{lstlisting}
     \caption{Cell surface glycoprotein MUC18 in UnitProt: extract of the
-RDF/XML version for automated use}
+Turtle version for automated use}
     \label{fig:ch5.6}
 \end{figure}
 
@@ -1120,7 +1101,7 @@ http://dbpedia.org/page/Eiffel_Tower
 \end{lstlisting}
 
 This URL displays an HTML page rendering all the data extracted about
-that topic and available publicly on the Web as linked data (Figure~\ref{fig:ch5.7}.
+that topic and available publicly on the Web as linked data (Figure~\ref{fig:ch5.7}).
 
 \begin{figure}
     \centering
@@ -1369,11 +1350,12 @@ it printed on mugs as what is called the 5-star deployment scheme for
 Linked Data proposed by Tim Berners-Lee. The scheme is a cumulative list
 of rules to lift Web data from one star to five stars. Each additional
 rule to gain a star presumes the data meets the all of the previous
-rules. The rules are given below and they cumulate to recommend that
+rules. The rules are given in figure~\ref{fig:ch5.13}, and they recommend that
 data be available on the Web, in a non-proprietary structured format
-using open W3C standards and linked to other data:
+using open W3C standards and linked to other data.
 
 \begin{figure}
+\includegraphics[width=3.5in]{media/ch5/figure-05-13.jpg}
 \begin{quote}
 $\star{}$ Data is available on the Web, in whatever format.
 
@@ -1387,7 +1369,7 @@ $\star\star\star\star$ Published using open standards from the W3C (RDF and SPAR
 
 $\star\star\star\star\star$ All of the above and links to other Linked Open Data.
 \end{quote}
-\caption{Linked data principles from W3C}
+\caption{Linked data principles from the W3C}
 \label{fig:ch5.13}
 \end{figure}
 
@@ -1411,8 +1393,7 @@ figure~\ref{fig:ch5.14}.
 
 \begin{figure}
 \includegraphics[width=5.0in]{media/ch5/figure-05-14.jpg}
-\label{fig:ch5.14}
-\caption{Linking Open Data cloud diagrams\protect\footnotemark\ ten years apart from 2007 (left) and 2017 (right)}
+\caption{\label{fig:ch5.14}Linking Open Data cloud diagrams\protect\footnotemark\ ten years apart from 2007 (left) and 2017 (right)}
 \end{figure}
 \cite{lodcloudnet}
 
@@ -1423,7 +1404,7 @@ right. The different colors show different domains of application (e.g.
 life sciences, publication, government, geography).
 
 Some of the sources included in this cloud are well-known for being
-central, historic or atypical.  We've seen most of these before:
+central or historic.  We've seen most of these before:
 
 \begin{itemize}
 \item
@@ -1460,22 +1441,22 @@ central, historic or atypical.  We've seen most of these before:
 architecture}\label{the-linked-data-platform-architecture}}
 
 In the history of the development of the Web as an application architecture,
-a great advance was made with the specificationn of 
+a great advance was made with the specification of 
 \emph{Representational State Transfer} (\emph{REST}), a set of recommendations 
 for how to organize and publicize a service on the Web.  
 REST could be a topic of a book in its own right, but the basic 
-strucutre of REST is that it ensures service
+structure of REST is that it ensures service
 interoperability over the Web, based on accessing and manipulating
 representations of resources through a small, uniform and predefined set of
 operations (in particular, the standard HTTP methods \emph{GET},
 \emph{PUT}, \emph{PATCH}, \emph{POST}, and \emph{DELETE}). A service
 that complies with the REST principles is said to be \emph{RESTful}.
 
-Following on the success of REST, the W3C has defined the \emph{Linked Data Platform} (LDP), which
+Following on the success of REST, the W3C has defined the \emph{Linked Data Platform} (LDP) \cite{Speicher:15:LDP}, which
 specifies how web applications can publish, edit and delete data
 resources using the HTTP protocol. LDP is a standardized specification of how to use REST
 access to linked data, describing how to build clients and servers that
-create, read, and write linked data ersources.
+create, read, and write linked data resources.
 
 Because  real applications  have to manage a variety of files and
 data formats, LDP distinguishes two kinds of resources: resources with
@@ -1507,7 +1488,7 @@ resources you create.
 \end{itemize} 
 
 LDP specifies the effect that each HTTP verb has on resources and
-containers. Figure~\ref{ch5.17} summarizes each case and shows how to use the standard HTTP verbs to 
+containers. Figure~\ref{fig:ch5.17} summarizes each case and shows how to use the standard HTTP verbs to 
 remotely manage
 resources and containers in an LDP-compliant platform. 
 
@@ -1536,25 +1517,24 @@ resource\tabularnewline
 & HEAD & Only retrieve meta-information about a resource\tabularnewline
 \hline
 \end{tabular}
- \label{fig:ch5.17}
- \caption{The effects of HTTP verbs as specified in LDP}
+ \caption{The effects of HTTP verbs as specified in LDP\label{fig:ch5.17}}
 \end{figure}
 
 
 Figure~\ref{fig:ch5.18} shows the transcript of an HTTP request (lines 1-13) sent to a
 container (/fabien/, line 1) on an LDP platform on a Web server
-(inria.fr). The request uses the verb POST (line 1). As we saw in 
-Figure~\ref{fig:ch5.17}, POST to a container creates a new member of that container. The
+(inria.fr, line 2). The request uses the verb POST (line 1). As we saw in 
+Figure~\ref{fig:ch5.17}, using the verb POST to a container creates a new member of that container. The
 request provides the description of the RDF resource in Turtle
 (serialization specified in line 4), and directly includes the data for
-the new resource in the request itself (lines 7-13). The result (lines
-15-18) shows that the request was accepted by the server (line 16), the
-resource was created (also line 16), and it provides the URI of the
+the new resource (lines 7-13). The response coming back from the server 
+(lines
+15-18) shows that the server accepted the request  (line 16), the
+resource was created (also line 16), and the URI of the
 newly created description is returned (line 17).
 
 \begin{figure}
-  
-    \label{fig:ch5.18}
+
 \begin{lstlisting}
 1.	POST /fabien/ HTTP/1.1
 2.	Host: inria.fr
@@ -1576,8 +1556,8 @@ newly created description is returned (line 17).
 18.	Link: <http://www.w3.org/ns/ldp#Resource>; rel="type"
 19.	Content-Length: 0
 
-\end{lstlisting}
-  \caption{Example of a POST request on an LDP container and its result}
+\end{lstlisting}  
+  \caption{Example of a POST request on an LDP container and its result   \label{fig:ch5.18}}
   \end{figure}
 
 % Let's put a section in here about URIs in the enterprise.  What are the issues? 
@@ -1627,7 +1607,7 @@ The following fundamental concepts were introduced in this chapter:
   same HTTP URI, based on client content specifications.  
 
 \item 
-  \emph{\texttt{Linked Data Platform (LDP)}}: a sest of recommendations about how web applications should 
+  \emph{\texbf{Linked Data Platform (LDP)}}: a sest of recommendations about how web applications should 
   publish, edit and delete resources using the HTTP protocol.
 \end{itemize}
 

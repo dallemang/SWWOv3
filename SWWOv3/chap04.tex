@@ -155,12 +155,13 @@ wrong; this record is known to the rest of the system by its \texttt{NUM},
 and not by its \texttt{ID}.
 
 Furthermore, the last column, \texttt{ttl}, isn't referring to a semantic web format (Turtle);
-this is short for ``title''.  We actually a bibliographic standard called 
+this is short for ``title''.  We actually use a bibliographic standard called 
 the \emph{Dublin Core} (dc for short) that provides terms for standard metadata about
 publications, like author, title, etc.  It makes more sense to use that property, than to
 make one up called \emph{:ttl}.  
 
-The W3C provides a Recommendation called \emph{R2RML} (Relational To RDF Markup Language)
+The W3C provides Recommendations called \emph{R2RML} (Relational To RDF Markup Language) \cite{Sundara:12:RRR}
+and the Direct Mapping \cite{Bertails:12:ADM}
 just for this circumstance.  The job of R2RML is to provide enough information about 
 the mapping of a table to RDF that we don't have to second guess any of these things. 
 
@@ -200,6 +201,13 @@ URIs, which also have to be specified, but the approach is the same; R2RML provi
 a language for defining templates that will be used to map from the original tabular 
 data to a particular triple in the output. 
 
+It is a straightforward task to produce a simple R2RML mapping from any relational 
+database to an RDF form, and in fact, this task can and has been automated.  This makes
+it possible to write SPARQL queries that work directly over relational databases, allowing them
+to act as linked data sources on the web.  This facility is included in many 
+semantic web data processing tools, effectively turning relational databases into 
+semantic web data sources. 
+
 
 
 \subsection{Other data sources - Web pages}
@@ -214,7 +222,7 @@ easily understood by humans, but is difficult to extract as linked
 data, unless the pages include some specific data markup.   In Chapter~\ref{ch10} 
 we will see a number of systems that make use of data embedded in web pages, including 
 the \emph{Open Graph Protocol} of Facebook and \emph{Schema.org}, from a consortium that
-includes Google, Microsoft, Yahoo and Yandex.   All such effort require some way to
+was founded by Google, Microsoft, Yahoo and Yandex.   All such effort require some way to
 mark up HTML pages to include structured data, and some converter to extract this data. 
 
 A key capability provided by the ability to embed structured data in web pages is 
@@ -305,7 +313,7 @@ RDF store implementations range from custom programmed database
 solutions to fully supported off-the-shelf products from specialty
 vendors. Conceptually, the simplest relational implementation of a
 triple store is as a single table with three columns, one each for the
-subject, predicate, and object of the triple. Table~\ref{tab:ch3.14} shows some data
+subject, predicate, and object of the triple. Table~\ref{tab:ch4.14} shows some data
 about Los Angeles Metro stations, organized in this way.
 
 This representation should look familiar, as it is exactly the
@@ -336,10 +344,8 @@ metro:item2&simile:address&``230 S. Raymond Av., Pasadena 91105--2014'' \\
 \hline
 \end{tabular}
 \caption{Names and Addresses of Los Angeles Metro Stations}
-\label{tab:ch3.14}
+\label{tab:ch4.14}
 \end{table}
-
-
 
 
 
@@ -438,7 +444,7 @@ there is nothing corresponding to the special case of an SQL
 
 In the special case in which an RDF store is implemented as a single
 table in a relational database, any graph pattern match in such a
-scenario will constitute a self-join on that table. Some end- developers
+scenario will constitute a self-join on that table. Some developers
 choose to work this way in a familiar SQL environment. Oracle takes
 another approach to making RDF queries accessible to SQL programmers by
 providing its own SPARQL extension to its version of SQL, optimized for
@@ -566,7 +572,6 @@ in mind. Information from any source is converted into a set of triples
 so that data federation of any kind---spreadsheets and XML, database
 tables and web pages---is accomplished with a single mechanism. As shown
 in Figure~\ref{fig:ch4.2},
-
 this strategy of federation converts information from multiple sources
 into a single format and then combines all the information into a single
 store. This is in contrast to a federation strategy in which the
