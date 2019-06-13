@@ -69,7 +69,7 @@ inverse of a property is another property that reverses its direction.  This sho
 a semantic \textit{opposite};  you could imagine a model that describes two 
 properties - \texttt{hasFriend} and \texttt{hasEnemy}.  These might be considered 'opposites', since 
 by definition, a friend can't be an enemy and vice versa, but they are not mathematical inverses, in fact, far from it;
-if I am your friend, it does not imply that you are my enemy.  OWL does not have a way to formally indicate this sort of 
+if I am your friend, it does not imply that you are my enemy.  OWL does not have a way to formally indicate this other sort of 
 relationship between properties. 
 
 To be specific, we look at the meaning of \texttt{owl:inverseOf}. In OWL, as in
@@ -330,9 +330,9 @@ regardless of the subPropertyOf level. In this case, this results in
 :possessedBy owl:inverseOf :hasPossession.
 \end{lstlisting}
 
-The systematicity of this structure can be more readily seen in Figure~\ref{Figch9.2}. 
+The systematicity of this structure can be more readily seen in Figure~\ref{fig:ch9.2}. 
 The attentive reader might have one more concern about the
-systematicity of Figure~\ref{Figch9.2}---in particular, the selection of which
+systematicity of Figure~\ref{fig:ch9.2}---in particular, the selection of which
 properties are the subject of \texttt{owl:inverseOf} and which are the object (in
 the diagram, which ones go on the left or on the right of the diagram)
 is arbitrary. Shouldn't there be three more \texttt{owl:inverseOf} triples,
@@ -416,9 +416,9 @@ rdfs:subClassOf owl:inverseOf rdfs:superClassOf.
 This differs from the previous triple in that the subject is a resource
 in the (standard) RDFS namespace. The AAA slogan allows a modeler to say
 this,  and indeed, there is nothing in the standards that will prevent
-it. But this practice is problematic; as we saw in Chapter~\ref{ch5}, it is normally possible to de-reference 
+it. But this practice is problematic; as we saw in Chapter~\ref{ch5}, it is normally possible to dereference 
 an HTTP URI to learn more about a resource.  Since only the W3C can add new content to the 
-web servers at the RDFS namespace, any attempt to de-reference rdfs:superClassOf will fail to return any information. 
+web servers at the RDFS namespace, any attempt to dereference \texttt{rdfs:superClassOf} will fail to return any information. 
 Another problem with this practice is that  a reference to a resource in the RDFS namespace 
 suggests to human readers of the model that this resource is part of
 the RDFS standard (which it is not). Since one purpose of a model is to communicate to
@@ -712,7 +712,7 @@ gm:partOf a owl:TransitiveProperty.
 \centering
 \includegraphics[width=5in]{SWWOv3/media/ch9/figure9-5.png}
 \caption{Different interpretations of \texttt{partOf}.}
-\label{fig:ch8.5}
+\label{fig:ch9.5}
 \end{figure}
 
 
@@ -722,7 +722,7 @@ needs, it can query the appropriate property. For those who prefer to
 think that Mick Jagger's thumb is not part of the Rolling Stones, the
 original \texttt{dm:partOf} property is useful. For those who instead consider
 that Mick Jagger's thumb is part of the Rolling Stones, the transitive
-superproperty \texttt{gm:partOf} is appropriate (see Figure\label{fig:ch8.5})
+superproperty \texttt{gm:partOf} is appropriate (see Figure\ref{fig:ch9.5})
 \end{challenge}
 
 \section{Managing networks of dependencies}
@@ -762,7 +762,7 @@ mixture leaves a heavy coat on the back of a spatula. Chill well. Combine custar
 
 \begin{figure}
 \centering
-\includegraphics[width=5in]{SWWOv3/media/ch9/figure9-6.png}
+\includegraphics[height=6in]{SWWOv3/media/ch9/figure9-6.png}
 \caption{Dependencies for homemade ice cream.}
 \label{fig:ch9.6}
 \end{figure}
@@ -802,14 +802,14 @@ this, using the patterns we already know?
 \solution
 
 We can use the \texttt{subPropertyOf}/\texttt{TransitiveProperty} pattern for each of
-dependsOn and
-enables as follows:
+\texttt{dependsOn} and
+\texttt{enables} as follows:
 
 \begin{figure}
 \centering
 \includegraphics[width=5in]{SWWOv3/media/ch9/figure9-7.png}
-\caption{Transitive properties hasPrerequisite and prerequisiteFor defined in
-terms of dependsOn and enables.
+\caption{Transitive properties \texttt{hasPrerequisite} and \texttt{prerequisiteFor} defined in
+terms of \texttt{dependsOn} and \texttt{enables}.
 }
 \label{fig:ch9.7}
 \end{figure}
@@ -1004,11 +1004,12 @@ determine a relationship between, e.g., \texttt{BeatEggs} and \texttt{HeatCream}
 transitive structure of \texttt{inSameRecipe} allows this to happen, whereas for
 \texttt{otherStep} it does not; that is, we can infer
 
-\begin{lstlisting}
+
 \begin{lstlisting}
 :BeatEggs :inSameRecipe :HeatCream
 end{lstlisting}
 but not
+\begin{lstlisting}
 :BeatEggs :otherStep :HeatCream .
 \end{lstlisting}
 \end{challenge}
@@ -1199,8 +1200,8 @@ of the OWL language explicit and, in fact, models them in OWL.
 
 \subsection{Same individuals}
 
-Class equivalence---that is, \texttt{owl:equivalentClass}---and property
-equivalence (\texttt{own:equivalentProperty}) provide intuitive ways to express
+Class equivalence---that is, \texttt{owl:equivalentClass} --- and property
+equivalence (\texttt{owl:equivalentProperty}) provide intuitive ways to express
 relationships that were already expressible in RDFS. In this sense,
 neither of these constructs has increased the expressive power of
 RDFS-Plus beyond what was already available in RDFS. They have just made
@@ -1288,14 +1289,14 @@ Shakespeare example, the inference is defined as
 
 \begin{lstlisting}
 CONSTRUCT {lit:Shakespeare ?p ?o . }
-WHERE {spr:WilliamShakespeare ?p ?o . }
+WHERE {spr:WilliamShakspere ?p ?o . }
 \end{lstlisting}
 
 Similarly,
 
 \begin{lstlisting}
 CONSTRUCT {?s ?p lit:Shakespeare . }
-WHERE {?s ?p spr:WilliamShakespeare . }
+WHERE {?s ?p spr:WilliamShakspere . }
 \end{lstlisting}
 
 More generally, \texttt{owl:sameAs} is defined by three rules that can be
@@ -1373,7 +1374,7 @@ Now the answer to the query ``Did Hamnet's father write Hamlet ?'' is
 ``yes,'' since there is a binding for the variable \texttt{?d} in the preceding
 SPARQL graph pattern. In fact, there are two possible bindings:
 
-\texttt{?d} = \texttt{lit:Shakespeare} and \texttt{?d} = \texttt{spr:Shakspere}.
+\texttt{?d} = \texttt{lit:Shakespeare} and \texttt{?d} = \texttt{spr:WilliamShakspere}.
 \end{challenge}
 
 
@@ -1403,8 +1404,8 @@ mfg:Product9 mfg:Product_Manufacture_Location Cleveland.
 
 
 \begin{table}
-\label{tab:ch9.1}
-\caption{Sample tabular data for triples}
+\caption{
+\label{tab:ch9.1}Sample tabular data for triples}
 \begin{tabular}{|l l l l l l l|}
 \hline
 ID&Model Number&Division&Product Line&Manufacture Location&SKU&Available\\
@@ -1423,8 +1424,7 @@ ID&Model Number&Division&Product Line&Manufacture Location&SKU&Available\\
 \end{table}
 
 \begin{table}
-\label{tab:ch9.2}
-\caption{Sample Data: Parts and the Facilities Required to Produce Them}
+\caption{\label{tab:ch9.2}Sample Data: Parts and the Facilities Required to Produce Them}
 \begin{tabular}{|l l l|}
 \hline
 ID&Model Number&Facility\\
@@ -1660,14 +1660,14 @@ then we can declare it to be an \texttt{owl:InverseFunctionalProperty}. If we
 were then to have two triples that assert
 
 \begin{lstlisting}
-spr:Shakespere buriedAt:TrinityChancel .
+spr:WilliamShakespere buriedAt:TrinityChancel .
 lit:Shakespeare buriedAt:TrinityChancel .
 \end{lstlisting}
 
 then we could infer that
 
 \begin{lstlisting}
-* spr:Shakespere owl:sameAs lit:Shakespeare .
+* spr:WilliamShakespere owl:sameAs lit:Shakespeare .
 \end{lstlisting}
 
 an \texttt{owl:InverseFunctionalProperty} plays a similar role as a key field in

@@ -99,7 +99,7 @@ This means that this process can continue as far as it needs to; the
 schema information that provides context for information on the Semantic
 Web can itself be distributed on the Semantic Web. This also means that
 every tool and technique available for RDF data is available for RDFS
-schemata: you can query a schema in SPARQL, validate it in SHACL, edit
+schemas: you can query a schema in SPARQL, validate it in SHACL, edit
 it in an RDF editor, publish it with Linked Data practices and tools,
 visualize it with an RDF visualizer, etc.
 
@@ -138,7 +138,6 @@ into the language. This is similar to the way in which a traditional
 programming language can be extended by defining new language- defined
 keywords. But there is an important difference: In RDF, we already had
 the capability to use
-
 any resource in any triple (Anyone can say Anything about Any topic). So
 by identifying certain specific resources as ``new keywords,'' we
 haven't actually extended the language at all! We have simply identified
@@ -388,7 +387,7 @@ know that it is a \texttt{Woman}!), the rule for \texttt{rdfs:domain} allows us 
 that it is a \texttt{MarriedWoman}. So, for instance, if someone asserts
 
 \begin{lstlisting}
-:Karen :hasMaidenName :MarriedWoman.
+:Karen :hasMaidenName "Smith" .
 \end{lstlisting}
 
 We can infer
@@ -776,6 +775,7 @@ we can infer that
 \end{lstlisting}
 
 \begin{example}{Merging Library Records}
+\label{ex:ch8.1}
 
 Suppose one library has a table in which it keeps lists of patrons and
 the books they have borrowed, it uses a property called \texttt{borrows} to
@@ -1626,7 +1626,7 @@ The semantics of RDFS is expressed through the mechanism of inferencing;
 that is, the meaning of any construct in RDFS is given by the inferences
 that can be inferred from it. For example, it is this simple but
 powerful mechanism for specifying semantics that allows for the short
-and elegant defi- nition of subclass and subproperty.
+and elegant definition of subclass and subproperty.
 
 RDFS also includes the constructs \texttt{rdfs:domain} and \texttt{rdfs:range} to describe
 the relationship between properties and classes. The meanings of these
