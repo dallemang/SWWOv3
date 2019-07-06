@@ -11,7 +11,7 @@ manage groups of people or terms (describe something based on its
 membership in a group). The restrictions defined in Chapter~\ref{ch12} are
 powerful methods for defining classes of individuals.
 
-In this chapter, we see that OWL augments this capability with a full
+In this chapter, we will see that OWL augments this capability with a full
 set theory language, including intersections, unions, and complements.
 These can be used to combine restrictions together (e.g., the set of
 planets that go around the sun and have at least one moon) or to combine
@@ -431,7 +431,8 @@ the same way:
 \end{lstlisting}
 
 The view of this bit of Turtle in terms of triples is shown in Figure~\ref{fig:ch13.02}.
-The movies are referenced in an RDF list (using \texttt{rdf:first} and \texttt{rdf:rest}
+The movies are referenced in an RDF list (using \texttt{rdf:first} and \texttt{rdf:rest}, as 
+we saw in Section~\ref{ordered})
 to chain the entities together). For longer lists (like the planets),
 the chain continues for each entity in the list.
 
@@ -464,7 +465,7 @@ restriction. This seemingly simple idea turns out to have surprising
 subtlety when modeling in OWL. Cardinality restrictions allow us to
 express constraints on the number of individuals that can be related to
 a member of the restriction class. For example, a baseball team has
-exactly nine (distinct) players. A person has two (biological) parents.
+exactly nine (distinct) players in the starting lineup. A person has two (biological) parents.
 Cardinality restrictions can be used to define sets of particular
 interest, like the set of one-act plays or the set of books that are
 printed in more than one volume.
@@ -551,7 +552,7 @@ will need a property called
 In OWL, we make general statements about an individual by asserting that
 the individual is a member of a restriction class. So we can say that
 Rocky owns only James Dean movies by using the \texttt{owl:allValuesFrom}
-restriction from Chapter\ref{ch9}:
+restriction from Chapter\ref{ch12}:
 
 \begin{lstlisting}
 :JamesDeanExclusive owl:equivalentClass
@@ -693,7 +694,7 @@ we require that there are at least two Oscar winning actors in a movie:
     [ a owl:Restriction ;
       owl:onClass :OscarWinningActor ;
       owl:onProperty :stars ;
-      owl:minQualifiedCardinality "2"^^xsd:nonNegativeInteger ] 
+      owl:minQualifiedCardinality 2 ] 
     )
 \end{lstlisting}
 
@@ -931,7 +932,7 @@ that the sets are disjoint, and we represent this situation in OWL using
 \texttt{owl:disjointWith}, as follows:
 
 \begin{lstlisting}
-:Man owl:disjointWith :Woman .
+:Reptile owl:disjointWith :Mammal .
 :Meat owl:disjointWith :Fruit .
 :Fish owl:disjointWith :Fowl .
 \end{lstlisting}
@@ -940,14 +941,14 @@ For any members of disjoint classes, we can infer that they are
 \texttt{owl:differentFrom} one another---for instance, we might assert that
 
 \begin{lstlisting}
-:Irene a:Woman .
-:Ralph a:Man .
+:Lassie a :Mammal .
+:Godzilla a :Reptile .
 \end{lstlisting}
 
 we can infer that
 
 \begin{lstlisting}
-:Irene owl:differentFrom :Ralph .
+:Lassie owl:differentFrom :Godzilla .
 \end{lstlisting}
 
 This simple idea can have powerful ramifications when combined with
@@ -1024,7 +1025,11 @@ Now we know that Paul has three James Dean movies and at least one movie
 from each of the other actors named here. Furthermore, none of these
 movies appears twice, since all of the sets are disjoint. An inference
 engine can confirm that Rocky is justified in counting to seven movies,
-and
+and hence,
+
+\begin{lstlisting}
+:Paul a :SevenMovieOwner . 
+\end{lstlisting}
 
 \begin{figure}
 \centering
@@ -1045,7 +1050,8 @@ the specified property. When these values are known to be distinct, we
 can count (at least) one per \texttt{someValuesFrom} restriction.
 
 Just as we had \texttt{owl:AllDifferent} as a way to specify that several
-individuals are mutually distinct, we have \texttt{owl:AllDisjointClasses} to indicate that a set of classes is mutually disjoint, for cases like this where we kn
+individuals are mutually distinct, we have \texttt{owl:AllDisjointClasses} to indicate that a set of classes is mutually 
+disjoint.
 
 
 
@@ -1527,7 +1533,7 @@ and also for \texttt{owl:someValuesFrom}. If
 on property \texttt{playsFor} some values from \texttt{AllStarBaseballTeam} is a subclass
 of the restriction on property \texttt{playsFor} some values from \texttt{BaseballTeam}.
 
-\item \texttt{hasValue}, \texttt{someValuesFrom}, and \texttt{subClassOf}: Propagation for \texttt{owl:has} Value
+\item \texttt{hasValue}, \texttt{someValuesFrom}, and \texttt{subClassOf}: Propagation for \texttt{owl:hasValue}
 works a bit differently from the way it works for \texttt{owl:allValuesFrom} or
 \texttt{owl:someValuesFrom}, since \texttt{owl:hasValue} refers to an individual, not a
 class. Suppose that the individual \texttt{TokyoGiants} is a member of class
@@ -1645,7 +1651,7 @@ seen.
 restrictions
 on the same property, \texttt{playsFor}, referencing \texttt{AllStarBaseballTeam} and
 \texttt{AllStarTeam}, respectively. The fact that \texttt{AllStarBaseballTeam} is a
-subclass of \texttt{AllfStarTeam} can be propagated, so we can infer that
+subclass of \texttt{AllStarTeam} can be propagated, so we can infer that
 \texttt{AllStarBaseballPlayer} is a subclass of \texttt{AllStarPlayer}. Similar reasoning
 allows us to infer that \texttt{AllfStarBaseballPlayer} is a subclass of
 \texttt{BaseballPlayer}. \label{tbox}

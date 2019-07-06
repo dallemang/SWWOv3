@@ -1427,9 +1427,10 @@ SELECT. For example:
 ASK WHERE { :ElizabethTaylor :diedOn ?any }
 \end{lstlisting}
 
-This query will produce a true answer if any match is found for the
+An ASK query returns either the value \emph{true} or \emph{false}, depending on 
+whether the WHERE clause finds a match.  This query will produce a \emph{true} answer if any match is found for the
 graph pattern (that is, if we have any date on which Elizabeth Taylor
-died); in this data set, the result is True. We can combine FILTER NOT
+died); in this data set, the result is \emph{true}. We can combine FILTER NOT
 EXISTS with ASK, and create the query for ``Is Elizabeth Taylor alive?''
 as
 
@@ -1438,7 +1439,7 @@ as
 ASK WHERE {FILTER NOT EXISTS {:ElizabethTaylor :diedOn ?any } }
 \end{lstlisting}
 
-The answer to this, sadly, is False.
+The answer to this, sadly, is \emph{false}.
 
 We can ASK about more complex graph patterns just as easily -- was any
 actor in \emph{Giant} born after  1950?
@@ -1451,7 +1452,7 @@ ASK WHERE {?any :playedIn :Giant ;
 \end{lstlisting}
 
 Given \emph{Giant}'s 1956 production date, we shouldn't be surprised at
-the false response to this query.
+the \emph{false} response to this query.
 
 \section{CONSTRUCT Queries in SPARQL}
 
@@ -3113,8 +3114,8 @@ movies:JamesDean\\
 Indeed, there is an actor in the database whose full name is made up of
 the concatenation of the first names of authors of this book.
 
-\subsection{Data in queries}
-\label{sparqlvalues}
+\subsection{Data in queries\label{sparqlvalues}}
+
 
 Normally, we expect a query to get its data from a data source.  Sometimes it 
 is convenient to include small bits of data right in the query itself.  For example, we 

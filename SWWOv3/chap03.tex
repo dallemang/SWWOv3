@@ -1290,7 +1290,7 @@ application to another, while staying entirely in a conventional
 Javascript environment. Its consistency with RDF allows these
 applications to smoothly integrate into a web of distributed data.
 
-\section{BLANK NODES}
+\section{BLANK NODES\label{blanknodes}}
 
 So far, we have described how RDF can represent sets of triples, in
 which each subject, predicate, and object is either a source or (in the
@@ -1369,7 +1369,7 @@ particular use of bnodes. While RDF allows for the use of blank nodes in
 many circumstances, other than the specific use of blank nodes in OWL,
 their use is discouraged in general.
 
-\subsection{Ordered information in RDF}
+\subsection{Ordered information in RDF\label{ordered}}
 
 The children of Shakespeare appear in a certain order on the printed
 page, but from the point of view of RDF, they are in no order at all;
@@ -1385,7 +1385,8 @@ lit:Shakespeare b:hasChild (b:Susanna b:Judith b:Hamnet).
 \end{lstlisting}
 
 This translates into the following triples, where \texttt{\_:a}, \texttt{\_:b}, and \texttt{\_:c}
-are bnodes:
+are bnodes, and the order is indicated using two reserved properties in RDF called \texttt{rdf:first} and 
+\texttt{rdf:rest}.  The list is terminated with a reference to the resource \texttt{rdf:nil}:
 
 \begin{lstlisting}
 lit:Shakespeare b:hasChild _:a.

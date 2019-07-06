@@ -18,7 +18,6 @@ indicate it explicitly.
 
 We begin our presentation of OWL with a treatment of owl:Restriction.
 This single
-
 construct enhances the representational power of OWL by allowing us to
 describe classes in terms of other things we have already modeled. As we
 shall see, this opens up whole new vistas in modeling capabilities.
@@ -541,16 +540,7 @@ d:SBoth q:enablesCandidate d:TVsymptom.
 \end{lstlisting}
 
 We can see this inference and the triples that led to it in Figure~\ref{fig:ch12.04}
-Restrictions are shown in the figures using a shorthand called the
-\emph{Manchester Syntax} (named after its development at the University of
-Manchester). The shorthand summarizes a restriction using the keywords
-all, some, and value to indicate the restriction types
-\texttt{owl:allValuesFrom}, \texttt{owl:someValuesFrom}, and
-\texttt{owl:hasValue}, respectively. The restriction property (indicated in
-triples by \texttt{owl:onProperty}) is printed before the keyword, and the target
-class (or individual, in the case of \texttt{owl:hasValue}) is printed after the
-keyword. We see an example of an \texttt{owl:allValuesFrom} restriction in Figure~\ref{fig:ch12.04}. It is important to note that this is only a shorthand; all the
-information needed for inferences is expressed in RDF triples.
+
 
 \begin{figure}
 \centering
@@ -587,7 +577,7 @@ d:SBoth q:enablesCandidate d:InternetSymptom .
 d:SInternet q:enablesCandidate d:InternetSymptom .
 \end{lstlisting}
 
-The dependency tree is shown graphically in Figure~\ref{fig:ch11.05}.
+The dependency tree is shown graphically in Figure~\ref{fig:ch12.05}.
 
 \begin{example}{Prerequisites}
 
@@ -720,7 +710,7 @@ every time there is a triple of the form
 \end{lstlisting}
 
 \texttt{?y} must be a member of the class \texttt{d:SelectedAnswer}. But by the Open World
-assumption, we don't know if there might be another triple of this form
+Assumption, we don't know if there might be another triple of this form
 for which \texttt{?y} is not a member of \texttt{d:SelectedAnswer}. Given the Open World
 assumption, how can we ever know that all prerequisites have been met?
 \end{challenge}
@@ -1412,7 +1402,7 @@ we can infer that
 We can use the Class-Individual Mirror Pattern in a repeated setting, to 
 describe inferences over tree structured data.  Expanding on the pattern 
 where we have a class for the children of a famous person, let's go back 
-the the example of transitive superproperties from Section~\ref{chal:17}.
+the the example of transitive superproperties from Challenge~\ref{chal:17}.
 In that example, we have a family tree of ancestors:
 
 \begin{lstlisting}
@@ -1485,7 +1475,7 @@ This situation is shown in Figure~\ref{fig:ch12.12}.
 
 \begin{figure}
     \centering
-    \includegraphics{SWWOv3/media/ch12/figure12-12.png}
+    \includegraphics[width=4in]{SWWOv3/media/ch12/figure12-12.png}
     \caption{Inferences from a recursive application of the Class-Individual Mirror pattern}
     \label{fig:ch12.12}
 \end{figure}

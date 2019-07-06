@@ -74,7 +74,7 @@ relationship between properties.
 
 To be specific, we look at the meaning of \texttt{owl:inverseOf}. In OWL, as in
 RDFS, the meaning of any construct is given by the inferences that can
-be drawn from it. We can express the rule for owl:inverseOf in SPARQL as
+be drawn from it. We can express the rule for \texttt{owl:inverseOf} in SPARQL as
 follows:
 
 \begin{lstlisting}
@@ -474,9 +474,7 @@ we could infer that
 * lit:Shakespeare bio:married bio:AnneHathaway.
 \end{lstlisting}
 
-This pattern of self-inverses is so common that it has been built into
-OWL using a special construct called
-\texttt{owl:SymmetricProperty}.
+This common pattern brings us to our next topic - Symmetric Properties. 
 
 \subsection{Symmetric Properties}
 
@@ -762,7 +760,7 @@ mixture leaves a heavy coat on the back of a spatula. Chill well. Combine custar
 
 \begin{figure}
 \centering
-\includegraphics[height=6in]{SWWOv3/media/ch9/figure9-6.png}
+\includegraphics[height=4in]{SWWOv3/media/ch9/figure9-6.png}
 \caption{Dependencies for homemade ice cream.}
 \label{fig:ch9.6}
 \end{figure}
@@ -805,6 +803,15 @@ We can use the \texttt{subPropertyOf}/\texttt{TransitiveProperty} pattern for ea
 \texttt{dependsOn} and
 \texttt{enables} as follows:
 
+\begin{lstlisting}
+:dependsOn rdfs:subPropertyOf :hasPrerequisite .
+:hasPrerequisite rdf:type owl:TransitiveProperty .
+:enables rdfs:subPropertyOf :prerequisiteFor .
+:prerequisiteFor rdf:type owl:TransitiveProperty .
+\end{lstlisting}
+
+These relationships can be seen graphically in Figure\ref{fig:ch9.7}
+
 \begin{figure}
 \centering
 \includegraphics[width=5in]{SWWOv3/media/ch9/figure9-7.png}
@@ -815,8 +822,6 @@ terms of \texttt{dependsOn} and \texttt{enables}.
 \end{figure}
 
 
-
-These relationships can be seen graphically in Figure\ref{fig:ch9.7}
 
 From these triples, for instance, we can infer that GraduallyMix has
 five prerequisites---
@@ -1007,7 +1012,7 @@ transitive structure of \texttt{inSameRecipe} allows this to happen, whereas for
 
 \begin{lstlisting}
 :BeatEggs :inSameRecipe :HeatCream
-end{lstlisting}
+\end{lstlisting}
 but not
 \begin{lstlisting}
 :BeatEggs :otherStep :HeatCream .
@@ -1200,7 +1205,7 @@ of the OWL language explicit and, in fact, models them in OWL.
 
 \subsection{Same individuals}
 
-Class equivalence---that is, \texttt{owl:equivalentClass} --- and property
+Class equivalence (\texttt{owl:equivalentClass}) and property
 equivalence (\texttt{owl:equivalentProperty}) provide intuitive ways to express
 relationships that were already expressible in RDFS. In this sense,
 neither of these constructs has increased the expressive power of
@@ -1660,8 +1665,8 @@ then we can declare it to be an \texttt{owl:InverseFunctionalProperty}. If we
 were then to have two triples that assert
 
 \begin{lstlisting}
-spr:WilliamShakespere buriedAt:TrinityChancel .
-lit:Shakespeare buriedAt:TrinityChancel .
+spr:WilliamShakespere :buriedAt :TrinityChancel .
+lit:Shakespeare :buriedAt :TrinityChancel .
 \end{lstlisting}
 
 then we could infer that
@@ -1754,33 +1759,33 @@ Let's see how these inferences roll out. We begin with the asserted
 triples from both data sources and proceed with inferred triples:
 
 \begin{lstlisting}
-p:Product1 p:Product_ModelNo "B--1430" .
-p:Product2 p:Product_ModelNo "B--1431" .
-p:Product3 p:Product_ModelNo "M13--P" .
-p:Product4 p:Product_ModelNo "ZX--3S" .
-p:Product5 p:Product_ModelNo "ZX--3" .
-p:Product6 p:Product_ModelNo "TC--43" .
-p:Product7 p:Product_ModelNo "B--1430X" .
-p:Product8 p:Product_ModelNo "SP--1234" .
-p:Product9 p:Product_ModelNo "1180--M" .
-mfg:Product1 mfg:Product_ModelNo "ZX--3" .
-mfg:Product2 mfg:Product_ModelNo "ZX--3P" .
-mfg:Product3 mfg:Product_ModelNo "ZX--3S" .
-mfg:Product4 mfg:Product_ModelNo "B--1430" .
-mfg:Product5 mfg:Product_ModelNo "B--1430X" .
-mfg:Product6 mfg:Product_ModelNo "B--1431" .
-mfg:Product7 mfg:Product_ModelNo "DBB--12" .
-mfg:Product8 mfg:Product_ModelNo "SP--1234" .
-mfg:Product9 mfg:Product_ModelNo "SPX--1234" .
-p:Product1 mfg:Product_ModelNo "B--1430" .
-p:Product2 mfg:Product_ModelNo "B--1431" .
-p:Product3 mfg:Product_ModelNo "M13--P " .
-p:Product4 mfg:Product_ModelNo "ZX--3S " .
-p:Product5 mfg:Product_ModelNo "ZX--3" .
-p:Product6 mfg:Product_ModelNo "TC--43 " .
-p:Product7 mfg:Product_ModelNo "B--1430X " .
-p:Product8 mfg:Product_ModelNo "SP--1234 " .
-p:Product9 mfg:Product_ModelNo "1180--M" .
+p:Product1 p:Product_ModelNo "B-1430" .
+p:Product2 p:Product_ModelNo "B-1431" .
+p:Product3 p:Product_ModelNo "M13-P" .
+p:Product4 p:Product_ModelNo "ZX-3S" .
+p:Product5 p:Product_ModelNo "ZX-3" .
+p:Product6 p:Product_ModelNo "TC-43" .
+p:Product7 p:Product_ModelNo "B-1430X" .
+p:Product8 p:Product_ModelNo "SP-1234" .
+p:Product9 p:Product_ModelNo "1180-M" .
+mfg:Product1 mfg:Product_ModelNo "ZX-3" .
+mfg:Product2 mfg:Product_ModelNo "ZX-3P" .
+mfg:Product3 mfg:Product_ModelNo "ZX-3S" .
+mfg:Product4 mfg:Product_ModelNo "B-1430" .
+mfg:Product5 mfg:Product_ModelNo "B-1430X" .
+mfg:Product6 mfg:Product_ModelNo "B-1431" .
+mfg:Product7 mfg:Product_ModelNo "DBB-12" .
+mfg:Product8 mfg:Product_ModelNo "SP-1234" .
+mfg:Product9 mfg:Product_ModelNo "SPX-1234" .
+p:Product1 mfg:Product_ModelNo "B-1430" .
+p:Product2 mfg:Product_ModelNo "B-1431" .
+p:Product3 mfg:Product_ModelNo "M13-P " .
+p:Product4 mfg:Product_ModelNo "ZX-3S " .
+p:Product5 mfg:Product_ModelNo "ZX-3" .
+p:Product6 mfg:Product_ModelNo "TC-43 " .
+p:Product7 mfg:Product_ModelNo "B-1430X " .
+p:Product8 mfg:Product_ModelNo "SP-1234 " .
+p:Product9 mfg:Product_ModelNo "1180-M" .
 p:Product1 owl:sameAs mfg:Product4 .
 p:Product2 owl:sameAs mfg:Product6 .
 p:Product4 owl:sameAs mfg:Product3 .

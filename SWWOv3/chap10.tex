@@ -3,7 +3,7 @@
 
 We have seen a number of examples of the use of RDFS-Plus modeling for
 merging information from multiple sources in a dynamic and flexible way.
-In this chapter, we describe four  example uses of the RDFS-Plus
+In this chapter, we describe three  example uses of the RDFS-Plus
 constructs. All of these applications of RDFS-Plus have attracted
 considerable user communities in their respective fields. They
 also make essential use of the constructs in RDFS-Plus, though often in
@@ -11,11 +11,10 @@ quite different ways. These are real modeling applications built by
 groups who originally had no technology commitment to RDF, RDFS or OWL
 (though all were conceived as RDF applications).
 
-In the first three of these examples, a model, expressed in RDFS, is used to describe
+In all three of these examples, a model, expressed in RDFS, is used to describe
 data that is distributed on the web.  In each case, one or more applications
 make use of this data to provide valuable services to some user communities.  
-The fourth case is an example that uses RDFS-Plus to represent linkages between data sets
-on the web. 
+
 
 
 
@@ -47,8 +46,6 @@ project requirements. As the project evolved, there was a need to
 describe the relationships between various resources in a formal way;
 this led it to RDFS and then on to RDFS-Plus.
 
-The fourth example, \emph{BridgeDb}\cite{batchelor2014scientific}, is a data set that links other data
-sets for chemistry research, especially for molecular biology. 
 
 
 In this chapter, we describe each of these efforts and show the use they
@@ -76,10 +73,23 @@ syntaxes, anyone can parse them, making this data reusable by anyone in their ow
 
 The class hierarchy of Schema.org includes things that you can describe in 
 your web pages. 
-Commonly used classes include: Persons, Events, Organizations, Places, Creative works, non-text objects embedded in pages (Image, Video, Audio), Products and offers, Reviews and ratings, Actions (search trade, update, ...), etc.
+Commonly used classes include: Persons, Events, Organizations, Places, Creative works, non-text objects 
+embedded in pages (Image, Video, Audio), Products and offers, Reviews and ratings, Actions (search trade, update, ...), etc.
 
-Let's start with a simple example, of how we would mark up a product page about 
-a Men's tie so that we can support a rich snippet such as the one shown in Figure~\ref{fig:ch4.RS}(a).
+Back in Chapter~\ref{ch4} we saw how "rich snippets" appear in search engines; we repeat that example here in 
+Figure~\ref{fig:ch4.RSReprise}. We'll start with this example.  How we would mark up a product page about 
+a Men's tie so that we can support the rich snippet shown in Figure~\ref{fig:ch4.RSReprise}(a)?
+
+\begin{figure}
+    \centering
+    \includegraphics{SWWOv3/media/ch4/WithRichSnippet.png}
+    (a)
+    \includegraphics{SWWOv3/media/ch4/WithoutRichSnippet.png}
+    (b)
+    \caption{Two search results, one with rich snippets (a) and one without (b). }
+    \label{fig:ch4.RSReprise}
+\end{figure}
+
 
 The namespace for Schema.org is just \texttt{https://schema.org/}. Here, we will 
 use the prefix \texttt{schema:} for that. To get started, Schema.org defines a class called 
@@ -101,7 +111,9 @@ to the price of the item or whether it is in stock?
 
 These things are represented in Schema.org as an \texttt{schema:Offer}, which describes, 
 for a product or service, an offer to sell it.  Hence, it is the \texttt{Offer} that has
-a price, availability, etc.  The \texttt{Offer} is linked to the \texttt{Product} with a 
+a price, availability, etc.  Recall (from Section~\ref{blanknodes}) that we can express a blank node as a subject for multiple
+triples with  square-bracket ("\[" and "\]"); the Offer is expressed here as a blank node. 
+The \texttt{Offer} is linked to the \texttt{Product} with a 
 property called \texttt{schema:offers}:
 
 \begin{lstlisting}
@@ -112,6 +124,7 @@ bnb:Buffalo a schema:Product ;
             schema:price "49" ;
             schema:priceCurrency "USD"@en ] .
 \end{lstlisting}
+
 
 The \texttt{Offer} has all the price and availability details.  It is up to the 
 application (in this case, the google search engine) to do something appropriate
@@ -161,7 +174,7 @@ example of reification from Chapter~\ref{ch3}, and Schema.org
 solves it by defining a
 class called a \texttt{UnitPriceSpecification} for the full description of a
 price. We'll see how Plush uses this to describe the price of their
-manicure, building on the example above:
+massage, building on the example above:
 
 \begin{lstlisting}
 plush:Offer1 a schema:Offer ;
@@ -261,8 +274,8 @@ WHERE {
 
 
 The results will list all the services in that price range.  The data to 
-support queries of this sort is normally published on a web page, 
-but Schema.org makes it possible to use it to do this sort of filtering. 
+support queries of this sort is normally published on a web page in a human-readable form,  
+but annotation with terms from Schema.org makes it possible to use it to do this sort of filtering automatically. 
 \end{example}
 
 
@@ -422,7 +435,7 @@ Schema.org provides a way in which Web content
 providers can mark up their web pages to describe business offerings.
 Schema.org is based loosely on the modeling structures of RDFS, and participates
 in the Semantic Web by allowing its users to make references beyond Schema.org 
-(as in our example, we referred to a resource defined by QUDT). 
+(as in our examples, we referred to resources defined by QUDT and FIBO). 
 
 Schema.org's main use to date has been for Search Engine Optimization and 
 rich snippets, but any application, like chatbots and personal assistants, that 
@@ -447,8 +460,7 @@ could be printed and read by human beings, but were very difficult to
 process by computer. Data.gov makes hundreds of thousands of data sets
 available in a variety of machine-readable formats. The metadata for all
 of these data sets, and the content for more than 500 of them, were
-released as RDF in May 2010, and more are being converted now that RDF
-has become one of the approved government data formats.
+released as RDF in May 2010, and many more were converted later as RDF became one of the approved data formats. 
 
 In the United Kingdom, a similar site called Data.gov.uk
 (http://data.gov.uk) also releases many government data sets directly as
@@ -460,9 +472,9 @@ just that from nations, but also from cities, states, provinces,
 counties, tribal entities, etc. A number of NGOs, particularly the World
 Bank and several UN units, are also releasing such data. As of the end
 of 2010, the United States and the United Kingdom were the only ones
-directly releasing data as RDF, although third parties in countries
-around the world are now converting data from their governments to RDF
-and making it available on the Web.
+directly releasing data as RDF.  Countries around the 
+world began publishing data in RDF.  In fact, as of 2013 more than a million datasets from over 40 governments 
+had been catalogued in RDF, and throughout the world open government data is being shared in many formats, including RDF
 
 These open government data resources are good examples of what Tim
 Berners-Lee calls ``raw'' data---machine-readable files from the
@@ -617,7 +629,7 @@ FHEO:Asian rdfs:subClassOf FHEO:Race .
 \end{lstlisting}
 
 Similar comments apply to many of the relationships in this data. We can
-express them all in, as summarized in Figure~\ref{fig:ch10.1}.
+express them all in RDFS, as summarized in Figure~\ref{fig:ch10.1}.
 
 \begin{figure}
 \centering
@@ -798,7 +810,7 @@ results are shown in Table~\ref{tab:ch10.2}.
 These results include enough information to drive an API for displaying
 things on the map. If we choose an icon with a different size and
 intensity for each basis and severity, then we can put these data on a
-map as shown in Figure~\ref{fig:10.2}.
+map as shown in Figure~\ref{fig:ch10.2}.
 
 \begin{table}
 \caption{First 10 Results of query counting number of complaints per type and county}
@@ -1228,11 +1240,12 @@ on the Internet already has and is already familiar with?
 
 The clearest answer to this puzzle is email. Just about anyone who is
 described on the Web in any way at all has an email address. (Even in
-2010, efforts like Webfinger take the same approach---they aim to take
+2010, efforts like Webfinger took the same approach---they aim to take
 advantage of the ubiquity and familiarity of an email address to deal
 with identity on the social web). Email works quite well as an
 identification mechanism; it is quite rare that two people share the
-same email address. It is so rare that for the purposes of FOAF, email
+same email address (or if they do, from the point of view of the email system that can be treated as the same user.). 
+It is so rare that for the purposes of FOAF, email
 can serve as a unique identifier for people on the Web. Notice that it
 isn't a problem if someone has two or more email addresses or if some
 email address is valid only for a limited period of time. All FOAF
@@ -1258,13 +1271,15 @@ properties we use to describe people; it is unusual for two people to
 share a yahooChatID or an aimChatID. In fact, all of the following
 properties in FOAF are \texttt{owl:InverseFunctionalProperties}:
 
-foaf:aimChatID rdf:type owl:InverseFunctionalProperty. foaf:homepage
-rdf:type owl:InverseFunctionalProperty. foaf:icqChatID rdf:type
-owl:InverseFunctionalProperty. foaf:jabberID rdf:type
-owl:InverseFunctionalProperty. foaf:mbox rdf:type
-owl:InverseFunctionalProperty. foaf:msnChatID rdf:type
-owl:InverseFunctionalProperty.foaf:yahooChatID rdf:type
-owl:InverseFunctionalProperty.
+\begin{lstlisting}
+foaf:aimChatID rdf:type owl:InverseFunctionalProperty . 
+foaf:homepage rdf:type owl:InverseFunctionalProperty . 
+foaf:icqChatID rdf:type owl:InverseFunctionalProperty . 
+foaf:jabberID rdf:type owl:InverseFunctionalProperty . 
+foaf:mbox rdf:type owl:InverseFunctionalProperty . 
+foaf:msnChatID rdf:type owl:InverseFunctionalProperty .
+foaf:yahooChatID rdf:type owl:InverseFunctionalProperty .
+\end{lstlisting}
 
 Using the \texttt{foaf:mbox} (and similar properties) as identifiers of
 individuals solves the technical problem of identifying individuals by
@@ -1426,14 +1441,14 @@ specify how they relate using RDFS-Plus.
 The OGP RDFS model expresses these relationships as follows:
 
 \begin{lstlisting}
-og:latitude rdfs:seeAlso geo:lat . og:email rdfs:seeAlso foaf:mbox .
+og:latitude rdfs:seeAlso geo:lat . 
+og:email rdfs:seeAlso foaf:mbox .
 \end{lstlisting}
 
 We could find fault in this model's lack of specificity, using
 \texttt{rdfs:seeAlso} instead of something more expressive, like
 \texttt{owl:equivalentProperty} from RDFS-Plus. Using \texttt{owl:equivalentProperty}
 would make it clear that anything that FOAF calls an mbox is
-
 something that OGP would call an email, and vice versa. Using
 \texttt{rdfs:seeAlso} makes no such commitment---it simply indicates a resource
 in FOAF that we should look at, if we are interested in knowing more
@@ -1517,68 +1532,6 @@ systems was built-in to its model, in a machine- readable, queryable
 way. OGP, from the outset, is part of a network of descriptive metadata
 for entities in social networks.
 
-
-\section{BridgeDb}
-
-As we saw in Chapter~\ref{ch9}, RDFS-Plus can be used to manage identity 
-across various data sets.  We saw the use of \texttt{owl:InverseFunctionalProperty}
-as a way to specify key identifiers so that we can infer sameness within a 
-data set or even across data sets.  However, such a simple structure as 
-\texttt{owl:InverseFunctionalProperty} is not sufficient for most notions of identity
-in the data wilderness.  We often have to rely on heuristics, novel combinations
-of properties, or even machine learning techniques to determine whether two 
-entities are the same or not. 
-
-
-In many cases, there isn't even a clear notion of what it means to be ``the same''.  
-In molecular biology, two chemicals can be similar in many ways; these similarities 
-determine how they will behave in many chemical reactions.  Chemicals with identical
-formulas can behave differently in certain metabolic pathways, depending on the 
-structure of the molecule.  This, in turn, can result in very different behaviors
-phamacologically.  A high-profile example of this is Thalidomide, which appears in 
-two forms, with identical chemical formulas.  A molecule of one form is the mirror-image
-of the molecule in the other form.  One of these images (called \emph{stereoisomers}) 
-is therapeutic (for symptoms of morning sickness).  The other causes severe birth
-defects.  From a chemistry point of view, the two are the same; from a pharmacological 
-point of view, they are different.  
-
-The determination that two chemicals are the same in some way isn't just a matter of 
-matching a few fields in a data record; in some cases, it can be actually be a research
-project to determine all of the forms a chemical can take.  
-
-The Semantic Web doesn't provide any specific methods for doing this sort of research, but,
-as we saw as early as Chapter~\ref{ch01}, it provides a standardized way for someone 
-who has done this research to publish their results.  This is idea behind BridgeDb.
-
-In chemistry, and specifically the parts of chemistry that underlie molecular biology, genetics
-and metabolomics, there are already a large number of databases that contain information 
-about chemicals, genes and metabolism.  Each of these has its own identification system,
-tuned to its own needs; we will examine one of these in detail in Section~\ref{section:Bio}.  
-In order to do comprehensive biological research, as is required for drug discovery and 
-other biological research, information from many of these databases has to be cross-referenced
-in a precise an accurate way.  The correspondences between these data sets is well-known, 
-but until recently, not available in one resource.  This was the motivation for \emph{BridgeDb}. 
-
-The core of the data behind BridgeDb are the \emph{link sets}, which provide information linking
-particular entities in one database to entities in another.  The link sets are organized based on 
-which original data sets they link, and what types of entities they link.  The link sets are made available 
-through APIs, data downloads, and through web pages that allow users to query for matching 
-entities.  There are dozens of matching relationships available for how genes, compounds, proteins and 
-other entities of biological interest could match together.  Figure~\ref{Fig:ch10.3} shows a small excerpt
-from the sub property try used by BridgeDb. 
-
-\begin{figure}
-    \centering
-    \includegraphics[width=5in]{SWWOv3/media/ch10/figure10-6.png}
-    \caption{Some ways that biological entities can be related in BridgeDb}
-    \label{Fig:ch10.3}
-\end{figure}
-
-BridgeDb is a fabulously useful resource, because whenever anyone wants to use one of the
-source databases, there is some opportunity to use data from one of the others.  By having a 
-stand-alone resource for mapping these data sets, any research that determines such 
-a match is available to every user of each database.  The links between the data sets are 
-as useful (or in some cases, even more so) than the data sets themselves. 
 
 
 

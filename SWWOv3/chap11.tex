@@ -29,7 +29,7 @@ SKOS satisfies the goals of distributing and linking vocabularies by leveraging
 all of the features of RDF, RDFS and linked data that we have seen so far in this book. 
 By using RDF as its basis, SKOS allows vocabularies to link not only to other vocabularies, but 
 indeed to any data set (or metadata set) represented in RDF, including 
-models represented in RDFS, RDFS-Plus and OWL (Chapters~\ref{ch13} and \ref{ch14}). 
+models represented in RDFS, RDFS-Plus and OWL. 
 
 As an example of using SKOS, for many years, the United Nations Food and
 Agriculture Organization has maintained a thesaurus called AGROVOC for
@@ -198,8 +198,9 @@ the following inferences about AGROVOC concepts in Figure~\ref{fig:ch11.1}.
 
 \begin{figure}
 \centering
-\includegraphics[width=5in]{SWWOv3/media/ch11/figure11-2.png}
-\caption{SKOS structure of Semantic Relations. Single arrows in the diagram refer to \texttt{rdfs:subPropertyOf} relationships; double arrows are \texttt{owl:inverseOf} relationships.}
+\includegraphics[width=5in]{SWWOv3/media/ch11/figure11-2i.png}
+\caption{SKOS structure of Semantic Relations. Single arrows in the diagram refer to \texttt{rdfs:subPropertyOf} relationships;
+double arrows are \texttt{owl:inverseOf} relationships.}
 \label{fig:ch11.2}
 \end{figure}
 
@@ -216,7 +217,7 @@ agrovoc:c_8369 skos:broader agrovoc:c_7030 .
 \end{lstlisting}
 
 Furthermore, since \texttt{skos:narrower} and \texttt{skos:broader} are subproperties of
-\texttt{skos:narrowerTransitive} and \texttt{skos:broaderTransitivec}, respectively, we
+\texttt{skos:narrowerTransitive} and \texttt{skos:broaderTransitive}, respectively, we
 can infer that these things are also related with the transitive
 versions of broader and narrower:
 
@@ -347,7 +348,7 @@ skos:closeMatch
 \end{lstlisting}
 
 The relationship between these properties and other SKOS properties is
-shown in Figure~\ref{fig:ch10.2}. The idea of these mapping relations is that we can
+shown in Figure~\ref{fig:ch11.2}. The idea of these mapping relations is that we can
 express relationships between terms in different
 vocabularies. We have already seen the AGROVOC concept \texttt{c\_7030}
 (``Sheep''). In the United States, the National Agriculture Library
@@ -435,7 +436,7 @@ Similar comments apply to closeMatch and exactMatch; if we were to
 assert that the NAL
 notion of Sheep is an exactMatch to the AGROVOC notion of Sheep, we
 could also infer that they are also a closeMatch; this is because
-(again, as shown in Figure 10.2),
+(again, as shown in Figure~\ref{fig:ch11.2}),
 
 \begin{lstlisting}
 skos:exactMatch rdfs:subPropertyOf skos:closeMatch .
@@ -503,15 +504,15 @@ inverses.
 
 Common practice for using these properties is varied; some vocabularies
 don't use them at all (leaving membership in the concept scheme
-implicit). Others use inScheme but make no indication of top concepts.
+implicit). Others use \texttt{inScheme} but make no indication of top concepts.
 Among those that indicate top concepts, some use \texttt{hasTopConcept} and
 others use \texttt{topConceptOf}.
 
 All of these practices are acceptable according to the SKOS standard,
 but having so many
 acceptable practices, while making the job of the thesaurus writer easy,
-makes it more difficult for the consumer of a vocabulary to find his or
-her way around. In a move toward normalizing thesaurus presentation in
+makes it more difficult for the consumer of a vocabulary to find their way around. 
+In a move toward normalizing thesaurus presentation in
 SKOS, we will offer the following recommended practice for using concept
 schemes:
 
@@ -561,17 +562,17 @@ The existence of concept schemes provides an example of the motivation
 for having the property
 \texttt{skos:exactMatch}, even in light of the extant and very similar property
 \texttt{owl:sameAs}. The semantics of \texttt{owl:sameAs} state that any two resources
-that are sameAs one another are interchangeable in every statement.
+that are \texttt{sameAs} one another are interchangeable in every statement.
 This means that if two concepts were \texttt{sameAs} one another, then they would
 necessarily be in the same concept scheme. Since concept schemes reflect
 authority and work process, this is clearly not appropriate. The
-property exactMatch makes much less commitment to interchangeability of
-concepts, indicating only that one concept act like the other in
+property \texttt{exactMatch} makes much less commitment to interchangeability of
+concepts, indicating only that one concept acts like the other in
 information retrieval settings.
 
 \section{SKOS Integrity}
 
-While many things in SKOS are not formally defined by inferences it does
+While many things in SKOS are not formally defined by inferences, SKOS does
 include a number of integrity conditions that can be applied to any SKOS
 model to verify that it conforms to the standard. These conditions are
 normative, in that a model that violates them cannot be said to be
@@ -725,7 +726,6 @@ NAL:11571 skos:broadMatch AGROVOC:c_3391 .
 SKOS demonstrates how a fairly simple set of modeling constructs can be
 used to create extensible, distributed information networks. SKOS takes
 advantage of the distributed nature of RDF to allow
-
 extension to a network of information to be distributed across the web.
 It relies on the inferencing structure of RDFS-Plus to add completeness
 to their information structure.
@@ -738,7 +738,6 @@ concepts they define to be referenced on a global scale.
 
 Controlled vocabularies are everywhere---not just in high-profile places
 like the United Nations or
-
 the Library of Congress. Anything that has a standard, official name can
 be used in a controlled vocabulary. Names of universities, stock symbols
 of companies, place names, names of months, all of these things are
