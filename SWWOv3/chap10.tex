@@ -257,7 +257,7 @@ We can query this structure of this sort to answer questions like,
 ``Show me the names of services that
 cost less than \$100'' with SPARQL as follows:
 
-\query{Services under \$100}
+\begin{query}Services under \$100\end{query}
 \begin{lstlisting}
 SELECT ?service 
 WHERE {
@@ -567,7 +567,7 @@ class \texttt{:Disability}, and those with a ``1'' entry for the property \textt
 become members of the class \texttt{:Race}, etc.? Each of these is easy to
 accomplish with a SPARQL CONSTRUCT of the form.
 
-\query{Classify cases by tags}
+\begin{query}Classify cases by tags\end{query}
 \begin{lstlisting}
 CONSTRUCT {?e a :Disability}
 WHERE {?e a :FHEO_filed_case ;
@@ -738,7 +738,7 @@ We can cross-refernce the violation record with the county record by
 making sure that the county names and states match for these two sources, with the following
 query:
 
-\query{Matching counties with reports}
+\begin{query}Matching counties with reports\end{query}
 \begin{lstlisting}
 SELECT *
 WHERE {
@@ -754,7 +754,7 @@ We can get extra information from each record.  From the county record,
 we can get the geo coordinates of the county.  From the incident record, we can get 
 its type, as above:
 
-\query{Incidents at location}
+\begin{query}Incidents at location\end{query}
 \begin{lstlisting}
 SELECT ?typel ?county_name ?lat ?long 
 WHERE {    
@@ -782,7 +782,7 @@ We can take this further, by counting the complaints per type per location,
 and filtering for only the most egregious situations, in which we had 
 over 300 reports for the same location.  
 
-\query{Counting complaint types by location}
+\begin{query}Counting complaint types by location\end{query}
 \begin{lstlisting}
 SELECT ?typel (COUNT (?complaint) AS ?severity) ?county_name ?lat ?long
 WHERE {    

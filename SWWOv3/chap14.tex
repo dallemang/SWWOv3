@@ -263,7 +263,7 @@ This means that we can query for whether two units, say feet and meters,  are co
 the following SPARQL
 query:
 
-\query{Finding commensurate units }
+\begin{query}Finding commensurate units \end{query}
 \begin{lstlisting}
 ASK WHERE {
      unit:M qudt:hasQuantityKind ?kind .
@@ -293,7 +293,7 @@ important to know what the base unit is, in order to convert from one
 unit to the other. For example, to convert ten kilometers to miles, we
 can use the query
 
-\query{Converting 10 kilometers to miles}
+\begin{query}Converting 10 kilometers to miles\end{query}
 \begin{lstlisting}
 SELECT (((((?val * ?M1) + ?O1) - ?O2) / ?M2) AS ?converted)
 WHERE {
@@ -333,7 +333,7 @@ parameterize the query, making it effectively into a function
 definition. The generalized query, using variables ?arg1, ?arg2, etc.,
 for the function arguments, looks like
 
-\query{Parameterized conversions}
+\begin{query}Parameterized conversions\end{query}
 \begin{lstlisting}
 SELECT (((((?arg1 * ?M1) + ?O1) - ?O2) / ?M2) AS ?value)
 WHERE {
@@ -369,7 +369,7 @@ WHERE clause to match at all!
 The conversion of 32 degrees Fahrenheit to Centigrade looks very
 similar:
 
-\query{Convert Fahrenheit to Celsius}
+\begin{query}Convert Fahrenheit to Celsius\end{query}
 \begin{lstlisting}
 SELECT (qudtsh:convert(32.0, unit:DEG_F,
 unit:DEG_C)
@@ -426,7 +426,7 @@ query the Schema.org data to find out all the things we need to know
 to make the comparison. We can do this simply by generalizing the common
 data form into a query:
 
-\query{Combining Services for Comparison}
+\begin{query}Combining Services for Comparison\end{query}
 \begin{lstlisting}
 SELECT * 
 WHERE {
@@ -465,7 +465,7 @@ qudtsh:convert (?amt, ?qudtunit, unit:MIN)
 We can compute the cost per minute by dividing \texttt{?price} by this. The final
 query is
 
-\query{Price comparison of two services}
+\begin{query}Price comparison of two services\end{query}
 \begin{lstlisting}
 SELECT ?offering ?currency ?cost_per_min
 WHERE {
@@ -623,7 +623,7 @@ How can we write a SPARQL query to verify this calculation?  Let's start by
 looking at just one dimension, say Time.  We need to get the coefficient for each
 term in the formula for the Time dimension:
 
-\query{Time dimension for each term}
+\begin{query}Time dimension for each term\end{query}
 \begin{lstlisting}
 SELECT ?term ?val
 WHERE { 
@@ -650,7 +650,7 @@ formula they are on, and use a BIND statement (with an IF function) to
 multiply just one set of them by $-1$.  Then we want to add them up to 
 see what the total exponent is. 
 
-\query{Balanced sum of Time exponents}
+\begin{query}Balanced sum of Time exponents\end{query}
 \begin{lstlisting}
 SELECT (SUM(?val) AS ?formtotal)
 WHERE { 
@@ -672,7 +672,7 @@ We can use VALUES again, separately from the first, so that we get all combinati
 of dimensions and terms.  We have to GROUP BY the dimension, so that we only add up
 exponents in a single dimension. 
 
-\query{Total exponents in each dimension}
+\begin{query}Total exponents in each dimension\end{query}
 \begin{lstlisting}
 SELECT ?dim (SUM (?exp) AS ?formtotal)
 WHERE {VALUES ?dim {qudt:dimensionExponentForLength 
@@ -709,7 +709,7 @@ select those that work.  But a good formula is one for which \emph{every} dimens
 is balanced; a single unbalanced dimension spoils the formula.  So we look for \emph{unbalanced} 
 dimensions, and change the SELECT to ASK, like so:
 
-\query{Is there an unbalanced dimension?}
+\begin{query}Is there an unbalanced dimension?\end{query}
 \begin{lstlisting}
 ASK
 WHERE { 
@@ -733,7 +733,7 @@ FILTER NOT EXISTS, as we saw in Section~\ref{negation}:
 
 
 
-\query{Verifying a formual with Dimensional Analysis}
+\begin{query}Verifying a formual with Dimensional Analysis\end{query}
 \begin{lstlisting}
 ASK  
 WHERE { FILTER NOT EXISTS {
