@@ -1112,6 +1112,70 @@ property \texttt{skos:broader} is shown here as ``has broader.''
 \end{figure}
 \end{challenge}
 
+
+\subsection{BridgeDb}
+
+As we saw in Chapter~\ref{ch9}, RDFS-Plus can be used to manage identity 
+across various data sets.  We saw the use of \texttt{owl:InverseFunctionalProperty}
+as a way to specify key identifiers so that we can infer sameness within a 
+data set or even across data sets.  However, such a simple structure as 
+\texttt{owl:InverseFunctionalProperty} is not sufficient for most notions of identity
+in the data wilderness.  We often have to rely on heuristics, novel combinations
+of properties, or even machine learning techniques to determine whether two 
+entities are the same or not. 
+
+
+In many cases, there isn't even a clear notion of what it means to be ``the same''.  
+In molecular biology, two chemicals can be similar in many ways; these similarities 
+determine how they will behave in many chemical reactions.  Chemicals with identical
+formulas can behave differently in certain metabolic pathways, depending on the 
+structure of the molecule.  This, in turn, can result in very different behaviors
+phamacologically.  A high-profile example of this is Thalidomide, which appears in 
+two forms, with identical chemical formulas.  A molecule of one form is the mirror-image
+of the molecule in the other form.  One of these images (called \emph{stereoisomers}) 
+is therapeutic (for symptoms of morning sickness).  The other causes severe birth
+defects.  From a chemistry point of view, the two are the same; from a pharmacological 
+point of view, they are different.  
+
+The determination that two chemicals are the same in some way isn't just a matter of 
+matching a few fields in a data record; in some cases, it can be actually be a research
+project to determine all of the forms a chemical can take.  
+
+The Semantic Web doesn't provide any specific methods for doing this sort of research, but,
+as we saw as early as Chapter~\ref{ch1}, it provides a standardized way for someone 
+who has done this research to publish their results.  This is idea behind BridgeDb.
+
+In chemistry, and specifically the parts of chemistry that underlie molecular biology, genetics
+and metabolomics, there are already a large number of databases, like CHEBI, that contain information 
+about chemicals, genes and metabolism.  
+In order to do comprehensive biological research, as is required for drug discovery and 
+other biological research, information from many of these databases has to be cross-referenced
+in a precise an accurate way.  The correspondences between these data sets is well-known, 
+but until recently, not available in one resource.  This was the motivation for \emph{BridgeDb}. 
+
+The core of the data behind BridgeDb are the \emph{link sets}, which provide information linking
+particular entities in one database to entities in another.  The link sets are organized based on 
+which original data sets they link, and what types of entities they link.  The link sets are made available 
+through APIs, data downloads, and through web pages that allow users to query for matching 
+entities.  There are dozens of matching relationships available for how genes, compounds, proteins and 
+other entities of biological interest could match together.  Figure~\ref{Fig:ch10.3} shows a small excerpt
+from the sub property tree used by BridgeDb. 
+
+\begin{figure}
+    \centering
+    \includegraphics[width=5in]{SWWOv3/media/ch10/figure10-6.png}
+    \caption{Some ways that biological entities can be related in BridgeDb}
+    \label{Fig:ch10.3}
+\end{figure}
+
+BridgeDb is a fabulously useful resource, because whenever anyone wants to use one of the
+source databases, there is some opportunity to use data from one of the others.  By having a 
+stand-alone resource for mapping these data sets, any research that determines such 
+a match is available to every user of each database.  The links between the data sets are 
+as useful (or in some cases, even more so) than the data sets themselves. 
+
+
+
 \section{FIBO - the Financial Industry Business Ontology}
 \label{section:fibo}
 

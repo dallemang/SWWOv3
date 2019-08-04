@@ -40,7 +40,7 @@ subsets are called OWL 2 EL, OWL 2 QL, OWL 2 RL, and OWL 2 DL.
 
 We will describe each subset and the rationale for why it has been
 identified and named; the details of each subset are given in the OWL
-specification.1
+specification.
 
 \section{OWL Subsets and Modeling Philosophy}
 
@@ -236,13 +236,14 @@ Metamodeling is the name commonly given to the practice of using a model
 to describe another model as an instance. One feature of metamodeling is
 that it must be possible to assign properties to classes in the model.
 This practice causes a problem in OWL 1.0, since OWL 1.0 disallowed
-treating classes as if they were individuals in this way.
+treating classes as if they were individuals in this way.  Metamodeling is one of the 
+motivation for \emph{Punning}, as described (as an anti-pattern) in Section~\ref{punning}.
 
 One motivation for metamodeling is that a model often needs to play more
 than one role in an application: A particular concept should be viewed
 as a class in one role but as an instance in another role. If we are
 modeling animals, we might say that \texttt{BaldEagle} is an endangered species,
-thereby referencing \texttt{BafldEagle} as an individual. In another application,
+thereby referencing \texttt{BaldEagle} as an individual. In another application,
 we could view \texttt{BaldEagle} as a class, whose members are the particular
 eagles in the zoo. Similarly, wine connoisseurs speak of individual
 wines in terms of vintage. For them, the vintage is an individual, but
@@ -303,7 +304,7 @@ When multipart properties are used with other RDFS and OWL constructs,
 they provide some powerful modeling facilities. For instance, we can
 model the constraint ``A child should have the same species as its
 parent'' by stating that the multipart predicate made up of \texttt{hasParent}
-followed by \texttt{hasSfpecies} (denoted as \texttt{:hasParent} $+$ \texttt{:hasSpecies}) is
+followed by \texttt{hasSpecies} (denoted as \texttt{:hasParent} $+$ \texttt{:hasSpecies}) is
 \texttt{rdfs:subPropertyOf} \texttt{hasSpecies}. Let's see how this works. Suppose we have
 the following triples:
 
@@ -368,7 +369,7 @@ situations, it is often the case that even these combinations of
 properties cannot guarantee the identity of the individuals. Two people
 at the same address with the same name are very likely to be the same
 person (but not for certain--- a father could live with his son of the
-same name). OWL has no facility to deal with uncertainty, so there is no
+same name). (Several schemes for adding uncertainty to OWL have been proposed, but nothing has been standardized to date, so there is no
 way to express this sort of information.
 
 \subsection{OWL 2 profiles}
@@ -491,7 +492,6 @@ the ways it is being used on the
 
 Web and in commerce. As shortcomings in the language are identified, the
 system grows to
-
 accommodate them. Sometimes that growth takes the form of additional
 constructs in the language (e.g., multipart properties), sometimes as
 connections to other systems (rules), and sometimes progress in a

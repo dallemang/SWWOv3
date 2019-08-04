@@ -7,12 +7,22 @@ from a number of different backgrounds. Even after reaching this point,
 the prospect of creating a new model from scratch can seem daunting.
 Where should you begin? How do you tell a good model from a bad one?
 
+A chapter about good or bad modeling practices can guide you in your construction
+of a model, but in the Semantic Web, we will encounter models and datasets (with implicit models)
+that might not have been built using these practices.  That is why these are suggestions
+for good practice, and not rules.  If you are mediating among multiple models
+that adhere to different standards (e.g., relational data model, XML schemas, etc.), 
+you will have to adapt your models to these situations.  This chapter provides
+advice for how to build a good model, along with the reasons for that advice, so that
+you will know what you are giving up, if circumstances force you to disregard the
+advice. 
+
 Unlike the examples in the previous chapters, many of the examples in
 this chapter should not be
-
 used as templates or examples of good practice in building your own
 models. We indicate these examples with the label ``antipattern'' to
 indicate patterns that should not be emulated in your models.
+
 
 \section{Getting Started}
 
@@ -120,10 +130,10 @@ These questions
 place  requirements on the ontology to express both the needs and the results 
 captured in the scenarios. Together, the motivating scenarios and competency 
 questions help 
-us scope the ontology in terms of completeness (the extent to which it covers the 
-scenario), specificity (the extend to which specific terms of the scenario are captured), 
-granularity (the extend to which terms are precisely defined), formality (the extend to 
-which definitions are formalized) and reusability (the scope of situations in which the
+us scope the ontology in terms of \emph{completeness} (the extent to which it covers the 
+scenario), \emph{specificity} (the extent to which specific terms of the scenario are captured), 
+\emph{granularity} (the extent to which terms are precisely defined), \emph{formality} (the extent to 
+which definitions are formalized) and \emph{reusability} (the scope of situations in which the
 ontology will continue to produce useful answers). 
 Motivating scenarios and competency questions together  serve as 
 sources, guides and constraints capturing at the same time the directions, domains, seed 
@@ -198,7 +208,7 @@ that was created or performed by an \texttt{ElizfabethanAuthor} and that
 entails the corresponding inferences (e.g., using \texttt{owl:someValuesFrom}, as 
 outlined in Section~\ref{ch12.somevaluesfrom}).
 Inferencing is the way I can tell whether what I have said is what I
-mean---do the inferences the model entrails reflect the relationships
+mean---do the inferences the model entails reflect the relationships
 between concepts that I mean to express?
 
 %\section{Modeling for Reuse}%
@@ -286,7 +296,7 @@ nobody a service to pretend that they have meaning.
 
 Despite the advantages listed above, opaque names remain unpopular among students 
 and developers.  The reasons for this are pretty obvious; when you are reading this 
-book, and I refer to \texttt{agrovoc:c\_4397}, the text has to annotate somewhere that this
+book, and we refer to \texttt{agrovoc:c\_4397}, the text has to annotate somewhere that this
 refers to ``Livestock'' (as we did in the introduction to this very section).   
 
 This problem carries on into engineering settings; if we view a model or a vocabulary with 
@@ -429,9 +439,9 @@ except for the first letter, these names are written in CamelCase.
 work in the
 \texttt{lit:Shakespeare} and \texttt{ship:Berengaria} examples in this book.
 
-\item \textbf{Name classes with singular nouns}: We see this convention in the W3C
-class names owl:DatatypeProperty and owl:SymmetricProperty and in the
-examples in this book: lit:Playwright.
+\item \textbf{Name classes with singular nouns}: We see this convention at work in the W3C
+class names \texttt{owl:DatatypeProperty} and \texttt{owl:SymmetricProperty} and in the
+examples in this book,where we say  \texttt{lit:Playwright} instead of \texttt{lit:Playwrights}.
 \end{itemize}
 
 
@@ -548,7 +558,6 @@ number of models. Here, we describe each one in turn and outline its
 drawbacks in terms of the modeling guidelines just given. We have given
 each of them a pejorative (and a rather fanciful) name as a reminder
 that these are
-
 antipatterns---common pitfalls of beginning modelers. Whenever possible,
 we will also indicate good practices that can replace the antipattern,
 depending on a variety of possible desired intents for the model.
@@ -601,7 +610,7 @@ model is shown in Figure~\ref{fig:ch15.01}
 \caption{Sample model displaying Classism. Every node in this model has
 \texttt{rdf:type} \texttt{owl:Class}.
 }
-\label{fig:ch14.01}
+\label{fig:ch15.01}
 \end{figure}
 
 
@@ -793,7 +802,7 @@ representation in OWL is much more specific. The modeler has to decide
 just what they mean by a statement like ``Poets wrote poems,'' but OWL
 allows these distinctions to be represented in a clear way.
 
-\subsection{Class punning (antipattern)}
+\subsection{Class punning (antipattern)\label{punning}}
 
 With the introduction of version 2.0 of OWL, a new option was allowed in the 
 language called \emph{punning}.  In the design of OWL 2.0, it was determined that 
@@ -969,14 +978,6 @@ model to respond to this competency question as follows:
 
 These triples are shown graphically in Figure\ref{fig:ch15.02}
 
-This model commits the fallacy of exclusivity; if we assume that only
-cities can be ocean ports, then we can answer the question by querying
-the members of the class \texttt{OceanPort}. But let's push the boundaries of
-this model. What inferences does it draw from some boundary instances
-that might violate some assumptions in the model? In particular, what if
-we consider
-
-
 \begin{figure}
 \centering
 \includegraphics[width=5in]{SWWOv3/media/ch15/figure15-2.png}
@@ -984,15 +985,16 @@ we consider
 \label{fig:ch15.02}
 \end{figure}
 
-
-
+This model commits the fallacy of exclusivity; if we assume that only
+cities can be ocean ports, then we can answer the question by querying
+the members of the class \texttt{OceanPort}. But let's push the boundaries of
+this model. What inferences does it draw from some boundary instances
+that might violate some assumptions in the model? In particular, what if
+we consider
 something that is not a city but still connects to an ocean? Suppose we
 have the following facts in our data set:
 
 \begin{lstlisting}
-:Zurich :connectsTo :RiverLimmat .
-:Zurich :locatedIn :Switzerland .
-:Switzerland :borders :France .
 :Paris :connectsTo :LaSeine .
 :Paris :locatedIn :France .
 :France :connectsTo :Mediterranean .
@@ -1082,7 +1084,7 @@ what model will? We want something to become a member of OceanPort just
 if it is both a City and it connects to an Ocean. We do this with an
 intersection as shown in Figure~\ref{fig:ch15.03}.
 
-Now that we have defined an \texttt{OcefanPort} as the intersection of \texttt{City} and a
+Now that we have defined an \texttt{OceanPort} as the intersection of \texttt{City} and a
 restriction, we can infer that \texttt{OceanPort} is a subclass of \texttt{City}.
 Furthermore, only individuals that are known to be cities are candidates
 for membership in \texttt{OceanPort}, so anomalies like the previous one for
@@ -1129,10 +1131,10 @@ object model must satisfy:
 of the Person class.
 
 \item  We will recognize as a mistake the situation in which only one value
-for \texttt{hasParent} is specified for a single person.
+for \texttt{hasParent} is specified for some given person.
 
 \item  We recognize as a mistake the situation in which more than two values
-for \texttt{hasParent} are specified for a single person.
+for \texttt{hasParent} are specified for some given person.
 \end{enumerate}
 
 
@@ -1361,9 +1363,13 @@ well worth keeping in mind when designing Web ontologies.
 
 \section{SUMMARY}
 
-The basic assumptions behind the Semantic Web---the AAA, Open World, and
-Nonunique Naming assumptions---place very specific restrictions on the
-modeling language. The structure of RDF is in the form of statements
+When we support linked data on a world-wide Web scale as outlined in Chapter~\ref{ch5}, 
+the basic assumptions of the Semantic Web -- in particular, the AAA, Open World and Nonunique 
+Naming assumptions -- are not just desirable, they are necessary for linked data to exist at all!  
+These are the properties that a linked data system have, whether we like it or not.  
+Therefore, we must define models that are compatible with these assumptions.    
+These assumptions place very specific restrictions on 
+modeling languages and practices. The structure of RDF is in the form of statements
 with familiar grammatical constructs like subject, predicate, and
 object. The structure of OWL includes familiar concepts like class,
 subClassOf, and property. But the meaning of a model is given by the
@@ -1397,6 +1403,20 @@ novice modeler.
 
 Competency Questions---Questions that scope the requirements for a
 model.
+
+Completeness---the extent to which a model covers a 
+scenario.
+
+Specificity---the extent to which specific terms of a scenario are captured in a model.
+
+Granularity---the extent to which terms in a model are precisely defined.
+
+Formality---the extent to 
+which definitions are formalized.
+
+Reusability---the scope of situations in which an
+ontology will continue to produce useful answers.
+
 
 Modeling for Variability---The requirement (characteristic of Semantic
 Web modeling) that a model describe variation as well as commonality.
