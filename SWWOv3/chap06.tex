@@ -399,6 +399,7 @@ considerations in the representation:
 
 Now if we ASK a question with SPARQL
 \begin{query}James Dean Played In\end{query}
+
 \textbf{\textbf{Ask:}} 
 \begin{lstlisting}
 SELECT ?what WHERE {:JamesDean :playedIn ?what}
@@ -2277,7 +2278,8 @@ with a simple query:
 
 \begin{query}Subset based on Unforgiven (Subject)\end{query}
 \begin{lstlisting}
-CONSTRUCT {film:37379 ?p ?o . } WHERE {film:37379 ?p ?o . }
+CONSTRUCT {film:37379 ?p ?o . } 
+WHERE {film:37379 ?p ?o . }
 \end{lstlisting}
 
 This apparently trivial query selects all the triples from the data set
