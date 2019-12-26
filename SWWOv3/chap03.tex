@@ -747,7 +747,7 @@ the column name. This results in properties like \texttt{mfg:Product\_ModelNo},
 
 With these conventions in place, we can now express all the information
 in the table as triples. There will be one triple per cell in the
-table---that is, for n rows and c columns, there will be n x c triples.
+table---that is, for n rows and c columns, there will be $n \times c$ triples.
 The data shown in Table~\ref{tab:ch3.12} have 7 columns and 9 rows, so there are 63
 triples, as shown in Table~\ref{tab:ch3.13}.
 
@@ -1218,7 +1218,7 @@ involved and will not be used for the examples in this book.
 A more modern way to pass data from one component to another in a Web
 application is using \emph{JSON}, the Javascript Object Notation cite{bray2014javascript}. In
 order to make linked data in RDF more available to applications that use
-JSON, the W3C has recommended JSON-LD, JSON for Linked Data \cite{Kellogg:14:J}. There is a
+JSON, the W3C has recommended JSON-LD, JSON for Linked Data \cite{Kellogg:14:JF}. There is a
 direct correspondence between JSON-LD and RDF triples, making JSON-LD
 another serialization format for RDF.
 
@@ -1429,7 +1429,7 @@ abbreviations for namespaces and elisions with semicolons and commas as Turtle d
 that it is possible to specify a URI for a graph for all triples in the file.  This is done simply by 
 putting all the triples in a graph between braces (\{ and \}), and then prefix the name of the graph. 
 
-For example, if we take the 
+If we take the 
 example from Section~\ref{ch3.turtle} about manufacturing products, and put them into a graph with name \texttt{<http://www.WorkingOntologist.org/Examples/Chapter3/Manufacture>}, this can be expressed in TriG as follows: 
 
 
