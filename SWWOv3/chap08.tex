@@ -800,7 +800,7 @@ equivalent.
 If we aren't sure that the two properties are used in exactly the same
 way, but we have an application that
 we do know wants to treat them as the same, then we use the approximate union
-pattern (section \ref{punion} to create a common superproperty of both, as follows:
+pattern (section \ref{punion}) to create a common superproperty of both, as follows:
 
 \begin{lstlisting}
 Library1:borrows rdfs:subPropertyOf :hasPossession .
@@ -959,7 +959,7 @@ treat these two entities as the same. What can we do?
 In such a case, we can use the union pattern outlined previously. We can
 define a new term (for the federated domain) that is not defined in
 either of the sources, such as investigator. Then we effectively define
-investigator as the approximate union of researcher and analyst (Section \ref{sunion}, using the common
+investigator as the approximate union of researcher and analyst (Section \ref{sunion}), using the common
 superproperty idiom:
 
 \begin{lstlisting}
@@ -1117,7 +1117,7 @@ have been retired from service. The information that the company keeps
 about its ships might include the information in Table~\ref{tab:ch8.1}.
 
 The information in the table can be expressed in RDF triples in the
-manner outlined in Chapter\ref{ch3}. Each row corresponds to a resource of type
+manner outlined in Chapter~\ref{ch3}. Each row corresponds to a resource of type
 \texttt{ship:Vessel}; triples express the information that appears in the body of
 the table, such as the following:
 
@@ -1141,7 +1141,7 @@ an \texttt{InServiceVessel} is one that is currently in service; and an
 reason, including retired ships and ships that have not been deployed).
 
 \begin{table}
-\label{tab:ch8.1}
+
 \begin{tabular}{|llllll|}
 \hline
 Name&Maiden Voyage&Next Departure&Decommission Date&Destruction Date&Commander\\
@@ -1152,7 +1152,7 @@ Titanic&April 10, 1912&--&--&April 14, 1912&Smith\\
 Constitution&July 22, 1798&January 12, 2009&--&--&Preble\\
 \hline
 \end{tabular}
-\caption{Ships}
+\caption{Ships\label{tab:ch8.1}}
 \end{table}
 
 \begin{challenge}{Automatic Classification}
@@ -1224,10 +1224,10 @@ ship:hasCommander rdfs:range ship:Captain.
 \end{figure}
 
 
-From the information in Table\ref{tab:ch8.1}, we can infer that all of Johnson,
+From the information in Table~\ref{tab:ch8.1}, we can infer that all of Johnson,
 Warwick, Smith, and Preble are members of the class \texttt{ship:Captain}. These
 inferences, as well as the triples that led to them, can be seen in
-Figure\ref{fig:ch8.4}.
+Figure~\ref{fig:ch8.4}.
 
 \begin{figure}
 \centering
@@ -1266,7 +1266,7 @@ ship:DepartingVessel rdf:type rdfs:Class .
 ship:nextDeparture rdfs:domain ship:DepartingVessel .
 \end{lstlisting}
 
-From Table\ref{tab:ch8.1}, only the Constitution and the QEII are members of the
+From Table~\ref{tab:ch8.1}, only the Constitution and the QEII are members of the
 class 
 \texttt{ship:DepartingVessels} and can be used by a scheduling program (see
 Figure~\ref{fig:ch8.5}).

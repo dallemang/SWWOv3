@@ -136,7 +136,7 @@ utility in modeling, based on how it can interact with other modeling
 constructs. In the next two challenges, we'll see how some earlier
 challenges can be extended using inverses.
 
-\begin{challenge}{continued from Challenge\protect\ref{chal:2}: Using SPARQL to Transform Hierarchical Data}
+\begin{challenge}{continued from Challenge~\protect\ref{chal:2}: Using SPARQL to Transform Hierarchical Data}
 
 In Chapter~\ref{ch6} we saw a Challenge problem to use SPARQL to transform
 hierarchical data. The original data was expressed using a variety of
@@ -720,7 +720,7 @@ needs, it can query the appropriate property. For those who prefer to
 think that Mick Jagger's thumb is not part of the Rolling Stones, the
 original \texttt{dm:partOf} property is useful. For those who instead consider
 that Mick Jagger's thumb is part of the Rolling Stones, the transitive
-superproperty \texttt{gm:partOf} is appropriate (see Figure\ref{fig:ch9.5})
+superproperty \texttt{gm:partOf} is appropriate (see Figure~\ref{fig:ch9.5})
 \end{challenge}
 
 \section{Managing networks of dependencies}
@@ -789,7 +789,7 @@ Now we can define the dependency structure of the recipe steps:
 \end{lstlisting}
 
 Because of the \texttt{inverseOf}, we can view these steps either in enabling
-order as asserted or in dependency order, as shown in Figure\ref{fig:ch9.6}.
+order as asserted or in dependency order, as shown in Figure~\ref{fig:ch9.6}.
 
 \begin{challenge}{Managing an ice-cream recipe}
 
@@ -810,7 +810,7 @@ We can use the \texttt{subPropertyOf}/\texttt{TransitiveProperty} pattern for ea
 :prerequisiteFor rdf:type owl:TransitiveProperty .
 \end{lstlisting}
 
-These relationships can be seen graphically in Figure\ref{fig:ch9.7}
+These relationships can be seen graphically in Figure~\ref{fig:ch9.7}
 
 \begin{figure}
 \centering
@@ -947,7 +947,7 @@ transitive, we get the following:
 :prerequisiteFor rdfs:subPropertyOf :otherStep .
 \end{lstlisting}
 
-These relationships are shown diagrammatically in Figure\ref{fig:ch9.8}(b).
+These relationships are shown diagrammatically in Figure~\ref{fig:ch9.8}(b).
 
 We track the inferences separately for each property. For
 \texttt{hasPrerequisite}, we have already seen that we can infer the following:
@@ -985,7 +985,7 @@ Mix itself, so it does not appear in this list either.
               :otherStep :BeatEggs .
 \end{lstlisting}
 
-Figure\ref{fig:ch9.8} shows the two patterns. For \texttt{inSameRecipe}, we have a single
+Figure~\ref{fig:ch9.8} shows the two patterns. For \texttt{inSameRecipe}, we have a single
 transitive property at the top of a subPropertyOf tree; both primitive
 properties (\texttt{enables} and \texttt{dependsOn}) are brought together, and any
 combinations of the resulting property (\texttt{neighborStep}) are chained
@@ -1073,7 +1073,7 @@ WHERE {?a owl:equivalentClass ?b .
 \end{lstlisting}
 
 So far, this is just the type propagation rule that we used to define
-the meaning of \texttt{rdf:subClassOf} in Chapter\ref{ch7}. But \texttt{owl:equivalentClass} has another rule as
+the meaning of \texttt{rdf:subClassOf} in Chapter~\ref{ch7}. But \texttt{owl:equivalentClass} has another rule as
 well:
 
 \begin{lstlisting}
@@ -1228,7 +1228,7 @@ same individual?
 
 In RDFS-Plus, this is done with the single construct \texttt{owl:sameAs}. Our old
 friend William Shakespeare will provide us with an example of how
-\texttt{owl:sameAs} works. From Chapter\ref{ch3}, we have the following triples about
+\texttt{owl:sameAs} works. From Chapter~\ref{ch3}, we have the following triples about
 the literary career of William Shakespeare:
 
 \begin{lstlisting}
@@ -1390,7 +1390,7 @@ Each row in the table became a single individual, and each cell in the
 table became a triple. The subject of the triple is the individual
 corresponding to the row that the cell is in; the predicate is made up
 from the table name and the field name; and the object is the cell
-contents. Table 8.1 (from Table 3.10) shows
+contents. Table~\ref{tab:ch9.1} (from Table~\ref{tab:ch3.12}) shows
 63 triples for the 7 fields and 9 rows. Let's look at just the triples
 having to do with the
 Manufacture\_Location.
@@ -1514,7 +1514,7 @@ WHERE
  ?p mfg:Product_Manufacture_Location ?location.}
 \end{lstlisting}
 
-and display \texttt{?facility} and \texttt{?location}, we get the results in Table\ref{tab:ch9.3}.
+and display \texttt{?facility} and \texttt{?location}, we get the results in Table~\ref{tab:ch9.3}.
 \end{challenge}
 
 This solution has addressed the challenge for the particular data in the
@@ -1741,7 +1741,7 @@ mfg:Product_ModelNo a owl:InverseFunctionalProperty .
 
 This almost works, but there is still a catch: Each database has its own
 \texttt{ModelNo} property. The one in this triple came from the database in
-Chapter\ref{ch3}; in this chapter, there is another property,
+Chapter~\ref{ch3}; in this chapter, there is another property,
 \texttt{p:Product\_ModelNo}. So it seems that we still have more integration to
 do. Fortunately, we already have the tool we need to do this; we simply
 have to assert that these two properties are equivalent, thus:
@@ -1940,7 +1940,7 @@ spr:hasFather a owl:ObjectProperty .
 Another distinction that is made in OWL is the difference between
 \texttt{rdfs:Class} and \texttt{owl:Class}.
 
-In Chapter\ref{ch8} we introduced the notion of \texttt{rdfs:Class} as the means by
+In Chapter~\ref{ch8} we introduced the notion of \texttt{rdfs:Class} as the means by
 which schema information could be represented in RDF. Since that time,
 we have introduced a wide array of ``schema-like'' constructs like
 inverse, subproperty, transitivity, and so on. OWL also provides a

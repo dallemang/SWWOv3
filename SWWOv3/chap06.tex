@@ -259,13 +259,13 @@ questions.
 \textbf{Tell:} The contract officer for Acme Product Inc. is Cynthia Wiley
 
 \textbf{Tell:} Cynthia Wiley's email address is
-\href{mailto:CJWiley@acme.com}{CJW}\href{mailto:iley@acme.com}{\nolinkurl{iley@acme.com}}
+CJWiley@acme.com
 
 \textbf{Ask:} What is the email address for the contract officer at the company
 where Maggie King works?
 
 \textbf{Answer:}
-\href{mailto:CJWiley@acme.com}{CJW}\href{mailto:iley@acme.com}{\nolinkurl{iley@acme.com}}
+CJWiley@acme.com
 
 This sort of detailed structure comes at a price -- asking a question
 becomes a very detailed process, requiring a specialized language. Such
@@ -277,8 +277,10 @@ question above, in a query language for a relational database, would be:
 
 \textbf{Ask:} What is the email address for the person matched by the ``contract
 officer'' reference for the company matched by the ``works for''
-reference for the person whose name is ``Maggie King''? Answer:
-\href{mailto:CJWiley@acme.com}{CJW}\href{mailto:iley@acme.com}{\nolinkurl{iley@acme.com}}
+reference for the person whose name is ``Maggie King''? 
+
+\textbf{Answer:}
+CJWiley@acme.com
 
 This might seem like a needlessly wordy way to ask the question, but
 this is how you pose questions precisely enough to recover information
@@ -429,7 +431,7 @@ two triples:
 \begin{figure}
 \centering
 \includegraphics[width=5in]{SWWOv3/media/ch6/figure6-1a.png}
-\includegraphics[width=5in]{SWWOv3/media/ch6/figure6-1b.png}
+\includegraphics[width=3.5in]{SWWOv3/media/ch6/figure6-1b.png}
 \caption{James Dean data in a graph, and a query to fetch it.}
 \label{fig:ch06.1}
 \end{figure}
@@ -607,7 +609,7 @@ indeed played in \emph{Giant}, there is no match for the third triple,
 \begin{figure}
 \centering
 \includegraphics[width=5in]{SWWOv3/media/ch6/figure6-4a.png}
-\includegraphics[width=5in]{SWWOv3/media/ch6/figure6-4b.png}
+\includegraphics[width=4in]{SWWOv3/media/ch6/figure6-4b.png}
 \caption{Information about James Dean's co-stars, and a query to fetch some of it.}
 \label{fig:ch6.4}
 \end{figure}
@@ -2099,7 +2101,7 @@ WHERE {?a foaf:page ?page .
 
 You can understand this query, even without knowing anything else about
 the resources in it -- \texttt{foaf:page} and \texttt{skos:exactMatch} (though these will
-be discussed in Sections~\ref{foaf} and Chapter~\ref{ch11}). This query simply says that any two
+be discussed in Section~\ref{foaf} and Chapter~\ref{ch11}). This query simply says that any two
 resources with the same \texttt{foaf:page} are \texttt{skos:exactMatch} to one another. On
 this data set, we get the following triples:
 
