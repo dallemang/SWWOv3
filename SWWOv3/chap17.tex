@@ -6,7 +6,7 @@
 For those readers who are accustomed to various sorts of knowledge
 modeling, the Semantic Web looks familiar. The notions of classes,
 subclasses, properties, and instances have been the mainstay of
-knowledge modeling and object systems modeling for decades. It is not
+knowledge and object systems modeling for decades. It is not
 uncommon to hear a veteran of one of these technologies look at the
 Semantic Web and mutter, ''Same old, same old'' indicating that there
 is nothing new going on here and that everything in the Semantic Web has
@@ -16,15 +16,15 @@ As the old saying goes, ``There is nothing new under the sun,'' and to
 the extent that the saying is correct, so are these folks when they
 speak of the Semantic Web. The modeling structures we have examined in
 this book do have a strong connection to a heritage of knowledge
-modeling languages. But there is something new that has come along since
+modeling languages. But there is something new which came along since
 the early days of expert systems and object-oriented programming;
 something that has had a far more revolutionizing effect on culture,
 business, commerce, education, and society than any expert system
 designer ever dreamed of. It is something so revolutionary that it is
 often compared in cultural significance to the invention of the printing
-press. That something new is the World Wide Web.
+press. That something new was the World Wide Web.
 
-The Semantic Web is the application of advanced technologies that have
+The Semantic Web allows the application of a number of advanced technologies that have
 been used in the context of artificial intelligence, expert systems and
 business rules execution in the context of a World Wide Web of
 information. The Semantic Web is not simply an application running on
@@ -51,20 +51,20 @@ was seen not as nerdy or academic but useful in everyday life---and even
 sexy. Or at least it is if you have the right knowledge at the right
 time. The Web differed from information systems that preceded it by
 bringing information from many sources---indeed, sources from around the
-world---to one's fingertips. In comparison to Hypercard stacks that had
+world---to one's fingertips. In comparison to the Hypercard stacks that had
 been around for decades, the Web was an open system. Anyone in the world
 could contribute, and everyone could benefit from that contribution.
 Having all that information available was more important than how well a
 small amount of information was organized.
 
 The Semantic Web differs from early knowledge-based and modeling systems in pretty much the same
-way. It has been said that "a little semantics goes a long way."   That is, we don't need
+way. It has been said that ``a little semantics goes a long way.'' \cite{littlesem}   That is, we don't need
 a complex and elaborate semantic system and a huge knowledge base to benefit from semantics.  A 
-simple semantic language, and  a small starter model, can provide great benefit in managing
-a web of knowledge. 
+simple semantic language, and  a small starter model, can provide great benefit when applied to managing
+a large web of knowledge. 
 
-Compared to the knowledge 
-representations systems that came before the Web, OWL is quite
+Compared to some of the knowledge 
+representation systems that came before the Web, OWL is quite
 primitive, and RDFS even more so. But this is appropriate for  Web languages. The power of the
 Semantic Web comes from its  Web aspect. Even a primitive knowledge
 modeling language can yield impressive results when it uses information
@@ -107,31 +107,31 @@ Wide Web. Two models that were developed in isolation can be merged
 simply by referring to resources in both of them in the same statement.
 Since the names are always maintained as global identifiers, there is no
 ad hoc need to integrate identifiers each time; the system for global
-identity is part of the infrastructure.
+identity is part of the Web's infrastructure.
 
 An important contributor to the success of the World Wide Web is its
 openness. Anyone can contribute to the body of information, including
 people who, for one reason or another, might publish information that
 someone else would consider misleading, objectionable, or just
 incorrect. At first blush, a chaotic free-for-all of this sort seems
-insane. How could it ever be useful? The success of the Web in general
+insane. How could it ever be useful? However, the obvious success of the Web in general
 (and information archiving sites like Wikipedia in particular) has shown
 that there is sufficient incentive to publish quality data to make the
 overall Web a useful and even essential structure.
 
 The Semantic Web standards in this book build on the structure of the 
 hypertext web, allowing datasets to refer to one another using IRIs, thus 
-forming a web of linked data.  This infrastucture supports a facility by which 
+forming a web of linked data.  This infrastructure supports a facility by which 
 two or more datasets can reference the same identifier - thereby linking
 the datasets together.  The RDF standard is based on the simplest possible 
 linkage mechanism in a distributed data system; the ability to link 
-one global referenced to another, with a named link (whose name is also a global reference). 
+one global reference to another, with a named link (whose name is also a global reference). 
 This global linked data Web is a natural extension of the hypertext Web 
 we are all familiar with. 
 
 This openness has serious ramifications for  the development of the Semantic Web infrastructure, which go
-beyond considerations that were important for technologies like expert
-systems. One of the reasons why the Web was more successful than
+beyond considerations that were important for many older knowledge technologies. 
+One of the reasons why the Web was more successful than
 Hypercard was because the Web infrastructure was resilient to missing or
 broken links (the ``404 Error''). The Semantic Web must be resilient in
 a similar way. Thus, inferencing in the Semantic Web must be done very
@@ -157,12 +157,12 @@ web environment? The basic principles underlying the Semantic Web---the
 AAA slogan, the Nonunique Naming assumption, and the Open World
 assumption---are constraints placed on a representation system if it
 wants to function as the foundation of a World Wide Web of information.
-These constraints have led to the main design decisions for the Semantic
+These constraints have led to the main design decisions for linked data and the Semantic
 Web languages of RDF, RDFS, and OWL.
 
-There is more to a web than just the information and how it is modeled.
+There is more to the Web than just the information and how it is modeled.
 At some point, this information must be stored in a computer, accessed
-by end users, and transmitted across an information network.
+by end users, and transmitted across the information network.
 Furthermore, no triple store, and no inference engine, will ever be able
 to scale to the size of the World Wide Semantic Web. This is clearly
 impossible, since the Web itself grows continually. In the light of this
@@ -181,8 +181,8 @@ How is it possible to get the benefit of a global network of data if no
 machine is powerful enough to
 store, inference over, and query the whole network? As we have seen, it
 isn't necessary that a Semantic Web application be able to access and
-merge every page on the Web at once. The Semantic Web is useful as long
-as an application can access and merge any web page. Since we can't hold
+merge all the data on the Web at once. The Semantic Web is useful as long
+as an application can access and merge all the data it needs. Since we can't hold
 all the Semantic Web pages in one store at once, we have to proceed with
 the understanding that there could always be more information that we
 don't have access to at any one point. This is why the Open World
@@ -193,7 +193,7 @@ role does a model play in the big vision? The World Wide Web that we see
 every day is made up primarily of hypertext web pages, which are read and digested
 by people browsing the Web. But behind many of these web pages, there
 are databases that contain far more information than is actually
-displayed on a page. To make all this information available as a global,
+displayed on a page. To make critical amounts of this information available as a global,
 integrated whole, we need a way to specify how information in one place
 relates to information somewhere else. Models on the Semantic Web play
 the role of the intermediaries that describe the relationships among
@@ -221,20 +221,31 @@ the Semantic Web---combining the building blocks in useful ways to
 create a dynamic system through which the data of the Semantic Web can
 flow.
 
-We have seen how the standards of the Semantic Web are already being used to manage data from 
+We have seen how the standards of the Semantic Web are already being used to link data from 
 a vast number of sources, and bring them together in a wide variety of applications.   This infrastructure 
 of the Semantic Web has reached a level of maturity that allows many industries to rely
 on distributed graph data systems
 as the backbone for their long-term information systems. Search engines have 
-embraced "knowledge graphs" that bring together all the information they 
+embraced ``knowledge graphs'' that bring together all the information they 
 know about a topic to enhance the services they can provide to their users.   
-Now that the web of data is a reality and contains massive amounts of data, 
 
-But data on the web is not just made up of high-value data sets curated by industrial sources. 
-With the advent of social networks, data creation and consumption is performed by individuals 
-on a massive, global scale.  The Semantic Web standards are equally applicable to this situation, 
-in which millions of participants create tiny data contributions every minute of every day, all around
-the world. 
+
+Like any powerful technology, the Web and its many constituent capabilities, allows for both
+new potential as well as challenges that must be understood and avoided, overcome or tolerated.  The Semantic
+Web has allowed an unprecedented amount of information sharing and  transparency.  Governments around
+the world have released literally millions of data sets, many of them already translated into RDF to 
+allow reuse and linking.  DBpedia and the growing Wikidata infrastructure have allowed libraries, 
+museums and other collection managers to share incredible amounts of knowledge.
+
+However, increasingly data on the web is not just made up of high-value data sets curated by government 
+or industrial sources. With the advent of social networks, data creation and consumption are performed 
+by individuals on a massive, global scale. The Semantic Web standards are equally applicable to this 
+situation, in which millions of participants create tiny data contributions every minute of every day,
+all around the world. 
+
+
+
+
 
 In the current web, these contributions are managed by massive social network sites, who collect this data
 and redistribute it to other users.  But they also amalgamate the data, and use it for various
@@ -253,9 +264,17 @@ allowing the creator of the data to have control.
 
 This sort of balancing act, far from being a contradiction in terms, is exactly what we have come
 to expect from a massive, distributed 
-web of data.  Each data set its own entity, controlled by its owner or creator, and at the same time, it is a 
+web of data.  Each data set is its own entity, controlled by its owner or creator, and at the same time, it is a 
 part of whole global network of data,  where each data set can interoperate with any other. 
-But this  interoperation is not controlled by some master owner of the Web infrastrucutre, but by the owners of the
-data.  This isn't a new idea on the Web; this is how it was designed to begin with, an how the Semantic Web can 
+But this  interoperation is not controlled by some master owner of the Web infrastructure, but by the owners of the
+data.  This isn't a new idea on the Web; this is how it was designed to begin with, and how the Semantic Web can 
 manage the massive information needs of the Web to come. 
 
+Of course, the Semantic Web, like the Web itself, will continue to grow and to change as new technologies come along. 
+As we finish this edition of this book, we are already seeing efforts to couple semantic web systems with deep 
+learning from artificial intelligence, with ``property graphs'' (where the links can contain more information than
+in the RDF and OWL models), and with new inferencing models that take into account modal, deontic 
+and/or other powerful logics that go beyond what has been described in this book.  The coming of the 
+Internet of Things provides an exponential increase in data that can be available, and the resulting heterogeneity
+of information to be integrated, at high volume, across a constantly changing steam of information also
+provides new challenges to the continued evolution of linked-data and the Semantic Web.  

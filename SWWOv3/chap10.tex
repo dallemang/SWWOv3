@@ -75,15 +75,15 @@ your web pages.
 Commonly used classes include: Persons, Events, Organizations, Places, Creative works, non-text objects 
 embedded in pages (Image, Video, Audio), Products and offers, Reviews and ratings, Actions (search trade, update, ...), etc.
 
-Back in Chapter~\ref{ch4} we saw how "rich snippets" appear in search engines; we repeat that example here in 
+Back in Chapter~\ref{ch4} we saw how ``rich snippets'' appear in search engines; we repeat that example here in 
 Figure~\ref{fig:ch4.RSReprise}. We'll start with this example.  How we would mark up a product page about 
 a Men's tie so that we can support the rich snippet shown in Figure~\ref{fig:ch4.RSReprise}(a)?
 
 \begin{figure}
     \centering
-    \includegraphics{SWWOv3/media/ch4/WithRichSnippet.png}
+    \includegraphics[width=5.0in]{SWWOv3/media/ch4/WithRichSnippet.jpg}
     (a)
-    \includegraphics{SWWOv3/media/ch4/WithoutRichSnippet.png}
+    \includegraphics[width=5.0in]{SWWOv3/media/ch4/WithoutRichSnippet.jpg}
     (b)
     \caption{Two search results, one with rich snippets (a) and one without (b). }
     \label{fig:ch4.RSReprise}
@@ -111,7 +111,7 @@ to the price of the item or whether it is in stock?
 These things are represented in Schema.org as an \texttt{schema:Offer}, which describes, 
 for a product or service, an offer to sell it.  Hence, it is the \texttt{Offer} that has
 a price, availability, etc.  Recall (from Section~\ref{blanknodes}) that we can express a blank node as a subject for multiple
-triples with  square-bracket ("\[" and "\]"); the Offer is expressed here as a blank node. 
+triples with  square-bracket ("[" and "]"); the \texttt{Offer} is expressed here as a blank node. 
 The \texttt{Offer} is linked to the \texttt{Product} with a 
 property called \texttt{schema:offers}:
 
@@ -133,14 +133,14 @@ managed in a similar way.
 
 The ontology of Schema.org is always growing.  In 2012, the Good Relations ontology
 was integrated into Schema.org.  This integration provides more detailed descriptions of 
-products, services and offerings.  We'll show an example of how Schema.org 
+products, services and offerings.  We'll show an example of how to use Schema.org 
 (using to a large extent the vocabulary from Good Relations).
 
 \begin{example}{Plush Beauty Bar}
 \label{Plushex}
 Let's take an example of a day spa, which we'll call the 
 \emph{Plush Beauty Bar} \footnote{This example is based on a real example from 
-a day spa in West Hollywood which is no longer in operation}.   Let's see how
+a day spa in West Hollywood which is no longer in operation.}.   Let's see how
 Plush can use Schema.org to make its customers more aware of its
 offerings. 
 The particular information in this example is
@@ -818,7 +818,7 @@ map as shown in Figure~\ref{fig:ch10.2}.
 \hline
 Type&Severity&Countyname&Lat&Long\\
 \hline
-pRace&376&Cuyahoga&41.54000091552734375&-81.660003662109375\\
+Race&376&Cuyahoga&41.54000091552734375&-81.660003662109375\\
 Black&340&Cuyahoga&41.54000091552734375&-81.660003662109375\\
 Disability&468&Palm Beach&26.70999908447265625&-80.0500030517578125\\
 Race&379&Jackson&39.009998321533203125&-94.339996337890625\\
@@ -860,7 +860,7 @@ pre-Semantic Web technologies.
 \begin{figure}
 \centering
 \includegraphics[width=5in]{SWWOv3/media/ch10/figure10-5.png}
-\caption{Map display of the data in Table~\ref{tab:ch10.2}}
+\caption{Map display of the data in Table~\ref{tab:ch10.2}.  Map image from https://commons.wikimedia.org/, license CC BY SA https://creativecommons.org/licenses/by-sa/3.0/deed.en}
 \label{fig:ch10.2}
 \end{figure}
 

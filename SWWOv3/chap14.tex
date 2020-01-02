@@ -995,11 +995,11 @@ reference to any of these things---that was included in the CHEBI model
 and the OWL semantics.
 
 It is also worth noting what inferences we \textbf{\textit{cannot}} draw from the CHEBI
-model as shown in Figure~\ref{14.06}. If, for example, we have a sample
+model as shown in Figure~\ref{fig:ch14.06}. If, for example, we have a sample
 chemical in our lab, and our experiments show that it contains
 phosphorus as a part, and has ammonia as a parent hydride, this allows
 us to infer its membership in the two corresponding restrictions at the
-top of Figure~\ref{14.06}. But this does not allow us to infer anything about
+top of Figure~\ref{fig:ch14.06}. But this does not allow us to infer anything about
 the relationship of our sample to \textit{glyphosate}. CHEBI is useful for
 searching for chemicals among those classified within it, not for
 identifying samples.
@@ -1044,10 +1044,10 @@ information about subclasses and restrictions into SKOS following this
 line of reasoning. Each class in CHEBI becomes a SKOS concept, each
 \texttt{rdfs:subClassOf} relationship becomes \texttt{skos:broader}, and each
 \texttt{owl:someValuesFrom} restriction becomes a direct reference. Figure\ref{fig:ch14.07}
-shows the same information from Figure~\ref{14.06}, but transformed into SKOS
+shows the same information from Figure~\ref{fig:ch14.06}, but transformed into SKOS
 in this way.
 
-In many ways, Figure~\ref{14.07} is simpler than Figure Figure~\ref{14.06}; the fact that
+In many ways, Figure~\ref{fig:ch14.07} is simpler than Figure Figure~\ref{fig:ch14.06}; the fact that
 glyphosate has role herbicide is represented as a single triple, as is
 the fact that an organic amino compound has parent hydride ammonia. The
 inclusion relationships that were expressed as \texttt{subClasbsof} are now
