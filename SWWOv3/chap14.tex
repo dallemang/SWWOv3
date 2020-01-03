@@ -896,7 +896,7 @@ concept is represented in OWL as an \texttt{owl:Class}; the chemical
 ``glyphosate'' (\texttt{Chebi:CHEBI\_27744}) as well as the role ``herbicide''
 (\texttt{Chebi:CHEBI\_24527}) are both classes. These two classes are related to
 one another as shown; glyphosate is a subclass of an \texttt{owl:Restriction} (as
-defined in Chapter\ref{ch11}), where that restriction is on the property
+defined in Chapter~\ref{ch11}), where that restriction is on the property
 \texttt{obo:has\_role}, and stipulates that this property takes at least one
 value from (\texttt{owl:someValuesFrom}) the class herbicide. Notice that the
 property \texttt{obo:has\_role} comes from OBO namespace; OBO Foundry defines
@@ -1044,7 +1044,7 @@ information about subclasses and restrictions into SKOS following this
 line of reasoning. Each class in CHEBI becomes a SKOS concept, each
 \texttt{rdfs:subClassOf} relationship becomes \texttt{skos:broader}, and each
 \texttt{owl:someValuesFrom} restriction becomes a direct reference. Figure\ref{fig:ch14.07}
-shows the same information from Figure~\ref{fig:ch14.06}, but transformed into SKOS
+shows the same information from Figure~~\ref{fig:ch14.06}, but transformed into SKOS
 in this way.
 
 In many ways, Figure~\ref{fig:ch14.07} is simpler than Figure Figure~\ref{fig:ch14.06}; the fact that
