@@ -1129,7 +1129,7 @@ actors who lived on by adding a FILTER to the query, as follows:
 SELECT ?actor
 WHERE { ?actor :playedIn :Giant ;
                :diedOn ?deathdate . 
-        FILTER (?deathdate  < "1961-11-24"^^xsd:date) }
+        FILTER (?deathdate >  "1961-11-24"^^xsd:date) }
 \end{lstlisting}
 
 \textbf{\textbf{Answer:}}
@@ -1226,7 +1226,7 @@ during the 1960s, we can say
 SELECT ?person
 WHERE { ?person a :Person ;
                 :bornOn ?birthday .
-        FILTER (?birthday  "Jan 1, 1960"^^xsd:date)
+        FILTER (?birthday > "Jan 1, 1960"^^xsd:date)
         FILTER (?birthday < "Dec 31, 1969"^^xsd:date) }
 \end{lstlisting}
 
@@ -1456,7 +1456,7 @@ actor in \emph{Giant} born after  1950?
 \begin{lstlisting}
 ASK WHERE {?any :playedIn :Giant ;
                 :bornOn ?birthday .
-           FILTER (?birthday > ``1950-01-01''^^xsd:date ) }
+           FILTER (?birthday > "1950-01-01"^^xsd:date ) }
 \end{lstlisting}
 
 Given \emph{Giant}'s 1956 production date, we shouldn't be surprised at
@@ -1676,7 +1676,7 @@ So, we need to restrict the rule a bit, so that it only applies to men:
 
 \begin{query}A man is his father's son\end{query}
 \begin{lstlisting}
-CONSTRUCT ?q1 :hasSon :q2 .
+CONSTRUCT { ?q1 :hasSon ?q2 .}
 WHERE { ?q2 a :Man .
         ?q2 :hasFather ?q1 }
 \end{lstlisting} 
@@ -2029,7 +2029,8 @@ This is especially common when the data source is implemented as a
 relational database, where common practice involves separating out
 information based on the role an entity plays in an application.
 
-The Linked Movie DataBase (LinkedMDB, \cite{lmdatabase}) is an open data source containing
+The Linked Movie DataBase (LinkedMDB, \cite{hassanzadeh2009linked}) is an 
+open data source containing
 data about movies. The LinkedMDB is originally based on a relational database
 containing information about movies, actors, directors, etc. The
 underlying database includes information about what movies directors

@@ -10,6 +10,8 @@
 @ARTICLE{cambridge2018,
     author = {Sam Meredith},
     title = {Facebook-Cambridge Analytica: A timeline of the data hijacking scandal},
+    url={https://www.cnbc.com/2018/04/10/facebook-cambridge-analytica-a-timeline-of-the-data-hijacking-scandal.html},
+    urldate   = "2019-12-31",
     journal = {CNBC},
     year = {2018}
 }
@@ -18,7 +20,8 @@
   author      = "Gavin Carothers and Eric Prud'hommeaux",
   title       = "{RDF} 1.1 Turtle",
   month       = feb,
-  note        = "http://www.w3.org/TR/2014/REC-turtle-20140225/",
+  url        = {http://www.w3.org/TR/2014/REC-turtle-20140225/},
+  urldate={2020-01-02},
   year        = "2014",
   bibsource   = "https://w2.syronex.com/jmr/w3c-biblio",
   type        = "{W3C} Recommendation",
@@ -28,7 +31,8 @@
   author      = "Guus Schreiber and Fabien Gandon",
   title       = "{RDF} 1.1 {XML} Syntax",
   month       = feb,
-  note        = "http://www.w3.org/TR/2014/REC-rdf-syntax-grammar-20140225/",
+  url        = {http://www.w3.org/TR/2014/REC-rdf-syntax-grammar-20140225/},
+  urldate   = "2019-12-31",
   year        = "2014",
   bibsource   = "https://w2.syronex.com/jmr/w3c-biblio",
   type        = "{W3C} Recommendation",
@@ -39,16 +43,21 @@
 author={W3C},
 title="Tools",
 year=2017,
+urldate   = "2019-12-31",
 url={https://www.w3.org/2001/sw/wiki/Tools},
 urldate={2019-05-16}
 }
 
-@misc{Cooluris,
-author={W3C},
-title="Cool URIs for the Semantic Web",
-year=2008,
-url={https://www.w3.org/TR/cooluris/},
-urldate={2019-05-16}
+@TechReport{Cooluris,
+  author      = "Richard Cyganiak and Leo Sauermann",
+  title       = "Cool {URIs} for the Semantic Web",
+  month       = dec,
+  url        = {http://www.w3.org/TR/2008/NOTE-cooluris-20081203/},
+  urldate   = "2019-12-31",
+  year        = "2008",
+  bibsource   = "https://w2.syronex.com/jmr/w3c-biblio",
+  type        = "{W3C} Note",
+  institution = "W3C",
 }
 
 @misc{URIDoc,
@@ -111,7 +120,8 @@ eprint = {https://doi.org/10.2200/S00824ED1V01Y201801WBE017}
 @article{masinter2005uniform,
   title={Uniform resource identifier (URI): Generic syntax},
   author={Masinter, Larry and Berners-Lee, Tim and Fielding, Roy T},
-  year={2005}
+  year={2005},
+  url={https://tools.ietf.org/html/rfc3986}
 }
 
 
@@ -136,14 +146,16 @@ eprint = {https://doi.org/10.2200/S00824ED1V01Y201801WBE017}
 @techreport{iso_language_639,
 address = {Geneva, CH},
 type = {Standard},
-title = {FABIEN TO FILL IN},
+title = {ISO 639 Language Codes},
 url = {https://www.iso.org/iso-639-language-codes.html},
 language = {en},
-number = {},
+number = {639},
 institution = {International Organization for Standardization},
 author = {{ISO Central Secretary}},
 year = {2016}
 }
+
+
 
 
 
@@ -181,7 +193,7 @@ year = {2016}
 } 
 
 @misc{fiboweb,
-author={EDM Council}",
+author={EDM Council},
 title={Financial Industry Business Ontology (FIBO) Specification},
 url={https://spec.edmcouncil.org/fibo/doc/FIBO_Primer.pdf}
 urldate={2019-12-30}
@@ -196,19 +208,26 @@ urldate={2019-12-30}
 }
 
 @misc{lodcloudnet,
-author={Andrejs Abele, John
-  P. McCrae, Paul Buitelaar, Anja Jentzsch and Richard Cyganiak},
+author={Abele, Andrejs and  McCrae, John P. and Buitelaar, Paul  and Jentzsch, Anja  and Cyganiak, Richard },
 title={The Linked Open Data Cloud},
- url={http://lod-cloud.net/}
+ url={http://lod-cloud.net/},
+ urldate={2020-01-02}
  }
  
 @misc{linkeddatadesign,
 author={Tim Berners-Lee},
 year={2006},
+url={https://www.w3.org/DesignIssues/LinkedData.html},
 urldate={2009-06-18},
 title={Linked Data Design Issues},
 }
 
+@inproceedings{hassanzadeh2009linked,
+  title={Linked Movie Data Base.},
+  author={Hassanzadeh, Oktie and Consens, Mariano P},
+  booktitle={Linked Data on the Web},
+  year={2009}
+}
 
 @article{lmdatabase,
 author = {Hassanzadeh, Oktie and Consens, Mariano},
@@ -224,6 +243,7 @@ title = {Linked movie data base}
   month       = mar,
   note        = "http://www.w3.org/TR/2013/REC-sparql11-query-20130321/",
   year        = "2013",
+  urldate     = {2020-01-02},
   bibsource   = "https://w2.syronex.com/jmr/w3c-biblio",
   type        = "{W3C} Recommendation",
   institution = "W3C",
@@ -235,6 +255,7 @@ title = {Linked movie data base}
   month       = jun,
   note        = "https://www.w3.org/TR/2017/NOTE-shacl-af-20170608/",
   year        = "2017",
+  urldate     = {2020-01-02},
   bibsource   = "https://w2.syronex.com/jmr/w3c-biblio",
   type        = "{W3C} Note",
   institution = "W3C",
@@ -260,11 +281,23 @@ title = {Linked movie data base}
 
 @misc{basel2013principles,
   title={Principles for effective risk data aggregation and risk reporting},
-  author={BCBS 239},
-  institution={Basel Committee on Banking Supervision},
-  year={2013},
+  author={Basel Committee on Banking Supervision},
+  year=2013,
+  month=Jan,
   url={https://www.bis.org/publ/bcbs239.pdf},
-  publisher={Basel: Bank for International Settlements}
+  urldate={2019-12-31},
+  publisher={\textcopyright Bank for International Settlements}
+}
+
+@article{caracciolo2013agrovoc,
+  title={The AGROVOC linked dataset},
+  author={Caracciolo, Caterina and Stellato, Armando and Morshed, Ahsan and Johannsen, Gudrun and Rajbhandari, Sachit and Jaques, Yves and Keizer, Johannes},
+  journal={Semantic Web},
+  volume={4},
+  number={3},
+  pages={341--348},
+  year={2013},
+  publisher={IOS Press}
 }
 
 @misc{agrovoc,
@@ -276,9 +309,10 @@ urldate={02-Jan-2020}
 
 @misc{fiboprimer,
 title={FIBO Primer},
-author={"EDM Council"},
+author={EDM Council},
 year={2018}
 url={https://spec.edmcouncil.org/fibo/doc/FIBO_Primer.pdf}
+urldate={02-Jan-2020}
 }
 
 @misc{fibopedia,
@@ -324,6 +358,8 @@ url={https://spec.edmcouncil.org/fibo/fibopedia/master/latest/FIBOpedia.html}
 @article{klensin2013media,
   title={Media Type specifications and registration procedures},
   author={Klensin, John and Hansen, Tony and Freed, Ned},
+  url={https://tools.ietf.org/html/rfc6838},
+  urldate={2020-02-01},
   year={2013}
 }
 
@@ -385,6 +421,7 @@ url={https://spec.edmcouncil.org/fibo/fibopedia/master/latest/FIBOpedia.html}
   note        = "http://www.w3.org/TR/2012/REC-rdb-direct-mapping-20120927/",
   year        = "2012",
   bibsource   = "https://w2.syronex.com/jmr/w3c-biblio",
+  urldate={2020-01-02},
   type        = "{W3C} Recommendation",
   institution = "W3C",
 }
@@ -429,9 +466,11 @@ url={https://spec.edmcouncil.org/fibo/fibopedia/master/latest/FIBOpedia.html}
 
 
 @misc{berners2018one,
-  title={One Small Step for the Web..},
+  title={One Small Step for the Web...},
   author={Berners-Lee, Tim},
-  journal={2018-11-16]. https://medium. com/@ timberners\_lee/one-small-step-for-the-web-87f92217d085},
+  journal={2018-11-16},
+  url={https://medium.com/@timberners\_lee/one-small-step-for-the-web-87f92217d085},
+  urldate={2020-01-02},
   year={2018}
 }
 
