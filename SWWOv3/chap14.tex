@@ -14,7 +14,7 @@ RDFS-Plus, and how widespread their impact has been.
 
 
 The first is called \emph{Quantities/Units/Dimensions/Types}, or QUDT for
-short. It addresses an obvious problem that must be solved in any
+short \cite{QUDT}. It addresses an obvious problem that must be solved in any
 attempt to align quantitative data, that is, measurement data from
 multiple sources will be expressed in different units. In order to
 integrate data, it is necessary to be able to determine whether two
@@ -123,7 +123,7 @@ units (with things like miles, feet, and degrees Fahrenheit), the
 international system (``SI'') that includes meters, kilograms, and
 Kelvins. NASA built an ontology of Quantities, Units, and Dimensions
 (QUDT)\footnote{QUDT also includes information about Types, which is beyond the scope
-of this treatment.}
+of this treatment.} \cite{QUDT}
 to capture and manage this information.  QUDT (qudt.org) is licensed under CC-BY-4.0 https://creativecommons.org/licenses/by/4.0/. 
 
 What is the purpose of such an ontology? In contrast to OGP and Schema.org, 
@@ -817,7 +817,7 @@ ontology. Many of the ontologies published today have sufficient detail
 to satisfy these requirements.
 
 In this exposition, we will use an ontology called the Chemical Entities
-of Biological Interest (CHEBI, for short). CHEBI (http://obofoundry.org/ontology/chebi.html) \footnote{CHEBI is licensed under CC BY 4.0 https://creativecommons.org/licenses/by/4.0/} is being developed and
+of Biological Interest (CHEBI, for short). CHEBI \cite{PMID:26467479} (http://obofoundry.org/ontology/chebi.html) \footnote{CHEBI is licensed under CC BY 4.0 https://creativecommons.org/licenses/by/4.0/} is being developed and
 maintained by the European Bioinformatics Institute, and contains
 information about over 20,000 chemical compounds. It is published as
 part of the Open Biological and Biomedical Ontologies Foundry (OBO
@@ -1143,7 +1143,7 @@ project to determine all of the forms a chemical can take.
 
 The Semantic Web doesn't provide any specific methods for doing this sort of research, but,
 as we saw as early as Chapter~\ref{ch1}, it provides a standardized way for someone 
-who has done this research to publish their results.  This is idea behind BridgeDb.
+who has done this research to publish their results.  This is idea behind BridgeDb \cite{van2010bridgedb}.
 
 In chemistry, and specifically the parts of chemistry that underlie molecular biology, genetics
 and metabolomics, there are already a large number of databases, like CHEBI, that contain information 
@@ -1387,12 +1387,12 @@ of it, we are looking at the data set that contains all of the LEIs in the
 world.  LEIs are managed by the 
 \emph{Global LEI Foundation} (\emph{GLEIF} for short).  
 They have a more elaborate representation of LEIs, as shown in 
-Figure~\ref{fig:ch14.gleifLEI} \footnote{the GLEIF uses OWL to represent LEI registration, as published at 
+Figure~\ref{fig:ch14.gleifLEI} \cite{GLEIF} \footnote{the GLEIF uses OWL to represent LEI registration, as published at 
 www.gleif.org}
 
 \begin{figure}
  \begin{lstlisting}
- gleif-L1:LegalEntityIdentifiera owl:Class ;
+ gleif-L1:LegalEntityIdentifier a owl:Class ;
 	rdfs:subClassOf
 		[ a owl:Restriction ;
  		  owl:onProperty gleif-base:identifies ;
