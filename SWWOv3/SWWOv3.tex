@@ -9,9 +9,10 @@
 \lstset{
     escapeinside={(*@}{@*)},          % if you want to add LaTeX within your code
 }
-\usepackage{arabtex}
-\usepackage{utf8}
-\usepackage{CJKutf8}
+\usepackage{fontspec}
+\usepackage{xeCJK}
+\setCJKmainfont{SimSun}
+\newfontfamily\arabicfont[Script=Arabic]{Arial}
 
 \lstset{
 morecomment = [l]{*}
@@ -71,7 +72,6 @@ morecomment = [l]{*}
 % \include{appa}          % Appendix A.
 
 \backmatter
-\bibliographystyle{acm-book}
 \bibliography{refs}
 \include{bio}           % Author(s) biographies.
 \include{book.ind}      % If the book has an index.
