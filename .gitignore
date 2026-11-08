@@ -1,0 +1,14 @@
+# LaTeX build output. latexmk run from the repository root writes these there.
+/*.aux
+/*.bbl
+/*.blg
+/*.fdb_latexmk
+/*.fls
+/*.idx
+/*.ilg
+/*.ind
+/*.log
+/*.out
+/*.toc
+/*.xdv
+/*.pdf

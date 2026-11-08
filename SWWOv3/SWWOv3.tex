@@ -11,8 +11,10 @@
 }
 \usepackage{fontspec}
 \usepackage{xeCJK}
-\setCJKmainfont{SimSun}
-\newfontfamily\arabicfont[Script=Arabic]{Arial}
+% Use whichever CJK and Arabic fonts this machine has.
+% Windows: SimSun and Arial.  macOS: Songti SC and Geeza Pro.
+\IfFontExistsTF{SimSun}{\setCJKmainfont{SimSun}}{\IfFontExistsTF{Songti SC}{\setCJKmainfont{Songti SC}}{\setCJKmainfont{Noto Serif CJK SC}}}
+\IfFontExistsTF{Arial}{\newfontfamily\arabicfont[Script=Arabic]{Arial}}{\newfontfamily\arabicfont[Script=Arabic]{Geeza Pro}}
 
 \lstset{
 morecomment = [l]{*}
